@@ -1,0 +1,487 @@
+{
+  "npcIds": [
+    1160
+  ],
+  "drops": [
+    {
+      "name": "Pet Kalphite queen",
+      "id": 11993,
+      "count": [
+        1
+      ],
+      "chance": 950
+    },
+    {
+      "name": "Gold charm",
+      "id": 12158,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Green charm",
+      "id": 12159,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Crimson charm",
+      "id": 12160,
+      "count": [
+        1
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Blue charm",
+      "id": 12163,
+      "count": [
+        1
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        190000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        410000
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Rune warhammer",
+      "id": 1347,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Lava battlestaff",
+      "id": 3053,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Rune knife (p++)",
+      "id": 5667,
+      "count": [
+        40
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Battlestaff",
+      "id": 1392,
+      "count": [
+        10
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Dragon 2h sword",
+      "id": 7158,
+      "count": [
+        1
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Rune warhammer",
+      "id": 1348,
+      "count": [
+        12
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Mystic lava staff",
+      "id": 3054,
+      "count": [
+        15
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Rune knife (p++)",
+      "id": 5667,
+      "count": [
+        150
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Battlestaff",
+      "id": 1392,
+      "count": [
+        50
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Rune chainbody",
+      "id": 1113,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Rune chainbody",
+      "id": 1114,
+      "count": [
+        5
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Mithril arrow",
+      "id": 888,
+      "count": [
+        500
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Mithril arrow",
+      "id": 888,
+      "count": [
+        1200
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Rune arrow",
+      "id": 892,
+      "count": [
+        200
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Rune arrow",
+      "id": 892,
+      "count": [
+        500
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Monkfish",
+      "id": 7946,
+      "count": [
+        3
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Monkfish",
+      "id": 7946,
+      "count": [
+        5
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Shark",
+      "id": 385,
+      "count": [
+        1
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Shark",
+      "id": 385,
+      "count": [
+        3
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Ranging potion (3)",
+      "id": 169,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Saradomin brew (4)",
+      "id": 6685,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Super restore (4)",
+      "id": 3024,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Prayer potion (3)",
+      "id": 139,
+      "count": [
+        1
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Uncut diamond",
+      "id": 1618,
+      "count": [
+        15
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Uncut ruby",
+      "id": 1620,
+      "count": [
+        30
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Uncut emerald",
+      "id": 1622,
+      "count": [
+        40
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Uncut sapphire",
+      "id": 1624,
+      "count": [
+        50
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Uncut dragonstone",
+      "id": 1632,
+      "count": [
+        3
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Grimy toadflax",
+      "id": 3050,
+      "count": [
+        25
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Grimy ranarr",
+      "id": 208,
+      "count": [
+        25
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Grimy snapdragon",
+      "id": 3052,
+      "count": [
+        25
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Grimy torstol",
+      "id": 220,
+      "count": [
+        25
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Grimy toadflax",
+      "id": 3050,
+      "count": [
+        10
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Grimy ranarr",
+      "id": 208,
+      "count": [
+        10
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Grimy snapdragon",
+      "id": 3052,
+      "count": [
+        10
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Grimy torstol",
+      "id": 220,
+      "count": [
+        10
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Blood rune",
+      "id": 565,
+      "count": [
+        100
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Death rune",
+      "id": 560,
+      "count": [
+        150
+      ],
+      "chance": 5
+    },
+    {
+      "name": "Blood rune",
+      "id": 565,
+      "count": [
+        400
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Death rune",
+      "id": 560,
+      "count": [
+        700
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Blood rune",
+      "id": 565,
+      "count": [
+        1100
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Death rune",
+      "id": 560,
+      "count": [
+        1650
+      ],
+      "chance": 40
+    },
+    {
+      "name": "Blood rune",
+      "id": 565,
+      "count": [
+        2250
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Death rune",
+      "id": 560,
+      "count": [
+        3100
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Wine of zamorak",
+      "id": 246,
+      "count": [
+        20
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Potato cactus",
+      "id": 3139,
+      "count": [
+        30
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Magic logs",
+      "id": 1514,
+      "count": [
+        160
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Grapes",
+      "id": 1988,
+      "count": [
+        250
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Bucket of sand",
+      "id": 1784,
+      "count": [
+        250
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Cactus spine",
+      "id": 6017,
+      "count": [
+        35
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Gold ore",
+      "id": 445,
+      "count": [
+        200
+      ],
+      "chance": 15
+    },
+    {
+      "name": "Dragon chainbody",
+      "id": 3140,
+      "count": [
+        1
+      ],
+      "chance": 155
+    },
+    {
+      "name": "Dragon platebody",
+      "id": 14479,
+      "count": [
+        1
+      ],
+      "chance": 320
+    }
+  ]
+}

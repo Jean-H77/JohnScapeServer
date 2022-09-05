@@ -1,0 +1,11 @@
+{
+  "id": 40,
+  "name": "Slayer Items",
+  "currency": 995,
+  "items": [
+    {
+      "id": 4155,
+      "amount": 2000000000
+    }
+  ]
+}

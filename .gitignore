@@ -1,0 +1,12 @@
+*.xml
+*.iml
+
+*.class
+.classpath
+.project
+.gradle/
+
+/bin/
+/temp/
+/data/saves/
+/data/config.yaml

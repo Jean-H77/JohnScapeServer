@@ -1,0 +1,15 @@
+{
+  "npcIds": [
+    6259
+  ],
+  "drops": [
+    {
+      "name": "Bones",
+      "id": 526,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

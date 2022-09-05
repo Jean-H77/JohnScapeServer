@@ -1,0 +1,75 @@
+{
+  "npcIds": [
+    353
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        15000,
+        25000,
+        50000,
+        80000,
+        120000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Reinforced Hammers",
+      "id": 909,
+      "count": [
+        1
+      ],
+      "chance": 85
+    },
+    {
+      "name": "Reinforced Headpiece",
+      "id": 16062,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Reinforced Platelegs",
+      "id": 16063,
+      "count": [
+        1
+      ],
+      "chance": 65
+    },
+    {
+      "name": "Reinforced Platebody",
+      "id": 16059,
+      "count": [
+        1
+      ],
+      "chance": 65
+    },
+    {
+      "name": "Reinforced Gloves",
+      "id": 16061,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Reinforced Boots",
+      "id": 16060,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Bones",
+      "id": 526,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "npcIds": [
+    351
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        15000,
+        25000,
+        50000,
+        80000,
+        120000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Battle Bow",
+      "id": 20859,
+      "count": [
+        1
+      ],
+      "chance": 85
+    },
+    {
+      "name": "Battle Headpiece",
+      "id": 16048,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Battle Chaps",
+      "id": 16049,
+      "count": [
+        1
+      ],
+      "chance": 65
+    },
+    {
+      "name": "Battle Body",
+      "id": 16050,
+      "count": [
+        1
+      ],
+      "chance": 65
+    },
+    {
+      "name": "Battle Gloves",
+      "id": 16051,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Battle Boots",
+      "id": 16052,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Bones",
+      "id": 526,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

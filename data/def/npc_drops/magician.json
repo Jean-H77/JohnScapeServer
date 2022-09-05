@@ -1,0 +1,83 @@
+{
+  "npcIds": [
+    352
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        15000,
+        25000,
+        50000,
+        80000,
+        120000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Mystic Staff",
+      "id": 18341,
+      "count": [
+        1
+      ],
+      "chance": 85
+    },
+    {
+      "name": "Mystic Hood",
+      "id": 16058,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Mystic Robe Bottom",
+      "id": 16056,
+      "count": [
+        1
+      ],
+      "chance": 65
+    },
+    {
+      "name": "Mystic Robe Top",
+      "id": 16057,
+      "count": [
+        1
+      ],
+      "chance": 65
+    },
+    {
+      "name": "Mystic Gloves",
+      "id": 16055,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Mystic Boots",
+      "id": 16054,
+      "count": [
+        1
+      ],
+      "chance": 50
+    },
+    {
+      "name": "Mystic Book",
+      "id": 16053,
+      "count": [
+        1
+      ],
+      "chance": 75
+    },
+    {
+      "name": "Bones",
+      "id": 526,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

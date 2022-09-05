@@ -1,0 +1,98 @@
+11/29/2019
+Reworked the settings interface to allow as many future settings as we need.
+Fixed client framerate stuttering.
+Changed the magic interfaces back to the default 474+ interface.
+Fixed lunar interface hovering of the bottom spells.
+Bright setting now saves.
+Saved accounts will now display the username and a default helmet (if none is equipped).
+Prayer interfaces will now display icons correctly based on prayer level.
+Context menus will now draw between viewport/map/tabs/chat.
+Context menu will no longer draw underneath the experience counter.
+
+12/1/2019
+Fixed minimap rotation offseting minimap icons.
+Hitpoints/prayer/summoning will now increase in current level when gaining a level.
+Added sucess formula for woodcutting, mining, fishing.
+Added correct cooking animation.
+Hide roofs now works correctly.
+Low detail (untextured mode) will no longer hide other planes.
+Added default clan chat back.
+Changed all references to Necrotic to JohnScape.
+Bank interface will no longer refresh twice when you withdraw an item.
+Removed mouse detection code.
+Inventory refreshing is now queued so item switching more fluid.
+Fixed walking packet "out of range" error.
+Fixed bank interface dragging now working on some slots.
+Added bank insertion swap mode.
+Dragging items into bank tabs now draws the item at the correct position in fixed and resizeable.
+
+12/2/2019
+Added gradle.
+Split shop definitions into multiple files.
+Added automatic client jar building and obfuscation.
+Hooked up the cache downloader.
+Fixed mining animation
+Home improvements
+Fixed slayer teleport
+Added give rights commands
+Reformatted yell
+
+
+12/3/2019
+Created a simple launcher with a splash screen.
+Fixed tab hovers being offset.
+Added the new favicon to the client.
+Added the real 525 sideicons for the old gameframe.
+The tab interface in resizeable will no longer overlap the tabs in resizeable (old gameframe).
+Added default client settings on first startup.
+Perfected positioning of icons and text above player heads.
+Multiple grounds items will now appear (when the overlay is drawn) as one item with the amount parenthesized. 
+Centered player on equipment interface.
+
+12/7/2019
+Finished the discord bot
+Added rich presence to client
+Added fish sprites over the fishing spots
+
+12/4/2019
+Ground items text will no longer render if the item is out of range.
+
+12/21/2019
+Added dynamic osrs region loading
+Object clicking packets will now use an integer for the id instead of a short
+Added YAML configuration
+
+12/29/2019
+Improved teleport interface and refactored code
+
+1/13/2020
+Added wiki osrs npc drop dumper
+General container improvements
+Fixed bug with equipment interface not opening on first login
+Added support for slayer monsters that have more than one id
+Added Item/Npc constant files
+
+1/18/2020
+Various improvements to allow for easier npc combat scripting
+Added entity Attributes for easy value storing without class spam
+
+1/19/2020
+Added shift+walk to teleport for developers
+Added support for adding npc drops without specifying a concrete item id
+Added various commands to help with creating npc drop tables
+Expanded and modernized the jewellry creation interface and added Zenyte jewellry crafting and enchanting
+Made some improvements to the osrs wiki drop dumper
+Added template id support for item definitions
+Various packets fixed to use an unsigned short instead of signed to allow up to 64k item id
+Fixed bonus interface not displaying some bonuses correctly
+Ranged max hit formula now uses ranged strength correctly
+Added Zenyte jewellry enchanting (uses the onyx enchant for simplicity)
+Moved /src/ to /src/main/java/ to allow for proper test packaging inside src
+
+
+
+
+
+
+
+
