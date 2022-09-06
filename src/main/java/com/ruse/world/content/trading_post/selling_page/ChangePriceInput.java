@@ -5,7 +5,7 @@ import com.ruse.model.input.EnterAmount;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ChangePriceInputPrompt extends EnterAmount {
+public class ChangePriceInput extends EnterAmount {
 
     private final SellingPage sellingPage;
 

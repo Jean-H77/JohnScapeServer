@@ -1,7 +1,10 @@
 package com.ruse.world.content.trading_post;
 
+import com.ruse.model.Item;
 import com.ruse.model.definitions.ItemDefinition;
+import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.util.Misc;
 import com.ruse.world.World;
 
 import java.util.*;
@@ -121,13 +124,37 @@ public class ShopUtils {
         processBuys();
     }
 
+
     public static void testData() {
-        marketHistory.add(new HistoryItem(4151, 2, "John", "John1", 100, new Date()));
-        marketHistory.add(new HistoryItem(4151, 4, "John", "John1", 200, new Date()));
-        marketHistory.add(new HistoryItem(4151, 51, "John", "John1", 3100, new Date()));
-        marketHistory.add(new HistoryItem(4151, 53, "John", "John1", 434300, new Date()));
-        marketHistory.add(new HistoryItem(4151, 11, "John", "John1", 1043110, new Date()));
-        marketCoffers.add(new Coffer("John"));
+        List<Integer> itemIds = new ArrayList<>();
+        itemIds.add(4151);
+        itemIds.add(4714);
+        itemIds.add(4712);
+        itemIds.add(4710);
+        itemIds.add(4718);
+        itemIds.add(11732);
+        itemIds.add(6585);
+        itemIds.add(4722);
+        itemIds.add(4724);
+        itemIds.add(4726);
+        itemIds.add(4728);
+        itemIds.add(4730);
+
+        List<String> names = new ArrayList<>();
+        names.add("John");
+        names.add("Bob");
+        names.add("Lob");
+        names.add("Cob");
+        names.add("Sob");
+        names.add("Nob");
+        names.add("Tob");
+        names.add("CandleMan");
+        names.add("StripeDude");
+
+
+        for(int i = 0; i < 500_000; i++) {
+            marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names)));
+        }
     }
 
     /*

@@ -5,6 +5,7 @@ import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
 import com.ruse.util.Misc;
+import com.ruse.world.content.trading_post.buying_page.BuyingPage;
 import com.ruse.world.content.trading_post.selling_page.SellingPage;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Setter
 public class PlayerShopManager {
 
-    private static final int INTERFACE_ID = 48500;
+    public static final int INTERFACE_ID = 48500;
     private static final int BUY_BUTTON_ID = -16920;
     private static final int HISTORY_BUTTON_ID = -16917;
     private static final int REFRESH_BUTTON_ID = -16912;
@@ -29,11 +30,15 @@ public class PlayerShopManager {
     private static final int LISTING_SIZE = 20;
 
     private final Player p;
-    private SellingPage sellingPage;
+
     private long lastRefreshInMilli;
+
+    private SellingPage sellingPage;
+    private BuyingPage buyingPage;
 
     public void showInterface() {
         sellingPage = null;
+        buyingPage = null;
         lastRefreshInMilli = 0;
         sendMyListingData();
         Optional<Coffer> coffer = ShopUtils.getCoffer(p.getUsername());
@@ -118,7 +123,10 @@ public class PlayerShopManager {
     }
 
     public boolean handleButtonClick(int btnId) {
-        if(p.getInterfaceId() != INTERFACE_ID) return false;
+        if(p.getInterfaceId() != INTERFACE_ID && p.getInterfaceId() != SellingPage.INTERFACE_ID && p.getInterfaceId() != BuyingPage.INTERFACE_ID) return false;
+        if(sellingPage != null && sellingPage.handleButtonClick(btnId)) return true;
+        if(buyingPage != null && buyingPage.handleButtonClick(btnId)) return true;
+
 
         if(btnId == COFFER_BUTTON_ID) {
 
@@ -132,7 +140,9 @@ public class PlayerShopManager {
 
         if(btnId == BUY_BUTTON_ID) {
 
-            p.getPacketSender().sendInterface(48811);
+            buyingPage = new BuyingPage(p);
+
+            buyingPage.showInterface();
 
         } else if(btnId == HISTORY_BUTTON_ID) {
             int slot = ShopUtils.getNextAvailableSlot(listings);

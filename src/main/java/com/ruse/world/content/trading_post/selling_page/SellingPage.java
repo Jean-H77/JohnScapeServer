@@ -112,12 +112,12 @@ public class SellingPage {
 
             if(btnId == CHANGE_PRICE_BUTTON_ID) {
 
-                p.setInputHandling(new ChangePriceInputPrompt(this));
+                p.setInputHandling(new ChangePriceInput(this));
                 p.getPacketSender().sendEnterAmountPrompt("How much would you like to sell " + item.getDefinition().getName() + " for?");
 
             } else if(btnId == CHANGE_QUANTITY_BUTTON_ID) {
 
-                p.setInputHandling(new ChangeQuantityInputPrompt(this));
+                p.setInputHandling(new ChangeQuantityInput(this));
                 p.getPacketSender().sendEnterAmountPrompt("How many of " + item.getDefinition().getName() + " would you like to sell?");
 
             } else {
