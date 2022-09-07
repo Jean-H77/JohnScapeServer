@@ -1,14 +1,14 @@
 package com.ruse.world.content.dialogue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ruse.GameSettings;
 import com.ruse.model.definitions.NpcDefinition;
-import com.ruse.util.json.JsonLoader;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.util.json.JsonLoader;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Manages the loading and start of dialogues.
@@ -108,7 +108,7 @@ public class DialogueManager {
 	 */
 	public static void start(Player player, Dialogue dialogue) {
 		player.setDialogue(dialogue);
-		if(player.isBanking() || player.isShopping() || player.getInterfaceId() > 0 && player.getInterfaceId() != 50)
+		if((player.isBanking() || player.isShopping() || player.getInterfaceId() > 0 && player.getInterfaceId() != 50))
 			player.getPacketSender().sendInterfaceRemoval();
 		if (dialogue == null || dialogue.id() < 0) {
 			player.getPacketSender().sendInterfaceRemoval();

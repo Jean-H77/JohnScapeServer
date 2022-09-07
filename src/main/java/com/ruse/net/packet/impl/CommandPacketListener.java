@@ -353,6 +353,9 @@ public class CommandPacketListener implements PacketListener {
 			player.getPlayerShopManager().showInterface();
 		}
 
+		if (command[0].equalsIgnoreCase("pea")) {
+			player.getPacketSender().sendChatboxInterface(49400);
+		}
 
 		if (command[0].equalsIgnoreCase("ach")) {
 			player.getPacketSender().sendMessage("Opening achievements interface...");

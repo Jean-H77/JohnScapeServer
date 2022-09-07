@@ -206,7 +206,7 @@ public class ShopUtils {
               marketHistory.add(new HistoryItem(4151, 5, "John", "John1", 50_000, System.nanoTime() + Misc.rand(500_000_000)));
         }
         for(int i = 0; i < 500_000; i++) {
-        //   marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names), System.nanoTime()));
+          marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names), System.nanoTime()));
         }
     }
 

@@ -70,7 +70,7 @@ public class SellingPage {
         List<HistoryItem> historyList = ShopUtils.getItemHistory(item.getId());
 
         int stringId = 48781;
-        System.out.println(historyList.size());
+
         p.getPacketSender().sendScrollMax(48749, Math.max(189, historyList.size() * 41));
 
         for(int i = 0; i < 30; i++) {
