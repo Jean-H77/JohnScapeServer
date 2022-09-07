@@ -191,9 +191,10 @@ public class PlayerShopManager {
 
                 if(listing.isPresent()) {
 
-                    Listing _listing = listing.get();
+                    if(!ShopUtils.cancelingQueue.contains(listing.get())) {
 
-                    ShopUtils.cancelingQueue.add(_listing);
+                        ShopUtils.cancelingQueue.add(listing.get());
+                    }
 
                 } else {
 

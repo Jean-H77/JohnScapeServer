@@ -81,7 +81,7 @@ public class SellingPage {
 
                 p.getPacketSender().sendString(stringId+i, historyItem.getBuyer() +" bought x" + historyItem.getAmountSold()
                 + " for @gre@" + Misc.currency(historyItem.getPurchasePrice(), false) + " ea \\n\\n" +
-                        "@yel@( " + DATE_FORMAT.format(historyItem.getPurchaseDate()) + " )");
+                        "@yel@( " + ShopUtils.calculateAge(historyItem.getPurchaseTime()) + " )");
 
             } else {
 
@@ -126,7 +126,7 @@ public class SellingPage {
 
                     p.getInventory().delete(item.getId(), quantity);
 
-                    ShopUtils.marketListings.add(new Listing(slot, item.getId(), price, quantity, p.getUsername()));
+                    ShopUtils.marketListings.add(new Listing(slot, item.getId(), price, quantity, p.getUsername(), System.nanoTime()));
 
                     p.getPacketSender().sendMessage("@red@You have successfully listed " + item.getDefinition().getName() + " " + quantity + "x for " + price + " ea.");
 

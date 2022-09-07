@@ -127,7 +127,7 @@ public class BuyingPage {
                 packetBuilder.putString(listing.getSeller());
                 packetBuilder.putInt(49050+i);
 
-                packetBuilder.putString("3:3:3");
+                packetBuilder.putString(ShopUtils.calculateAge(listing.getAge()));
                 packetBuilder.putInt(49100+i);
 
 

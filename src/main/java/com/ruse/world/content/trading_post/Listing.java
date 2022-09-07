@@ -15,4 +15,5 @@ public class Listing {
     private int price;
     private int amount;
     private String seller;
+    private long age;
 }

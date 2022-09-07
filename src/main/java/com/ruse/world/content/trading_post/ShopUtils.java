@@ -1,14 +1,16 @@
 package com.ruse.world.content.trading_post;
 
-import com.ruse.model.Item;
 import com.ruse.model.definitions.ItemDefinition;
-import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -97,11 +99,24 @@ public class ShopUtils {
 
             } else {
 
-                if(player.getInventory().getFreeSlots() >= listing.getAmount()) {
+                int freeSlots = player.getInventory().getFreeSlots();
 
-                    player.getInventory().add(listing.getItemId(), listing.getAmount());
+                int listingAmount = listing.getAmount();
 
-                    marketListings.remove(listing);
+                int amountToRemove = 0;
+
+                if(!player.getInventory().isFull()) {
+
+                    // redo this
+                    amountToRemove = Math.min(listingAmount, freeSlots);
+
+                    listing.setAmount(listingAmount - amountToRemove);
+
+                    player.getInventory().add(listing.getItemId(), amountToRemove);
+
+                    if(listing.getAmount() == 0) {
+                        marketListings.remove(listing);
+                    }
 
                     player.getPlayerShopManager().showInterface();
 
@@ -124,6 +139,42 @@ public class ShopUtils {
         processBuys();
     }
 
+    public static String calculateAge(long timestamp) {
+
+        String result = null;
+
+        long currentMilli = System.nanoTime();
+        long elapsed = currentMilli  - timestamp;
+
+        int day = (int) TimeUnit.NANOSECONDS.toDays(elapsed);
+        long hours = TimeUnit.NANOSECONDS.toHours(elapsed) - (day *24);
+        long minute = TimeUnit.NANOSECONDS.toMinutes(elapsed) - (TimeUnit.NANOSECONDS.toHours(elapsed)* 60);
+        long second = TimeUnit.NANOSECONDS.toSeconds(elapsed) - (TimeUnit.NANOSECONDS.toMinutes(elapsed) *60);
+
+        if(day > 0) {
+
+            result = day + "day(s) " + hours + " ago";
+
+        } else {
+
+            if(hours > 0) {
+
+                result = hours + "h " + minute + "m ago";
+
+            } else {
+
+                if(minute > 0) {
+
+                    result = minute + "m " + second + "s ago";
+                } else {
+
+                    result = second + "s ago";
+
+                }
+            }
+        }
+        return result;
+    }
 
     public static void testData() {
         List<Integer> itemIds = new ArrayList<>();
@@ -151,15 +202,14 @@ public class ShopUtils {
         names.add("CandleMan");
         names.add("StripeDude");
 
-
+        for(int i = 0; i < 35; i++) {
+              marketHistory.add(new HistoryItem(4151, 5, "John", "John1", 50_000, System.nanoTime() + Misc.rand(500_000_000)));
+        }
         for(int i = 0; i < 500_000; i++) {
-            marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names)));
+        //   marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names), System.nanoTime()));
         }
     }
 
-    /*
-     * private constructor to avoid instantiation
-     */
     private ShopUtils() {
 
     }
