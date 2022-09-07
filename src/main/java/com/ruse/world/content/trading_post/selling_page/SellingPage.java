@@ -56,6 +56,7 @@ public class SellingPage {
             this.item = item;
             quantity = 1;
             p.getPacketSender().sendItemOnInterface(48725, item.getId(), quantity);
+            price = ShopUtils.getPriceAverage(item.getId());
             update();
             showRecentSales();
         } else {
@@ -65,7 +66,7 @@ public class SellingPage {
     }
 
     public void showRecentSales() {
-        if(this.item == null) return;
+        if(item == null) return;
 
         List<HistoryItem> historyList = ShopUtils.getItemHistory(item.getId());
 
@@ -86,9 +87,7 @@ public class SellingPage {
             } else {
 
                 p.getPacketSender().sendString(stringId+i, "");
-
             }
-
         }
     }
 
@@ -121,6 +120,11 @@ public class SellingPage {
                 p.getPacketSender().sendEnterAmountPrompt("How many of " + item.getDefinition().getName() + " would you like to sell?");
 
             } else {
+
+                if(price <= 0) {
+                    p.getPacketSender().sendMessage("@red@You need to enter a price greater than 0");
+                    return true;
+                }
 
                 if(p.getInventory().getAmount(item.getId()) >= quantity) {
 

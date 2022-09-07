@@ -222,19 +222,21 @@ public class PlayerShopManager {
                 p.getPacketSender().sendMessage("You do not have enough inventory spaces!");
 
             } else {
-                Coffer c = coffer.get();
-                int amount = p.getInventory().getAmount(995);
 
-                if((long)(c.getAmount() + amount) >= Integer.MAX_VALUE) {
+                Coffer c = coffer.get();
+                long amount = p.getInventory().getAmount(BuyingPage.CURRENCY_ID);
+
+                if((c.getAmount() + amount) >= Integer.MAX_VALUE) {
+
                     p.getPacketSender().sendMessage("@red@Try banking some coins before collecting.");
+
                 } else {
-                    p.getInventory().add(995, coffer.get().getAmount());
+
+                    p.getInventory().add(995, (int) coffer.get().getAmount());
                     coffer.get().setAmount(0);
                     p.getPacketSender().sendString(COFFER_STRING_ID, "Coffer: " + (coffer.map(value -> Misc.currency(value.getAmount(), false)).orElse("0")));
-
                 }
             }
-
         } else {
             p.getPacketSender().sendMessage("@red@Your coffer is currently empty");
         }

@@ -71,6 +71,26 @@ public class ShopUtils {
         return -1;
     }
 
+    public static int getPriceAverage(int itemId) {
+        List<HistoryItem> itemHistory = new ArrayList<>(getItemHistory(itemId));
+
+        Collections.reverse(itemHistory);
+
+        if(itemHistory.size() == 0) return 0;
+
+        // get last 100 sold
+        int sum = 0;
+        for(int i = 0; i < 100; i++) {
+            if(itemHistory.size() > i) {
+                sum += itemHistory.get(i).getPurchasePrice();
+            } else {
+                break;
+            }
+        }
+
+        return sum/itemHistory.size();
+    }
+
     public static void processCancels() {
         if(cancelingQueue.isEmpty()) return;
         Listing listing = cancelingQueue.poll();

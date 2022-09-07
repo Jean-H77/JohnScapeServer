@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class Coffer {
     private final String owner;
-    private int amount;
+    private long amount;
 
     public void addAmount(int amount) {
         this.amount += amount;

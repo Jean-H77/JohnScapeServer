@@ -590,6 +590,7 @@ public abstract class ItemContainer {
 	public ItemContainer add(Item item, boolean refresh) {
 		if(item == null || item.getId() <= 0 || item.getAmount() <= 0)
 			return this;
+		if((long)getAmount(item.getId()) + item.getAmount() > Integer.MAX_VALUE) return this;
 		Preconditions.checkArgument(ItemDefinition.forId(item.getId()) != null, "Item definition is null: " + item.getId());
 		/*if(item.getId() == 995 && this instanceof Inventory)  {
 			if(this instanceof Inventory) {
