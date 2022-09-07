@@ -64,6 +64,7 @@ import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.crafting.Jewelry;
 import com.ruse.world.content.skill.fletching.BoltData;
 import com.ruse.world.content.skill.herblore.Decanting;
+import com.ruse.world.content.trading_post.ShopUtils;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.CharacterEntity;
@@ -1983,6 +1984,7 @@ public class CommandPacketListener implements PacketListener {
 						WellOfGoodwill.save();
 						GrandExchangeOffers.save();
 						ClanChatManager.save();
+						ShopUtils.saveAll();
 						GameServer.getLogger().info("Update task finished!");
 						//DiscordMessager.sendDebugMessage("The server has gone offline, pending an update.");
 						stop();

@@ -1,5 +1,9 @@
 package com.ruse.world.content.trading_post;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Misc;
@@ -7,6 +11,12 @@ import com.ruse.world.World;
 import com.ruse.world.content.trading_post.buying_page.Buyer;
 import com.ruse.world.content.trading_post.buying_page.BuyingPage;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +33,7 @@ public class ShopUtils {
     public static Queue<Listing> cancelingQueue = new ConcurrentLinkedQueue<>();
 
     static {
-    //    testData();
+      //  testData();
     }
 
     public static Optional<Coffer> getCoffer(String playerName) {
@@ -293,6 +303,173 @@ public class ShopUtils {
         }
         for(int i = 0; i < 500_000; i++) {
           marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names), System.nanoTime()));
+        }
+
+        loadShops();
+    }
+
+    public static void loadAll() {
+        loadShops();
+        loadCoffers();
+        loadItemHistory();
+    }
+
+    public static void saveAll() {
+        saveShops();
+        saveCoffers();
+        saveItemHistory();
+    }
+
+    public static void loadShops() {
+        Path path = Paths.get("./data/saves/marketboard/shops.json");
+        File file = path.toFile();
+
+        createFileAndDirIfNotExists(file);
+
+        if(file.length() == 0) return;
+
+        try (FileReader fileReader = new FileReader(file)) {
+            JsonParser fileParser = new JsonParser();
+            Gson builder = new GsonBuilder()
+                    .create();
+            JsonObject reader = (JsonObject) fileParser.parse(fileReader);
+
+            Listing[] temp = builder.fromJson(reader.get("MarketListings").getAsJsonArray(), Listing[].class);
+
+            marketListings.addAll(Arrays.asList(temp));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveShops() {
+
+        Path path = Paths.get("./data/saves/marketboard/shops.json");
+
+        File file = path.toFile();
+        file.getParentFile().setWritable(true);
+
+        createFileAndDirIfNotExists(file);
+
+        try (FileWriter writer = new FileWriter(file)) {
+            JsonObject object = new JsonObject();
+            Gson builder = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+
+            object.add("MarketListings",  builder.toJsonTree(marketListings));
+
+            writer.write(builder.toJson(object));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveCoffers() {
+        Path path = Paths.get("./data/saves/marketboard/coffers.json");
+
+        File file = path.toFile();
+        file.getParentFile().setWritable(true);
+
+        createFileAndDirIfNotExists(file);
+
+        try (FileWriter writer = new FileWriter(file)) {
+            JsonObject object = new JsonObject();
+            Gson builder = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+
+            object.add("MarketCoffers",  builder.toJsonTree(marketCoffers));
+
+            writer.write(builder.toJson(object));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadCoffers() {
+        Path path = Paths.get("./data/saves/marketboard/coffers.json");
+        File file = path.toFile();
+
+        createFileAndDirIfNotExists(file);
+
+        if(file.length() == 0) return;
+
+        try (FileReader fileReader = new FileReader(file)) {
+            JsonParser fileParser = new JsonParser();
+            Gson builder = new GsonBuilder()
+                    .create();
+            JsonObject reader = (JsonObject) fileParser.parse(fileReader);
+
+            Coffer[] temp = builder.fromJson(reader.get("MarketCoffers").getAsJsonArray(), Coffer[].class);
+
+            marketCoffers.addAll(Arrays.asList(temp));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadItemHistory() {
+        Path path = Paths.get("./data/saves/marketboard/itemHistory.json");
+        File file = path.toFile();
+
+        createFileAndDirIfNotExists(file);
+
+        if(file.length() == 0) return;
+
+        try (FileReader fileReader = new FileReader(file)) {
+            JsonParser fileParser = new JsonParser();
+            Gson builder = new GsonBuilder()
+                    .create();
+            JsonObject reader = (JsonObject) fileParser.parse(fileReader);
+
+            HistoryItem[] temp = builder.fromJson(reader.get("MarketHistory").getAsJsonArray(), HistoryItem[].class);
+
+            marketHistory.addAll(Arrays.asList(temp));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveItemHistory() {
+        Path path = Paths.get("./data/saves/marketboard/itemHistory.json");
+
+        File file = path.toFile();
+        file.getParentFile().setWritable(true);
+        createFileAndDirIfNotExists(file);
+
+        try (FileWriter writer = new FileWriter(file)) {
+            JsonObject object = new JsonObject();
+            Gson builder = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+
+            object.add("MarketHistory",  builder.toJsonTree(marketHistory));
+
+            writer.write(builder.toJson(object));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void createFileAndDirIfNotExists(File file) {
+        if (!file.getParentFile().exists() || !file.exists()) {
+            try {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            } catch (SecurityException e) {
+                System.out.println("Unable to create directory");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

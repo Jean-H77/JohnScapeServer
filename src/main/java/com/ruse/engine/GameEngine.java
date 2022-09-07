@@ -61,6 +61,7 @@ public final class GameEngine implements Runnable {
 			PlayerSavingTimer.massSaving();
 			//GrandExchangeOffers.save();
 			ClanChatManager.save();
+			ShopUtils.saveAll();
 		}
 	}
 

@@ -34,6 +34,7 @@ import com.ruse.world.content.combat.strategy.CombatStrategies;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.grandexchange.GrandExchangeOffers;
 import com.ruse.model.entity.character.npc.NPC;
+import com.ruse.world.content.trading_post.ShopUtils;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.util.HashedWheelTimer;
@@ -102,6 +103,7 @@ public final class GameLoader {
 		serviceLoader.execute(() -> ShopManager.load());
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
 		serviceLoader.execute(() -> NPC.init());
+		serviceLoader.execute(() -> ShopUtils.loadAll());
 	}
 
 	public GameEngine getEngine() {

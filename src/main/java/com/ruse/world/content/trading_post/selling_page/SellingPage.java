@@ -1,16 +1,19 @@
 package com.ruse.world.content.trading_post.selling_page;
 
+import com.ruse.GameSettings;
 import com.ruse.model.Item;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Misc;
 import com.ruse.world.content.trading_post.HistoryItem;
 import com.ruse.world.content.trading_post.Listing;
 import com.ruse.world.content.trading_post.ShopUtils;
+import com.ruse.world.content.trading_post.buying_page.BuyingPage;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -51,6 +54,15 @@ public class SellingPage {
 
     public void setItem(Item item) {
         if(this.item != null && this.item.getId() == item.getId()) return;
+
+        if(item.getId() == BuyingPage.CURRENCY_ID || item.getDefinition().isNoted()
+                || Arrays.stream(GameSettings.UNTRADEABLE_ITEMS).anyMatch(i -> i == item.getId())
+                ||  Arrays.stream(GameSettings.UNSELLABLE_ITEMS).anyMatch(i -> i == item.getId())) {
+
+            p.getPacketSender().sendMessage("@red@Cannot list this item.");
+            return;
+        }
+
         if(ShopUtils.getListings(p.getUsername()).stream().noneMatch(listing -> listing.getItemId() == item.getId())) {
             price = 0;
             this.item = item;
