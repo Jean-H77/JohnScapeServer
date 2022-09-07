@@ -190,7 +190,7 @@ public class PlayerShopManager {
                 Optional<Listing> listing = ShopUtils.getListing(listings, slotNum);
 
                 if(listing.isPresent()) {
-                    
+
                     if(!ShopUtils.cancelingQueue.contains(listing.get())) {
                         ShopUtils.cancelingQueue.add(listing.get());
                     }

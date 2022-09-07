@@ -144,7 +144,7 @@ public class SellingPage {
 
                     ShopUtils.marketListings.add(new Listing(slot, item.getId(), price, quantity, p.getUsername(), System.nanoTime()));
 
-                    p.getPacketSender().sendMessage("@red@You have successfully listed " + item.getDefinition().getName() + " " + quantity + "x for " + price + " ea.");
+                    p.getPacketSender().sendMessage("@red@You have successfully listed " + item.getDefinition().getName() + " " + quantity + "x for " + Misc.currency(price, true) + " ea.");
 
                     clearPage();
 
