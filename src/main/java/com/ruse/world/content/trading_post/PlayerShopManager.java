@@ -110,14 +110,12 @@ public class PlayerShopManager {
             if(listing.isEmpty()) {
 
                 clearListing(packetBuilder, i);
-
             } else {
                 int slot = listing.get().getSlot();
 
                 sendMyListingData(packetBuilder, listing.get(), slot);
             }
         }
-
         p.getSession().queueMessage(packetBuilder);
 
     }
@@ -131,7 +129,6 @@ public class PlayerShopManager {
         if(btnId == COFFER_BUTTON_ID) {
 
             collectFromCoffer();
-
             return true;
         }
 
@@ -174,12 +171,10 @@ public class PlayerShopManager {
             if (ShopUtils.isSlotOccupied(listings, slotNum)) {
 
                 p.getPacketSender().sendMessage("@red@This slot already has a listing, click dismiss to cancel your listing.");
-
             } else {
 
                 sellingPage(slotNum);
             }
-
             return true;
 
         } else if(btnId >= -16888 && btnId <= -16869) {
@@ -196,14 +191,10 @@ public class PlayerShopManager {
                     }
 
                 } else {
-
                     p.getPacketSender().sendMessage("@red@This listing does not exist, try refreshing");
                 }
-
             }
-
         }
-
         return false;
     }
 

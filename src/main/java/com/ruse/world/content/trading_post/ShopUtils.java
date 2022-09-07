@@ -304,8 +304,6 @@ public class ShopUtils {
         for(int i = 0; i < 500_000; i++) {
           marketListings.add(new Listing(0, Misc.randomElement(itemIds), Misc.rand(100_000_000), 69, Misc.randomElement(names), System.nanoTime()));
         }
-
-        loadShops();
     }
 
     public static void loadAll() {
