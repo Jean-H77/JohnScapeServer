@@ -225,7 +225,7 @@ public class PlayerShopManager {
                 Coffer c = coffer.get();
                 long amount = p.getInventory().getAmount(BuyingPage.CURRENCY_ID);
 
-                if((c.getAmount() + amount) >= Integer.MAX_VALUE) {
+                if(((long)c.getAmount() + amount) >= Integer.MAX_VALUE) {
 
                     p.getPacketSender().sendMessage("@red@Try banking some coins before collecting.");
 

@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class Coffer {
     private final String owner;
-    private long amount;
+    private int amount;
 
     public void addAmount(int amount) {
-        this.amount = Math.addExact((int)this.amount, amount);
+        this.amount = Math.addExact(this.amount, amount);
     }
-    
+
 }
