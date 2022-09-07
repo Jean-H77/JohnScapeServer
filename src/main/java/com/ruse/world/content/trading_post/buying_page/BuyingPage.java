@@ -268,8 +268,8 @@ public class BuyingPage {
 
         if(btnId >= -16687 && btnId <= -16638) {
 
-            if(selectedListing != null) {
-                p.getPacketSender().sendMessage("@red@Please wait until your current buy offer finishes.");
+            if(ShopUtils.buyingQueue.stream().anyMatch(i -> i.getListing() == selectedListing)) {
+                p.getPacketSender().sendMessage("@red@This item currently has a buy offer.");
                 return true;
             }
 

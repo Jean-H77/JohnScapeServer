@@ -114,16 +114,16 @@ public class ShopUtils {
             if(ItemDefinition.forId(listing.getItemId()).isStackable() || ItemDefinition.forId(listing.getItemId()).isNoted()) {
                 if(player.getInventory().isFull()) {
                     if(player.getInventory().contains(listing.getItemId())) {
-
                         player.getInventory().add(listing.getItemId(), listing.getAmount());
-
                         marketListings.remove(listing);
-
                         player.getPlayerShopManager().showInterface();
-
                     } else {
                         player.getPacketSender().sendMessage("You do not have enough inventory spaces!");
                     }
+                } else {
+                    player.getInventory().add(listing.getItemId(), listing.getAmount());
+                    marketListings.remove(listing);
+                    player.getPlayerShopManager().showInterface();
                 }
 
             } else {
@@ -169,7 +169,8 @@ public class ShopUtils {
 
         if(buyingPlayer.isRegistered() && buyingPlayer != null) {
 
-            if(buyingPlayer.getInventory().isFull() || buyingPlayer.getInventory().getFreeSlots() < amountToBuy ) {
+            if(buyingPlayer.getInventory().isFull() || (buyingPlayer.getInventory().getFreeSlots() < amountToBuy && !ItemDefinition.forId(listing.getItemId()).isStackable())
+                || ItemDefinition.forId(listing.getItemId()).isStackable() && !buyingPlayer.getInventory().contains(listing.getItemId()) && buyingPlayer.getInventory().isFull()) {
 
                 buyingPlayer.getPacketSender().sendMessage("You do not have enough inventory spaces!");
 
@@ -178,7 +179,6 @@ public class ShopUtils {
                 long total = (long) buyer.getAmountToBuy() * listing.getPrice();
 
                 if(buyingPlayer.getInventory().getAmount(BuyingPage.CURRENCY_ID) >= total) {
-
 
                    Optional<Coffer> cofferOptional = getCoffer(listing.getSeller());
 
@@ -206,10 +206,10 @@ public class ShopUtils {
                         buyingPlayer.getPacketSender().sendMessage("@red@You have bought x" + amountToBuy + " of " + ItemDefinition.forId(listing.getItemId()).getName() + ".");
 
                         if (listing.getAmount() == 0) {
-
                             marketListings.remove(listing);
-                            marketHistory.add(new HistoryItem(listing.getItemId(), amountToBuy, buyingPlayer.getUsername(), listing.getSeller(), listing.getPrice(), System.nanoTime()));
                         }
+
+                        marketHistory.add(new HistoryItem(listing.getItemId(), amountToBuy, buyingPlayer.getUsername(), listing.getSeller(), listing.getPrice(), System.nanoTime()));
 
                         coffer.addAmount((int) total);
                     }
