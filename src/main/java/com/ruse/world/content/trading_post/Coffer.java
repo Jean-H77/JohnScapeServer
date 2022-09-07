@@ -10,4 +10,12 @@ import lombok.Setter;
 public class Coffer {
     private final String owner;
     private int amount;
+
+    public void addAmount(int amount) {
+        this.amount += amount;
+    }
+
+    public void decrementAmount(int amount) {
+        this.amount -= amount;
+    }
 }

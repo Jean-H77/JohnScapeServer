@@ -4,11 +4,10 @@ import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
+import com.ruse.world.content.trading_post.buying_page.Buyer;
+import com.ruse.world.content.trading_post.buying_page.BuyingPage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -20,11 +19,11 @@ public class ShopUtils {
     public static List<HistoryItem> marketHistory = new ArrayList<>();
     public static List<Coffer> marketCoffers = new ArrayList<>();
 
-    public static Queue<Listing> buyingQueue = new ConcurrentLinkedQueue<>();
+    public static Queue<Buyer> buyingQueue = new ConcurrentLinkedQueue<>();
     public static Queue<Listing> cancelingQueue = new ConcurrentLinkedQueue<>();
 
     static {
-        testData();
+    //    testData();
     }
 
     public static Optional<Coffer> getCoffer(String playerName) {
@@ -82,7 +81,7 @@ public class ShopUtils {
 
         if(player != null && player.isRegistered()) {
 
-            if(ItemDefinition.forId(listing.getItemId()).isStackable()) {
+            if(ItemDefinition.forId(listing.getItemId()).isStackable() || ItemDefinition.forId(listing.getItemId()).isNoted()) {
                 if(player.getInventory().isFull()) {
                     if(player.getInventory().contains(listing.getItemId())) {
 
@@ -129,9 +128,76 @@ public class ShopUtils {
 
     public static void processBuys() {
         if(buyingQueue.isEmpty()) return;
-        Listing listing = cancelingQueue.poll();
-        if(!marketListings.contains(listing)) return;
+        Buyer buyer = buyingQueue.poll();
+        if(!marketListings.contains(buyer.getListing())) return;
 
+        Player buyingPlayer = buyer.getBuyer();
+        int amountToBuy = buyer.getAmountToBuy();
+        Listing listing = buyer.getListing();
+        PlayerShopManager playerShopManager = buyingPlayer.getPlayerShopManager();
+        Coffer coffer;
+
+        if(buyingPlayer.isRegistered() && buyingPlayer != null) {
+
+            if(buyingPlayer.getInventory().isFull() || buyingPlayer.getInventory().getFreeSlots() < amountToBuy ) {
+
+                buyingPlayer.getPacketSender().sendMessage("You do not have enough inventory spaces!");
+
+            } else {
+
+                long total = (long) buyer.getAmountToBuy() * listing.getPrice();
+
+                if(buyingPlayer.getInventory().getAmount(BuyingPage.CURRENCY_ID) >= total) {
+
+
+                   Optional<Coffer> cofferOptional = getCoffer(listing.getSeller());
+
+                    if(cofferOptional.isPresent()) {
+
+                        coffer = cofferOptional.get();
+
+                    } else {
+
+                        coffer = new Coffer(listing.getSeller());
+                        marketCoffers.add(coffer);
+                    }
+
+                    if(coffer.getAmount() + total > Integer.MAX_VALUE) {
+
+                        buyingPlayer.getPacketSender().sendMessage("@red@This players coffer is currently full and cannot accept new buy orders.");
+
+                    } else {
+
+                        buyingPlayer.getInventory().add(listing.getItemId(), amountToBuy);
+                        buyingPlayer.getInventory().delete(BuyingPage.CURRENCY_ID, (int) total);
+
+                        listing.setAmount(listing.getAmount() - amountToBuy);
+
+                        buyingPlayer.getPacketSender().sendMessage("@red@You have bought x" + amountToBuy + " of " + ItemDefinition.forId(listing.getItemId()).getName() + ".");
+
+                        if (listing.getAmount() == 0) {
+
+                            marketListings.remove(listing);
+                            marketHistory.add(new HistoryItem(listing.getItemId(), amountToBuy, buyingPlayer.getUsername(), listing.getSeller(), listing.getPrice(), System.nanoTime()));
+                        }
+
+                        coffer.addAmount((int) total);
+                    }
+
+                    playerShopManager.getBuyingPage().getNewMarketListings();
+                    playerShopManager.getBuyingPage().getFilteredSearch();
+
+                } else {
+
+                    buyingPlayer.getPacketSender().sendMessage("You need @red@" + Misc.currency(((long) buyer.getAmountToBuy() * listing.getPrice()), true) + "@bla@ to buy this item.");
+
+                }
+            }
+
+            if(playerShopManager.getBuyingPage() != null) {
+                playerShopManager.getBuyingPage().setSelectedListing(null);
+            }
+        }
     }
 
     public static void processQueues() {

@@ -1,12 +1,12 @@
 package com.ruse.world.content.trading_post.buying_page;
 
 import com.google.common.collect.Lists;
-import com.ruse.model.Animation;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
 import com.ruse.util.Misc;
+import com.ruse.world.content.dialogue.DialogueExpression;
 import com.ruse.world.content.trading_post.Listing;
 import com.ruse.world.content.trading_post.ShopUtils;
 import lombok.Data;
@@ -26,8 +26,10 @@ public class BuyingPage {
     private static final int RECENT_LISTINGS_BUTTON_ID = -16709;
     private static final int NEXT_PAGE_BUTTON_ID = -16700;
     private static final int PREVIOUS_PAGE_BUTTON_ID = -16703;
+    private static final int CONFIRM_BUY_BUTTON_ID = -16119;
 
     private static final int PAGE_CAPACITY = 50;
+    public static final int CURRENCY_ID = 995;
 
     private final Player p;
     private int page = 0;
@@ -47,8 +49,12 @@ public class BuyingPage {
     }
 
     public void mostRecent() {
+         getNewMarketListings();
+         displayListings();
+    }
+
+    public void getNewMarketListings() {
         displayedListings = new ArrayList<>(Lists.reverse(ShopUtils.marketListings));
-        displayListings();
     }
 
     public void getFilteredSearch() {
@@ -60,7 +66,6 @@ public class BuyingPage {
                     .filter(listing -> ItemDefinition.forId(listing.getItemId()).getName().startsWith(itemSearch)
                             || ItemDefinition.forId(listing.getItemId()).getName().contains(itemSearch))
                     .collect(Collectors.toList());
-
         }
 
         if(!playerSearch.equals("")) {
@@ -69,11 +74,9 @@ public class BuyingPage {
                     .stream()
                     .filter(listing -> listing.getSeller().equalsIgnoreCase(playerSearch))
                     .collect(Collectors.toList());
-
         }
 
         page = 0;
-
         displayListings();
     }
 
@@ -153,6 +156,7 @@ public class BuyingPage {
     }
 
     public boolean handleButtonClick(int btnId) {
+
         if(handleBuyingOptionsButton(btnId)) return true;
 
         if(btnId == REFRESH_BUTTON_ID) {
@@ -174,15 +178,21 @@ public class BuyingPage {
 
             p.getPlayerShopManager().showInterface();
 
+            return true;
+
         } else if(btnId == SEARCH_ITEM_BUTTON_ID) {
 
             p.getPacketSender().sendEnterInputPrompt("Which item would you like to search for?");
             p.setInputHandling(new ItemSearchInput(this));
 
+            return true;
+
         } else if(btnId == SEARCH_PLAYER_BUTTON_ID) {
 
             p.getPacketSender().sendEnterInputPrompt("Which player would you like to search for?");
             p.setInputHandling(new PlayerSearchInput(this));
+
+            return true;
 
         } else if(btnId == RECENT_LISTINGS_BUTTON_ID) {
 
@@ -193,9 +203,38 @@ public class BuyingPage {
             } else {
 
                 lastRecentButtonClickedMilli = System.currentTimeMillis();
-
+                itemSearch = "Recent";
+                playerSearch = "";
                 mostRecent();
             }
+
+            return true;
+
+        } else if(btnId == CONFIRM_BUY_BUTTON_ID) {
+
+            if(selectedListing != null && selectedListing.getAmount() != 0) {
+
+                if(p.getInventory().getAmount(CURRENCY_ID) >= (selectedListing.getAmount() * amountToBuy)) {
+
+                    ShopUtils.buyingQueue.add(new Buyer(selectedListing, p, amountToBuy));
+
+                } else {
+
+                    p.getPacketSender().sendMessage("You need " + Misc.currency(((long) amountToBuy * selectedListing.getPrice()), true) + " to buy this item.");
+                }
+
+                p.getPacketSender().sendInterface(INTERFACE_ID);
+
+            } else {
+
+                p.getPacketSender().sendMessage("@red@This item does not exist anymore. try refreshing your page");
+                selectedListing = null;
+                p.getPacketSender().sendInterface(INTERFACE_ID);
+                showInterface();
+            }
+
+            return true;
+
         }
 
         if((btnId == NEXT_PAGE_BUTTON_ID || btnId == PREVIOUS_PAGE_BUTTON_ID)) {
@@ -223,9 +262,16 @@ public class BuyingPage {
                     }
                 }
             }
+
+            return true;
         }
 
         if(btnId >= -16687 && btnId <= -16638) {
+
+            if(selectedListing != null) {
+                p.getPacketSender().sendMessage("@red@Please wait until your current buy offer finishes.");
+                return true;
+            }
 
             int listingPosition = 16687 + btnId;
 
@@ -242,11 +288,9 @@ public class BuyingPage {
                 } else {
 
                     System.out.println("Error setting dialogue: Listing is NULL");
-
                 }
-
             }
-
+                return true;
         }
 
         return false;
@@ -267,53 +311,44 @@ public class BuyingPage {
 
         if(btnId == -16135) {
 
-            // buy 1
             amountToBuy = 1;
             result = true;
 
         } else if(btnId == -16134) {
 
-            // buy x
+            p.getPacketSender().sendEnterAmountPrompt("How many of " + ItemDefinition.forId(selectedListing.getItemId()).getName() + " would you like to buy?");
+            p.setInputHandling(new EnterAmountToBuyInput(this));
 
-            result = true;
+            return true;
 
         } else if(btnId == -16133) {
 
-            selectedListing = null;
-
-            // buy all
             amountToBuy = selectedListing.getAmount();
             result = true;
 
-        } else if(btnId == -16132) {
+        } else if(btnId == -16128 || btnId == -16132 || btnId == -16124) {
 
             selectedListing = null;
+            p.getPacketSender().sendInterface(INTERFACE_ID);
 
-            //cancel
-            result = true;
-
-        } else if(btnId == -16128) {
-
-            //close window
-            selectedListing = null;
-
-            result = true;
+            return true;
         }
 
         if(result) {
 
-
-            p.getPacketSender().sendNpcHeadOnInterface(947, 49411)
-                    .sendString(49415, "@blu@"+Misc.currency((long) amountToBuy *selectedListing.getPrice(), true))
-                    .sendString(49416, "for @red@x"+ amountToBuy + " " + ItemDefinition.forId(selectedListing.getItemId()).getName() + "?")
-                    .sendInterfaceAnimation(49411, new Animation(9847))
-                    .sendChatboxInterface(49409);
-
+            sendNpcDialogueChatBox();
         }
 
         return result;
     }
 
 
+    public void sendNpcDialogueChatBox() {
+        p.getPacketSender().sendNpcHeadOnInterface(947, 49411)
+                .sendString(49415, "@blu@"+Misc.currency((long) amountToBuy *selectedListing.getPrice(), true))
+                .sendString(49416, "for @red@x"+ amountToBuy + " " + ItemDefinition.forId(selectedListing.getItemId()).getName() + "?")
+                .sendInterfaceAnimation(49411, DialogueExpression.NORMAL.getAnimation())
+                .sendChatboxInterface(49409);
+    }
 
 }
