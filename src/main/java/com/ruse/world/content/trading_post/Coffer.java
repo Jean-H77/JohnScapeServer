@@ -14,8 +14,5 @@ public class Coffer {
     public void addAmount(int amount) {
         this.amount += amount;
     }
-
-    public void decrementAmount(int amount) {
-        this.amount -= amount;
-    }
+    
 }
