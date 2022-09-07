@@ -183,17 +183,14 @@ public class ShopUtils {
                    Optional<Coffer> cofferOptional = getCoffer(listing.getSeller());
 
                     if(cofferOptional.isPresent()) {
-
                         coffer = cofferOptional.get();
 
                     } else {
-
                         coffer = new Coffer(listing.getSeller());
                         marketCoffers.add(coffer);
                     }
 
                     if(coffer.getAmount() + total > Integer.MAX_VALUE) {
-
                         buyingPlayer.getPacketSender().sendMessage("@red@This players coffer is currently full and cannot accept new buy orders.");
 
                     } else {
@@ -210,7 +207,6 @@ public class ShopUtils {
                         }
 
                         marketHistory.add(new HistoryItem(listing.getItemId(), amountToBuy, buyingPlayer.getUsername(), listing.getSeller(), listing.getPrice(), System.nanoTime()));
-
                         coffer.addAmount((int) total);
                     }
 
@@ -220,7 +216,6 @@ public class ShopUtils {
                 } else {
 
                     buyingPlayer.getPacketSender().sendMessage("You need @red@" + Misc.currency(((long) buyer.getAmountToBuy() * listing.getPrice()), true) + "@bla@ to buy this item.");
-
                 }
             }
 
