@@ -12,7 +12,7 @@ public class Coffer {
     private long amount;
 
     public void addAmount(int amount) {
-        this.amount += amount;
+        this.amount = Math.addExact((int)this.amount, amount);
     }
     
 }
