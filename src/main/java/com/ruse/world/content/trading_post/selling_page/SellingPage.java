@@ -84,7 +84,7 @@ public class SellingPage {
 
         int stringId = 48781;
 
-        p.getPacketSender().sendScrollMax(48749, Math.max(189, historyList.size() * 41));
+        p.getPacketSender().sendScrollMax(48749, Math.max(205, historyList.size() * 41));
 
         for(int i = 0; i < 30; i++) {
 
