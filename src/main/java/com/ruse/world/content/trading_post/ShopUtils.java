@@ -135,7 +135,7 @@ public class ShopUtils {
                 int amountToRemove = 0;
 
                 if(!player.getInventory().isFull()) {
-                    
+
                     amountToRemove = Math.min(listingAmount, freeSlots);
 
                     listing.setAmount(listingAmount - amountToRemove);
