@@ -20,18 +20,8 @@ public class EnterAmountToBuyInput extends EnterAmount {
             return;
         }
 
-        int itemId = buyingPage.getSelectedListing().getItemId();
-
-        if(player.getInventory().getAmount(itemId) + amount >= Integer.MAX_VALUE) {
-
-            player.getPacketSender().sendMessage("You do not have enough inventory spaces!");
-
-        } else {
-
-            buyingPage.setAmountToBuy(amount);
-            buyingPage.sendNpcDialogueChatBox();
-
-        }
+        buyingPage.setAmountToBuy(amount);
+        buyingPage.sendNpcDialogueChatBox();
 
     }
 }
