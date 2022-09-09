@@ -1,0 +1,52 @@
+{
+  "npcIds": [
+    13399
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        35000,
+        45000,
+        60000,
+        100000,
+        130000,
+        175000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Sword of the Ancients",
+      "id": 18340,
+      "count": [
+        1
+      ],
+      "chance": 200
+    },
+    {
+      "name": "Crossbow of the Ancients",
+      "id": 18343,
+      "count": [
+        1
+      ],
+      "chance": 200
+    },
+    {
+      "name": "Staff of the Ancients",
+      "id": 18342,
+      "count": [
+        1
+      ],
+      "chance": 200
+    },
+    {
+      "name": "Big Bones",
+      "id": 532,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

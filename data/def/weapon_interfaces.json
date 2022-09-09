@@ -55,9 +55,19 @@
     "interface": "SWORD"
   },
   {
+    "hash": 18340,
+    "item-id": 18340,
+    "interface": "SWORD"
+  },
+  {
     "hash": 909,
     "item-id": 909,
     "interface": "SWORD"
+  },
+  {
+    "hash": 18342,
+    "item-id": 18342,
+    "interface": "STAFF"
   },
   {
     "hash": 18341,
@@ -73,6 +83,11 @@
     "hash": 31325,
     "item-id": 31325,
     "interface": "SCIMITAR"
+  },
+  {
+    "hash": 18343,
+    "item-id": 18343,
+    "interface": "CROSSBOW"
   },
   {
     "hash": 9307,

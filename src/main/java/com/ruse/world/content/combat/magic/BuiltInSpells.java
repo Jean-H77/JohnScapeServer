@@ -8,7 +8,8 @@ public enum BuiltInSpells {
     PIRATES_STAFF(21580, CombatSpells.CRUMBLE_UNDEAD),
     DRAGON_STAFF(19323, CombatSpells.FIRE_WAVE),
     MYSTIC_STAFF(18341, CombatSpells.BLOOD_BURST),
-    STARTER_STAFF(896, CombatSpells.BABY_SCORPION);
+    STARTER_STAFF(896, CombatSpells.BABY_SCORPION),
+    STAFF_OF_THE_ANCIENTS(18342, CombatSpells.SHADOW_BARRAGE);
 
     BuiltInSpells(int staff_id, CombatSpells spell) {
         this.staffId = staff_id;
