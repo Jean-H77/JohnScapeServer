@@ -233,17 +233,17 @@ public class ShopUtils {
 
         String result = null;
 
-        long currentMilli = System.nanoTime();
-        long elapsed = currentMilli  - timestamp;
-
+        long elapsed = (System.nanoTime()  - timestamp);
         int day = (int) TimeUnit.NANOSECONDS.toDays(elapsed);
-        long hours = TimeUnit.NANOSECONDS.toHours(elapsed) - (day *24);
+        long hours = TimeUnit.NANOSECONDS.toHours(elapsed) - (day * 24L);
         long minute = TimeUnit.NANOSECONDS.toMinutes(elapsed) - (TimeUnit.NANOSECONDS.toHours(elapsed)* 60);
         long second = TimeUnit.NANOSECONDS.toSeconds(elapsed) - (TimeUnit.NANOSECONDS.toMinutes(elapsed) *60);
 
+        System.out.println("Day: " + day + " elapsed: " + elapsed);
+
         if(day > 0) {
 
-            result = day + "day(s) " + hours + " ago";
+            result = day + "d " + hours + " ago";
 
         } else {
 
