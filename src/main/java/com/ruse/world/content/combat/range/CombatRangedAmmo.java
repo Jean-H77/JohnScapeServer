@@ -29,7 +29,8 @@ public class CombatRangedAmmo {
 		ZARYTE_BOW(new int[] {20171}, new AmmunitionData[] {AmmunitionData.ZARYTE_AMMO}, RangedWeaponType.SHORTBOW),
 		BSOAT(new int[] {6818}, new AmmunitionData[] {AmmunitionData.BRONZE_ARROW, AmmunitionData.IRON_ARROW, AmmunitionData.STEEL_ARROW, AmmunitionData.MITHRIL_ARROW, AmmunitionData.ADAMANT_ARROW, AmmunitionData.RUNE_ARROW, AmmunitionData.BROAD_ARROW, AmmunitionData.DRAGON_ARROW, AmmunitionData.ZULRAH_SCALES, AmmunitionData.HAND_CANNON_SHOT}, RangedWeaponType.BSOAT),
 		ARMADYL_CROSSBOW(new int[] {22034, 18343}, new AmmunitionData[] {AmmunitionData.BRONZE_BOLT, AmmunitionData.OPAL_BOLT, AmmunitionData.IRON_BOLT, AmmunitionData.JADE_BOLT, AmmunitionData.STEEL_BOLT, AmmunitionData.PEARL_BOLT, AmmunitionData.MITHRIL_BOLT, AmmunitionData.TOPAZ_BOLT, AmmunitionData.ADAMANT_BOLT, AmmunitionData.SAPPHIRE_BOLT, AmmunitionData.EMERALD_BOLT, AmmunitionData.RUBY_BOLT, AmmunitionData.RUNITE_BOLT, AmmunitionData.BROAD_BOLT, AmmunitionData.DIAMOND_BOLT, AmmunitionData.ONYX_BOLT, AmmunitionData.DRAGON_BOLT}, RangedWeaponType.ARMADYLXBOW),
-		
+		ANCIENT_CROSSBOW(new int[] {18343}, new AmmunitionData[] {AmmunitionData.ANCIENT_CROSSBOW}, RangedWeaponType.CROSSBOW),
+
 		GINREI_KOJAKU(new int[]{22010, 895, 20859}, new AmmunitionData[] {AmmunitionData.ZARYTE_AMMO}, RangedWeaponType.BSOAT),
 
 		DARK_BOW(new int[] {11235, 13405, 15701, 15702, 15703, 15704}, new AmmunitionData[] {AmmunitionData.BRONZE_ARROW, AmmunitionData.IRON_ARROW, AmmunitionData.STEEL_ARROW, AmmunitionData.MITHRIL_ARROW, AmmunitionData.ADAMANT_ARROW, AmmunitionData.RUNE_ARROW, AmmunitionData.DRAGON_ARROW}, RangedWeaponType.DARK_BOW),
@@ -171,7 +172,7 @@ public class CombatRangedAmmo {
 		DIAMOND_BOLT(new int[] {9340, 9243}, -1, 27, 3, 44, 0, 43, 31),
 		ONYX_BOLT(new int[] {9342, 9245}, -1, 27, 3, 44, 0, 43, 31),
 		DRAGON_BOLT(new int[] {9341, 9244}, -1, 27, 3, 44, 0, 43, 31),
-
+		ANCIENT_CROSSBOW(new int[] {9342, 9245}, -1, 27, 3, 44, 0, 43, 31),
 		
 		BRONZE_KNIFE(new int[] {864, 870, 5654}, 219, 212, 4, 33, 0, 45, 37),
 		IRON_KNIFE(new int[] {863, 871, 5655}, 220, 213, 4, 33, 0, 45, 37),
