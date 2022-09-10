@@ -17,6 +17,7 @@ import com.ruse.model.Projectile;
 import com.ruse.model.RegionInstance.RegionInstanceType;
 import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Equipment;
+import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.definitions.WeaponInterfaces.WeaponInterface;
@@ -160,7 +161,7 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 
 		/** CROSSBOW BOLTS EFFECT **/
 		if(player.getEquipment().get(Equipment.WEAPON_SLOT).getDefinition() != null && player.getEquipment().get(Equipment.WEAPON_SLOT).getDefinition().getName().toLowerCase().contains("crossbow")) {
-			if(Misc.getRandom(12) >= 10) {
+			if(getChanceForSpec(player.getEquipment().get(Equipment.WEAPON_SLOT).getId()) == 1) {
 				container.setModifiedDamage(getModifiedDamage(player, victim, container));
 			}
 		}
@@ -168,6 +169,14 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 		return container;
 	}
 
+	public int getChanceForSpec(int id) {
+		switch (id) {
+			case 18343:
+				return 4;
+			default:
+				return 12;
+		}
+	}
 	public static void fireProjectile(CharacterEntity e, CharacterEntity victim, final AmmunitionData ammo, boolean dBow) {
 		TaskManager.submit(new Task(1, e.getCombatBuilder(), false) { //TODO FIX THIS PROJECTILE, SHOULDNT BE A TASK
 			@Override
@@ -362,12 +371,15 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 			return 0;
 		int damage = container.getHits()[0].getHit().getDamage();
 		int ammo = player.getFireAmmo();
-		if(ammo == -1) {
-			return damage;
-		}
+	//`	if(ammo == -1) {
+		//	return damage;
+	//	}
+		System.out.println("TEST");
 		double multiplier = 1;
 		Player pTarget = target.isPlayer() ? ((Player)target) : null;
-		switch(ammo) {
+		int wepId = player.getEquipment().get(Equipment.WEAPON_SLOT).getId();
+		System.out.println("WEPID: " + wepId);
+		switch(wepId) {
 		case 9236: // Lucky Lightning
 			target.performGraphic(new Graphic(749));
 			multiplier = 1.3;
@@ -387,6 +399,10 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 				pTarget.getPacketSender().sendMessage("Your Magic level has been reduced.");
 			}
 			break;
+			case 18343:
+				target.performGraphic(new Graphic(752));
+				multiplier = 1.30;
+				break;
 		case 9240: // Clear Mind
 			target.performGraphic(new Graphic(751));
 			if(pTarget != null) {

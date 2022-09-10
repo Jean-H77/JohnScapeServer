@@ -603,6 +603,8 @@ public class EquipPacketListener implements PacketListener {
 					player.getUpdateFlag().flag(Flag.APPEARANCE);
 					Sounds.sendSound(player, Sound.EQUIP_ITEM);
 				}
+				System.out.println("WEPID: " + player.getEquipment().get(Equipment.WEAPON_SLOT).getId());
+
 			}
 			break;
 		}
