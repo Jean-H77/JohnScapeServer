@@ -399,7 +399,7 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 			break;
 			case 18343:
 				target.performGraphic(new Graphic(749));
-				multiplier = 1.25;
+				multiplier = 1.50;
 				break;
 		case 9240: // Clear Mind
 			target.performGraphic(new Graphic(751));

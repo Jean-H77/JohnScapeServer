@@ -1,0 +1,92 @@
+{
+  "npcIds": [
+    13396
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        65000,
+        85000,
+        80000,
+        130000,
+        180000,
+        250000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Forest Antlers",
+      "id": 79,
+      "count": [
+        1
+      ],
+      "chance": 250
+    },
+    {
+      "name": "Forest Leggings",
+      "id": 897,
+      "count": [
+        1
+      ],
+      "chance": 300
+    },
+    {
+      "name": "Forest Sandles",
+      "id": 898,
+      "count": [
+        1
+      ],
+      "chance": 250
+    },
+    {
+      "name": "Forest Staff",
+      "id": 899,
+      "count": [
+        1
+      ],
+      "chance": 315
+    },
+    {
+      "name": "Forest Blade",
+      "id": 900,
+      "count": [
+        1
+      ],
+      "chance": 315
+    },
+    {
+      "name": "Forest Blade (off-hand)",
+      "id": 901,
+      "count": [
+        1
+      ],
+      "chance": 280
+    },
+    {
+      "name": "Forest Torso",
+      "id": 902,
+      "count": [
+        1
+      ],
+      "chance": 300
+    },
+    {
+      "name": "Lost Forest Bow",
+      "id": 904,
+      "count": [
+        1
+      ],
+      "chance": 330
+    },
+    {
+      "name": "Big Bones",
+      "id": 532,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

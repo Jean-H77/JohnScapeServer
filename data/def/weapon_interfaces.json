@@ -640,6 +640,11 @@
     "interface": "TWO_HANDED_SWORD"
   },
   {
+    "hash": 900,
+    "item-id": 900,
+    "interface": "SCIMITAR"
+  },
+  {
     "hash": 1321,
     "item-id": 1321,
     "interface": "SCIMITAR"
@@ -1995,6 +2000,11 @@
     "interface": "UNARMED"
   },
   {
+    "hash": 904,
+    "item-id": 904,
+    "interface": "SHORTBOW"
+  },
+  {
     "hash": 841,
     "item-id": 841,
     "interface": "SHORTBOW"
@@ -2258,6 +2268,11 @@
     "hash": 9703,
     "item-id": 9703,
     "interface": "SWORD"
+  },
+  {
+    "hash": 899,
+    "item-id": 899,
+    "interface": "STAFF"
   },
   {
     "hash": 3053,
