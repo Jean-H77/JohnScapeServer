@@ -161,7 +161,7 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 
 		/** CROSSBOW BOLTS EFFECT **/
 		if(player.getEquipment().get(Equipment.WEAPON_SLOT).getDefinition() != null && player.getEquipment().get(Equipment.WEAPON_SLOT).getDefinition().getName().toLowerCase().contains("crossbow")) {
-			if(getChanceForSpec(player.getEquipment().get(Equipment.WEAPON_SLOT).getId()) == 1) {
+			if(Misc.exclusiveRandom(getChanceForSpec(player.getEquipment().get(Equipment.WEAPON_SLOT).getId())) == 0) {
 				container.setModifiedDamage(getModifiedDamage(player, victim, container));
 			}
 		}
@@ -172,7 +172,7 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 	public int getChanceForSpec(int id) {
 		switch (id) {
 			case 18343:
-				return 4;
+				return 10;
 			default:
 				return 12;
 		}
@@ -374,11 +374,9 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 	//`	if(ammo == -1) {
 		//	return damage;
 	//	}
-		System.out.println("TEST");
 		double multiplier = 1;
 		Player pTarget = target.isPlayer() ? ((Player)target) : null;
 		int wepId = player.getEquipment().get(Equipment.WEAPON_SLOT).getId();
-		System.out.println("WEPID: " + wepId);
 		switch(wepId) {
 		case 9236: // Lucky Lightning
 			target.performGraphic(new Graphic(749));
@@ -400,8 +398,8 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 			}
 			break;
 			case 18343:
-				target.performGraphic(new Graphic(752));
-				multiplier = 1.30;
+				target.performGraphic(new Graphic(749));
+				multiplier = 1.25;
 				break;
 		case 9240: // Clear Mind
 			target.performGraphic(new Graphic(751));
