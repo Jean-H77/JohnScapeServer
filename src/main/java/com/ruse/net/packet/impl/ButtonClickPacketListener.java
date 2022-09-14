@@ -994,6 +994,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getPlayerShopManager().handleButtonClick(id)) {
 			return true;
 		}
+		if(player.getQuestManager().getQuestInterface().handleTabSwitch(id)) {
+			return true;
+		}
 	//	if(player.getDungeonViewer().handleButton(id)) {
 		//	return true;
 	//	}

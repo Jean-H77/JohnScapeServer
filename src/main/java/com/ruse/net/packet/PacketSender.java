@@ -414,7 +414,7 @@ public class PacketSender {
 	public PacketSender sendTabs() {
 		sendTabInterface(GameSettings.ATTACK_TAB, 2423);
 		sendTabInterface(GameSettings.SKILLS_TAB, 3917);//31110);
-		sendTabInterface(GameSettings.QUESTS_TAB, 639);
+		sendTabInterface(GameSettings.QUESTS_TAB, 49426);
 		sendTabInterface(GameSettings.ACHIEVEMENT_TAB, 37000);
 		sendTabInterface(GameSettings.INVENTORY_TAB, 3213);
 		sendTabInterface(GameSettings.EQUIPMENT_TAB, 15000);

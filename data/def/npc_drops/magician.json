@@ -24,6 +24,14 @@
       "chance": 85
     },
     {
+      "name": "Occult necklace",
+      "id": 42002,
+      "count": [
+        1
+      ],
+      "chance": 100
+    },
+    {
       "name": "Mystic Hood",
       "id": 16058,
       "count": [

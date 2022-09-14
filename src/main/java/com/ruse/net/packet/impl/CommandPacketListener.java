@@ -39,7 +39,7 @@ import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.world.content.*;
 import com.ruse.world.content.PlayerPunishment.Jail;
-import com.ruse.world.content.Quest.impl.CapeQuest;
+import com.ruse.world.content.Quest.impl.JohnsJourney;
 import com.ruse.world.content.clan.ClanChat;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.cluescrolls.ClueScroll;
@@ -935,7 +935,7 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (command[0].equalsIgnoreCase("complete")) {
-			player.getQuestManager().completeStep(CapeQuest.TITLE, 0);
+			player.getQuestManager().completeStep(JohnsJourney.TITLE, 0);
 		}
 
 		if (command[0].equalsIgnoreCase("remindvote")) {

@@ -213,8 +213,8 @@ public class NPCUpdating {
 		builder.putShort(npc.getPrimaryHit().getDamage(), ValueType.A);
 		builder.put(npc.getPrimaryHit().getHitmask().ordinal(), ValueType.C);
 		builder.put(npc.getPrimaryHit().getCombatIcon().ordinal() - 1);
-		builder.putShort(npc.getConstitution(), ValueType.A);
-		builder.putShort(npc.getDefaultConstitution(), ValueType.A);
+		builder.putInt(npc.getConstitution());
+		builder.putInt(npc.getDefaultConstitution());
 	}
 
 	/**
@@ -227,8 +227,8 @@ public class NPCUpdating {
 		builder.putShort(npc.getSecondaryHit().getDamage(), ValueType.A);
 		builder.put(npc.getSecondaryHit().getHitmask().ordinal(), ValueType.S);
 		builder.put(npc.getSecondaryHit().getCombatIcon().ordinal() - 1);
-		builder.putShort(npc.getConstitution(), ValueType.A);
-		builder.putShort(npc.getDefaultConstitution(), ValueType.A);
+		builder.putInt(npc.getConstitution());
+		builder.putInt(npc.getDefaultConstitution());
 	}
 
 	/**
