@@ -1,0 +1,92 @@
+{
+  "npcIds": [
+    13395
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        100000,
+        125000,
+        150000,
+        175000,
+        200000,
+        250000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Guardian Torso",
+      "id": 906,
+      "count": [
+        1
+      ],
+      "chance": 375
+    },
+    {
+      "name": "Guardian Gloves",
+      "id": 907,
+      "count": [
+        1
+      ],
+      "chance": 250
+    },
+    {
+      "name": "Guardian Helmet",
+      "id": 908,
+      "count": [
+        1
+      ],
+      "chance": 300
+    },
+    {
+      "name": "Guardian Legs",
+      "id": 910,
+      "count": [
+        1
+      ],
+      "chance": 350
+    },
+    {
+      "name": "Guardian Feet",
+      "id": 911,
+      "count": [
+        1
+      ],
+      "chance": 200
+    },
+    {
+      "name": "Guardian Bow",
+      "id": 905,
+      "count": [
+        1
+      ],
+      "chance": 400
+    },
+    {
+      "name": "Guardian Staff",
+      "id": 918,
+      "count": [
+        1
+      ],
+      "chance": 400
+    },
+    {
+      "name": "Guardian Blade",
+      "id": 54219,
+      "count": [
+        1
+      ],
+      "chance": 400
+    },
+    {
+      "name": "Dragon Bones",
+      "id": 536,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

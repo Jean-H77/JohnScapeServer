@@ -177,6 +177,11 @@ public class CommandPacketListener implements PacketListener {
 		if (wholeCommand.equalsIgnoreCase("bank") && !player.getRights().OwnerDeveloperOnly()) {
 			player.forceChat("Hey, everyone, I just tried to do something very silly!");
 		}
+
+		if (wholeCommand.equalsIgnoreCase("tel")) {
+			player.getTeleportMenuManager().showInterface();
+		}
+
 		if (command[0].equalsIgnoreCase("time") || command[0].equalsIgnoreCase("date") || command[0].equalsIgnoreCase("clock")) {
 			int month = 1+Misc.getMonth();
 			String mo = Integer.toString(month);
@@ -197,6 +202,7 @@ public class CommandPacketListener implements PacketListener {
 			
 			player.getPacketSender().sendMessage("@cya@<shad=0>[Time] <shad=-1>@bla@["+mo+"/"+dd+"] (MM/DD) @ "+Misc.getCurrentServerTime()+" (24:00) in New York City, USA"+weekend+".");
 		}
+
 		if(command[0].equalsIgnoreCase("hasVoid")) {
 			if (EquipmentBonus.wearingVoid(player)) {
 				player.getPacketSender().sendMessage("You are wearing void.");

@@ -390,10 +390,7 @@ public class ButtonClickPacketListener implements PacketListener {
 				player.getSummoning().toInventory();
 			break;
 		case 1042:
-			/*DialogueManager.start(player, 150);
-			player.setDialogueActionId(150);*/
-			TeleportInterface.open(player);
-			//player.getPacketSender().sendMessage("Teleportation interface not yet ready...");
+			player.getTeleportMenuManager().showInterface();
 			break;
 		case 1037:
 			SummoningTab.callFollower(player);
@@ -995,6 +992,9 @@ public class ButtonClickPacketListener implements PacketListener {
 			return true;
 		}
 		if(player.getQuestManager().getQuestInterface().handleTabSwitch(id)) {
+			return true;
+		}
+		if(player.getTeleportMenuManager().handleButtonClick(id)) {
 			return true;
 		}
 	//	if(player.getDungeonViewer().handleButton(id)) {

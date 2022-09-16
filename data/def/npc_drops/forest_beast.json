@@ -1,0 +1,76 @@
+{
+  "npcIds": [
+    13394
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        100000,
+        125000,
+        150000,
+        175000,
+        200000,
+        250000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Beast Torso",
+      "id": 912,
+      "count": [
+        1
+      ],
+      "chance": 375
+    },
+    {
+      "name": "Beast Gloves",
+      "id": 913,
+      "count": [
+        1
+      ],
+      "chance": 250
+    },
+    {
+      "name": "Beast Helmet",
+      "id": 914,
+      "count": [
+        1
+      ],
+      "chance": 300
+    },
+    {
+      "name": "Beast Legs",
+      "id": 915,
+      "count": [
+        1
+      ],
+      "chance": 350
+    },
+    {
+      "name": "Beast Boots",
+      "id": 916,
+      "count": [
+        1
+      ],
+      "chance": 200
+    },
+    {
+      "name": "Beast Blade",
+      "id": 917,
+      "count": [
+        1
+      ],
+      "chance": 400
+    },
+    {
+      "name": "Dragon Bones",
+      "id": 536,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}

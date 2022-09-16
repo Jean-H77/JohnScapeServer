@@ -344,6 +344,15 @@ public class PacketSender {
 		return this;
 	}
 
+	public PacketSender sendNpcModel(int id, int interfaceId, int zoom) {
+		PacketBuilder out = new PacketBuilder(76);
+		out.putShort(id, ValueType.A, ByteOrder.LITTLE);
+		out.putShort(interfaceId, ValueType.A, ByteOrder.LITTLE);
+		out.putShort(zoom, ValueType.A, ByteOrder.LITTLE);
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
 	public PacketSender sendEnterAmountPrompt(String title) {
 		PacketBuilder out = new PacketBuilder(27, PacketType.BYTE);
 		out.putString(title);

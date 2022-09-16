@@ -29,6 +29,7 @@ import com.ruse.world.content.*;
 import com.ruse.world.content.DropLog.DropLogEntry;
 import com.ruse.world.content.KillsTracker.KillsEntry;
 import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
+import com.ruse.world.content.teleports.TeleportMenuManager;
 import com.ruse.world.content.trading_post.PlayerShopManager;
 import com.ruse.world.content.Quest.QuestManager;
 import com.ruse.world.content.TeleportInterface.TeleportInterfaceData;
@@ -234,6 +235,9 @@ public class Player extends CharacterEntity {
 	public int getSize() {
 		return 1;
 	}
+
+	@Getter
+	private final TeleportMenuManager teleportMenuManager = new TeleportMenuManager(this);
 
 	@Override
 	public void poisonVictim(CharacterEntity victim, CombatType type) {
