@@ -1,0 +1,75 @@
+{
+  "npcIds": [
+    13400
+  ],
+  "drops": [
+    {
+      "name": "Coins",
+      "id": 995,
+      "count": [
+        250000,
+        270000,
+        280000,
+        290000,
+        320000
+      ],
+      "chance": 2
+    },
+    {
+      "name": "Engineer Torso",
+      "id": 920,
+      "count": [
+        1
+      ],
+      "chance": 500
+    },
+    {
+      "name": "Engineer Boots",
+      "id": 921,
+      "count": [
+        1
+      ],
+      "chance": 375
+    },
+    {
+      "name": "Engineer Gloves",
+      "id": 922,
+      "count": [
+        1
+      ],
+      "chance": 375
+    },
+    {
+      "name": "Engineer Helmet",
+      "id": 923,
+      "count": [
+        1
+      ],
+      "chance": 415
+    },
+    {
+      "name": "Engineer Legs",
+      "id": 924,
+      "count": [
+        1
+      ],
+      "chance": 500
+    },
+    {
+      "name": "Minigun",
+      "id": 919,
+      "count": [
+        1
+      ],
+      "chance": 650
+    },
+    {
+      "name": "Big Bones",
+      "id": 532,
+      "count": [
+        1
+      ],
+      "chance": 0
+    }
+  ]
+}
