@@ -640,6 +640,19 @@ public class PacketSender {
 		return this;
 	}
 
+	public PacketSender sendItemContainer(int[] itemIds, int interfaceId) {
+		if(itemIds==null) return this;
+		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
+		out.putShort(interfaceId);
+		out.putShort(itemIds.length);
+		for (int itemId : itemIds) {
+			out.put(1);
+			out.putShort(itemId + 1, ValueType.A, ByteOrder.LITTLE);
+		}
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
 	public PacketSender sendItemOnInterface(int frame, int item, int slot, int amount) {
 		PacketBuilder out = new PacketBuilder(34, PacketType.SHORT);
 		out.putShort(frame);

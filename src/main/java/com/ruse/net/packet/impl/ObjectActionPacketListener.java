@@ -5,19 +5,8 @@ import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.engine.task.impl.WalkToTask;
 import com.ruse.engine.task.impl.WalkToTask.FinalizedMovementTask;
-import com.ruse.model.Animation;
-import com.ruse.model.Direction;
-import com.ruse.model.DwarfCannon;
-import com.ruse.model.Flag;
-import com.ruse.model.GameObject;
-import com.ruse.model.Graphic;
-import com.ruse.model.GraphicHeight;
+import com.ruse.model.*;
 import com.ruse.model.Locations.Location;
-import com.ruse.model.MagicSpellbook;
-import com.ruse.model.PlayerRights;
-import com.ruse.model.Position;
-import com.ruse.model.Prayerbook;
-import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.GameObjectDefinition;
 import com.ruse.model.input.impl.DonateToWell;
@@ -520,6 +509,9 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("The portal does not seem to be functioning properly.");
 					}
 					break;
+					case 20040:
+						player.getUpgradeManager().openInterface();
+						break;
 				case 45803:
 				case 1767:
 					DialogueManager.start(player, 114);

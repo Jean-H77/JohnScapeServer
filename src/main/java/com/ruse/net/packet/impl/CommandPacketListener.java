@@ -178,8 +178,15 @@ public class CommandPacketListener implements PacketListener {
 			player.forceChat("Hey, everyone, I just tried to do something very silly!");
 		}
 
-		if (wholeCommand.equalsIgnoreCase("tel")) {
-			player.getTeleportMenuManager().showInterface();
+		if (wholeCommand.equalsIgnoreCase("lo")) {
+			player.getCollectionLogManager().handleBossDrop(351, new Item(20859, 1));
+			player.getCollectionLogManager().handleBossDrop(351, new Item(16048, 1));
+			player.getCollectionLogManager().handleBossDrop(351, new Item(15126, 1));
+			player.getCollectionLogManager().handleBossDrop(351, new Item(16049, 1));
+			player.getCollectionLogManager().handleBossDrop(351, new Item(16050, 1));
+			player.getCollectionLogManager().handleBossDrop(351, new Item(16051, 1));
+			player.getCollectionLogManager().handleBossDrop(351, new Item(16052, 1));
+
 		}
 
 		if (command[0].equalsIgnoreCase("time") || command[0].equalsIgnoreCase("date") || command[0].equalsIgnoreCase("clock")) {

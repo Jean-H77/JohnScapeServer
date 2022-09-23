@@ -1,12 +1,18 @@
 package com.ruse.world.content.teleports;
 
 import com.ruse.model.definitions.NPCDrops;
+import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.model.definitions.NpcDropItem;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
+import com.ruse.world.content.collection_log.CollectionLogTab;
+import com.ruse.world.content.collection_log.Log;
 import com.ruse.world.content.transportation.TeleportHandler;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class TeleportMenuManager {
@@ -17,6 +23,7 @@ public class TeleportMenuManager {
     private TeleportMenuItemChild selectedItem;
     private TeleportMenuItemParent selectedParent;
     private TeleportType currentType;
+    private TeleportOptions teleportOptions;
 
     public void showInterface() {
         player.getPacketSender().sendConfig(389, 0);
@@ -26,6 +33,7 @@ public class TeleportMenuManager {
     }
 
     public void reset() {
+        teleportOptions = null;
         currentType = TeleportType.AREAS;
         selectedItem = ((TeleportMenuItemParent) TeleportData.TELEPORTS[currentType.getIndex()][0]).getChildren()[0];
         selectedParent = ((TeleportMenuItemParent) TeleportData.TELEPORTS[currentType.getIndex()][0]);
@@ -51,6 +59,10 @@ public class TeleportMenuManager {
     }
 
     public void sendTeleportData() {
+        if(teleportOptions != null) {
+            player.getPacketSender().sendInterface(49550);
+            teleportOptions = null;
+        }
         player.getPacketSender().sendNpcHeadOnInterface(selectedItem.getNpcId(), 49619);
         player.getPacketSender().sendSpriteChange(49619, selectedItem.getCombatStyleType().getSpriteId());
         player.getPacketSender().sendString(49566, selectedItem.getTeleportName());
@@ -69,9 +81,16 @@ public class TeleportMenuManager {
         if(handleButtonClickTabChange(btnId)) return true;
         if(handleParentClick(btnId)) return true;
         if(handleChildButtonClick(btnId)) return true;
+        if(teleportOptions != null && teleportOptions.handleButtonClick(btnId)) return true;
 
         if(btnId == -15915 && player.getInterfaceId() == INTERFACE_ID && selectedItem != null) {
-            TeleportHandler.teleportPlayer(player, selectedItem.getTeleportPosition(), com.ruse.world.content.transportation.TeleportType.TELE_TAB);
+            Optional<Log> optionalLog = CollectionLogTab.getLogByName(NpcDefinition.forId(selectedItem.getNpcId()).getName());
+            if(optionalLog.isPresent()) {
+                teleportOptions = new TeleportOptions(selectedItem, optionalLog.get(), player);
+                teleportOptions.showInterface();
+            } else {
+                TeleportHandler.teleportPlayer(player, selectedItem.getTeleportPosition(), com.ruse.world.content.transportation.TeleportType.TELE_TAB);
+            }
             return true;
         }
         return false;
@@ -138,5 +157,35 @@ public class TeleportMenuManager {
         }
 
         return false;
+    }
+
+    @RequiredArgsConstructor
+    @Getter
+    static class TeleportOptions {
+        private final TeleportMenuItemChild selectedItem;
+        private final Log log;
+        private final Player p;
+
+        public void showInterface() {
+            p.getPacketSender().sendChatboxInterface(50000);
+        }
+
+        public boolean handleButtonClick(int btnId) {
+            if(btnId == -15535) {
+                TeleportHandler.teleportPlayer(p, selectedItem.getTeleportPosition(), com.ruse.world.content.transportation.TeleportType.TELE_TAB);
+                return true;
+            } else if(btnId == -15534) {
+                p.getCollectionLogManager().displayMainInterface();
+                p.getCollectionLogManager().showLog(log);
+                return true;
+            } else if(btnId == -15533) {
+                p.getPacketSender().sendInterface(49550);
+                return true;
+            } else if(btnId == -15529) {
+                p.getPacketSender().sendInterfaceRemoval();
+                return true;
+            }
+            return false;
+        }
     }
 }

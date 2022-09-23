@@ -21,6 +21,9 @@ import com.ruse.GameSettings;
 import com.ruse.model.BonusValue;
 import com.ruse.model.SkillLevel;
 import com.ruse.model.container.impl.Equipment;
+import com.ruse.world.content.collection_log.CollectionLogTab;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.java.Log;
 
 /**
@@ -66,10 +69,17 @@ public class ItemDefinition {
 		try (BufferedReader reader = new BufferedReader(new FileReader(ITEM_DEFINITION_FILE))) {
 			ItemDefinition[] read = new Gson().fromJson(reader.lines().collect(Collectors.joining()), ItemDefinition[].class);
 			Arrays.stream(read).forEach(definition -> {
-				for (BonusValue bonus : definition.getBonuses())
+				for (BonusValue bonus : definition.getBonuses()) {
 					Preconditions.checkState(bonus.getBonus() != null, definition.getBonuses().toString());
-				for (SkillLevel level : definition.getRequirements())
+				}
+				for (SkillLevel level : definition.getRequirements()) {
 					Preconditions.checkState(level.getSkill() != null, definition.getRequirements().toString());
+				}
+
+				if(Arrays.stream(CollectionLogTab.values()).anyMatch(collectionLogTab -> Arrays.stream(collectionLogTab.getLogs()).anyMatch(log1 -> Arrays.stream(log1.getRequiredItemIds()).anyMatch(it -> it == definition.id)))) {
+					definition.isCollectionLogItem = true;
+				}
+
 				definitions.put(definition.id, definition);
 			});
 
@@ -228,6 +238,10 @@ public class ItemDefinition {
 	 * The requirements.
 	 */
 	private List<SkillLevel> requirements = null;
+
+	@Getter
+	@Setter
+	private boolean isCollectionLogItem;
 
 	/**
 	 * Create new ItemDefinition.

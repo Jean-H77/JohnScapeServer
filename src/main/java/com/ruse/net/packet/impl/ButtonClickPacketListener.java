@@ -997,6 +997,12 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getTeleportMenuManager().handleButtonClick(id)) {
 			return true;
 		}
+		if(player.getCollectionLogManager().handleButtonClick(id)) {
+			return true;
+		}
+		if(player.getUpgradeManager().handleButtonClick(id)) {
+			return true;
+		}
 	//	if(player.getDungeonViewer().handleButton(id)) {
 		//	return true;
 	//	}

@@ -180,6 +180,9 @@ public class NpcItemDropping {
                 return;
             }
         }
+
+        player.getCollectionLogManager().handleBossDrop(npc.getId(), item);
+
         int itemId = item.getId();
         int amount = item.getAmount();
 

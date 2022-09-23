@@ -29,6 +29,7 @@ import com.ruse.world.content.*;
 import com.ruse.world.content.DropLog.DropLogEntry;
 import com.ruse.world.content.KillsTracker.KillsEntry;
 import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
+import com.ruse.world.content.collection_log.CollectionLogManager;
 import com.ruse.world.content.teleports.TeleportMenuManager;
 import com.ruse.world.content.trading_post.PlayerShopManager;
 import com.ruse.world.content.Quest.QuestManager;
@@ -64,6 +65,7 @@ import com.ruse.world.content.skill.slayer.Slayer;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.turn_in_tasks.TurnInManager;
+import com.ruse.world.content.upgrader.UpgradeMachineManager;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -288,6 +290,9 @@ public class Player extends CharacterEntity {
 	@Getter
 	private final GamblingManager gamblingManager = new GamblingManager();
 
+	@Getter
+	private final UpgradeMachineManager upgradeManager = new UpgradeMachineManager(this);
+
 	private int amountGambled;
 
 	public int getAmountGambled() {
@@ -301,6 +306,9 @@ public class Player extends CharacterEntity {
 	public void process() {
 		process.sequence();
 	}
+
+	@Getter
+	public final CollectionLogManager collectionLogManager = new CollectionLogManager(this);
 
 	public void dispose() {
 		//save();
