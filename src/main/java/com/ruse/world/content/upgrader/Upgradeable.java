@@ -16,6 +16,7 @@ public enum Upgradeable {
     S_1(52325, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
     S_2(55736, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
     S_3(55741, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
+    S_4(905, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
     JUSTICIAR_HEAD_GUARD(52326, new Item[]{ new Item(1422, 1), new Item(995, 275_000_000) }, 100, Category.ARMOUR),
     JUSTICIAR_CHEST_GUARD(52327, new Item[]{ new Item(1422, 1), new Item(995, 275_000_000) }, 100, Category.ARMOUR),
     JUSTICIAR_LEGS_GUARD(52328, new Item[]{ new Item(1422, 1), new Item(995, 275_000_000) }, 100, Category.ARMOUR),

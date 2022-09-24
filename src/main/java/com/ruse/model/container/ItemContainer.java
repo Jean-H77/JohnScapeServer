@@ -300,6 +300,17 @@ public abstract class ItemContainer {
 		return -1;
 	}
 
+	public boolean containsWithAmount(Item[] items) {
+		if(items == null) return false;
+		if(items.length == 0) return false;
+		for(int i = 0; i < items.length; i++) {
+			if(getAmount(items[i].getId()) < items[i].getAmount()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public int getSlot(Item item) {
 		for (int i = 0; i < capacity(); i++) {
 			if (items[i].getId() > 0 && items[i].getId() == item.getId() && items[i].getAmount() > 0 && !items[i].getAttributes().hasAttributes()) {

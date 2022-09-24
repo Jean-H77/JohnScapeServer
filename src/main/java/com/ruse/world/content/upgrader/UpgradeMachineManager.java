@@ -1,13 +1,16 @@
 package com.ruse.world.content.upgrader;
 
 import com.google.common.collect.ImmutableList;
+import com.ruse.model.Item;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 
 @RequiredArgsConstructor
@@ -15,7 +18,6 @@ public class UpgradeMachineManager {
 
     private static final int INTERFACE_ID = 50010;
     private static final int SHOWN_ITEM_CONTAINER_ID = 50153;
-    private static final int UPGRADEABLES_ITEM_CONTAINER_ID = 50152;
     private static final int REQUIRED_ITEMS_ITEM_CONTAINER_ID = 50155;
     private static final int ITEM_NAME_STRING_ID = 50038;
     private static final int TOTAL_ATTEMPTS_STRING_ID = 50039;
@@ -27,9 +29,11 @@ public class UpgradeMachineManager {
     private static final int MISCELLANEOUS_CATEGORY_BUTTON_ID = -15379;
 
     private final Player p;
-    private final HashMap<Integer, UpgradeEntry> upgradeAttempts = new HashMap<>();
+    private final HashMap<Integer, UpgradeInfo> upgradeAttempts = new HashMap<>();
+    private final SecureRandom secureRandom = new SecureRandom();
     private Upgradeable.Category selectedCategory;
     private Upgradeable selectedItem;
+    private long lastUpgradeAttemptMilli;
 
     public void openInterface() {
         reset();
@@ -60,7 +64,7 @@ public class UpgradeMachineManager {
     }
 
     public void sendSelectedItemData() {
-        UpgradeEntry upgradeEntry = upgradeAttempts.get(selectedItem.getUpgradedItemID());
+        UpgradeInfo upgradeEntry = upgradeAttempts.get(selectedItem.getUpgradedItemID());
 
         p.getPacketSender().sendString(ITEM_NAME_STRING_ID, ItemDefinition.forId(selectedItem.getUpgradedItemID()).getName())
                 .sendString(TOTAL_ATTEMPTS_STRING_ID, "Total Attempts: " + ((upgradeEntry == null) ? "0" : upgradeEntry.attempts))
@@ -83,6 +87,9 @@ public class UpgradeMachineManager {
             case MISCELLANEOUS_CATEGORY_BUTTON_ID:
                 switchCategory(Upgradeable.Category.MISCELLANEOUS);
                 return true;
+            case UPGRADE_BUTTON_ID:
+                attemptUpgrade();
+                return true;
         }
 
         if(ID >= -15484 && ID <= -15385) {
@@ -97,6 +104,33 @@ public class UpgradeMachineManager {
             }
         }
         return false;
+    }
+
+    public void attemptUpgrade() {
+        if(System.currentTimeMillis() > lastUpgradeAttemptMilli + 1000) {
+            if (p.getInventory().isFull()) {
+                p.getPacketSender().sendMessage("@red@You need at least 1 inventory space to attempt this upgrade.");
+                return;
+            }
+            Item[] items = selectedItem.getRequiredItems();
+            if (p.getInventory().containsWithAmount(items)) {
+                lastUpgradeAttemptMilli = System.currentTimeMillis();
+                p.getInventory().deleteItemSet(items);
+                boolean hasWon = secureRandom.nextInt(100 - selectedItem.getSuccessChance() + 1) == 0;
+                int itemID = selectedItem.getUpgradedItemID();
+                UpgradeInfo upgradeEntry = upgradeAttempts.computeIfAbsent(itemID, x -> new UpgradeInfo());
+                if (hasWon) {
+                    p.getInventory().add(itemID, 1);
+                    upgradeEntry.successfulUpgrades++;
+                }
+                upgradeEntry.attempts++;
+                p.getPacketSender().sendString(TOTAL_ATTEMPTS_STRING_ID, "Total Attempts: " + upgradeEntry.attempts);
+            } else {
+                p.getPacketSender().sendMessage("@red@You are missing the required items for this upgrade.");
+            }
+        } else {
+            p.getPacketSender().sendMessage("@red@Please wait...");
+        }
     }
 
     public void switchCategory(Upgradeable.Category category) {
@@ -115,9 +149,10 @@ public class UpgradeMachineManager {
         }
     }
 
-    @Data
-    static class UpgradeEntry {
-        private final int attempts;
-        private final int successfulUpgrades;
+    @Getter
+    @Setter
+    static class UpgradeInfo {
+        private int attempts;
+        private int successfulUpgrades;
     }
 }
