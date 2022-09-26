@@ -249,6 +249,9 @@ public class Player extends CharacterEntity {
 			CombatFactory.poisonEntity(victim, CombatPoisonData.getPoisonType(equipment.get(Equipment.AMMUNITION_SLOT)));
 		}
 	}
+	@Getter
+	private final BuffTimers buffTimers = new BuffTimers(this);
+
 	public CombatStrategy getStrategy(int npc){
 		return CombatStrategies.getStrategy(npc);
 	}

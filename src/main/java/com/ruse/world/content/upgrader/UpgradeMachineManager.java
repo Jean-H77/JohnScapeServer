@@ -27,6 +27,7 @@ public class UpgradeMachineManager {
     private static final int ARMOUR_CATEGORY_BUTTON_ID = -15514;
     private static final int JEWELRY_CATEGORY_BUTTON_ID = -15380;
     private static final int MISCELLANEOUS_CATEGORY_BUTTON_ID = -15379;
+    private static final int ONE_SECOND_IN_MILLI = 1000;
 
     private final Player p;
     private final HashMap<Integer, UpgradeInfo> upgradeAttempts = new HashMap<>();
@@ -107,7 +108,7 @@ public class UpgradeMachineManager {
     }
 
     public void attemptUpgrade() {
-        if(System.currentTimeMillis() > lastUpgradeAttemptMilli + 1000) {
+        if(System.currentTimeMillis() > lastUpgradeAttemptMilli + ONE_SECOND_IN_MILLI) {
             if (p.getInventory().isFull()) {
                 p.getPacketSender().sendMessage("@red@You need at least 1 inventory space to attempt this upgrade.");
                 return;

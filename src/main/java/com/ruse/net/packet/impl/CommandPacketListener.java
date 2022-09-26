@@ -178,6 +178,20 @@ public class CommandPacketListener implements PacketListener {
 			player.forceChat("Hey, everyone, I just tried to do something very silly!");
 		}
 
+		if (wholeCommand.equalsIgnoreCase("b")) {
+			player.getBuffTimers().sendOverlay(1416, 75);
+			player.getBuffTimers().sendOverlay(1416, 65);
+			player.getBuffTimers().sendOverlay(1416, 12);
+			player.getBuffTimers().sendOverlay(1416, 1131);
+			player.getBuffTimers().sendOverlay(1416, 123);
+			player.getBuffTimers().sendOverlay(1416, 34);
+		}
+
+		if (wholeCommand.equalsIgnoreCase("z")) {
+
+			player.getZombiesMemberManager().openInterface();
+		}
+
 		if (wholeCommand.equalsIgnoreCase("lo")) {
 			player.getCollectionLogManager().handleBossDrop(351, new Item(20859, 1));
 			player.getCollectionLogManager().handleBossDrop(351, new Item(16048, 1));

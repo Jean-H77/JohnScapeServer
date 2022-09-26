@@ -57,10 +57,9 @@ public class TeleportData {
                     /*
                      * MINI-GAMES
                     */
-                    new TeleportMenuItemParent("Ancient Hideout", TeleportType.MINI_GAMES,
+                    new TeleportMenuItemParent("Zombies", TeleportType.MINI_GAMES,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Ancient Skeleton", new Position(3047, 2888),  13397, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Ancient Scorpion", new Position(3017, 2924),  13399, TeleportMenuItemChild.CombatStyleType.MIXED)
+                                    new TeleportMenuItemChild("Ancient Skeleton", new Position(2503, 3743),  13397, TeleportMenuItemChild.CombatStyleType.MIXED)
                             }
                     )
             },

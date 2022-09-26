@@ -312,7 +312,7 @@ public class PacketSender {
 		return this;
 	}
 
-	public PacketSender sendProgressBar(short percent, short maxPercentage, int child) {
+	public PacketSender sendProgressBar(int percent, int maxPercentage, int child) {
 		PacketBuilder out = new PacketBuilder(149);
 		out.putShort(percent);
 		out.putShort(maxPercentage);
