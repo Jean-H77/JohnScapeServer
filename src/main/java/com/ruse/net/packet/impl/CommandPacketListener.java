@@ -188,8 +188,7 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (wholeCommand.equalsIgnoreCase("z")) {
-
-			player.getZombiesMemberManager().openInterface();
+			player.getZombiesManger().openInterface();
 		}
 
 		if (wholeCommand.equalsIgnoreCase("lo")) {

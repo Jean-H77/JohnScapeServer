@@ -25,7 +25,10 @@ public final class LoginResponses {
 		} 
 		if(player.getUsername().startsWith(" ")) {
 			return USERNAME_STARTS_WITH_SPACE;
-		} 
+		}
+		if(player.getUsername().endsWith(" ")) {
+			return USERNAME_ENDS_WITH_SPACE;
+		}
 		if(msg.getClientVersion() != GameSettings.GAME_VERSION || msg.getUid() != GameSettings.GAME_UID) {
 			DiscordMessager.sendDebugMessage("Client connecting with V "+msg.getClientVersion() +", UID "+msg.getUid()+" from "+msg.getHost()+" to account "+msg.getUsername()+"\nServer Version is "+GameSettings.GAME_VERSION+", Server UID is "+GameSettings.GAME_UID);
 			return OLD_CLIENT_VERSION;
@@ -206,7 +209,12 @@ public final class LoginResponses {
 	 * This login opcode is used when a player's username is started with a space
 	 */
 	public static final int USERNAME_STARTS_WITH_SPACE = 31;
-	
+
+	/**
+	 * This login opcode is used when a player's username is ended with a space
+	 */
+	public static final int USERNAME_ENDS_WITH_SPACE = 31;
+
 	/**
 	 * 
 	 * The new connection login request

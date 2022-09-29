@@ -1,5 +1,6 @@
 package com.ruse.world.content.zombies;
 
+import com.ruse.model.entity.character.player.Player;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ZombiesParty {
-    private final List<ZombiesParticipant> player = new ArrayList<>();
+    private final List<Player> player = new ArrayList<>();
     private int wave;
     private long elapsedTime;
     private int totalKills;

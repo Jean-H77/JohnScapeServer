@@ -66,6 +66,7 @@ import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.turn_in_tasks.TurnInManager;
 import com.ruse.world.content.upgrader.UpgradeMachineManager;
+import com.ruse.world.content.zombies.ZombiesManager;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -240,6 +241,9 @@ public class Player extends CharacterEntity {
 
 	@Getter
 	private final TeleportMenuManager teleportMenuManager = new TeleportMenuManager(this);
+
+	@Getter
+	private final ZombiesManager zombiesManger = new ZombiesManager(this);
 
 	@Override
 	public void poisonVictim(CharacterEntity victim, CombatType type) {
