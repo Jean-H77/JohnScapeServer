@@ -75,7 +75,6 @@ public  class PlayerSaving {
 			object.addProperty("dung-tokens", (player.getPointsHandler().getDungeoneeringTokens()));
 			object.addProperty("commendations", (player.getPointsHandler().getCommendations()));
 			object.addProperty("loyalty-points", (player.getPointsHandler().getLoyaltyPoints()));
-			object.addProperty("total-loyalty-points", (player.getAchievementAttributes().getTotalLoyaltyPointsEarned()));
 			object.addProperty("voting-points", (player.getPointsHandler().getVotingPoints()));
 			object.addProperty("slayer-points", (player.getPointsHandler().getSlayerPoints()));
 			object.addProperty("pk-points", (player.getPointsHandler().getPkPoints()));
@@ -118,7 +117,6 @@ public  class PlayerSaving {
 			object.addProperty("autocast", (player.isAutocast()));
 			object.addProperty("autocast-spell", player.getAutocastSpell() != null ? player.getAutocastSpell().spellId() : -1);
 			object.addProperty("dfs-charges", player.getDfsCharges());
-			object.addProperty("coins-gambled", (player.getAchievementAttributes().getCoinsGambled()));
 			object.addProperty("slayer-master", player.getSlayer().getSlayerMaster().name());
 			object.addProperty("slayer-task", player.getSlayer().getSlayerTask().name());
 			object.addProperty("prev-slayer-task", player.getSlayer().getLastTask().name());
@@ -131,7 +129,6 @@ public  class PlayerSaving {
 			object.add("brawlers-deg", builder.toJsonTree(player.getBrawlerChargers()));
 			object.add("ancient-deg", builder.toJsonTree(player.getAncientArmourCharges()));
 			object.add("killed-players", builder.toJsonTree(player.getPlayerKillingAttributes().getKilledPlayers()));
-			object.add("killed-gods", builder.toJsonTree(player.getAchievementAttributes().getGodsKilled()));
 			object.add("barrows-brother", builder.toJsonTree(player.getMinigameAttributes().getBarrowsMinigameAttributes().getBarrowsData()));
 			object.addProperty("random-coffin", (player.getMinigameAttributes().getBarrowsMinigameAttributes().getRandomCoffin()));
 			object.addProperty("barrows-killcount", (player.getMinigameAttributes().getBarrowsMinigameAttributes().getKillcount()));
@@ -175,9 +172,7 @@ public  class PlayerSaving {
 			object.add("loyalty-titles", builder.toJsonTree(player.getUnlockedLoyaltyTitles()));
 			object.add("kills", builder.toJsonTree(player.getKillsTracker().toArray()));
 			object.add("drops", builder.toJsonTree(player.getDropLog().toArray()));
-			object.add("achievements-completion", builder.toJsonTree(player.getAchievementAttributes().getCompletion()));
-			object.add("achievements-progress", builder.toJsonTree(player.getAchievementAttributes().getProgress()));
-			object.addProperty("fri13may16", (player.didFriday13May2016())); //player.didfri13may16
+			object.addProperty("fri13may16", (player.didFriday13May2016()));
 			object.addProperty("spiritdebug", (player.isSpiritDebug()));
 			object.addProperty("reffered", (player.gotReffered()));
 			object.addProperty("indung", (player.isInDung()));

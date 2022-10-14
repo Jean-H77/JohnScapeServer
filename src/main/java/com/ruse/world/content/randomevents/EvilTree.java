@@ -1,12 +1,10 @@
 package com.ruse.world.content.randomevents;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.model.Animation;
@@ -17,8 +15,6 @@ import com.ruse.model.Skill;
 import com.ruse.util.Misc;
 import com.ruse.util.Stopwatch;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.Sounds;
@@ -30,7 +26,6 @@ import com.ruse.world.content.skill.woodcutting.WoodcuttingData.Hatchet;
 import com.ruse.world.content.skill.woodcutting.WoodcuttingData.Trees;
 import com.ruse.model.entity.character.player.Player;
 import org.apache.commons.lang3.StringUtils;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 public final class EvilTree {
 	
@@ -94,10 +89,6 @@ public final class EvilTree {
 							//System.out.println(EvilTree.SPAWNED_TREE.getTreeObject().getPickAmount() + "increments");
 							player.getInventory().add(Item.getNoted(reward.getReward()), 1);
 							player.getPacketSender().sendMessage("You get some "+StringUtils.capitalize(reward.toString().toLowerCase())+" logs...");
-							if(reward == Trees.MAGIC) {
-								Achievements.doProgress(player, AchievementData.CUT_100_MAGIC_LOGS);
-								Achievements.doProgress(player, AchievementData.CUT_5000_MAGIC_LOGS);
-							}
 
 						}
 						Sounds.sendSound(player, Sound.WOODCUT);

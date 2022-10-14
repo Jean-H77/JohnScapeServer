@@ -2,12 +2,14 @@ package com.ruse.world.content.trading_post.buying_page;
 
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.input.EnterAmount;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class EnterAmountToBuyInput extends EnterAmount {
 
     private final BuyingPage buyingPage;
+
+    public EnterAmountToBuyInput(BuyingPage buyingPage) {
+        this.buyingPage = buyingPage;
+    }
 
     @Override
     public void handleAmount(Player player, int amount) {

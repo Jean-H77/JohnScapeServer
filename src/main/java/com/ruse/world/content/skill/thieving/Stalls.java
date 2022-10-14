@@ -2,8 +2,6 @@ package com.ruse.world.content.skill.thieving;
 
 import com.ruse.model.Animation;
 import com.ruse.model.Skill;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 public class Stalls {
@@ -64,12 +62,6 @@ public class Stalls {
 			player.getInventory().add(reward, 1);
 		}
 		player.getSkillManager().stopSkilling();
-		if(reward == 15009)
-			Achievements.finishAchievement(player, AchievementData.STEAL_A_RING);
-		else if(reward == 11998) {
-			Achievements.doProgress(player, AchievementData.STEAL_140_SCIMITARS);
-			Achievements.doProgress(player, AchievementData.STEAL_5000_SCIMITARS);
-		}
 	}
 
 }

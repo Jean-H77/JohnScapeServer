@@ -7,8 +7,6 @@ import com.ruse.model.Graphic;
 import com.ruse.model.Skill;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.input.impl.EnterAmountOfBonesToSacrifice;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 
@@ -45,12 +43,6 @@ public class BonesOnAltar {
 				if(player.getInteractingObject() != null) {
 					player.setPositionToFace(player.getInteractingObject().getPosition().copy());
 					player.getInteractingObject().performGraphic(new Graphic(624));
-				}
-				if(currentBone == BonesData.BIG_BONES)
-					Achievements.finishAchievement(player, AchievementData.BURY_A_BIG_BONE);
-				else if(currentBone == BonesData.FROSTDRAGON_BONES) {
-					Achievements.doProgress(player, AchievementData.BURY_25_FROST_DRAGON_BONES);
-					Achievements.doProgress(player, AchievementData.BURY_500_FROST_DRAGON_BONES);
 				}
 				amountSacrificed++;
 				player.getInventory().delete(boneId, 1);

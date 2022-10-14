@@ -12,8 +12,6 @@ import com.ruse.model.Position;
 import com.ruse.model.Skill;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.npc.NPCMovementCoordinator.Coordinator;
 import com.ruse.model.entity.character.player.Player;
@@ -204,12 +202,6 @@ public class PuroPuro {
 					player.getInventory().delete(11260, 1).add(implingData.impJar, 1);
 				}
 				player.getSkillManager().addExperience(Skill.HUNTER, (int) (implingData.XPReward * GameSettings.BaseImplingExpMultiplier));
-				if(implingData == ImpData.YOUNG)
-					Achievements.finishAchievement(player, AchievementData.CATCH_A_YOUNG_IMPLING);
-				else if(implingData == ImpData.KINGLY) {
-					Achievements.doProgress(player, AchievementData.CATCH_5_KINGLY_IMPLINGS);
-					Achievements.doProgress(player, AchievementData.CATCH_100_KINGLY_IMPLINGS);
-				}
 			}
 		} else
 			player.getPacketSender().sendMessage("You failed to catch the impling.");

@@ -1,16 +1,14 @@
 package com.ruse.model.definitions;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ruse.GameSettings;
 import com.ruse.util.json.JsonLoader;
-import com.ruse.world.content.collection_log.CollectionLogTab;
-import lombok.Getter;
-import lombok.Setter;
+import com.ruse.world.content.collectionlog.CollectionLogTab;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A single npc definition.
@@ -196,8 +194,6 @@ public class NpcDefinition {
 	/** This npc's slayer level required to attack. */
 	private int slayerLevel;
 
-	@Getter
-	@Setter
 	private boolean isCollectionLogNpc;
 
 	public NpcDefinition() {
@@ -603,4 +599,12 @@ public class NpcDefinition {
 	public void setSlayerLevel(int slayerLevel) {
 		this.slayerLevel = slayerLevel;
 	}
+
+    public boolean isCollectionLogNpc() {
+        return this.isCollectionLogNpc;
+    }
+
+    public void setCollectionLogNpc(boolean isCollectionLogNpc) {
+        this.isCollectionLogNpc = isCollectionLogNpc;
+    }
 }

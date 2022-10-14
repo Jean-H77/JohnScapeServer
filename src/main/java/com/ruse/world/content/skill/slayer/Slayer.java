@@ -8,8 +8,6 @@ import com.ruse.model.container.impl.Shop.ShopManager;
 import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.transportation.TeleportHandler;
@@ -133,12 +131,7 @@ public class Slayer {
 		} else {
 			player.getPacketSender().sendMessage("").sendMessage("You've completed your Slayer task! Return to a Slayer master for another one.");
 			taskStreak++;
-			Achievements.finishAchievement(player, AchievementData.COMPLETE_A_SLAYER_TASK);
-			if(slayerTask.getTaskMaster() == SlayerMaster.KURADEL) {
-				Achievements.finishAchievement(player, AchievementData.COMPLETE_A_HARD_SLAYER_TASK);
-			} else if(slayerTask.getTaskMaster() == SlayerMaster.SUMONA) {
-				Achievements.finishAchievement(player, AchievementData.COMPLETE_AN_ELITE_SLAYER_TASK);
-			}
+
 			lastTask = slayerTask;
 			slayerTask = SlayerTasks.NO_TASK;
 			amountToSlay = 0;

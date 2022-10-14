@@ -10,8 +10,6 @@ import com.ruse.model.Locations;
 import com.ruse.model.Skill;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
@@ -109,12 +107,6 @@ public class Mining {
 										}
 									}
 
-									if(o == Ores.Iron) {
-										Achievements.doProgress(player, AchievementData.MINE_SOME_IRON);
-									} else if(o == Ores.Runite) {
-										Achievements.doProgress(player, AchievementData.MINE_25_RUNITE_ORES);
-										Achievements.doProgress(player, AchievementData.MINE_2000_RUNITE_ORES);
-									}
 									if(o.getItemId() != -1) {
 										if (o == Ores.Coal && player.getSkillManager().skillCape(Skill.MINING) && Misc.getRandom(3) == 1) {
 											player.getInventory().add(o.getItemId(), 2);

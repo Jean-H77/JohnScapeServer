@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.ruse.util.FileUtils;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.dialogue.Dialogue;
 import com.ruse.world.content.dialogue.DialogueExpression;
 import com.ruse.world.content.dialogue.DialogueManager;
@@ -159,8 +158,6 @@ public class WellOfGoodwill {
 		}
 		DialogueManager.sendStatement(player, "Thank you for your donation.");
 		//Achievements.finishAchievement(player, AchievementData.FILL_WELL_OF_GOODWILL_1M);
-		Achievements.doProgress(player, AchievementData.FILL_WELL_OF_GOODWILL_50M, amount);
-		Achievements.doProgress(player, AchievementData.FILL_WELL_OF_GOODWILL_250M, amount);
 		if (getMissingAmount() <= 0) {
 			STATE = WellState.FULL;
 			START_TIMER = System.currentTimeMillis();

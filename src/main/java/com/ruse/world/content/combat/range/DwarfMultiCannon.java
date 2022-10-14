@@ -14,8 +14,6 @@ import com.ruse.model.MessageType;
 import com.ruse.model.Projectile;
 import com.ruse.model.Skill;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
@@ -88,7 +86,6 @@ public class DwarfMultiCannon {
 
 				case 1:
 					setupTicks = 5;
-					Achievements.finishAchievement(c, AchievementData.SET_UP_A_CANNON);
 					c.setSettingUpCannon(false);
 					stop();
 					break;
@@ -271,9 +268,6 @@ public class DwarfMultiCannon {
 		n.getLastCombat().reset();
 		n.performAnimation(new Animation(n.getDefinition().getDefenceAnimation()));
 		n.getCombatBuilder().addDamage(player, dmg.getDamage());
-		Achievements.doProgress(player, AchievementData.DEAL_EASY_DAMAGE_USING_RANGED, dmg.getDamage());
-		Achievements.doProgress(player, AchievementData.DEAL_MEDIUM_DAMAGE_USING_RANGED, dmg.getDamage());
-		Achievements.doProgress(player, AchievementData.DEAL_HARD_DAMAGE_USING_RANGED, dmg.getDamage());
 		player.getSkillManager().addExperience(Skill.RANGED, (int) (((dmg.getDamage() * .50))));
 		player.getSkillManager().addExperience(Skill.CONSTITUTION, (int) ((dmg.getDamage() * .30)));
 		if(!n.getCombatBuilder().isAttacking()) {
@@ -287,8 +281,6 @@ public class DwarfMultiCannon {
 		if(cannon.getCannonballs() == 5) {
 			player.getPacketSender().sendMessage(MessageType.NPC_ALERT, "Your cannon has " + cannon.getCannonballs() + " Cannonballs left.");
 		}
-		Achievements.doProgress(player, AchievementData.FIRE_500_CANNON_BALLS);
-		Achievements.doProgress(player, AchievementData.FIRE_5000_CANNON_BALLS);
 		Sounds.sendGlobalSound(player, Sound.FIRING_CANNON);
 	}
 

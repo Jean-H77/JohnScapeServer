@@ -1,0 +1,98 @@
+*******
+GENERAL:
+  - description: Complete Wanderer's minstrel
+    points: 1
+    completionAmount: 1
+  - description: Complete Wanderer's fox
+    points: 5
+    completionAmount: 1
+  - description: Complete Wanderer's fox4
+    points: 3
+    completionAmount: 1
+  - description: Complete Wanderer's fox3
+    points: 2
+    completionAmount: 1
+  - description: Complete Wanderer's fox2
+    points: 3
+    completionAmount: 1
+  - description: Complete Wanderer's fox1
+    points: 3
+    completionAmount: 4
+  - description: Complete Wanderer's fox5
+    points: 3
+    completionAmount: 2
+  - description: Complete Wanderer's fox5
+    points: 2
+    completionAmount: 2
+
+DUNGEONS_RAIDS:
+  - description: Complete ruby dungeon
+    points: 1
+    completionAmount: 1
+  - description: Complete 5x ruby dungeon
+    points: 1
+    completionAmount: 5
+  - description: Complete 10x ruby dungeon
+    points: 1
+    completionAmount: 10
+
+WORLD_EVENTS:
+  - description: test3
+    points: 1
+    completionAmount: 1
+
+COLLECTIONS:
+  - description: test3
+    points: 1
+    completionAmount: 1
+
+SKILLING:
+  - description: Mine 20 rune ore
+    points: 3
+    completionAmount: 20
+  - description: Chop 200 magic trees
+    points: 4
+    completionAmount: 200
+  - description: Mine 20 rune ore
+    points: 5
+    completionAmount: 20
+  - description: Chop 100 yew trees
+    points: 4
+    completionAmount: 100
+  - description: Chop 5 maple trees
+    points: 1
+    completionAmount: 2
+  - description: Craft 10 lava runes
+    points: 1
+    completionAmount: 10
+  - description: Craft 500 law runes
+    points: 5
+    completionAmount: 500
+
+PLAYER_VS_MONSTER:
+  - description: test3
+    points: 1
+    completionAmount: 1
+  - description: test3
+    points: 1
+    completionAmount: 1
+  - description: test3
+    points: 1
+    completionAmount: 1
+  - description: test3
+    points: 1
+    completionAmount: 1
+  - description: test3
+    points: 1
+    completionAmount: 1
+  - description: test3
+    points: 1
+    completionAmount: 1
+  - description: test3
+    points: 1
+    completionAmount: 1
+
+MINIGAMES:
+  - description: test3
+    points: 1
+    completionAmount: 1

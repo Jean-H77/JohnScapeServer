@@ -173,10 +173,6 @@ public class PlayerLoading {
 				player.getPointsHandler().setLoyaltyPoints(reader.get("loyalty-points").getAsInt(), false);
 			}
 
-			if (reader.has("total-loyalty-points")) {
-				player.getAchievementAttributes().incrementTotalLoyaltyPointsEarned(reader.get("total-loyalty-points").getAsDouble());
-			}
-
 			if(reader.has("voting-points")) {
 				player.getPointsHandler().setVotingPoints(reader.get("voting-points").getAsInt(), false);
 			}
@@ -339,10 +335,6 @@ public class PlayerLoading {
 				DropLog.submit(player, builder.fromJson(reader.get("drops").getAsJsonArray(), DropLog.DropLogEntry[].class));
 			}
 
-			if (reader.has("coins-gambled")) {
-				player.getAchievementAttributes().setCoinsGambled(reader.get("coins-gambled").getAsInt());
-			}
-
 			if (reader.has("slayer-master")) {
 				player.getSlayer().setSlayerMaster(SlayerMaster.valueOf(reader.get("slayer-master").getAsString()));
 			}
@@ -394,10 +386,6 @@ public class PlayerLoading {
 				for(String s : killed_players)
 					list.add(s);
 				player.getPlayerKillingAttributes().setKilledPlayers(list);
-			}
-
-			if (reader.has("killed-gods")) {
-				player.getAchievementAttributes().setGodsKilled(builder.fromJson(reader.get("killed-gods").getAsJsonArray(), boolean[].class));
 			}
 
 			if (reader.has("barrows-brother")) {
@@ -560,14 +548,6 @@ public class PlayerLoading {
 
 			if (reader.has("loyalty-titles")) {
 				player.setUnlockedLoyaltyTitles(builder.fromJson(reader.get("loyalty-titles").getAsJsonArray(), boolean[].class));
-			}
-
-			if (reader.has("achievements-completion")) {
-				player.getAchievementAttributes().setCompletion(builder.fromJson(reader.get("achievements-completion").getAsJsonArray(), boolean[].class));
-			}
-
-			if (reader.has("achievements-progress")) {
-				player.getAchievementAttributes().setProgress(builder.fromJson(reader.get("achievements-progress").getAsJsonArray(), int[].class));
 			}
 
 			if (reader.has("yellhexcolor")) {

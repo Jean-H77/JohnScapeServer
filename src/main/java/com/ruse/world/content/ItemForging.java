@@ -6,7 +6,6 @@ import com.ruse.model.Items;
 import com.ruse.model.Skill;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 /**
@@ -48,10 +47,6 @@ public class ItemForging {
 			p.getClickDelay().reset();
 			if (data.skillRequirement[0] != 21){
 				p.getSkillManager().addExperience(skill, 100);//data.skillRequirement[2]);
-			}
-			if(data == ItemForgeData.ARMADYL_GODSWORD || data == ItemForgeData.BANDOS_GODSWORD || data == ItemForgeData.ZAMORAK_GODSWORD || data == ItemForgeData.SARADOMIN_GODSWORD) {
-				Achievements.finishAchievement(p, AchievementData.ASSEMBLE_A_GODSWORD);
-				Achievements.doProgress(p, AchievementData.ASSEMBLE_5_GODSWORDS);
 			}
 			return;
 		} else {

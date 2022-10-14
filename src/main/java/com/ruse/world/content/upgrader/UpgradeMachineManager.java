@@ -6,14 +6,10 @@ import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
 
-@RequiredArgsConstructor
 public class UpgradeMachineManager {
 
     private static final int INTERFACE_ID = 50010;
@@ -35,6 +31,10 @@ public class UpgradeMachineManager {
     private Upgradeable.Category selectedCategory;
     private Upgradeable selectedItem;
     private long lastUpgradeAttemptMilli;
+
+    public UpgradeMachineManager(Player p) {
+        this.p = p;
+    }
 
     public void openInterface() {
         reset();
@@ -150,10 +150,24 @@ public class UpgradeMachineManager {
         }
     }
 
-    @Getter
-    @Setter
     static class UpgradeInfo {
         private int attempts;
         private int successfulUpgrades;
+
+        public int getAttempts() {
+            return this.attempts;
+        }
+
+        public int getSuccessfulUpgrades() {
+            return this.successfulUpgrades;
+        }
+
+        public void setAttempts(int attempts) {
+            this.attempts = attempts;
+        }
+
+        public void setSuccessfulUpgrades(int successfulUpgrades) {
+            this.successfulUpgrades = successfulUpgrades;
+        }
     }
 }

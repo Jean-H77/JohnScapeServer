@@ -8,8 +8,6 @@ import com.ruse.model.Skill;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.input.impl.EnterAmountOfGemsToCut;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 public class Gems {
@@ -110,11 +108,6 @@ public class Gems {
 					player.getInventory().add(data.getAmuletInt(), 1);
 				} else {
 					player.getInventory().add(data.getCutGem(), 1);
-				}
-				if(data == GEM_DATA.DIAMOND) {
-					Achievements.doProgress(player, AchievementData.CRAFT_1000_DIAMOND_GEMS);
-				} else if(data == GEM_DATA.ONYX) {
-					Achievements.finishAchievement(player, AchievementData.CUT_AN_ONYX_STONE);
 				}
 				player.getSkillManager().addExperience(Skill.CRAFTING, data.getXpReward());
 				amountCut++;

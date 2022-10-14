@@ -7,8 +7,6 @@ import com.ruse.model.DamageDealer;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.entity.character.npc.NpcItemDropping;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.KillsTracker;
 import com.ruse.world.content.KillsTracker.KillsEntry;
 import com.ruse.world.content.PlayerPanel;
@@ -100,60 +98,6 @@ public class NPCDeathTask extends Task {
 							//Achievements.doProgress(killer, AchievementData.DEFEAT_500_BOSSES);
 						}
 					}
-					
-					//Achievements.doProgress(killer, AchievementData.DEFEAT_10000_MONSTERS);
-					if(npc.getId() == 50) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_THE_KING_BLACK_DRAGON);
-					} //else if(npc.getId() == 19 || npc.getId() == 1092 || npc.getId() == 3349 || npc.getId() == 3348) {
-						//Achievements.finishAchievement(killer, AchievementData.DEFEAT_A_WHITE_KNIGHT);}
-					else if(npc.getId() == 1265) {
-						Achievements.doProgress(killer, AchievementData.ROCK);
-					}
-					else if(npc.getId() == 13479) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_A_REVENANT_DARK_BEAST);
-					} else if(npc.getId() == 3200) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_THE_CHAOS_ELEMENTAL);
-					} else if(npc.getId() == 8349) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_A_TORMENTED_DEMON);
-					} else if(npc.getId() == 2001) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_SCORPIA); // } else if(npc.getId() == 19 || npc.getId() == 1092 || npc.getId() == 3349 || npc.getId() == 3348) {
-					} else if(npc.getId() == ZulrahLogic.phase[0] || npc.getId() == ZulrahLogic.phase[1] || npc.getId() == ZulrahLogic.phase[2]) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_ZULRAH);
-					} else if(npc.getId() == 2745) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_JAD);
-					} else if(npc.getId() == 4540) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_BANDOS_AVATAR);
-					} else if(npc.getId() == 6260) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_GENERAL_GRAARDOR);
-						killer.getAchievementAttributes().setGodKilled(0, true);
-					} else if(npc.getId() == 6222) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_KREE_ARRA);
-						killer.getAchievementAttributes().setGodKilled(1, true);
-					} else if(npc.getId() == 6247) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_COMMANDER_ZILYANA);
-						killer.getAchievementAttributes().setGodKilled(2, true);
-					} else if(npc.getId() == 6203) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_KRIL_TSUTSAROTH);
-						killer.getAchievementAttributes().setGodKilled(3, true);
-					} else if(npc.getId() == 8133) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_THE_CORPOREAL_BEAST);
-					} else if(npc.getId() == 13447) {
-						Achievements.finishAchievement(killer, AchievementData.DEFEAT_NEX);
-						killer.getAchievementAttributes().setGodKilled(4, true);
-					}
-					/** ACHIEVEMENTS **/
-					switch(killer.getLastCombatType()) {
-					case MAGIC:
-						Achievements.finishAchievement(killer, AchievementData.KILL_A_MONSTER_USING_MAGIC);
-						break;
-					case MELEE:
-						Achievements.finishAchievement(killer, AchievementData.KILL_A_MONSTER_USING_MELEE);
-						break;
-					case RANGED:
-						Achievements.finishAchievement(killer, AchievementData.KILL_A_MONSTER_USING_RANGED);
-						break;
-					}
-					
 					if (npc.getId() == Wildywyrm.NPC_ID) {
 						//System.out.println("WildyWyrm.wyrmAlive = false now");
 						Wildywyrm.wyrmAlive = false;

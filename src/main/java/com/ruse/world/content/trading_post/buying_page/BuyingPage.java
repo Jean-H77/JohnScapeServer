@@ -9,13 +9,11 @@ import com.ruse.util.Misc;
 import com.ruse.world.content.dialogue.DialogueExpression;
 import com.ruse.world.content.trading_post.Listing;
 import com.ruse.world.content.trading_post.ShopUtils;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
 public class BuyingPage {
 
     public static final int INTERFACE_ID = 48811;
@@ -41,6 +39,10 @@ public class BuyingPage {
     private Listing selectedListing;
     private int amountToBuy;
     private List<Listing> displayedListings = new ArrayList<>();
+
+    public BuyingPage(Player p) {
+        this.p = p;
+    }
 
     public void showInterface() {
         p.getPacketSender().sendString(48839, "Page: " + (page + 1));
@@ -351,4 +353,143 @@ public class BuyingPage {
                 .sendChatboxInterface(49409);
     }
 
+    public Player getP() {
+        return this.p;
+    }
+
+    public int getPage() {
+        return this.page;
+    }
+
+    public String getItemSearch() {
+        return this.itemSearch;
+    }
+
+    public String getPlayerSearch() {
+        return this.playerSearch;
+    }
+
+    public long getLastRecentButtonClickedMilli() {
+        return this.lastRecentButtonClickedMilli;
+    }
+
+    public long getLastPageButtonClickedMilli() {
+        return this.lastPageButtonClickedMilli;
+    }
+
+    public long getLastRefreshButtonClickedMilli() {
+        return this.lastRefreshButtonClickedMilli;
+    }
+
+    public Listing getSelectedListing() {
+        return this.selectedListing;
+    }
+
+    public int getAmountToBuy() {
+        return this.amountToBuy;
+    }
+
+    public List<Listing> getDisplayedListings() {
+        return this.displayedListings;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public void setItemSearch(String itemSearch) {
+        this.itemSearch = itemSearch;
+    }
+
+    public void setPlayerSearch(String playerSearch) {
+        this.playerSearch = playerSearch;
+    }
+
+    public void setLastRecentButtonClickedMilli(long lastRecentButtonClickedMilli) {
+        this.lastRecentButtonClickedMilli = lastRecentButtonClickedMilli;
+    }
+
+    public void setLastPageButtonClickedMilli(long lastPageButtonClickedMilli) {
+        this.lastPageButtonClickedMilli = lastPageButtonClickedMilli;
+    }
+
+    public void setLastRefreshButtonClickedMilli(long lastRefreshButtonClickedMilli) {
+        this.lastRefreshButtonClickedMilli = lastRefreshButtonClickedMilli;
+    }
+
+    public void setSelectedListing(Listing selectedListing) {
+        this.selectedListing = selectedListing;
+    }
+
+    public void setAmountToBuy(int amountToBuy) {
+        this.amountToBuy = amountToBuy;
+    }
+
+    public void setDisplayedListings(List<Listing> displayedListings) {
+        this.displayedListings = displayedListings;
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof BuyingPage)) return false;
+        final BuyingPage other = (BuyingPage) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$p = this.getP();
+        final Object other$p = other.getP();
+        if (this$p == null ? other$p != null : !this$p.equals(other$p)) return false;
+        if (this.getPage() != other.getPage()) return false;
+        final Object this$itemSearch = this.getItemSearch();
+        final Object other$itemSearch = other.getItemSearch();
+        if (this$itemSearch == null ? other$itemSearch != null : !this$itemSearch.equals(other$itemSearch))
+            return false;
+        final Object this$playerSearch = this.getPlayerSearch();
+        final Object other$playerSearch = other.getPlayerSearch();
+        if (this$playerSearch == null ? other$playerSearch != null : !this$playerSearch.equals(other$playerSearch))
+            return false;
+        if (this.getLastRecentButtonClickedMilli() != other.getLastRecentButtonClickedMilli()) return false;
+        if (this.getLastPageButtonClickedMilli() != other.getLastPageButtonClickedMilli()) return false;
+        if (this.getLastRefreshButtonClickedMilli() != other.getLastRefreshButtonClickedMilli()) return false;
+        final Object this$selectedListing = this.getSelectedListing();
+        final Object other$selectedListing = other.getSelectedListing();
+        if (this$selectedListing == null ? other$selectedListing != null : !this$selectedListing.equals(other$selectedListing))
+            return false;
+        if (this.getAmountToBuy() != other.getAmountToBuy()) return false;
+        final Object this$displayedListings = this.getDisplayedListings();
+        final Object other$displayedListings = other.getDisplayedListings();
+        if (this$displayedListings == null ? other$displayedListings != null : !this$displayedListings.equals(other$displayedListings))
+            return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof BuyingPage;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $p = this.getP();
+        result = result * PRIME + ($p == null ? 43 : $p.hashCode());
+        result = result * PRIME + this.getPage();
+        final Object $itemSearch = this.getItemSearch();
+        result = result * PRIME + ($itemSearch == null ? 43 : $itemSearch.hashCode());
+        final Object $playerSearch = this.getPlayerSearch();
+        result = result * PRIME + ($playerSearch == null ? 43 : $playerSearch.hashCode());
+        final long $lastRecentButtonClickedMilli = this.getLastRecentButtonClickedMilli();
+        result = result * PRIME + (int) ($lastRecentButtonClickedMilli >>> 32 ^ $lastRecentButtonClickedMilli);
+        final long $lastPageButtonClickedMilli = this.getLastPageButtonClickedMilli();
+        result = result * PRIME + (int) ($lastPageButtonClickedMilli >>> 32 ^ $lastPageButtonClickedMilli);
+        final long $lastRefreshButtonClickedMilli = this.getLastRefreshButtonClickedMilli();
+        result = result * PRIME + (int) ($lastRefreshButtonClickedMilli >>> 32 ^ $lastRefreshButtonClickedMilli);
+        final Object $selectedListing = this.getSelectedListing();
+        result = result * PRIME + ($selectedListing == null ? 43 : $selectedListing.hashCode());
+        result = result * PRIME + this.getAmountToBuy();
+        final Object $displayedListings = this.getDisplayedListings();
+        result = result * PRIME + ($displayedListings == null ? 43 : $displayedListings.hashCode());
+        return result;
+    }
+
+    public String toString() {
+        return "BuyingPage(p=" + this.getP() + ", page=" + this.getPage() + ", itemSearch=" + this.getItemSearch() + ", playerSearch=" + this.getPlayerSearch() + ", lastRecentButtonClickedMilli=" + this.getLastRecentButtonClickedMilli() + ", lastPageButtonClickedMilli=" + this.getLastPageButtonClickedMilli() + ", lastRefreshButtonClickedMilli=" + this.getLastRefreshButtonClickedMilli() + ", selectedListing=" + this.getSelectedListing() + ", amountToBuy=" + this.getAmountToBuy() + ", displayedListings=" + this.getDisplayedListings() + ")";
+    }
 }

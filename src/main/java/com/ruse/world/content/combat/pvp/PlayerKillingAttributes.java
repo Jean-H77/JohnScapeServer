@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.ruse.model.Locations.Location;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.Artifacts;
 import com.ruse.world.content.LoyaltyProgramme;
 import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
@@ -77,22 +75,6 @@ public class PlayerKillingAttributes {
 			
 			/** ACHIEVEMENTS AND LOYALTY TITLES **/
 			LoyaltyProgramme.unlock(player, LoyaltyTitles.KILLER);
-			Achievements.doProgress(player, AchievementData.DEFEAT_10_PLAYERS);
-			Achievements.doProgress(player, AchievementData.DEFEAT_30_PLAYERS);
-			if(this.playerKills >= 15) {
-				LoyaltyProgramme.unlock(player, LoyaltyTitles.SLAUGHTERER);
-			} if(this.playerKills >= 50) {
-				LoyaltyProgramme.unlock(player, LoyaltyTitles.GENOCIDAL);
-			}
-			if(this.playerKillStreak >= 3) {
-				Achievements.finishAchievement(player, AchievementData.REACH_A_KILLSTREAK_OF_3);
-			}
-			if(this.playerKillStreak >= 6) {
-				Achievements.finishAchievement(player, AchievementData.REACH_A_KILLSTREAK_OF_6);
-			}
-			if(this.playerKillStreak >= 15) {
-				LoyaltyProgramme.unlock(player, LoyaltyTitles.IMMORTAL);
-			}
 		}
 	}
 

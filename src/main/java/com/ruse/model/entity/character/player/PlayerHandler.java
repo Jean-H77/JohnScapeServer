@@ -32,7 +32,6 @@ import com.ruse.net.security.ConnectionHandler;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.clip.region.RegionClipping;
-import com.ruse.world.content.Achievements;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.Lottery;
 import com.ruse.world.content.PlayerLogs;
@@ -121,7 +120,6 @@ public class PlayerHandler {
 		PrayerHandler.deactivateAll(player);
 		CurseHandler.deactivateAll(player);
 		BonusManager.sendCurseBonuses(player);
-		Achievements.updateInterface(player);
 		Barrows.updateInterface(player);
 
 		//Tasks
@@ -221,11 +219,7 @@ public class PlayerHandler {
 			World.sendMessage(MessageType.PLAYER_ALERT, ("<shad=0><col="+player.getYellHex()+">Owner "+player.getUsername()+" has just logged in."));
 		
 		//GrandExchange.onLogin(player);
-		
-		if(player.getPointsHandler().getAchievementPoints() == 0) {
-			Achievements.setPoints(player);
-		}
-		
+
 		player.getUpdateFlag().flag(Flag.APPEARANCE);
 		PlayerLogs.log(player.getUsername(), "Login. ip: "+player.getHostAddress()+", mac: "+player.getMac()+", uuid: "+player.getUUID());
 		/* if(player.getSkillManager().getCurrentLevel(Skill.CONSTITUTION) == 0){

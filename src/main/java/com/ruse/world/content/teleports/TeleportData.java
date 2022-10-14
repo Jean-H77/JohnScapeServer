@@ -45,7 +45,7 @@ public class TeleportData {
 
                     new TeleportMenuItemParent("The Inferno", TeleportType.AREAS,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Fire Monster", new Position(3226, 2847),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Monster", new Position(2868, 3234),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Pyrefiend", new Position(3226, 2847),  1634, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  40939, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Fire Titan", new Position(3284, 2847),  7355, TeleportMenuItemChild.CombatStyleType.MIXED),
@@ -59,7 +59,12 @@ public class TeleportData {
                     */
                     new TeleportMenuItemParent("Zombies", TeleportType.MINI_GAMES,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Ancient Skeleton", new Position(2503, 3743),  13397, TeleportMenuItemChild.CombatStyleType.MIXED)
+                                    new TeleportMenuItemChild("Fadli", new Position(2503, 3743),  958, TeleportMenuItemChild.CombatStyleType.MIXED)
+                            }
+                    ),
+                    new TeleportMenuItemParent("Duel Arena", TeleportType.MINI_GAMES,
+                            new TeleportMenuItemChild[]{
+                                    new TeleportMenuItemChild("Fadli", new Position(3372, 3269, 0),  958,TeleportMenuItemChild.CombatStyleType.MIXED)
                             }
                     )
             },
@@ -67,10 +72,9 @@ public class TeleportData {
                     /*
                      * RAIDS
                     */
-                    new TeleportMenuItemParent("Lost Forest", TeleportType.RAIDS,
+                    new TeleportMenuItemParent("Duel Arena", TeleportType.MINI_GAMES,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Forest Overseer", new Position(3226, 2847),  13396,TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Forest Guardian", new Position(3250, 2858),  13395, TeleportMenuItemChild.CombatStyleType.RANGE)
+                                    new TeleportMenuItemChild("Fadli", new Position(3372, 3269, 0),  958,TeleportMenuItemChild.CombatStyleType.MIXED)
                             }
                     )
             },

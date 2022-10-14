@@ -6,8 +6,6 @@ import com.ruse.model.Animation;
 import com.ruse.model.Skill;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 public class Fishing {
@@ -166,13 +164,7 @@ public class Fishing {
 					p.getInventory().add(s.getRawFish()[fishIndex], 1);
 					if(s.getRawFish()[fishIndex] == 331) {
 						//Achievements.finishAchievement(p, AchievementData.FISH_A_SALMON);
-					} else if(s.getRawFish()[fishIndex] == 15270) {
-						Achievements.doProgress(p, AchievementData.FISH_25_ROCKTAILS);
-						Achievements.doProgress(p, AchievementData.FISH_2000_ROCKTAILS);
-					}else if(s.getRawFish()[fishIndex] == 317) {
-						Achievements.doProgress(p, AchievementData.CATCH_25_SCHRIMPS);
 					}
-
 					p.getSkillManager().addExperience(Skill.FISHING, s.getXp()[fishIndex]);
 					setupFishing(p, s);
 					setEventRunning(false);

@@ -8,8 +8,6 @@ import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.movement.MovementQueue;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
@@ -91,12 +89,6 @@ public class Firemaking {
 					CustomObjects.globalFiremakingTask(new GameObject(logData.getGameObject(), player.getPosition().copy()), player, logData.getBurnTime());
 					player.getPacketSender().sendMessage("The fire catches and the logs begin to burn.");
 					stop();
-				}
-				if(logData == Logdata.logData.OAK) {
-					Achievements.doProgress(player, AchievementData.BURN_25_OAK_LOGS);
-				} else if(logData == Logdata.logData.MAGIC) {
-					Achievements.doProgress(player, AchievementData.BURN_100_MAGIC_LOGS);
-					Achievements.doProgress(player, AchievementData.BURN_2500_MAGIC_LOGS);
 				}
 				Sounds.sendSound(player, Sound.LIGHT_FIRE);
 				player.getSkillManager().addExperience(Skill.FIREMAKING, (int) (logData.getXp()));

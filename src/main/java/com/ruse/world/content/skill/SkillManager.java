@@ -14,8 +14,6 @@ import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.util.Misc;
 import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.BrawlingGloves;
 import com.ruse.world.content.PlayerLogs;
@@ -209,9 +207,7 @@ public class SkillManager {
 		 * Adds the experience to the skill's experience.
 		 */
 		this.skills.experience[skill.ordinal()] = this.skills.experience[skill.ordinal()] + experience > MAX_EXPERIENCE ? MAX_EXPERIENCE : this.skills.experience[skill.ordinal()] + experience;
-		if(this.skills.experience[skill.ordinal()] >= MAX_EXPERIENCE) {
-			Achievements.finishAchievement(player, AchievementData.REACH_MAX_EXP_IN_A_SKILL);
-		}
+
 				
 		/*
 		 * The skill's level after adding the experience.

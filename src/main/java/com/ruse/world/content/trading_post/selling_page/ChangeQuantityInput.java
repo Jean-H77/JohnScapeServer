@@ -2,12 +2,14 @@ package com.ruse.world.content.trading_post.selling_page;
 
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.input.EnterAmount;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class ChangeQuantityInput extends EnterAmount {
 
     private final SellingPage sellingPage;
+
+    public ChangeQuantityInput(SellingPage sellingPage) {
+        this.sellingPage = sellingPage;
+    }
 
     @Override
     public void handleAmount(Player player, int amount) {

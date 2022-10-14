@@ -237,6 +237,20 @@ public class PacketSender {
 		return this;
 	}
 
+	public PacketSender enableDropMenu(int interfaceId) {
+		PacketBuilder out = new PacketBuilder(22);
+		out.putShort(interfaceId);
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
+	public PacketSender disableDropMenu(int interfaceId) {
+		PacketBuilder out = new PacketBuilder(23);
+		out.putShort(interfaceId);
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
 	public PacketSender updateSpecialAttackOrb() {
 		/* spec orb is disabled.. */
 		/*

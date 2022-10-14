@@ -7,16 +7,10 @@ import com.ruse.net.packet.PacketBuilder;
 import com.ruse.util.Misc;
 import com.ruse.world.content.trading_post.buying_page.BuyingPage;
 import com.ruse.world.content.trading_post.selling_page.SellingPage;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
-@Getter
-@Setter
 public class PlayerShopManager {
 
     public static final int INTERFACE_ID = 48500;
@@ -35,6 +29,10 @@ public class PlayerShopManager {
 
     private SellingPage sellingPage;
     private BuyingPage buyingPage;
+
+    public PlayerShopManager(Player p) {
+        this.p = p;
+    }
 
     public void showInterface() {
         sellingPage = null;
@@ -231,5 +229,33 @@ public class PlayerShopManager {
             p.getPacketSender().sendMessage("@red@Your coffer is currently empty");
         }
 
+    }
+
+    public Player getP() {
+        return this.p;
+    }
+
+    public long getLastRefreshInMilli() {
+        return this.lastRefreshInMilli;
+    }
+
+    public SellingPage getSellingPage() {
+        return this.sellingPage;
+    }
+
+    public BuyingPage getBuyingPage() {
+        return this.buyingPage;
+    }
+
+    public void setLastRefreshInMilli(long lastRefreshInMilli) {
+        this.lastRefreshInMilli = lastRefreshInMilli;
+    }
+
+    public void setSellingPage(SellingPage sellingPage) {
+        this.sellingPage = sellingPage;
+    }
+
+    public void setBuyingPage(BuyingPage buyingPage) {
+        this.buyingPage = buyingPage;
     }
 }

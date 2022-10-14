@@ -5,8 +5,6 @@ import com.ruse.model.Graphic;
 import com.ruse.model.Position;
 import com.ruse.model.Skill;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.skill.runecrafting.RunecraftingData.RuneData;
 import com.ruse.world.content.skill.runecrafting.RunecraftingData.TalismanData;
 import com.ruse.world.content.transportation.TeleportHandler;
@@ -47,13 +45,6 @@ public class Runecrafting {
 			amountMade += amountToMake;
 			player.getSkillManager().addExperience(Skill.RUNECRAFTING, rune.getXP());
 		}
-		if (rune == RuneData.EARTH_RUNE){
-			Achievements.doProgress(player, AchievementData.CRAFT_100_EARTH_RUNES, amountMade);
-		}
-		if(rune == RuneData.BLOOD_RUNE) {
-			Achievements.doProgress(player, AchievementData.RUNECRAFT_500_BLOOD_RUNES, amountMade);
-			Achievements.doProgress(player, AchievementData.RUNECRAFT_8000_BLOOD_RUNES, amountMade);
-		}
 		player.performGraphic(new Graphic(129));
 		player.getSkillManager().addExperience(Skill.RUNECRAFTING, rune.getXP());
 		player.getPacketSender().sendMessage("You bind the altar's power into "+rune.getName()+ "s..");
@@ -61,7 +52,6 @@ public class Runecrafting {
 			player.getPacketSender().sendMessage("Your cape has recycled "+saved+" essence into "+amountToMake*saved+" runes.");
 			saved = 0;
 		}
-		Achievements.finishAchievement(player, AchievementData.RUNECRAFT_SOME_RUNES);
 		player.getClickDelay().reset();
 	}
 	

@@ -63,9 +63,6 @@ public class NPCOptionPacketListener implements PacketListener {
 			player.getMovementQueue().reset();
 			return;
 		}
-		if(player.getTurnInManager().talkToNpc(npc.getId())) {
-			return;
-		}
 		player.setWalkToTask(new WalkToTask(player, npc.getPosition(), npc.getSize(), new FinalizedMovementTask() {
 			@Override
 			public void execute() {

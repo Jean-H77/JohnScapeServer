@@ -1,21 +1,20 @@
 package com.ruse.world.content.clan;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.model.Locations;
 import com.ruse.model.Position;
 import com.ruse.model.RegionInstance;
+import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Stopwatch;
 import com.ruse.world.World;
-import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.combat.dungeon.Dungeon;
-import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * An instance of a clanchat channel, holding all fields.
@@ -48,7 +47,6 @@ public class ClanChat {
 	private boolean lootShare;
 	private boolean guild;
 
-	@Getter
 	private final List<Dungeon> dungeons = new ArrayList<>();
 
 	private Stopwatch lastAction = new Stopwatch();
@@ -224,4 +222,8 @@ public class ClanChat {
 		return this;
 	}
 	public static final int RANK_REQUIRED_TO_ENTER = 0, RANK_REQUIRED_TO_KICK = 1, RANK_REQUIRED_TO_TALK = 2, RANK_REQUIRED_TO_VISIT_GUILD = 3;
+
+    public List<Dungeon> getDungeons() {
+        return this.dungeons;
+    }
 }

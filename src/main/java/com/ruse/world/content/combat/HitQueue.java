@@ -13,8 +13,6 @@ import com.ruse.model.Locations.Location;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.Kraken;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.combat.strategy.impl.bosses.Nex;
@@ -137,23 +135,6 @@ public class HitQueue {
 							p.getMinigameAttributes().getPestControlAttributes().incrementDamageDealt(damage);
 						} else if(p.getLocation() == Location.DUNGEONEERING) {
 							p.getMinigameAttributes().getDungeoneeringAttributes().incrementDamageDealt(damage);
-						}
-						/** ACHIEVEMENTS **/
-						if(container.getCombatType() == CombatType.MELEE) {
-							Achievements.doProgress(p, AchievementData.DEAL_EASY_DAMAGE_USING_MELEE, damage);
-							Achievements.doProgress(p, AchievementData.DEAL_MEDIUM_DAMAGE_USING_MELEE, damage);
-							Achievements.doProgress(p, AchievementData.DEAL_HARD_DAMAGE_USING_MELEE, damage);
-						} else if(container.getCombatType() == CombatType.RANGED) {
-							Achievements.doProgress(p, AchievementData.DEAL_EASY_DAMAGE_USING_RANGED, damage);
-							Achievements.doProgress(p, AchievementData.DEAL_MEDIUM_DAMAGE_USING_RANGED, damage);
-							Achievements.doProgress(p, AchievementData.DEAL_HARD_DAMAGE_USING_RANGED, damage);
-						} else if(container.getCombatType() == CombatType.MAGIC) {
-							Achievements.doProgress(p, AchievementData.DEAL_EASY_DAMAGE_USING_MAGIC, damage);
-							Achievements.doProgress(p, AchievementData.DEAL_MEDIUM_DAMAGE_USING_MAGIC, damage);
-							Achievements.doProgress(p, AchievementData.DEAL_HARD_DAMAGE_USING_MAGIC, damage);
-						}
-						if(victim.isPlayer()) {
-							Achievements.finishAchievement(p, AchievementData.FIGHT_ANOTHER_PLAYER);
 						}
 					}
 				} else {

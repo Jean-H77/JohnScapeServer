@@ -109,7 +109,6 @@ public class Lottery {
 			p.getPacketSender().sendString(8135, ""+p.getMoneyInPouch());
 		} else
 			p.getInventory().delete(995, PRICE_TO_ENTER);
-		p.getAchievementAttributes().setCoinsGambled(p.getAchievementAttributes().getCoinsGambled() + PRICE_TO_ENTER);
 		addToLottery(p.getUsername());
 		p.getPacketSender().sendMessage("You have entered the lottery!").sendMessage("A winner is announced every Friday.");
 		DialogueManager.start(p, 18);

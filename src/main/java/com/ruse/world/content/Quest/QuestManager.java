@@ -1,15 +1,11 @@
 package com.ruse.world.content.Quest;
 
 import com.ruse.model.entity.character.player.Player;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Optional;
 
-@Getter
-@Setter
 public class QuestManager implements Serializable {
 
     transient private final Player quester;
@@ -64,5 +60,25 @@ public class QuestManager implements Serializable {
     public void completeQuest(Quest quest) {
         quest.setCompleted(true);
 
+    }
+
+    public Player getQuester() {
+        return this.quester;
+    }
+
+    public HashMap<String, Quest> getQuests() {
+        return this.quests;
+    }
+
+    public int getQuestsCompleted() {
+        return this.questsCompleted;
+    }
+
+    public QuestTabInterface getQuestInterface() {
+        return this.questInterface;
+    }
+
+    public void setQuestsCompleted(int questsCompleted) {
+        this.questsCompleted = questsCompleted;
     }
 }

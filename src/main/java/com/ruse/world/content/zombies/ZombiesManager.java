@@ -2,9 +2,7 @@ package com.ruse.world.content.zombies;
 
 import com.ruse.model.Item;
 import com.ruse.model.entity.character.player.Player;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class ZombiesManager {
     private static final int INTERFACE_ID = 51065;
     private static final int INVENTORY_ITEM_CONTAINER_ID = 51152;
@@ -52,6 +50,10 @@ public class ZombiesManager {
 
     private final ZombieAttributes zombieAttributes = new ZombieAttributes();
 
+    public ZombiesManager(Player p) {
+        this.p = p;
+    }
+
     public void openInterface() {
         if(zombieAttributes.getSelectedClass() == null) {
             zombieAttributes.setSelectedClass(zombieAttributes.getWarrior());
@@ -77,11 +79,14 @@ public class ZombiesManager {
     }
 
 
-    @RequiredArgsConstructor
     static class ZombiesClass {
         private final ZombiesClassType classType;
         private int exp;
         private int level;
+
+        public ZombiesClass(ZombiesClassType classType) {
+            this.classType = classType;
+        }
 
         public void incrementExpBy(int amount) {
             exp += amount;

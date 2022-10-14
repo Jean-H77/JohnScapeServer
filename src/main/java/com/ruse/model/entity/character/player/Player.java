@@ -23,18 +23,16 @@ import com.ruse.util.FrameUpdater;
 import com.ruse.util.Misc;
 import com.ruse.util.Stopwatch;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements.AchievementAttributes;
 import com.ruse.world.content.BankPin.BankPinAttributes;
 import com.ruse.world.content.*;
 import com.ruse.world.content.DropLog.DropLogEntry;
 import com.ruse.world.content.KillsTracker.KillsEntry;
 import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
-import com.ruse.world.content.collection_log.CollectionLogManager;
-import com.ruse.world.content.teleports.TeleportMenuManager;
-import com.ruse.world.content.trading_post.PlayerShopManager;
 import com.ruse.world.content.Quest.QuestManager;
 import com.ruse.world.content.TeleportInterface.TeleportInterfaceData;
+import com.ruse.world.content.achievementsystem.AchievementManager;
 import com.ruse.world.content.clan.ClanChat;
+import com.ruse.world.content.collectionlog.CollectionLogManager;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.CombatType;
 import com.ruse.world.content.combat.dungeon.Dungeon;
@@ -64,11 +62,10 @@ import com.ruse.world.content.skill.farming.Farming;
 import com.ruse.world.content.skill.slayer.Slayer;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
-import com.ruse.world.content.turn_in_tasks.TurnInManager;
+import com.ruse.world.content.teleports.TeleportMenuManager;
+import com.ruse.world.content.trading_post.PlayerShopManager;
 import com.ruse.world.content.upgrader.UpgradeMachineManager;
 import com.ruse.world.content.zombies.ZombiesManager;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -239,10 +236,8 @@ public class Player extends CharacterEntity {
 		return 1;
 	}
 
-	@Getter
 	private final TeleportMenuManager teleportMenuManager = new TeleportMenuManager(this);
 
-	@Getter
 	private final ZombiesManager zombiesManger = new ZombiesManager(this);
 
 	@Override
@@ -253,7 +248,6 @@ public class Player extends CharacterEntity {
 			CombatFactory.poisonEntity(victim, CombatPoisonData.getPoisonType(equipment.get(Equipment.AMMUNITION_SLOT)));
 		}
 	}
-	@Getter
 	private final BuffTimers buffTimers = new BuffTimers(this);
 
 	public CombatStrategy getStrategy(int npc){
@@ -291,13 +285,10 @@ public class Player extends CharacterEntity {
 		return CombatStrategies.getDefaultMeleeStrategy();
 	}
 
-	@Getter
 	private final DungeonViewer dungeonViewer = new DungeonViewer(this);
 
-	@Getter
 	private final GamblingManager gamblingManager = new GamblingManager();
 
-	@Getter
 	private final UpgradeMachineManager upgradeManager = new UpgradeMachineManager(this);
 
 	private int amountGambled;
@@ -314,7 +305,6 @@ public class Player extends CharacterEntity {
 		process.sequence();
 	}
 
-	@Getter
 	public final CollectionLogManager collectionLogManager = new CollectionLogManager(this);
 
 	public void dispose() {
@@ -387,7 +377,6 @@ public class Player extends CharacterEntity {
 	private Long longUsername;
 
 
-	@Getter
 	private final PlayerShopManager playerShopManager = new PlayerShopManager(this);
 
 	//Timers (Stopwatches)
@@ -424,7 +413,6 @@ public class Player extends CharacterEntity {
 	 private final MinigameAttributes minigameAttributes = new MinigameAttributes();
 	 private final BankPinAttributes bankPinAttributes = new BankPinAttributes();
 	 private final BankSearchAttributes bankSearchAttributes = new BankSearchAttributes();
-	 private final AchievementAttributes achievementAttributes = new AchievementAttributes();
 	 private CharacterAnimations characterAnimations = new CharacterAnimations();
 	 private final BonusManager bonusManager = new BonusManager();
 	 private final PointsHandler pointsHandler = new PointsHandler(this);
@@ -1396,15 +1384,10 @@ public class Player extends CharacterEntity {
 		return this;
 	}
 
-	@Getter
-	@Setter
 	private boolean isInDungeon;
 
-	@Getter
-	@Setter
 	private Dungeon currentDungeon;
 
-	@Getter
 	private final DungeonManager dungeonManager = new DungeonManager(this);
 
 	private String clanChatName;
@@ -1468,10 +1451,6 @@ public class Player extends CharacterEntity {
 		return bankSearchAttributes;
 	}
 
-	public AchievementAttributes getAchievementAttributes() {
-		return achievementAttributes;
-	}
-
 	public BankPinAttributes getBankPinAttributes() {
 		return bankPinAttributes;
 	}
@@ -1479,6 +1458,8 @@ public class Player extends CharacterEntity {
 	public int getCurrentBankTab() {
 		return currentBankTab;
 	}
+
+	private final AchievementManager achievementManger = new AchievementManager(this);
 
 	public Player setCurrentBankTab(int tab) {
 		this.currentBankTab = tab;
@@ -2463,13 +2444,8 @@ public class Player extends CharacterEntity {
 
 	}
 
-	@Getter
 	private final QuestManager questManager = new QuestManager(this);
 
-	@Getter
-	private final TurnInManager turnInManager = new TurnInManager(this);
-
-	@Getter
 	private final DropViewer dropViewer = new DropViewer(this);
 
 	public int getForgingCharges() {
@@ -2567,4 +2543,67 @@ public class Player extends CharacterEntity {
 
 	private String salt;
 
+	public TeleportMenuManager getTeleportMenuManager() {
+		return this.teleportMenuManager;
+	}
+
+	public ZombiesManager getZombiesManger() {
+		return this.zombiesManger;
+	}
+
+	public BuffTimers getBuffTimers() {
+		return this.buffTimers;
+	}
+
+	public DungeonViewer getDungeonViewer() {
+		return this.dungeonViewer;
+	}
+
+	public GamblingManager getGamblingManager() {
+		return this.gamblingManager;
+	}
+
+	public UpgradeMachineManager getUpgradeManager() {
+		return this.upgradeManager;
+	}
+
+	public CollectionLogManager getCollectionLogManager() {
+		return this.collectionLogManager;
+	}
+
+	public PlayerShopManager getPlayerShopManager() {
+		return this.playerShopManager;
+	}
+
+	public boolean isInDungeon() {
+		return this.isInDungeon;
+	}
+
+	public Dungeon getCurrentDungeon() {
+		return this.currentDungeon;
+	}
+
+	public DungeonManager getDungeonManager() {
+		return this.dungeonManager;
+	}
+
+	public AchievementManager getAchievementManger() {
+		return this.achievementManger;
+	}
+
+	public QuestManager getQuestManager() {
+		return this.questManager;
+	}
+
+	public DropViewer getDropViewer() {
+		return this.dropViewer;
+	}
+
+	public void setInDungeon(boolean isInDungeon) {
+		this.isInDungeon = isInDungeon;
+	}
+
+	public void setCurrentDungeon(Dungeon currentDungeon) {
+		this.currentDungeon = currentDungeon;
+	}
 }

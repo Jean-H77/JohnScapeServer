@@ -187,6 +187,12 @@ public class CommandPacketListener implements PacketListener {
 			player.getBuffTimers().sendOverlay(1416, 34);
 		}
 
+		if (wholeCommand.equalsIgnoreCase("e")) {
+			player.getPacketSender().enableDropMenu(51350);
+		}
+		if (wholeCommand.equalsIgnoreCase("d")) {
+			player.getPacketSender().disableDropMenu(51350);
+		}
 		if (wholeCommand.equalsIgnoreCase("z")) {
 			player.getZombiesManger().openInterface();
 		}
@@ -194,12 +200,22 @@ public class CommandPacketListener implements PacketListener {
 		if (wholeCommand.equalsIgnoreCase("lo")) {
 			player.getCollectionLogManager().handleBossDrop(351, new Item(20859, 1));
 			player.getCollectionLogManager().handleBossDrop(351, new Item(16048, 1));
-			player.getCollectionLogManager().handleBossDrop(351, new Item(15126, 1));
-			player.getCollectionLogManager().handleBossDrop(351, new Item(16049, 1));
-			player.getCollectionLogManager().handleBossDrop(351, new Item(16050, 1));
-			player.getCollectionLogManager().handleBossDrop(351, new Item(16051, 1));
-			player.getCollectionLogManager().handleBossDrop(351, new Item(16052, 1));
+		}
 
+		if (wholeCommand.equalsIgnoreCase("lot")) {
+			player.getCollectionLogManager().handleBossDrop(351, new Item(995, 1));
+		}
+
+		if (wholeCommand.equalsIgnoreCase("ap")) {
+			player.getAchievementManger().doProgress("Craft 500 law runes", 10);
+		}
+
+		if (wholeCommand.equalsIgnoreCase("lotm")) {
+			player.getCollectionLogManager().handleBossDrop(352, new Item(995, 1));
+		}
+
+		if (wholeCommand.equalsIgnoreCase("lotr")) {
+			player.getCollectionLogManager().handleBossDrop(351, new Item(995, 1));
 		}
 
 		if (command[0].equalsIgnoreCase("time") || command[0].equalsIgnoreCase("date") || command[0].equalsIgnoreCase("clock")) {
@@ -380,9 +396,6 @@ public class CommandPacketListener implements PacketListener {
 			player.getPlayerShopManager().showInterface();
 		}
 
-		if (command[0].equalsIgnoreCase("pea")) {
-			player.getPacketSender().sendChatboxInterface(49400);
-		}
 
 		if (command[0].equalsIgnoreCase("ach")) {
 			player.getPacketSender().sendMessage("Opening achievements interface...");

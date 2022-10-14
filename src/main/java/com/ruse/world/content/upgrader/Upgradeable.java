@@ -17,6 +17,7 @@ public enum Upgradeable {
     S_2(55736, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
     S_3(55741, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
     S_4(905, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
+    S_5(919, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000), new Item(4151, 2), new Item(6585, 3) }, 75, Category.WEAPONS),
     JUSTICIAR_HEAD_GUARD(52326, new Item[]{ new Item(1422, 1), new Item(995, 275_000_000) }, 100, Category.ARMOUR),
     JUSTICIAR_CHEST_GUARD(52327, new Item[]{ new Item(1422, 1), new Item(995, 275_000_000) }, 100, Category.ARMOUR),
     JUSTICIAR_LEGS_GUARD(52328, new Item[]{ new Item(1422, 1), new Item(995, 275_000_000) }, 100, Category.ARMOUR),
@@ -30,6 +31,29 @@ public enum Upgradeable {
     private final int successChance;
     private final Category category;
 
+    private Upgradeable(int upgradedItemID, Item[] requiredItems, int successChance, Category category) {
+        this.upgradedItemID = upgradedItemID;
+        this.requiredItems = requiredItems;
+        this.successChance = successChance;
+        this.category = category;
+    }
+
+    public int getUpgradedItemID() {
+        return this.upgradedItemID;
+    }
+
+    public Item[] getRequiredItems() {
+        return this.requiredItems;
+    }
+
+    public int getSuccessChance() {
+        return this.successChance;
+    }
+
+    public Category getCategory() {
+        return this.category;
+    }
+
     @RequiredArgsConstructor
     @Getter
     enum Category {
@@ -40,6 +64,14 @@ public enum Upgradeable {
         ;
 
         private final int radioButtonId;
+
+        private Category(int radioButtonId) {
+            this.radioButtonId = radioButtonId;
+        }
+
+        public int getRadioButtonId() {
+            return this.radioButtonId;
+        }
     }
 
     public static final ImmutableList<Upgradeable> ARMOUR = ImmutableList.copyOf(Arrays.stream(values()).filter(upgradeable -> upgradeable.category == Category.ARMOUR).collect(Collectors.toList()));

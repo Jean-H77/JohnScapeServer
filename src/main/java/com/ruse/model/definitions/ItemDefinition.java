@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
@@ -21,7 +22,7 @@ import com.ruse.GameSettings;
 import com.ruse.model.BonusValue;
 import com.ruse.model.SkillLevel;
 import com.ruse.model.container.impl.Equipment;
-import com.ruse.world.content.collection_log.CollectionLogTab;
+import com.ruse.world.content.collectionlog.CollectionLogTab;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -44,7 +45,8 @@ public class ItemDefinition {
 	 * The file where item actions are stored.
 	 */
 	private static final String ITEM_ACTIONS_FILE = GameSettings.DEFINITION_DIRECTORY + "item_actions.json";
-	
+	private static final Logger log = Logger.getLogger(ItemDefinition.class.getName());
+
 	/**
 	 * ItemDefinition array containing all items' definition values.
 	 */
@@ -390,6 +392,14 @@ public class ItemDefinition {
 		} else {
 			return getTemplateOrThis().requirements;
 		}
+	}
+
+	public boolean isCollectionLogItem() {
+		return this.isCollectionLogItem;
+	}
+
+	public void setCollectionLogItem(boolean isCollectionLogItem) {
+		this.isCollectionLogItem = isCollectionLogItem;
 	}
 
 	/**

@@ -8,17 +8,11 @@ import com.ruse.world.content.trading_post.HistoryItem;
 import com.ruse.world.content.trading_post.Listing;
 import com.ruse.world.content.trading_post.ShopUtils;
 import com.ruse.world.content.trading_post.buying_page.BuyingPage;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
-@RequiredArgsConstructor
-@Getter
-@Setter
 public class SellingPage {
 
     public static final int INTERFACE_ID = 48720;
@@ -34,6 +28,11 @@ public class SellingPage {
     private Item item;
     private int quantity;
     private int price;
+
+    public SellingPage(Player p, int slot) {
+        this.p = p;
+        this.slot = slot;
+    }
 
     public void clearPage() {
         clearRecentSales();
@@ -163,5 +162,33 @@ public class SellingPage {
         p.getPacketSender().sendString(48745, "Price: " + Misc.currency(price,false));
         p.getPacketSender().sendString(48746, "Quantity: " + quantity);
         p.getPacketSender().sendString(48747, "Total: " + Misc.currency(((long) quantity *price), false));
+    }
+
+    public Player getP() {
+        return this.p;
+    }
+
+    public int getSlot() {
+        return this.slot;
+    }
+
+    public Item getItem() {
+        return this.item;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

@@ -7,8 +7,6 @@ import com.ruse.model.Item;
 import com.ruse.model.Skill;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 public class Herblore {
@@ -105,7 +103,6 @@ public class Herblore {
 				player.getSkillManager().addExperience(Skill.HERBLORE, pot.getExpGained());
 				String name = ItemDefinition.forId(pot.getFinishedPotion()).getName();
 				player.getPacketSender().sendMessage("You combine the ingredients to make " + Misc.anOrA(name) + " " + name + ".");
-				Achievements.finishAchievement(player, AchievementData.MIX_A_POTION);
 				if (!player.getInventory().contains(pot.getUnfinishedPotion()) || !player.getInventory().contains(pot.getItemNeeded())) {
 					stop();
 				}
@@ -195,9 +192,5 @@ public class Herblore {
 		String name = specialPotData.getProduct().getDefinition().getName();
 		p.getPacketSender().sendMessage("You make " + Misc.anOrA(name) + " " + name + ".");
 		p.getClickDelay().reset();
-		if (specialPotData == SpecialPotion.OVERLOAD) {
-			Achievements.finishAchievement(p, AchievementData.MIX_AN_OVERLOAD_POTION);
-			Achievements.doProgress(p, AchievementData.MIX_100_OVERLOAD_POTIONS);
-		}
 	}
 }

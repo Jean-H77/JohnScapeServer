@@ -6,8 +6,6 @@ import com.ruse.model.Animation;
 import com.ruse.model.Position;
 import com.ruse.model.Skill;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.ItemDegrading;
 import com.ruse.world.content.ItemDegrading.DegradingItem;
 import com.ruse.world.content.Sounds;
@@ -64,15 +62,11 @@ public class Smelting {
 			if(barId != 2351) { //Iron bar - 50% successrate
 				player.getInventory().add(barId, 1);
 				player.getSkillManager().addExperience(Skill.SMITHING, getExperience(barId));
-				if(barId == 2363) {
-					Achievements.doProgress(player, AchievementData.SMELT_25_RUNE_BARS);
-					Achievements.doProgress(player, AchievementData.SMELT_1000_RUNE_BARS);
-				}
+
 			} else if(SmithingData.ironOreSuccess(player) || player.getEquipment().contains(2568)) { //ring of foraging
 				if (player.getEquipment().contains(2568)) {
 					ItemDegrading.handleItemDegrading(player, DegradingItem.RING_OF_FORGING);
 				}
-				Achievements.finishAchievement(player, AchievementData.SMELT_AN_IRON_BAR);
 				player.getInventory().add(barId, 1);
 				player.getSkillManager().addExperience(Skill.SMITHING, getExperience(barId));
 			} else

@@ -16,7 +16,6 @@ import com.ruse.model.input.impl.EnterFriendsHouse;
 import com.ruse.model.input.impl.SellShards;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.Artifacts;
 import com.ruse.world.content.BankPin;
 import com.ruse.world.content.CustomObjects;
@@ -366,12 +365,6 @@ public class DialogueOptions {
 					break;
 				case 78:
 					player.getPacketSender().sendInterfaceRemoval();
-					for(AchievementData d : AchievementData.values()) {
-						if(!player.getAchievementAttributes().getCompletion()[d.ordinal()]) {
-							player.getPacketSender().sendMessage("You must have completed all achievements in order to buy this cape.");
-							return;
-						}
-					}
 					boolean usePouch = player.getMoneyInPouch() >= 100000000;
 					if(!usePouch && player.getInventory().getAmount(995) < 100000000) {
 						player.getPacketSender().sendMessage("You do not have enough coins.");
@@ -516,12 +509,6 @@ public class DialogueOptions {
 					break;
 				case 78:
 					player.getPacketSender().sendInterfaceRemoval();
-					for(AchievementData d : AchievementData.values()) {
-						if (!((player.getSkillManager().getExperience(Skill.AGILITY) >= 200000000 && player.getSkillManager().getExperience(Skill.ATTACK) >= 200000000 && player.getSkillManager().getExperience(Skill.CONSTITUTION) >= 200000000 && player.getSkillManager().getExperience(Skill.COOKING) >= 200000000 && player.getSkillManager().getExperience(Skill.CRAFTING) >= 200000000 && player.getSkillManager().getExperience(Skill.DEFENCE) >= 200000000 && player.getSkillManager().getExperience(Skill.DUNGEONEERING) >= 200000000 && player.getSkillManager().getExperience(Skill.FARMING) >= 200000000 && player.getSkillManager().getExperience(Skill.FIREMAKING) >= 200000000 && player.getSkillManager().getExperience(Skill.FISHING) >= 200000000 && player.getSkillManager().getExperience(Skill.FLETCHING) >= 200000000 && player.getSkillManager().getExperience(Skill.HERBLORE) >= 200000000 && player.getSkillManager().getExperience(Skill.HUNTER) >= 200000000 && player.getSkillManager().getExperience(Skill.MAGIC) >= 200000000 && player.getSkillManager().getExperience(Skill.MINING) >= 200000000 && player.getSkillManager().getExperience(Skill.PRAYER) >= 200000000 && player.getSkillManager().getExperience(Skill.RANGED) >= 200000000 && player.getSkillManager().getExperience(Skill.RUNECRAFTING) >= 200000000 && player.getSkillManager().getExperience(Skill.SLAYER) >= 200000000 && player.getSkillManager().getExperience(Skill.SMITHING) >= 200000000 && player.getSkillManager().getExperience(Skill.STRENGTH) >= 200000000 && player.getSkillManager().getExperience(Skill.SUMMONING) >= 200000000 && player.getSkillManager().getExperience(Skill.THIEVING) >= 200000000 && player.getSkillManager().getExperience(Skill.WOODCUTTING) >= 200000000 ))){
-							player.getPacketSender().sendMessage("You must have obtained at least 200m experience in all skills to purchase this cape.");
-							return;
-						}
-					}
 					boolean usePouch = player.getMoneyInPouch() >= 200000000;
 					if(!usePouch && player.getInventory().getAmount(995) < 200000000) {
 						player.getPacketSender().sendMessage("You do not have enough coins.");

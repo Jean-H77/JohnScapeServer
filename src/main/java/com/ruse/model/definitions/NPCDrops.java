@@ -132,6 +132,7 @@ public class NPCDrops {
 		this.drops = drops;
 	}
 
+
 	@Override
 	public String toString() {
 		return "NPCDrops{" +

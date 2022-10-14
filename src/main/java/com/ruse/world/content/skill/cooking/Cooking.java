@@ -6,8 +6,6 @@ import com.ruse.model.Animation;
 import com.ruse.model.Skill;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.input.impl.EnterAmountToCook;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 public class Cooking {
@@ -48,9 +46,6 @@ public class Cooking {
 					player.getSkillManager().addExperience(Skill.COOKING, fish.getXp());
 					if(fish == CookingData.SALMON) {
 						//Achievements.finishAchievement(player, AchievementData.COOK_A_SALMON);
-					} else if(fish == CookingData.ROCKTAIL) {
-						Achievements.doProgress(player, AchievementData.COOK_25_ROCKTAILS);
-						Achievements.doProgress(player, AchievementData.COOK_1000_ROCKTAILS);
 					}
 				}
 				amountCooked++;

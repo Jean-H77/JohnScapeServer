@@ -10,8 +10,6 @@ import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.model.entity.character.player.Player;
 
 public class Plant {
@@ -139,14 +137,9 @@ public class Plant {
 						name = name.substring(0, name.length() - 1);
 					player.getPacketSender().sendMessage("You harvest " + Misc.anOrA(name) + " " + name + ".");
 					player.getSkillManager().addExperience(Skill.FARMING, (int) Plants.values()[plant].harvestExperience);
-					Achievements.finishAchievement(player, AchievementData.HARVEST_A_CROP);
 					if (harvested == 3 && player.getInventory().contains(18336) && Misc.getRandom(4) == 0) {
 						player.getPacketSender().sendMessage("You receive a seed back from your Scroll of life.");
 						player.getInventory().add(Plants.values()[plant].seed, 1);
-					}
-					if(id == 219) {
-						Achievements.doProgress(player, AchievementData.HARVEST_10_TORSTOLS);
-						Achievements.doProgress(player, AchievementData.HARVEST_1000_TORSTOLS);
 					}
 					harvested++;
 					if (harvested >= (magicSecateurs ? 6 : 3) && Misc.getRandom(magicSecateurs ? 8 : 5) <= 1) {

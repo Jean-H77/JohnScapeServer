@@ -28,6 +28,7 @@ import com.ruse.world.content.Lottery;
 import com.ruse.world.content.PlayerPunishment;
 import com.ruse.world.content.Scoreboards;
 import com.ruse.world.content.WellOfGoodwill;
+import com.ruse.world.content.achievementsystem.AchievementManager;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect.CombatPoisonData;
 import com.ruse.world.content.combat.strategy.CombatStrategies;
@@ -104,6 +105,7 @@ public final class GameLoader {
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
 		serviceLoader.execute(() -> NPC.init());
 		serviceLoader.execute(() -> ShopUtils.loadAll());
+		serviceLoader.execute(() -> AchievementManager.loadAchievements());
 	}
 
 	public GameEngine getEngine() {

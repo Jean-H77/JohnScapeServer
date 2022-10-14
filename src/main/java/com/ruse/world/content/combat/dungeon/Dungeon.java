@@ -8,8 +8,6 @@ import com.ruse.model.Position;
 import com.ruse.world.World;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.clan.ClanChat;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -18,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Getter
-@Setter
 public abstract class Dungeon {
 
     public static final List<Dungeon> ACTIVE_DUNGEONS = new ArrayList<>();
@@ -107,4 +103,47 @@ public abstract class Dungeon {
         return height;
     }
 
+    public List<DungeonNPC> getNpcs() {
+        return this.npcs;
+    }
+
+    public List<GameObject> getObjects() {
+        return this.objects;
+    }
+
+    public Position getStartPosition() {
+        return this.startPosition;
+    }
+
+    public Position getExitPosition() {
+        return this.exitPosition;
+    }
+
+    public ClanChat getClanChat() {
+        return this.clanChat;
+    }
+
+    public LocalDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    public int getLengthInMinutes() {
+        return this.lengthInMinutes;
+    }
+
+    public String getDungeonName() {
+        return this.dungeonName;
+    }
+
+    public void setClanChat(ClanChat clanChat) {
+        this.clanChat = clanChat;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

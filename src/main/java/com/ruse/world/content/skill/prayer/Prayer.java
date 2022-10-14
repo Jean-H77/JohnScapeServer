@@ -5,8 +5,6 @@ import com.ruse.engine.task.TaskManager;
 import com.ruse.model.Animation;
 import com.ruse.model.Item;
 import com.ruse.model.Skill;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
 import com.ruse.model.entity.character.player.Player;
@@ -42,14 +40,6 @@ public class Prayer {
 				player.getPacketSender().sendMessage("..and bury the "+bone.getDefinition().getName()+".");
 				player.getSkillManager().addExperience(Skill.PRAYER, currentBone.getBuryingXP());
 				Sounds.sendSound(player, Sound.BURY_BONE);
-				if(currentBone == BonesData.BIG_BONES)
-					Achievements.finishAchievement(player, AchievementData.BURY_A_BIG_BONE);
-				if(currentBone == BonesData.DRAGON_BONES)
-					Achievements.finishAchievement(player, AchievementData.BURY_A_DRAGON_BONE);
-				else if(currentBone == BonesData.FROSTDRAGON_BONES) {
-					Achievements.doProgress(player, AchievementData.BURY_25_FROST_DRAGON_BONES);
-					Achievements.doProgress(player, AchievementData.BURY_500_FROST_DRAGON_BONES);
-				}
 				stop();				
 			}
 		});

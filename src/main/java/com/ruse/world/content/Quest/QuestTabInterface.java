@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.Arrays;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 public class QuestTabInterface {
 
     public static final int QUEST_TAB_ID = 49437;
@@ -17,6 +16,10 @@ public class QuestTabInterface {
     public static final int KNOWLEDGE_BASE_ID = 49486;
 
     private final Player p;
+
+    public QuestTabInterface(Player p) {
+        this.p = p;
+    }
 
     public boolean handleTabSwitch(int btnId) {
 
@@ -41,7 +44,6 @@ public class QuestTabInterface {
         return false;
     }
 
-    @RequiredArgsConstructor
     enum TabType {
         PLAYER_INFORMATION(new TabButton[] {
                 new TabButton(-16107, QUEST_TAB_ID),
@@ -66,11 +68,20 @@ public class QuestTabInterface {
 
         private final TabButton[] tabButtons;
         public static final ImmutableList<TabType> TABS = ImmutableList.copyOf(values());
+
+        private TabType(TabButton[] tabButtons) {
+            this.tabButtons = tabButtons;
+        }
     }
 
-    @RequiredArgsConstructor
     static class TabButton {
+        public TabButton(int btnId, int interfaceId) {
+            this.btnId = btnId;
+            this.interfaceId = interfaceId;
+        }
+
         private final int btnId;
         private final int interfaceId;
+
     }
 }

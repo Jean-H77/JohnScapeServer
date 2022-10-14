@@ -10,8 +10,6 @@ import com.ruse.model.input.impl.EnterAmountOfBowsToString;
 import com.ruse.model.input.impl.EnterAmountToFletch;
 import com.ruse.model.input.impl.EnterGemAmount;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
 import com.ruse.model.entity.character.player.Player;
@@ -461,11 +459,6 @@ public class Fletching {
 					player.getInventory().delete(new Item(arr.getItem2()).setAmount(15), player.getInventory().getSlot(arr.getItem2()), true);
 					player.getInventory().add(arr.getOutcome(), 15);
 					player.getSkillManager().addExperience(Skill.FLETCHING, (int) (arr.getXp()));
-					Achievements.finishAchievement(player, AchievementData.FLETCH_SOME_ARROWS);
-					if(arr == ArrowData.RUNE) {
-						Achievements.doProgress(player, AchievementData.FLETCH_450_RUNE_ARROWS, 15);
-						Achievements.doProgress(player, AchievementData.FLETCH_5000_RUNE_ARROWS, 15);
-					}
 				} else {
 					player.getPacketSender().sendMessage("You must have at least 15 of each supply to make arrows.");
 				}

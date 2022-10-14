@@ -17,8 +17,6 @@
  import com.ruse.model.container.impl.Equipment;
  import com.ruse.model.definitions.WeaponInterfaces.WeaponInterface;
  import com.ruse.util.Misc;
- import com.ruse.world.content.Achievements;
- import com.ruse.world.content.Achievements.AchievementData;
  import com.ruse.world.content.Consumables;
  import com.ruse.world.content.combat.CombatContainer;
  import com.ruse.world.content.combat.CombatType;
@@ -273,6 +271,36 @@ public enum CombatSpecial {
 					}
 				}
 			};
+		}
+	},
+	GUARDIAN_BOW(new int[] { 905}, 65, 1.3, 2, CombatType.RANGED, WeaponInterface.SHORTBOW) {
+		@Override
+		public CombatContainer container(Player player, CharacterEntity target) {
+
+			player.performAnimation(new Animation(1074));
+			player.performGraphic(new Graphic(250, GraphicHeight.HIGH));
+
+			TaskManager.submit(new Task(1, player, false) {
+				int ticks = 0;
+				@Override
+				public void execute() {
+					if(ticks == 0) {
+						new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
+					} else if(ticks == 1) {
+						new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
+					} else if(ticks == 3) {
+						new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
+					}
+					this.stop();
+				}
+			});
+			player.getPacketSender().sendMessage("@red@You shoot 3 arrows rapidly!");
+			player.getPacketSender().sendMessage("@red@You have been granted a 15% range damage buff for 10 seconds!");
+
+			player.getBuffTimers().sendOverlay(1416, 10);
+
+			return new CombatContainer(player, target, 3, CombatType.RANGED,
+					true);
 		}
 	},
 	MAGIC_SHORTBOW(new int[] { 861 }, 55, 1, 1.2, CombatType.RANGED, WeaponInterface.SHORTBOW) {
@@ -692,7 +720,6 @@ public enum CombatSpecial {
 		CombatSpecial.updateBar(player);
 		if(!player.isRecoveringSpecialAttack())
 			TaskManager.submit(new PlayerSpecialAmountTask(player));
-		Achievements.finishAchievement(player, AchievementData.PERFORM_A_SPECIAL_ATTACK);
 	}
 
 	/**

@@ -18,6 +18,18 @@ public class TeleportMenuItemChild extends TeleportMenuItem{
         this.teleportPosition = teleportPosition;
     }
 
+    public int getNpcId() {
+        return this.npcId;
+    }
+
+    public CombatStyleType getCombatStyleType() {
+        return this.combatStyleType;
+    }
+
+    public Position getTeleportPosition() {
+        return this.teleportPosition;
+    }
+
 
     @RequiredArgsConstructor
     @Getter
@@ -29,5 +41,13 @@ public class TeleportMenuItemChild extends TeleportMenuItem{
         ;
 
         private final int spriteId;
+
+        private CombatStyleType(int spriteId) {
+            this.spriteId = spriteId;
+        }
+
+        public int getSpriteId() {
+            return this.spriteId;
+        }
     }
 }

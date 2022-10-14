@@ -100,6 +100,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		case -26376:
 			PlayersOnlineInterface.showInterface(player);
 			break;
+			case -16036:
+				player.getAchievementManger().openInterface();
+				break;
 		case 26250:
 		case 27229:
 			DungeoneeringParty.create(player);
@@ -1001,6 +1004,9 @@ public class ButtonClickPacketListener implements PacketListener {
 			return true;
 		}
 		if(player.getUpgradeManager().handleButtonClick(id)) {
+			return true;
+		}
+		if(player.getAchievementManger().handleButtonClick(id)) {
 			return true;
 		}
 	//	if(player.getDungeonViewer().handleButton(id)) {

@@ -7,8 +7,6 @@ import com.ruse.model.GameObject;
 import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
@@ -86,10 +84,6 @@ public class Woodcutting {
 												if(fmLog != null) { //if their their logdata is not null...
 													player.getSkillManager().addExperience(Skill.FIREMAKING, fmLog.getXp());
 													player.getPacketSender().sendMessage("You chop a log, and your Inferno Adze burns it into ash.");
-													if(fmLog == Logdata.logData.MAGIC) {
-														Achievements.doProgress(player, AchievementData.BURN_100_MAGIC_LOGS);
-														Achievements.doProgress(player, AchievementData.BURN_2500_MAGIC_LOGS);
-													}
 												} else { //if the fmLog data is null
 													player.getPacketSender().sendMessage("<col=b40404>The game thinks you have an adze, but are burning nothing.").sendMessage("<col=b40404>Please contact Crimson and report this bug.");
 												}
@@ -103,12 +97,6 @@ public class Woodcutting {
 										}
 									}
 									Sounds.sendSound(player, Sound.WOODCUT);
-									if(t != null && t == WoodcuttingData.Trees.NORMAL) {
-										Achievements.doProgress(player, AchievementData.CUT_10_LOGS);
-									} else if(t != null && t == WoodcuttingData.Trees.MAGIC) {
-										Achievements.doProgress(player, AchievementData.CUT_100_MAGIC_LOGS);
-										Achievements.doProgress(player, AchievementData.CUT_5000_MAGIC_LOGS);
-									}
 								}
 							}
 						});

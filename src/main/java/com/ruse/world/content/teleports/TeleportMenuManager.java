@@ -6,15 +6,12 @@ import com.ruse.model.definitions.NpcDropItem;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
-import com.ruse.world.content.collection_log.CollectionLogTab;
-import com.ruse.world.content.collection_log.Log;
+import com.ruse.world.content.collectionlog.CollectionLogTab;
+import com.ruse.world.content.collectionlog.Log;
 import com.ruse.world.content.transportation.TeleportHandler;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 public class TeleportMenuManager {
     private static final int INTERFACE_ID = 49550;
 
@@ -24,6 +21,10 @@ public class TeleportMenuManager {
     private TeleportMenuItemParent selectedParent;
     private TeleportType currentType;
     private TeleportOptions teleportOptions;
+
+    public TeleportMenuManager(Player player) {
+        this.player = player;
+    }
 
     public void showInterface() {
         player.getPacketSender().sendConfig(389, 0);
@@ -159,12 +160,16 @@ public class TeleportMenuManager {
         return false;
     }
 
-    @RequiredArgsConstructor
-    @Getter
     static class TeleportOptions {
         private final TeleportMenuItemChild selectedItem;
         private final Log log;
         private final Player p;
+
+        public TeleportOptions(TeleportMenuItemChild selectedItem, Log log, Player p) {
+            this.selectedItem = selectedItem;
+            this.log = log;
+            this.p = p;
+        }
 
         public void showInterface() {
             p.getPacketSender().sendChatboxInterface(50000);
@@ -186,6 +191,18 @@ public class TeleportMenuManager {
                 return true;
             }
             return false;
+        }
+
+        public TeleportMenuItemChild getSelectedItem() {
+            return this.selectedItem;
+        }
+
+        public Log getLog() {
+            return this.log;
+        }
+
+        public Player getP() {
+            return this.p;
         }
     }
 }

@@ -8,8 +8,6 @@ import com.ruse.model.Item;
 import com.ruse.model.Skill;
 import com.ruse.model.input.impl.EnterAmountToInfuse;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Achievements;
-import com.ruse.world.content.Achievements.AchievementData;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.model.entity.character.player.Player;
 
@@ -92,12 +90,6 @@ public class PouchMaking {
 						player.getInventory().delete(pouch.getsecondIngredientId(), 1);
 						player.getSkillManager().addExperience(Skill.SUMMONING, pouch.getExp());
 						player.getInventory().add(pouch.getPouchId(), 1);
-						if(pouch == Pouch.SPIRIT_DREADFOWL)
-							Achievements.finishAchievement(player, AchievementData.INFUSE_A_DREADFOWL_POUCH);
-						else if(pouch == Pouch.STEEL_TITAN) {
-							Achievements.doProgress(player, AchievementData.INFUSE_25_TITAN_POUCHES);
-							Achievements.doProgress(player, AchievementData.INFUSE_250_STEEL_TITAN_POUCHES);
-						}
 						x--;
 					}
 				}

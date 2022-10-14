@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.google.common.collect.Lists;
 import com.ruse.DiscordBot.JavaCord;
-import com.ruse.GameSettings;
 import com.ruse.model.Graphic;
 import com.ruse.model.GroundItem;
 import com.ruse.model.Item;
@@ -17,21 +16,16 @@ import com.ruse.model.Position;
 import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Bank;
 import com.ruse.model.container.impl.Equipment;
-import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.NPCDrops;
-import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.model.entity.character.GroundItemManager;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.Achievements;
 import com.ruse.world.content.DropLog;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.clan.ClanChatManager;
-import com.ruse.world.content.cluescrolls.ClueScroll;
 import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.skill.prayer.BonesData;
-import com.ruse.world.content.skill.summoning.CharmingImp;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 public class NpcItemDropping {
@@ -168,10 +162,6 @@ public class NpcItemDropping {
         }
         if ((player.getInventory().contains(18337) || (player.getSkillManager().skillCape(Skill.PRAYER) && player.getBonecrushEffect())) && BonesData.forId(item.getId()) != null) {
             player.getPacketSender().sendGlobalGraphic(new Graphic(777), pos);
-            if(BonesData.forId(item.getId()) == BonesData.FROSTDRAGON_BONES) {
-                Achievements.doProgress(player, Achievements.AchievementData.BURY_25_FROST_DRAGON_BONES);
-                Achievements.doProgress(player, Achievements.AchievementData.BURY_500_FROST_DRAGON_BONES);
-            }
             if (player.getRights().isMember()) {
                 player.getSkillManager().addExperience(Skill.PRAYER, BonesData.forId(item.getId()).getBuryingXP() * 2);
                 return;

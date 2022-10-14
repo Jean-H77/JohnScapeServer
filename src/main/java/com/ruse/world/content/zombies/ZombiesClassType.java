@@ -13,6 +13,11 @@ public enum ZombiesClassType {
     private final Item[] equipmentItems;
     private final Item[] inventoryItems;
 
+    private ZombiesClassType(Item[] equipmentItems, Item[] inventoryItems) {
+        this.equipmentItems = equipmentItems;
+        this.inventoryItems = inventoryItems;
+    }
+
     public static Item[][] getInventoryAndEquipment(ZombiesClassType class_) {
         if(class_ == WARRIOR) {
             return new Item[][] {WARRIOR.inventoryItems, WARRIOR.equipmentItems};

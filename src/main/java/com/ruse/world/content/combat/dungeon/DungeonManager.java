@@ -4,17 +4,19 @@ import com.ruse.model.Position;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.clan.ClanChat;
 import com.ruse.world.content.clan.ClanChatManager;
-import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 
-@RequiredArgsConstructor
 public class DungeonManager {
 
     private static final int TIMER_OVERLAY_STRING_ID = 41563;
     private static final int TIMER_INTERFACE_ID = 41560;
 
     private final Player p;
+
+    public DungeonManager(Player p) {
+        this.p = p;
+    }
 
     public void startDungeon(Dungeon dungeon) {
         if(!p.isInDungeon()) {

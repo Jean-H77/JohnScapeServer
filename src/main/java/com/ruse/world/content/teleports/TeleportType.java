@@ -13,4 +13,12 @@ public enum TeleportType {
     ;
 
     private final int index;
+
+    private TeleportType(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return this.index;
+    }
 }

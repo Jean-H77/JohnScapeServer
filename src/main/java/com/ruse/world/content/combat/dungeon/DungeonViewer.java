@@ -2,12 +2,10 @@ package com.ruse.world.content.combat.dungeon;
 
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.clan.ClanChat;
-import lombok.Data;
 
 import java.time.Duration;
 import java.util.List;
 
-@Data
 public class DungeonViewer {
 
     private static final int INTERFACE_ID = 41198;
@@ -15,6 +13,10 @@ public class DungeonViewer {
     private static final int MAX_DUNGEON_LIST_SIZE = 40;
 
     private final Player p;
+
+    public DungeonViewer(Player p) {
+        this.p = p;
+    }
 
     public boolean handleButton(int btn) {
         if(p.getInterfaceId() != INTERFACE_ID) return false;
@@ -55,7 +57,8 @@ public class DungeonViewer {
                 if(dungeon != null) {
                     p.getPacketSender().sendString(dungeonNameId, dungeon.getDungeonName());
                     Duration duration = dungeon.timeLeft();
-                    p.getPacketSender().sendString(timerId, String.format("%02d:%02d", duration.toMinutesPart(), duration.toSecondsPart()));
+                  //  duration.toMinutes()
+                 //   p.getPacketSender().sendString(timerId, String.format("%02d:%02d", duration.toMinutes(), duration.to()));
                 }
             } else {
                 p.getPacketSender().sendString(dungeonNameId, "");
@@ -66,5 +69,36 @@ public class DungeonViewer {
         }
         p.getPacketSender().sendScrollMax(SCROLL_BAR_ID, Math.max(281, dungeons.size()*28))
                 .sendInterface(INTERFACE_ID);
+    }
+
+    public Player getP() {
+        return this.p;
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof DungeonViewer)) return false;
+        final DungeonViewer other = (DungeonViewer) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$p = this.getP();
+        final Object other$p = other.getP();
+        if (this$p == null ? other$p != null : !this$p.equals(other$p)) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof DungeonViewer;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $p = this.getP();
+        result = result * PRIME + ($p == null ? 43 : $p.hashCode());
+        return result;
+    }
+
+    public String toString() {
+        return "DungeonViewer(p=" + this.getP() + ")";
     }
 }

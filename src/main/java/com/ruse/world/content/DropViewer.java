@@ -7,9 +7,6 @@ import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.input.impl.DropViewerSearch;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +16,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
-@Getter
-@Setter
 public class DropViewer {
 
     private static final int INTERFACE_ID = 41050;
@@ -33,6 +27,10 @@ public class DropViewer {
     private List<NPCDrops> dropList;
 
     private NpcDropItem[] currentlyViewing;
+
+    public DropViewer(Player p) {
+        this.p = p;
+    }
 
     public void displayInterface() {
         p.getPacketSender().sendInterface(INTERFACE_ID);
@@ -57,6 +55,7 @@ public class DropViewer {
     public boolean handleButtonClick(int btnId) {
         if (dropList == null) return false;
         int index = 24475 + btnId;
+
         if (index >= dropList.size()) return false;
         NPCDrops drops = dropList.get(index);
         if (drops != null) {
@@ -141,5 +140,25 @@ public class DropViewer {
                 .filter(checkName(name))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
+    }
+
+    public Player getP() {
+        return this.p;
+    }
+
+    public List<NPCDrops> getDropList() {
+        return this.dropList;
+    }
+
+    public NpcDropItem[] getCurrentlyViewing() {
+        return this.currentlyViewing;
+    }
+
+    public void setDropList(List<NPCDrops> dropList) {
+        this.dropList = dropList;
+    }
+
+    public void setCurrentlyViewing(NpcDropItem[] currentlyViewing) {
+        this.currentlyViewing = currentlyViewing;
     }
 }
