@@ -105,7 +105,6 @@ public final class GameLoader {
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
 		serviceLoader.execute(() -> NPC.init());
 		serviceLoader.execute(() -> ShopUtils.loadAll());
-		serviceLoader.execute(() -> AchievementManager.loadAchievements());
 	}
 
 	public GameEngine getEngine() {

@@ -40,4 +40,5 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.10.1'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.3'
+    implementation 'org.reflections:reflections:0.9.11'
 }

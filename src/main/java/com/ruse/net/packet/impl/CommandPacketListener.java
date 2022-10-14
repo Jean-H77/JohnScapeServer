@@ -207,7 +207,7 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (wholeCommand.equalsIgnoreCase("ap")) {
-			player.getAchievementManger().doProgress("Craft 500 law runes", 10);
+			player.getAchievementManger().doProgress("ok", 1);
 		}
 
 		if (wholeCommand.equalsIgnoreCase("lotm")) {

@@ -1,11 +1,8 @@
 package com.ruse.world.content.achievementsystem;
 
-import com.google.gson.Gson;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.util.*;
 
@@ -20,29 +17,42 @@ public class AchievementManager {
     public int completed;
     public AchievementType currentTab;
 
+    static {
+        ACHIEVEMENTS_AS_LIST_VALUES.put(AchievementType.GENERAL, List.of(
+                new Achievement("ok", 5, 5),
+                new Achievement("ok3", 5, 5),
+                new Achievement("ok1", 5, 5),
+                new Achievement("ok2", 5, 5),
+                new Achievement("ok4", 5, 5),
+                new Achievement("ok5", 5, 5),
+                new Achievement("ok6", 5, 5),
+                new Achievement("ok7", 5, 5),
+                new Achievement("ok8", 5, 5),
+                new Achievement("ok9", 5, 5),
+                new Achievement("ok0", 5, 5),
+                new Achievement("ok214", 5, 5),
+                new Achievement("ok343", 5, 5),
+                new Achievement("ok61", 5, 5),
+                new Achievement("ok24", 5, 5),
+                new Achievement("ok41", 5, 5),
+                new Achievement("ok85", 5, 5),
+                new Achievement("ok65", 5, 5),
+                new Achievement("ok27", 5, 5),
+                new Achievement("ok28", 5, 5),
+                new Achievement("ok91", 5, 5),
+                new Achievement("ok01", 5, 5)
+        ));
+
+
+        for(Map.Entry<AchievementType, List<Achievement>> achl : ACHIEVEMENTS_AS_LIST_VALUES.entrySet()) {
+            for(Achievement ach : achl.getValue()) {
+                ACHIEVEMENTS.put(ach.getDescription(), ach);
+            }
+        }
+    }
+
     public AchievementManager(Player p) {
         this.p = p;
-    }
-
-    public static void loadAchievements() {
-        convert(new Yaml(new Constructor(Map.class)).load(ClassLoader.class.getClassLoader().getResourceAsStream("achievements.yaml")));
-     //   ClassLoader.class.getClass().getClassLoader().getResourceAsStream()
-    }
-
-    public static void convert(LinkedHashMap<String, List<String>> map) {
-        Gson gson = new Gson();
-        for(Map.Entry<String, List<String>> entry : map.entrySet()) {
-            AchievementType type = AchievementType.valueOf(entry.getKey());
-            List<Achievement> achievements = new ArrayList<>();
-            List<String> l = entry.getValue();
-            for(Object s : l) {
-                String str = gson.toJson(s);
-                Achievement achievement = gson.fromJson(str, Achievement.class);
-                achievements.add(achievement);
-                ACHIEVEMENTS.put(achievement.getDescription(), achievement);
-            }
-            ACHIEVEMENTS_AS_LIST_VALUES.put(type, achievements);
-        }
     }
 
     public void openInterface() {
@@ -64,8 +74,8 @@ public class AchievementManager {
         int completionAmount = achievement.getCompletionAmount();
 
         if(myProgress < completionAmount) {
-            myProgress += amount;
             playerAchievement.setProgress(myProgress += amount);
+            System.out.println(myProgress);
             if (myProgress >= completionAmount) {
                 playerAchievement.setProgress(completionAmount);
                 playerAchievement.setCompleted(true);
