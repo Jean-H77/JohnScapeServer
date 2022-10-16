@@ -75,7 +75,6 @@ public class AchievementManager {
 
         if(myProgress < completionAmount) {
             playerAchievement.setProgress(myProgress += amount);
-            System.out.println(myProgress);
             if (myProgress >= completionAmount) {
                 playerAchievement.setProgress(completionAmount);
                 playerAchievement.setCompleted(true);

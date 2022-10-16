@@ -104,34 +104,17 @@ public  class PlayerSaving {
 			object.addProperty("fire-immunity", (player.getFireImmunity()));
 			object.addProperty("fire-damage-mod", (player.getFireDamageModifier()));
 			object.addProperty("prayer-renewal-timer", (player.getPrayerRenewalPotionTimer()));
-			object.addProperty("teleblock-timer", (player.getTeleblockTimer()));
 			object.addProperty("special-amount", (player.getSpecialPercentage()));
-			object.addProperty("entered-gwd-room", (player.getMinigameAttributes().getGodwarsDungeonAttributes().hasEnteredRoom()));
-			object.addProperty("gwd-altar-delay", (player.getMinigameAttributes().getGodwarsDungeonAttributes().getAltarDelay()));
-			object.add("gwd-killcount", builder.toJsonTree(player.getMinigameAttributes().getGodwarsDungeonAttributes().getKillcount()));
-			object.addProperty("effigy", (player.getEffigy()));
 			object.addProperty("summon-npc", (player.getSummoning().getFamiliar() != null ? player.getSummoning().getFamiliar().getSummonNpc().getId() : -1));
 			object.addProperty("summon-death", (player.getSummoning().getFamiliar() != null ? player.getSummoning().getFamiliar().getDeathTimer() : -1));
 			object.addProperty("process-farming", (player.shouldProcessFarming()));
 			object.addProperty("clanchat", player.getClanChatName() == null ? "null" : player.getClanChatName().trim());
 			object.addProperty("autocast", (player.isAutocast()));
 			object.addProperty("autocast-spell", player.getAutocastSpell() != null ? player.getAutocastSpell().spellId() : -1);
-			object.addProperty("dfs-charges", player.getDfsCharges());
-			object.addProperty("recoil-deg", (player.getRecoilCharges()));
-			object.addProperty("blowpipe-deg", (player.getBlowpipeCharges()));
-			object.add("brawlers-deg", builder.toJsonTree(player.getBrawlerChargers()));
-			object.add("ancient-deg", builder.toJsonTree(player.getAncientArmourCharges()));
 			object.add("killed-players", builder.toJsonTree(player.getPlayerKillingAttributes().getKilledPlayers()));
 			object.add("barrows-brother", builder.toJsonTree(player.getMinigameAttributes().getBarrowsMinigameAttributes().getBarrowsData()));
 			object.addProperty("random-coffin", (player.getMinigameAttributes().getBarrowsMinigameAttributes().getRandomCoffin()));
 			object.addProperty("barrows-killcount", (player.getMinigameAttributes().getBarrowsMinigameAttributes().getKillcount()));
-			object.add("nomad", builder.toJsonTree(player.getMinigameAttributes().getNomadAttributes().getQuestParts()));
-			object.add("recipe-for-disaster", builder.toJsonTree(player.getMinigameAttributes().getRecipeForDisasterAttributes().getQuestParts()));
-			object.addProperty("recipe-for-disaster-wave", (player.getMinigameAttributes().getRecipeForDisasterAttributes().getWavesCompleted()));
-			object.addProperty("clue-progress", (player.getClueProgress()));
-			object.add("dung-items-bound", builder.toJsonTree(player.getMinigameAttributes().getDungeoneeringAttributes().getBoundItems()));
-			object.addProperty("rune-ess", (player.getStoredRuneEssence()));
-			object.addProperty("pure-ess", (player.getStoredPureEssence()));
 			object.addProperty("has-bank-pin", (player.getBankPinAttributes().hasBankPin()));
 			object.addProperty("last-pin-attempt", (player.getBankPinAttributes().getLastAttempt()));
 			object.addProperty("invalid-pin-attempts", (player.getBankPinAttributes().getInvalidAttempts()));
@@ -141,7 +124,6 @@ public  class PlayerSaving {
 			object.add("skills", builder.toJsonTree(player.getSkillManager().getSkills()));
 			object.add("inventory", builder.toJsonTree(player.getInventory().getItems()));
 			object.add("equipment", builder.toJsonTree(player.getEquipment().getItems()));
-			object.add("preset-equipment", builder.toJsonTree(player.getPreSetEquipment().getItems()));
 			object.add("bank-0", builder.toJsonTree(player.getBank(0).getValidItems()));
 			object.add("bank-1", builder.toJsonTree(player.getBank(1).getValidItems()));
 			object.add("bank-2", builder.toJsonTree(player.getBank(2).getValidItems()));
@@ -152,42 +134,14 @@ public  class PlayerSaving {
 			object.add("bank-7", builder.toJsonTree(player.getBank(7).getValidItems()));
 			object.add("bank-8", builder.toJsonTree(player.getBank(8).getValidItems()));
 
-			/** STORE SUMMON **/
-			if(player.getSummoning().getBeastOfBurden() != null) {
-				object.add("store", builder.toJsonTree(player.getSummoning().getBeastOfBurden().getValidItems()));
-			}
-			object.add("charm-imp", builder.toJsonTree(player.getSummoning().getCharmImpConfigs()));
-
 			object.add("friends", builder.toJsonTree(player.getRelations().getFriendList().toArray()));
 			object.add("ignores", builder.toJsonTree(player.getRelations().getIgnoreList().toArray()));
 			object.add("loyalty-titles", builder.toJsonTree(player.getUnlockedLoyaltyTitles()));
 			object.add("kills", builder.toJsonTree(player.getKillsTracker().toArray()));
 			object.add("drops", builder.toJsonTree(player.getDropLog().toArray()));
-			object.addProperty("fri13may16", (player.didFriday13May2016()));
-			object.addProperty("spiritdebug", (player.isSpiritDebug()));
-			object.addProperty("reffered", (player.gotReffered()));
-			object.addProperty("indung", (player.isInDung()));
 			object.addProperty("toggledglobalmessages", (player.toggledGlobalMessages()));
-			object.addProperty("flying", (player.isFlying()));
-			object.addProperty("canfly", (player.canFly()));
-			object.addProperty("ghostwalking", (player.isGhostWalking()));
-			object.addProperty("canghostwalk", (player.canGhostWalk()));
 			object.addProperty("barrowschests", (player.getPointsHandler().getBarrowsChests()));
-			object.addProperty("cluesteps", (player.getPointsHandler().getClueSteps()));
-			object.add("hween2016", builder.toJsonTree(player.getHween2016All()));
-			object.addProperty("donehween2016", (player.doneHween2016()));
 			object.add("bosspets", builder.toJsonTree(player.getBossPetsAll()));
-			object.addProperty("christmas2016",  (player.getChristmas2016()));
-			object.addProperty("newYear2017",  (player.getNewYear2017()));
-			object.addProperty("easter2017",  (player.getEaster2017()));
-			object.add("hcimdunginventory", builder.toJsonTree(player.getDungeoneeringIronInventory().getItems()));
-			object.add("hcimdungequipment", builder.toJsonTree(player.getDungeoneeringIronEquipment().getItems()));
-			object.addProperty("bonecrusheffect", (player.getBonecrushEffect()));
-			object.add("p-tps", builder.toJsonTree(player.getPreviousTeleports()));
-			object.addProperty("yell-tit", player.getYellTitle() == null ? "null" : player.getYellTitle());
-			//doneHween2016
-			//object.add("uimDungItems", builder.toJsonTre1e(player.getBank(0).getValidItems()));
-
 			writer.write(builder.toJson(object));
 			writer.close();
 
