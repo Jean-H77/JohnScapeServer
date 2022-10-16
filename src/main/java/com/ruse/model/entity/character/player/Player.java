@@ -29,7 +29,6 @@ import com.ruse.world.content.DropLog.DropLogEntry;
 import com.ruse.world.content.KillsTracker.KillsEntry;
 import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
 import com.ruse.world.content.Quest.QuestManager;
-import com.ruse.world.content.TeleportInterface.TeleportInterfaceData;
 import com.ruse.world.content.achievementsystem.AchievementManager;
 import com.ruse.world.content.clan.ClanChat;
 import com.ruse.world.content.collectionlog.CollectionLogManager;
@@ -50,8 +49,6 @@ import com.ruse.world.content.combat.strategy.CombatStrategy;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.dialogue.Dialogue;
-import com.ruse.world.content.gambling.GamblingManager;
-import com.ruse.world.content.grandexchange.GrandExchangeSlot;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.MinigameAttributes;
 import com.ruse.world.content.skill.SkillManager;
@@ -77,8 +74,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@Entity
-@Table(name = "player")
 public class Player extends CharacterEntity {
 
 	public Player(PlayerSession playerIO) {
@@ -286,8 +281,6 @@ public class Player extends CharacterEntity {
 
 	private final DungeonViewer dungeonViewer = new DungeonViewer(this);
 
-	private final GamblingManager gamblingManager = new GamblingManager();
-
 	private final UpgradeMachineManager upgradeManager = new UpgradeMachineManager(this);
 
 	private int amountGambled;
@@ -455,7 +448,6 @@ public class Player extends CharacterEntity {
 	 private WeaponInterface weapon;
 	 private int destroyItemSlot = -1;
 	 private Object[] usableObject;
-	 private GrandExchangeSlot[] grandExchangeSlots = new GrandExchangeSlot[6];
 	 private Task currentTask;
 	 private Position resetPosition;
 	 private Pouch selectedPouch;
@@ -563,7 +555,6 @@ public class Player extends CharacterEntity {
 	private boolean doneHween2016;
 	private boolean[] bossPets = new boolean[100];
 	private boolean bonecrushEffect = true;
-	private TeleportInterfaceData tid;
 	private List<Integer> lootList;
 
 	public PlayerSession getSession() {
@@ -1918,18 +1909,6 @@ public class Player extends CharacterEntity {
 		this.gePricePerItem = gePricePerItem;
 	}
 
-	public GrandExchangeSlot[] getGrandExchangeSlots() {
-		return grandExchangeSlots;
-	}
-
-	public void setGrandExchangeSlots(GrandExchangeSlot[] GrandExchangeSlots) {
-		this.grandExchangeSlots = GrandExchangeSlots;
-	}
-
-	public void setGrandExchangeSlot(int index, GrandExchangeSlot state) {
-		this.grandExchangeSlots[index] = state;
-	}
-
 	public void setSelectedGeSlot(int slot) {
 		this.selectedGeSlot = slot;
 	}
@@ -2477,17 +2456,6 @@ public class Player extends CharacterEntity {
 		this.previousTeleports[index] = previousTeleport;
 	}
 
-
-	public TeleportInterfaceData getTeleportInterfaceData() {
-		return tid;
-	}
-
-
-	public void setTeleportInterfaceData(TeleportInterfaceData tid) {
-		this.tid = tid;
-	}
-
-
 	private String yellTitle;
 
 	public String getYellTitle() {
@@ -2550,10 +2518,6 @@ public class Player extends CharacterEntity {
 
 	public DungeonViewer getDungeonViewer() {
 		return this.dungeonViewer;
-	}
-
-	public GamblingManager getGamblingManager() {
-		return this.gamblingManager;
 	}
 
 	public UpgradeMachineManager getUpgradeManager() {

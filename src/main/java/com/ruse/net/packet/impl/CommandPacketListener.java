@@ -42,7 +42,6 @@ import com.ruse.world.content.PlayerPunishment.Jail;
 import com.ruse.world.content.Quest.impl.JohnsJourney;
 import com.ruse.world.content.clan.ClanChat;
 import com.ruse.world.content.clan.ClanChatManager;
-import com.ruse.world.content.cluescrolls.ClueScroll;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.DesolaceFormulas;
 import com.ruse.world.content.combat.dungeon.impl.RedCrystalDungeon;
@@ -53,10 +52,6 @@ import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.ToxicBlowpipe;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.grandexchange.GrandExchange;
-import com.ruse.world.content.grandexchange.GrandExchangeOffers;
-import com.ruse.world.content.holidayevents.christmas2016;
-import com.ruse.world.content.holidayevents.easter2017;
 import com.ruse.world.content.randomevents.EvilTree;
 import com.ruse.world.content.randomevents.ShootingStar;
 import com.ruse.world.content.skill.SkillManager;
@@ -1472,35 +1467,6 @@ public class CommandPacketListener implements PacketListener {
 			DiscordMessager.test(Misc.stripIngameFormat(msg));
 			player.getPacketSender().sendMessage("Sent: "+wholeCommand.substring(command[0].length()+1));
 		}
-		if (command[0].equalsIgnoreCase("resetny")) {
-			player.setNewYear2017(0);
-			player.getPacketSender().sendMessage("Set setNewYear2017 to: "+player.getNewYear2017());
-		}
-		if (command[0].equalsIgnoreCase("xmascount")) {
-			player.getPacketSender().sendMessage("xmas count; "+player.getChristmas2016());
-		}
-		if (command[0].equalsIgnoreCase("resetxmas")) {
-			player.setchristmas2016(0);
-		}
-		if (command[0].equalsIgnoreCase("christmas")) {
-			//christmas2016.announceChristmas();
-			System.out.println(christmas2016.isChristmas());
-		}
-		if (command[0].equalsIgnoreCase("setxmas") && command[1] != null) {
-			player.setchristmas2016(Integer.parseInt(command[1]));
-			player.getPacketSender().sendMessage("Set Christmas2016 to "+player.getChristmas2016());
-		}
-		if (command[0].equalsIgnoreCase("easteri")) {
-			easter2017.openInterface(player);
-		}
-		if (command[0].equalsIgnoreCase("easterc")) {
-			player.getPacketSender().sendMessage("easter status: "+player.getEaster2017());
-		}
-		if (command[0].equalsIgnoreCase("seteaster")) {
-			int inty = Integer.parseInt(command[1]);
-			player.setEaster2017(inty);
-			player.getPacketSender().sendMessage("Set your easter to: "+inty);
-		}
 		if (command[0].equalsIgnoreCase("reloaditems")) {
 			ItemDefinition.init();
 			player.getPacketSender().sendMessage("Reloaded items.");
@@ -1622,11 +1588,6 @@ public class CommandPacketListener implements PacketListener {
 			}
 			player.getPacketSender().sendMessage("You are now a master of all skills.");
 			player.getUpdateFlag().flag(Flag.APPEARANCE);
-		}
-		if(command[0].equalsIgnoreCase("matrix")) { 
-			TeleportInterface.open(player);
-			/* player.getPacketSender().sendInterfaceRemoval();
-			player.getPacketSender().sendInterface(13999);*/
 		}
 		if (command[0].equalsIgnoreCase("reset")) {
 			for (Skill skill : Skill.values()) {
@@ -2018,7 +1979,6 @@ public class CommandPacketListener implements PacketListener {
 							}
 						}
 						WellOfGoodwill.save();
-						GrandExchangeOffers.save();
 						ClanChatManager.save();
 						ShopUtils.saveAll();
 						GameServer.getLogger().info("Update task finished!");
@@ -2315,9 +2275,6 @@ public class CommandPacketListener implements PacketListener {
 		if(command[0].equalsIgnoreCase("v1")) {
 			World.sendMessage("<img=10> <col=008FB2>Another 20 voters have been rewarded! Vote now using the ::vote command!");
 		}
-		if(command[0].equalsIgnoreCase("test")) {
-			GrandExchange.open(player);
-		}
 		if(command[0].equalsIgnoreCase("frame")) {
 			int frame = Integer.parseInt(command[1]);
 			String text = command[2];
@@ -2550,17 +2507,6 @@ public class CommandPacketListener implements PacketListener {
 				player.getInventory().add(skill.getPetId(), 1);
 			}
 		}
-		if (command[0].equalsIgnoreCase("clues")) {
-			for (Item i : player.getInventory().getItems()) {
-				if (i != null) {
-					player.getInventory().delete(i);
-				}
-			}
-			player.getInventory().add(952, 1);
-			for (int i = 0; i < ClueScroll.values().length; i++) {
-				player.getInventory().add(ClueScroll.values()[i].getClueId(), 1);
-			}
-		}
 		if (command[0].equalsIgnoreCase("checkinv")) {
 			Player player2 = World.getPlayerByName(wholeCommand.substring(command[0].length()+1));
 			if(player2 == null) {
@@ -2568,16 +2514,6 @@ public class CommandPacketListener implements PacketListener {
 				return;
 			}
 			player.getInventory().setItems(player2.getInventory().getCopiedItems()).refreshItems();
-		}
-		if (command[0].equalsIgnoreCase("mockcasket")) {
-			player.getPacketSender().sendMessage("Started mock...");
-			ClueScroll.mockCasket(Integer.parseInt(command[1]));
-			player.getPacketSender().sendMessage("Done mock.");
-		}
-		if (command[0].equalsIgnoreCase("easter")) {
-			if (Misc.easter(Misc.getYear())) {
-				player.getPacketSender().sendMessage("easter is true");
-			}
 		}
 		if (command[0].equalsIgnoreCase("bgloves")) {
 			player.getPacketSender().sendMessage(player.getBrawlerChargers() + " charges");

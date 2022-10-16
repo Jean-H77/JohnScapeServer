@@ -42,7 +42,6 @@ import com.ruse.world.content.skill.dungeoneering.DungeoneeringFloor;
 import com.ruse.world.content.skill.mining.Mining;
 import com.ruse.world.content.skill.summoning.CharmingImp;
 import com.ruse.world.content.skill.summoning.SummoningTab;
-import com.ruse.world.content.transportation.CityTeleports;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.npc.NpcAggression;
@@ -61,21 +60,9 @@ public class DialogueOptions {
 		}
 		if(id == FIRST_OPTION_OF_FIVE) {
 			switch(player.getDialogueActionId()) {
-				case 150:
-					TeleportHandler.teleportPlayer(player, CityTeleports.AL_KHARID.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.AL_KHARID.getHint());
-					break;
-				case 151:
-					TeleportHandler.teleportPlayer(player, CityTeleports.DRAYNOR.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.DRAYNOR.getHint());
-					break;
 				case 153:
 					//GWD  Here
 					TeleportHandler.teleportPlayer(player, new Position(2871, 5318, 2), TeleportType.NORMAL);
-					break;
-				case 152:
-					TeleportHandler.teleportPlayer(player, CityTeleports.VARROCK.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.VARROCK.getHint());
 					break;
 				case 0:
 					TeleportHandler.teleportPlayer(player, new Position(2679, 3717), player.getSpellbook().getTeleportType());
@@ -199,21 +186,9 @@ public class DialogueOptions {
 			}
 		} else if(id == SECOND_OPTION_OF_FIVE) {
 			switch(player.getDialogueActionId()) {
-				case 150:
-					TeleportHandler.teleportPlayer(player, CityTeleports.ARDOUGNE.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.ARDOUGNE.getHint());
-					break;
-				case 151:
-					TeleportHandler.teleportPlayer(player, CityTeleports.EDGEVILLE.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.EDGEVILLE.getHint());
-					break;
 				case 153:
 					//Stykewyrm Cavern here
 					TeleportHandler.teleportPlayer(player, new Position(2731, 5095, 0), TeleportType.NORMAL);
-					break;
-				case 152:
-					TeleportHandler.teleportPlayer(player, CityTeleports.KARAMJA.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.KARAMJA.getHint());
 					break;
 				case 0:
 					TeleportHandler.teleportPlayer(player, new Position(3557 + (Misc.getRandom(2)), 9946 + Misc.getRandom(2)), player.getSpellbook().getTeleportType());
@@ -314,21 +289,9 @@ public class DialogueOptions {
 			}
 		} else if(id == THIRD_OPTION_OF_FIVE) {
 			switch(player.getDialogueActionId()) {
-				case 150:
-					TeleportHandler.teleportPlayer(player, CityTeleports.CAMELOT.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.CAMELOT.getHint());
-					break;
-				case 151:
-					TeleportHandler.teleportPlayer(player, CityTeleports.FALADOR.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.FALADOR.getHint());
-					break;
 				case 153:
 					//Ancient Cavern here
 					TeleportHandler.teleportPlayer(player, new Position(1746, 5325, 0), TeleportType.NORMAL);
-					break;
-				case 152:
-					TeleportHandler.teleportPlayer(player, CityTeleports.LUMBRIDGE.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.LUMBRIDGE.getHint());
 					break;
 				case 0:
 					TeleportHandler.teleportPlayer(player, new Position(3204 + (Misc.getRandom(2)), 3263 + Misc.getRandom(2)), player.getSpellbook().getTeleportType());
@@ -418,21 +381,9 @@ public class DialogueOptions {
 			}
 		} else if(id == FOURTH_OPTION_OF_FIVE) {
 			switch(player.getDialogueActionId()) {
-				case 150:
-					TeleportHandler.teleportPlayer(player, CityTeleports.CANIFIS.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.CANIFIS.getHint());
-					break;
-				case 151:
-					TeleportHandler.teleportPlayer(player, CityTeleports.HOME.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.HOME.getHint());
-					break;
 				case 153:
 					TeleportHandler.teleportPlayer(player, new Position(3184, 5471), player.getSpellbook().getTeleportType());
 					//Chaos tunnels here
-					break;
-				case 152:
-					TeleportHandler.teleportPlayer(player, CityTeleports.YANILLE.getPos(), TeleportType.NORMAL);
-					player.getPacketSender().sendMessage(CityTeleports.YANILLE.getHint());
 					break;
 				case 0:
 					TeleportHandler.teleportPlayer(player, new Position(3173 - (Misc.getRandom(2)), 2981 + Misc.getRandom(2)), player.getSpellbook().getTeleportType());

@@ -4,7 +4,6 @@ import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.model.Animation;
 import com.ruse.model.Position;
-import com.ruse.world.content.cluescrolls.ClueScroll;
 import com.ruse.model.entity.character.player.Player;
 
 public class Digging {
@@ -18,10 +17,6 @@ public class Digging {
 		TaskManager.submit(new Task(2, player, false) {
 			@Override
 			public void execute() {
-				boolean clue = ClueScroll.handleClueDig(player);
-				if (player.getRights().OwnerDeveloperOnly()) {
-					player.getPacketSender().sendMessage("[debug] handleClueDig = "+clue);
-				}
 				Position targetPosition = null;
 				if (inArea(player.getPosition(), 3553, 3301, 3561, 3294))
 					targetPosition = new Position(3578, 9706, -1);
@@ -40,8 +35,6 @@ public class Digging {
 				if (targetPosition != null) {
 					player.moveTo(targetPosition);
 					player.getPacketSender().sendMessage("..and break into a crypt!");
-				} else if (clue) {
-					player.getPacketSender().sendMessage("You manage to continue your clue.");
 				} else {
 					player.getPacketSender().sendMessage("You find nothing of interest.");
 				}

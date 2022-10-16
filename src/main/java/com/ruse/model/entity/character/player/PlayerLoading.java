@@ -14,7 +14,6 @@ import com.ruse.world.content.KillsTracker;
 import com.ruse.world.content.LoyaltyProgramme;
 import com.ruse.world.content.combat.magic.CombatSpells;
 import com.ruse.world.content.combat.weapon.FightType;
-import com.ruse.world.content.grandexchange.GrandExchangeSlot;
 import com.ruse.world.content.skill.SkillManager;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -479,11 +478,6 @@ public class PlayerLoading {
 
 			if(reader.has("bank-8")) {
 				player.setBank(8, new Bank(player)).getBank(8).addItems(builder.fromJson(reader.get("bank-8").getAsJsonArray(), Item[].class), false);
-			}
-
-			if (reader.has("ge-slots")) {
-				GrandExchangeSlot[] slots = builder.fromJson(reader.get("ge-slots").getAsJsonArray(), GrandExchangeSlot[].class);
-				player.setGrandExchangeSlots(slots);
 			}
 
 			if (reader.has("store")) {

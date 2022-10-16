@@ -6,9 +6,9 @@ import com.ruse.GameServer;
 import com.ruse.world.World;
 import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.clan.ClanChatManager;
-import com.ruse.world.content.grandexchange.GrandExchangeOffers;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
+import com.ruse.world.content.trading_post.ShopUtils;
 
 public class ShutdownHook extends Thread {
 
@@ -29,8 +29,8 @@ public class ShutdownHook extends Thread {
 			}
 		}
 		WellOfGoodwill.save();
-		GrandExchangeOffers.save();
 		ClanChatManager.save();
+		ShopUtils.saveAll();
 		logger.info("The shudown hook actions have been completed, shutting the server down...");
 	}
 }

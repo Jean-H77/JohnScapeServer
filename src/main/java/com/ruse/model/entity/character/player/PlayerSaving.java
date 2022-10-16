@@ -152,8 +152,6 @@ public  class PlayerSaving {
 			object.add("bank-7", builder.toJsonTree(player.getBank(7).getValidItems()));
 			object.add("bank-8", builder.toJsonTree(player.getBank(8).getValidItems()));
 
-			object.add("ge-slots", builder.toJsonTree(player.getGrandExchangeSlots()));
-
 			/** STORE SUMMON **/
 			if(player.getSummoning().getBeastOfBurden() != null) {
 				object.add("store", builder.toJsonTree(player.getSummoning().getBeastOfBurden().getValidItems()));

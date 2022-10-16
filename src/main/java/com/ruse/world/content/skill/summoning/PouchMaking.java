@@ -8,8 +8,8 @@ import com.ruse.model.Item;
 import com.ruse.model.Skill;
 import com.ruse.model.input.impl.EnterAmountToInfuse;
 import com.ruse.util.Misc;
-import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.world.content.transportation.TeleportHandler;
 
 public class PouchMaking {
 

@@ -31,7 +31,6 @@ import com.ruse.world.content.Kraken.KrakenInstance;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect.PoisonType;
 import com.ruse.world.content.combat.effect.EquipmentBonus;
-import com.ruse.world.content.combat.magic.CombatAncientSpell;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.CombatRangedAmmo.RangedWeaponData;

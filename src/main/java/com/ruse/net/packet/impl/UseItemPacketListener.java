@@ -24,12 +24,10 @@ import com.ruse.world.clip.region.RegionClipping;
 import com.ruse.world.content.CrystalChest;
 import com.ruse.world.content.ItemForging;
 import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.cluescrolls.ClueScroll;
 import com.ruse.world.content.combat.item.RecoilRing;
 import com.ruse.world.content.combat.range.ToxicBlowpipe;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.dialogue.impl.DungPartyInvitation;
-import com.ruse.world.content.holidayevents.christmas2016;
 import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.skill.cooking.Cooking;
 import com.ruse.world.content.skill.cooking.CookingData;
@@ -97,12 +95,7 @@ public class UseItemPacketListener implements PacketListener {
 			CrystalChest.sendRewardInterface(player);
 			return;
 		}
-		
-		/* Clue Handler */
-		if (itemUsedWith.getId() == 9003 && (usedWith.getId() == 2724 || ItemDefinition.forId(usedWith.getId()).getName().contains("Clue"))) {
-			ClueScroll.sendDropTableInterface(player);
-		}
-		
+
 		for (int i = 0; i < Firelighter.values().length; i++) {
 			if (usedWith.getId() == Firelighter.values()[i].getLighterId() || itemUsedWith.getId() == Firelighter.values()[i].getLighterId()) {
 				Firelighter.handleFirelighter(player, i);
@@ -255,14 +248,6 @@ public class UseItemPacketListener implements PacketListener {
 						CrystalChest.sendRewardInterface(player);
 					}
 					break;
-				case -23813:
-				case 41723:
-					if (!christmas2016.isChristmas() || player.getChristmas2016() < 2) {
-						return;
-					} else {
-						christmas2016.handleItemOnReindeer(player, itemId);
-					}
-				break;
 				case 2644:
 					if(itemId == 1779) {
 						Flax.showSpinInterface(player);
@@ -349,29 +334,6 @@ public class UseItemPacketListener implements PacketListener {
 				}
 			}
 			player.setLastTomed(npc.getId());
-			break;
-		case 1907:
-			if (npc.getId() == 1552 && christmas2016.isChristmas()) {
-				if (player.getChristmas2016() < 5) {
-					player.getPacketSender().sendMessage("I should do this after giving the Reindeer their runes.");
-					return;
-				} else if (player.getInventory().getAmount(1907) >= 1) {
-					player.setPositionToFace(npc.getPosition());
-					player.performAnimation(new Animation(4540));
-					player.getInventory().delete(1907, 100);
-					player.setchristmas2016(6);
-					player.getPacketSender().sendMessage("You give Santa the "+ItemDefinition.forId(1907).getName()+". I should speak with him.");
-				}
-			
-			}
-			break;
-		case 3550://clue
-			boolean clue = ClueScroll.handleNpcUse(player, npc.getId());
-			if (!clue) {
-				player.getPacketSender().sendMessage("Nothing interesting happens.");
-			} else {
-				player.getPacketSender().sendMessage("You manage to continue your clue..");
-			}
 			break;
 		case 4837:
 			if (NpcDefinition.forId(npc.getId()).getName().contains("ark wizar")) {

@@ -19,7 +19,6 @@ import com.ruse.net.packet.impl.ExamineItemPacketListener;
 import com.ruse.net.packet.impl.ExamineNpcPacketListener;
 import com.ruse.net.packet.impl.FinalizedMapRegionChangePacketListener;
 import com.ruse.net.packet.impl.FollowPlayerPacketListener;
-import com.ruse.net.packet.impl.GESelectItemPacketListener;
 import com.ruse.net.packet.impl.HeightCheckPacketListener;
 import com.ruse.net.packet.impl.IdleLogoutPacketListener;
 import com.ruse.net.packet.impl.ItemActionPacketListener;
@@ -106,7 +105,6 @@ public class PacketConstants {
 		PACKETS[153] = new PlayerOptionPacketListener();
 		PACKETS[DuelAcceptancePacketListener.OPCODE] = new DuelAcceptancePacketListener();
 		PACKETS[12] = new DungeoneeringPartyInvitatationPacketListener();
-		PACKETS[204] = new GESelectItemPacketListener();
 		PACKETS[222] = new ClickTextMenuPacketListener();
 		PACKETS[223] = new PrestigeSkillPacketListener();
 		PACKETS[229] = new HeightCheckPacketListener();

@@ -25,9 +25,6 @@ import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.grandexchange.GrandExchange;
-import com.ruse.world.content.holidayevents.christmas2016;
-import com.ruse.world.content.holidayevents.easter2017data;
 import com.ruse.world.content.minigames.Barrows;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.Dueling.DuelRule;
@@ -37,7 +34,6 @@ import com.ruse.world.content.minigames.Nomad;
 import com.ruse.world.content.minigames.PestControl;
 import com.ruse.world.content.minigames.RecipeForDisaster;
 import com.ruse.world.content.minigames.WarriorsGuild;
-import com.ruse.world.content.portal.portal;
 import com.ruse.world.content.randomevents.EvilTree.EvilTreeDef;
 import com.ruse.world.content.skill.agility.Agility;
 import com.ruse.world.content.skill.construction.Construction;
@@ -61,7 +57,6 @@ import com.ruse.world.content.skill.woodcutting.Woodcutting;
 import com.ruse.world.content.skill.woodcutting.WoodcuttingData;
 import com.ruse.world.content.skill.woodcutting.WoodcuttingData.Hatchet;
 import com.ruse.world.content.transportation.TeleportHandler;
-import com.ruse.world.content.transportation.TeleportLocations;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.player.Player;
 
@@ -164,21 +159,6 @@ public class ObjectActionPacketListener implements PacketListener {
 					case 22769:
 				//		player.getMainScreen().displayScreen();
 						break;
-				case 589: //varrock ball
-					if (Misc.easter(2017)) {
-						if (player.getInventory().isFull()) {
-							player.getPacketSender().sendMessage("My inventory is too full, I should make room first.");
-							return;
-						}
-						if (player.getEaster2017() == easter2017data.forObjectId(id).getRequiredProgress()) {
-							player.getPacketSender().sendMessage(easter2017data.forObjectId(id).getSearchMessage());
-							player.setEaster2017(easter2017data.forObjectId(id).getRequiredProgress()+1);
-							player.getInventory().add(1961, 1);
-						}
-					} else {
-						player.getPacketSender().sendMessage("Just a wise old woman's ball.");
-					}
-					break;
 					case 1731:
 						player.moveTo(new Position(3110, 3035, 2));
 						break;
@@ -200,81 +180,6 @@ public class ObjectActionPacketListener implements PacketListener {
 								player.moveTo(new Position(3110, 3035, 3));
 						}
 						break;
-				case 11678:
-					if (Misc.easter(2017)) {
-						if (player.getInventory().isFull()) {
-							player.getPacketSender().sendMessage("My inventory is too full, I should make room first.");
-							return;
-						}
-						if (player.getEaster2017() == easter2017data.forObjectId(id).getRequiredProgress()) {
-							player.getPacketSender().sendMessage(easter2017data.forObjectId(id).getSearchMessage());
-							player.setEaster2017(easter2017data.forObjectId(id).getRequiredProgress()+1);
-							player.getInventory().add(1961, 1);
-						}
-					} else {
-					//	player.getPacketSender().sendMessage("Nope. Nothing special to it.");
-					}
-					break;
-				case 5595:
-					if (Misc.easter(2017)) {
-						if (player.getInventory().isFull()) {
-							player.getPacketSender().sendMessage("My inventory is too full, I should make room first.");
-							return;
-						}
-						if (player.getEaster2017() == easter2017data.forObjectId(id).getRequiredProgress()) {
-							player.getPacketSender().sendMessage(easter2017data.forObjectId(id).getSearchMessage());
-							player.setEaster2017(easter2017data.forObjectId(id).getRequiredProgress()+1);
-							player.getInventory().add(1961, 1);
-						}
-					} else {
-						player.getPacketSender().sendMessage("Just some toys.");
-					}
-					break;
-				case 2725:
-					if (Misc.easter(2017)) {
-						if (player.getInventory().isFull()) {
-							player.getPacketSender().sendMessage("My inventory is too full, I should make room first.");
-							return;
-						}
-						if (player.getEaster2017() == easter2017data.forObjectId(id).getRequiredProgress()) {
-							player.getPacketSender().sendMessage(easter2017data.forObjectId(id).getSearchMessage());
-							player.setEaster2017(easter2017data.forObjectId(id).getRequiredProgress()+1);
-							player.getInventory().add(1961, 1);
-						}
-					} else {
-						player.getPacketSender().sendMessage("Just regular fireplace things.");
-					}
-					break;
-				case 423:
-					if (Misc.easter(2017)) {
-						if (player.getInventory().isFull()) {
-							player.getPacketSender().sendMessage("My inventory is too full, I should make room first.");
-							return;
-						}
-						if (player.getEaster2017() == easter2017data.forObjectId(id).getRequiredProgress()) {
-							player.getPacketSender().sendMessage(easter2017data.forObjectId(id).getSearchMessage());
-							player.setEaster2017(easter2017data.forObjectId(id).getRequiredProgress()+1);
-							player.getInventory().add(1961, 1);
-						}
-					} else {
-						player.getPacketSender().sendMessage("I don't want to mess around with someone's bed.");
-					}
-					break;
-				case 11339:
-					if (Misc.easter(2017)) {
-						if (player.getInventory().isFull()) {
-							player.getPacketSender().sendMessage("My inventory is too full, I should make room first.");
-							return;
-						}
-						if (player.getEaster2017() == easter2017data.forObjectId(id).getRequiredProgress()) {
-							player.getPacketSender().sendMessage(easter2017data.forObjectId(id).getSearchMessage());
-							player.setEaster2017(easter2017data.forObjectId(id).getRequiredProgress()+1);
-							player.getInventory().add(1961, 1);
-						}
-					} else {
-						player.getPacketSender().sendMessage("Just some gold, I can get enough on my own.");
-					}
-					break;
 				case 17953:
 					if (player.getLocation() == Location.ZULRAH_WAITING) {
 						player.getPacketSender().sendMessage("You push the boat into the swamp...");
@@ -319,12 +224,6 @@ public class ObjectActionPacketListener implements PacketListener {
 						});
 					}
 					//TeleportHandler.teleportPlayer(player, new Position(3420, 2777, (player.getIndex()+1)*4), player.getSpellbook().getTeleportType()); //zulrah instance
-					break;
-				case 28295:
-					if (christmas2016.isChristmas()) {
-						player.getPacketSender().sendMessage("Welcome to the Christmas 2016 event!");
-						player.moveTo(christmas2016.eventStart);
-					}
 					break;
 					case 10168:
 						if(player.getPosition().getX()==2138 && player.getPosition().getY()==5105 && player.getPosition().getZ()==1) {
@@ -485,10 +384,6 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.setDialogueActionId(73);
 						DialogueManager.start(player, 115);
 					}
-					break;
-				case 10805:
-				case 10806:
-					GrandExchange.open(player);
 					break;
 				case 38700:
 							if (gameObject.getPosition().getX() == 3668 && gameObject.getPosition().getY() == 2976) {
@@ -653,52 +548,6 @@ public class ObjectActionPacketListener implements PacketListener {
 					//	player.getPacketSender().sendMessage("You would have access to the shortcut.");
 					}
 					break;
-				 case 28779:
-					if (player.getTeleblockTimer() > 0) {
-						player.getPacketSender().sendMessage(
-								"You are teleblocked, and cannot navigate the chaos tunnels.");
-						return;
-					}
-					Position des = new Position(-1, -1);
-					for (int i = 0; i < portal.values().length; i++) {
-						if (portal.values()[i].getLocation().getX() == gameObject.getPosition().getX() && portal.values()[i].getLocation().getY() == gameObject.getPosition().getY()) {
-							des = new Position(portal.values()[i].getDestination().getX(), portal.values()[i].getDestination().getY(), player.getPosition().getZ());
-							//System.out.println("Matched on portal index "+i);
-							break;
-						}
-					}
-					if (des.getX() != -1 && des.getY() != -1) {
-						player.moveTo(des);
-					} else {
-						player.getPacketSender().sendMessage("ERROR 13754, no internals. Report on forums!");
-					}
-					/*if(gameObject.getPosition().getX() == 3186 && gameObject.getPosition().getY() == 5472) {
-						player.moveTo(new Position(3192, 5471, 0));
-					} else if(gameObject.getPosition().getX() == 3192 && gameObject.getPosition().getY() == 5472) {
-						player.moveTo(new Position(3185, 5472, 0));
-					} else if(gameObject.getPosition().getX() == 3197 && gameObject.getPosition().getY() == 5448) {
-						player.moveTo(new Position(3205, 5445, 0));
-					} else if(gameObject.getPosition().getX() == 3204 && gameObject.getPosition().getY() == 5445) {
-						player.moveTo(new Position(3196, 5448, 0));
-					} else if(gameObject.getPosition().getX() == 3189 && gameObject.getPosition().getY() == 5444) {
-						player.moveTo(new Position(3187, 5459, 0));
-					} else if(gameObject.getPosition().getX() == 3187 && gameObject.getPosition().getY() == 5460) {
-						player.moveTo(new Position(3190, 5444, 0));
-					} else if(gameObject.getPosition().getX() == 3178 && gameObject.getPosition().getY() == 5460) {
-						player.moveTo(new Position(3168, 5457, 0));
-					} else if(gameObject.getPosition().getX() == 3168 && gameObject.getPosition().getY() == 5456) {
-						player.moveTo(new Position(3178, 5459, 0));
-					} else if(gameObject.getPosition().getX() == 3167 && gameObject.getPosition().getY() == 5471) {
-						player.moveTo(new Position(3172, 5473, 0));
-					} else if(gameObject.getPosition().getX() == 3171 && gameObject.getPosition().getY() == 5473) {
-						player.moveTo(new Position(3167, 5470, 0));
-					} else if(gameObject.getPosition().getX() == 3171 && gameObject.getPosition().getY() == 5478) {
-						player.moveTo(new Position(3166, 5478, 0));
-					} else if(gameObject.getPosition().getX() == 3167 && gameObject.getPosition().getY() == 5478) {
-						player.moveTo(new Position(3172, 5478, 0));
-						//
-					}*/
-					break; 
 				case 7836:
 				case 7808:
 					int amt = player.getInventory().getAmount(6055);
@@ -710,24 +559,6 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("You do not have any weeds in your inventory.");
 					}
 					break;
-				case 5960: //Levers
-				case 5959:
-					if (player.getLocation() == Location.MAGEBANK_SAFE) {
-						TeleportHandler.teleportPlayer(player, TeleportLocations.MAGEBANK_WILDY.getPos(), TeleportType.LEVER);
-					} else if (player.getWildernessLevel() >= 53 && player.getLocation() == Location.WILDERNESS) {
-						TeleportHandler.teleportPlayer(player, TeleportLocations.MAGEBANK_SAFE.getPos(), TeleportType.LEVER);
-					} else {
-						player.getPacketSender().sendMessage("ERROR: 00512, P: ["+player.getPosition().getX()+","+player.getPosition().getY()+","+player.getPosition().getZ()+"] - please report this bug!");
-					}
-					break;
-					//player.setDirection(Direction.WEST);
-					//TeleportHandler.teleportPlayer(player, new Position(3090, 3475), TeleportType.LEVER);
-					//break;
-				case 5096:
-					if (gameObject.getPosition().getX() == 2644 && gameObject.getPosition().getY() == 9593)
-						player.moveTo(new Position(2649, 9591));
-					break;
-
 				case 5094:
 					if (gameObject.getPosition().getX() == 2648 && gameObject.getPosition().getY() == 9592)
 						player.moveTo(new Position(2643, 9594, 2));

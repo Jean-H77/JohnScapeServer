@@ -25,7 +25,6 @@ import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.dialogue.DialogueOptions;
-import com.ruse.world.content.grandexchange.GrandExchange;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.PestControl;
 import com.ruse.world.content.skill.ChatboxInterfaceSkillAction;
@@ -421,50 +420,6 @@ public class ButtonClickPacketListener implements PacketListener {
 			DialogueManager.sendStatement(player, "Simply press on the skill you want to train in the skills tab.");
 			player.setDialogueActionId(-1);
 			break;
-		case 8654:
-		case 8657:
-		case 8655:
-		case 8663:
-		case 8669:
-		case 8660:
-			player.getPacketSender().sendMessage("<img=10> These teleports have moved to the Teleport Interface!");
-			player.getPacketSender().sendMessage("<img=10> The easiest way to open it is to click the globe/map icon.");
-			TeleportInterface.open(player);
-			break;
-			/*
-			player.setDialogueActionId(0);
-			DialogueManager.start(player, 0);
-			*/
-		case 11014:
-		case 11008:
-		case 11017:
-		case 11011:
-		case 11020:
-			player.getPacketSender().sendMessage("<img=10> These teleports have moved to the Teleport Interface!");
-			player.getPacketSender().sendMessage("<img=10> The easiest way to open it is to click the globe/map icon.");
-			TeleportInterface.open(player);
-			break;
-		/*case 11008:
-			player.setDialogueActionId(0);
-			DialogueManager.start(player, 0);
-			break;
-		case 11017:
-			DialogueManager.start(player, 34);
-			player.setDialogueActionId(15);
-			break;
-		case 11011:
-			DialogueManager.start(player, 22);
-			player.setDialogueActionId(14);
-			break;
-		case 11020:
-			DialogueManager.start(player, 21);
-			player.setDialogueActionId(12);
-			break;
-		case 11014:
-			player.setDialogueActionId(36);
-			DialogueManager.start(player, 136);
-			break;
-			*/
 		case 2799:
 		case 2798:
 		case 1747:
@@ -929,10 +884,6 @@ public class ButtonClickPacketListener implements PacketListener {
 			DialogueOptions.handle(player, id);
 			return true;
 		}
-		if(TeleportInterface.handleButton(id)) {
-			TeleportInterface.handleButtonClick(player, id);
-			return true;
-		}
 		if(player.isPlayerLocked() && id != 2458) {
 			return true;
 		}
@@ -980,9 +931,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(PlayersOnlineInterface.handleButton(player, id)) {
 			return true;
 		}
-		if(GrandExchange.handleButton(player, id)) {
-			return true;
-		}
+
 		if(ClanChatManager.handleClanChatSetupButton(player, id)) {
 			return true;
 		}

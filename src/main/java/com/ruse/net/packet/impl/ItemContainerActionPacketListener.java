@@ -36,14 +36,11 @@ import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.magic.Autocasting;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.grandexchange.GrandExchange;
-import com.ruse.world.content.grandexchange.GrandExchangeOffer;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.Dueling.DuelRule;
 import com.ruse.world.content.skill.crafting.Jewelry;
 import com.ruse.world.content.skill.smithing.EquipmentMaking;
 import com.ruse.world.content.skill.smithing.SmithingData;
-import com.ruse.world.content.transportation.JewelryTeleporting;
 import com.ruse.model.entity.character.player.Player;
 
 public class ItemContainerActionPacketListener implements PacketListener {
@@ -62,12 +59,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("secondAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
-		case GrandExchange.COLLECT_ITEM_PURCHASE_INTERFACE:
-			GrandExchange.collectItem(player, id, slot, GrandExchangeOffer.OfferType.BUYING);
-			break;
-		case GrandExchange.COLLECT_ITEM_SALE_INTERFACE:
-			GrandExchange.collectItem(player, id, slot, GrandExchangeOffer.OfferType.SELLING);
-			break;
 		case Trading.INTERFACE_ID:
 			if(player.getTrading().inTrade()) {
 				player.getTrading().tradeItem(id, 1, slot);
@@ -344,42 +335,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			case 2568:
 				int forgingcharges = (ItemDegrading.maxForgingCharges - player.getForgingCharges());
 				player.getPacketSender().sendMessage("You have "+forgingcharges+" forging " + (forgingcharges == 1 ? "charge" : "charges") + " remaining.");
-				break;
-			case 1712: //glory start
-			case 1710:
-			case 1708:
-			case 1706: //glory end
-			case 11118: //cb brace start
-			case 11120:
-			case 11122:
-			case 11124: //cb brace end
-			case 2552: //duel start
-			case 2554:
-			case 2556:
-			case 2558:
-			case 2560:
-			case 2562:
-			case 2564:
-			case 2566: //duel end
-			case 3853: //games start
-			case 3855:
-			case 3857:
-			case 3859:
-			case 3861:
-			case 3863:
-			case 3865:
-			case 3867: //games end
-			case 11194: //digsite start 
-			case 11193:
-			case 11192:
-			case 11191:
-			case 11190: //digsite start
-				//String jewelName = JewelryTeleports.stripName(id);
-				//JewelryTeleports.handleDialogue(player, id, JewelryTeleports.jewelIndex(jewelName));
-				player.getPacketSender().sendMessage("You cannot operate this item while wearing it.");
-				break;
-			case 10362:
-				JewelryTeleporting.rub(player, id);
 				break;
 			//case 13738:
 			case 13740:

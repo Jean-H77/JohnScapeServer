@@ -22,8 +22,6 @@ import com.ruse.world.content.combat.magic.CombatSpell;
 import com.ruse.world.content.combat.magic.CombatSpells;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.grandexchange.GrandExchange;
-import com.ruse.world.content.holidayevents.christmas2016;
 import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.minigames.trioMinigame;
 import com.ruse.world.content.skill.construction.ConstructionActions;
@@ -39,9 +37,9 @@ import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.skill.summoning.SummoningData;
 import com.ruse.world.content.skill.thieving.Pickpocket;
 import com.ruse.world.content.skill.thieving.PickpocketData;
-import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.world.content.transportation.TeleportHandler;
 
 public class NPCOptionPacketListener implements PacketListener {
 
@@ -189,33 +187,6 @@ public class NPCOptionPacketListener implements PacketListener {
 						DialogueManager.start(player, 200);
 					}
 					break;
-				case 1552:
-					if (christmas2016.isChristmas()) {
-						if (player.getChristmas2016() == 0) {
-							DialogueManager.start(player, 169);
-							player.setDialogueActionId(171);
-						} else if (player.getChristmas2016() == 1) {
-							player.getPacketSender().sendMessage("Santa wants me to talk to Explorer Jack at home.");
-						} else if (player.getChristmas2016() == 2) {
-							DialogueManager.start(player, 181);
-						} else if (player.getChristmas2016() > 2 && player.getChristmas2016() < 5) {
-							DialogueManager.start(player, 182);
-							player.getPacketSender().sendMessage("The Reindeer need Law, Cosmic, and Nature runes.");
-						} else if (player.getChristmas2016() == 5) {
-							DialogueManager.start(player, 183);
-							player.getPacketSender().sendMessage("I should \"use\" the Mind Bomb on Santa.");
-						} else if (player.getChristmas2016() == 6) {
-							DialogueManager.start(player, 184);
-							player.setDialogueActionId(187);
-						} else if (player.getChristmas2016() == 7) {
-							DialogueManager.start(player, 188);
-						} else { 
-							npc.forceChat("Ho ho ho!");
-						}
-					} else {
-						npc.forceChat("Ho ho ho!");
-					}
-					break;
 				case 736:
 					player.forceChat("Ban emily!");
 					npc.forceChat("Mods! Help! They're harassing me again!");
@@ -260,12 +231,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 534:
 					ShopManager.getShops().get(78).open(player);
 					break;
-				case 947:
-					if(player.getPosition().getX() >= 3092) {
-						player.getMovementQueue().reset();
-						GrandExchange.open(player);
-					}
-					break;
 				case 11226:
 					if(Dungeoneering.doingDungeoneering(player)) {
 						ShopManager.getShops().get(45).open(player);
@@ -281,21 +246,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 3101:
 					DialogueManager.start(player, 90);
 					player.setDialogueActionId(57);
-					break;
-				case 7969:
-					//player.getPacketSender().sendMessage("yayayaya i am lord");
-					if (christmas2016.isChristmas() == false || player.getChristmas2016() == 0) {
-						ShopManager.getShops().get(28).open(player);
-						return;
-					} else if (player.getChristmas2016() == 1) {
-						//player.getPacketSender().sendMessage("dialogue 173");
-						DialogueManager.start(player, 173);
-						player.setDialogueActionId(173);
-					} else if (player.getChristmas2016() == 2) {
-						DialogueManager.start(player, 173);
-						player.setDialogueActionId(505050);
-					}
-					//DialogueManager.start(player, ExplorerJack.getDialogue(player));
 					break;
 				case 437:
 					DialogueManager.start(player, 99);
