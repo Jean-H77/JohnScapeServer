@@ -27,9 +27,9 @@ public class TeleportMenuManager {
     }
 
     public void showInterface() {
-        player.getPacketSender().sendConfig(389, 0);
-        reset();
-        sendTabChangeData();
+     //   player.getPacketSender().sendConfig(389, 0);
+      //  reset();
+      //  sendTabChangeData();
         player.getPacketSender().sendInterface(49550);
     }
 

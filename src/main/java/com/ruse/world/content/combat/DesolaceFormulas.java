@@ -65,13 +65,6 @@ public class DesolaceFormulas {
 				} else if (npc.getDefenceWeakened()[2]) {
 					base += (int) ((0.30) * (base));
 				}
-
-				/** SLAYER HELMET **/
-				if(plr.getSlayer().isSlayerTask(npc)) {
-					if(plr.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 13263) {
-						base *= 1.12;
-					}
-				}
 			}
 			maxHit = (base *= 10);
 		}

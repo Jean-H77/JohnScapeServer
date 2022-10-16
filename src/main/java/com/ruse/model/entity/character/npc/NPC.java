@@ -75,9 +75,12 @@ public class NPC extends CharacterEntity {
 				if (reader.get("face") != null) {
 					direction = Direction.valueOf(reader.get("face").getAsString());
 				}
-				if(id==32668) {
+				if(id==7891) {
 					direction = Direction.EAST;
 
+				}
+				if(id > 30_000) {
+					return;
 				}
 				ArrayList<NPC> spawned = Lists.newArrayList();
 
@@ -141,7 +144,7 @@ public class NPC extends CharacterEntity {
 		this.constitution = defaultConstitution;
 		setLocation(Location.getLocation(this));
 
-		if(id == 32668) {
+		if(id == 7891) {
 			this.getMovementQueue().setLockMovement(true);
 		}
 	}
@@ -168,7 +171,7 @@ public class NPC extends CharacterEntity {
 
 	@Override
 	public void appendDeath() {
-		if(!isDying && !summoningNpc && id != 32668) {
+		if(!isDying && !summoningNpc && id != 7891) {
 			TaskManager.submit(new NPCDeathTask(this));
 			isDying = true;
 		}
@@ -181,7 +184,7 @@ public class NPC extends CharacterEntity {
 
 	@Override
 	public NPC setConstitution(int constitution) {
-		if(this.getId() == 32668) {
+		if(this.getId() == 7891) {
 			return this;
 		}
 		this.constitution = constitution;

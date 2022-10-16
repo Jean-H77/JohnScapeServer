@@ -9,12 +9,10 @@ import com.ruse.model.entity.character.npc.NpcItemDropping;
 import com.ruse.world.World;
 import com.ruse.world.content.KillsTracker;
 import com.ruse.world.content.KillsTracker.KillsEntry;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.Wildywyrm;
 import com.ruse.world.content.combat.dungeon.DungeonNPC;
 import com.ruse.world.content.combat.strategy.impl.bosses.KalphiteQueen;
 import com.ruse.world.content.combat.strategy.impl.bosses.Nex;
-import com.ruse.world.content.combat.strategy.impl.bosses.ZulrahLogic;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
 
@@ -98,23 +96,13 @@ public class NPCDeathTask extends Task {
 							//Achievements.doProgress(killer, AchievementData.DEFEAT_500_BOSSES);
 						}
 					}
-					if (npc.getId() == Wildywyrm.NPC_ID) {
-						//System.out.println("WildyWyrm.wyrmAlive = false now");
-						Wildywyrm.wyrmAlive = false;
-						World.getPlayers().forEach(p -> PlayerPanel.refreshPanel(p));
-					}
-
 					/** LOCATION KILLS **/
 					if(npc.getLocation().handleKilledNPC(killer, npc)) {
 						stop();
 						return;
 					}
-
 					/** PARSE DROPS **/
 					NpcItemDropping.dropItems(killer, npc);
-
-					/** SLAYER **/
-					killer.getSlayer().killedNpc(npc);
 				}
 				stop();
 				break;

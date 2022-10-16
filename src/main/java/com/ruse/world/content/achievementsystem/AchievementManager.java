@@ -20,10 +20,10 @@ public class AchievementManager {
     static {
         ACHIEVEMENTS_AS_LIST_VALUES.put(AchievementType.GENERAL, List.of(
                 new Achievement("ok", 5, 5),
-                new Achievement("ok3", 5, 5),
-                new Achievement("ok1", 5, 5),
-                new Achievement("ok2", 5, 5),
-                new Achievement("ok4", 5, 5),
+                new Achievement("ok3", 5, 4),
+                new Achievement("ok1", 5, 3),
+                new Achievement("ok2", 5, 2),
+                new Achievement("ok4", 5, 1),
                 new Achievement("ok5", 5, 5),
                 new Achievement("ok6", 5, 5),
                 new Achievement("ok7", 5, 5),

@@ -45,7 +45,17 @@ public class TeleportData {
 
                     new TeleportMenuItemParent("The Inferno", TeleportType.AREAS,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Fire Monster", new Position(2868, 3234),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Monster", new Position(2888, 2721),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Pyrefiend", new Position(3226, 2847),  1634, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  40939, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Titan", new Position(3284, 2847),  7355, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Infernal Pyrelord @cya@(World Boss)", new Position(3284, 2847),  39465, TeleportMenuItemChild.CombatStyleType.MAGIC)
+                            }
+                    ),
+
+                    new TeleportMenuItemParent("Castle", TeleportType.AREAS,
+                            new TeleportMenuItemChild[]{
+                                    new TeleportMenuItemChild("Fire Monster", new Position(2918, 2724),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Pyrefiend", new Position(3226, 2847),  1634, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  40939, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Fire Titan", new Position(3284, 2847),  7355, TeleportMenuItemChild.CombatStyleType.MIXED),

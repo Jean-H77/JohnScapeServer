@@ -37,7 +37,6 @@ import com.ruse.world.content.skill.dungeoneering.DungeoneeringParty;
 import com.ruse.world.content.skill.dungeoneering.ItemBinding;
 import com.ruse.world.content.skill.fletching.Fletching;
 import com.ruse.world.content.skill.herblore.ingredientsBook;
-import com.ruse.world.content.skill.slayer.Slayer;
 import com.ruse.world.content.skill.smithing.SmithingData;
 import com.ruse.world.content.skill.summoning.PouchMaking;
 import com.ruse.world.content.skill.summoning.SummoningTab;
@@ -180,7 +179,6 @@ public class ButtonClickPacketListener implements PacketListener {
 			if(player.isKillsTrackerOpen()) {
 				player.setKillsTrackerOpen(false);
 				player.getPacketSender().sendTabInterface(GameSettings.QUESTS_TAB, 639);
-				PlayerPanel.refreshPanel(player);
 			}
 			break;
 		case -26337:
@@ -590,7 +588,6 @@ public class ButtonClickPacketListener implements PacketListener {
 			player.setExperienceLocked(!player.experienceLocked());
 			String type = player.experienceLocked() ? "locked" : "unlocked";
 			player.getPacketSender().sendMessage("Your experience is now "+type+".");
-			PlayerPanel.refreshPanel(player);
 			break;
 		case 27651:
 		case 15001:
@@ -976,9 +973,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getLocation() == Location.DUEL_ARENA && Dueling.handleDuelingButtons(player, id)) {
 			return true;
 		}
-		if(Slayer.handleRewardsInterface(player, id)) {
-			return true;
-		}
+
 		if(ExperienceLamps.handleButton(player, id)) {
 			return true;
 		}
@@ -997,9 +992,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getQuestManager().getQuestInterface().handleTabSwitch(id)) {
 			return true;
 		}
-		if(player.getTeleportMenuManager().handleButtonClick(id)) {
-			return true;
-		}
+	//	if(player.getTeleportMenuManager().handleButtonClick(id)) {
+	//		return true;
+	//	}
 		if(player.getCollectionLogManager().handleButtonClick(id)) {
 			return true;
 		}

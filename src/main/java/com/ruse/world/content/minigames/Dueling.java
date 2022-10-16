@@ -19,7 +19,6 @@ import com.ruse.world.World;
 import com.ruse.world.content.BankPin;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.model.entity.character.player.Player;
 
 public class Dueling {
@@ -631,7 +630,6 @@ public class Dueling {
 		player.setEntityInteraction(null);
 		player.getMovementQueue().reset();
 		player.getPacketSender().sendInterface(6733);
-		PlayerPanel.refreshPanel(player);
 	}
 
 	public static boolean checkDuel(Player playerToDuel, int statusReq) {

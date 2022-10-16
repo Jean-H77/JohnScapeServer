@@ -59,7 +59,6 @@ import com.ruse.world.content.skill.construction.HouseFurniture;
 import com.ruse.world.content.skill.construction.Portal;
 import com.ruse.world.content.skill.construction.Room;
 import com.ruse.world.content.skill.farming.Farming;
-import com.ruse.world.content.skill.slayer.Slayer;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.teleports.TeleportMenuManager;
@@ -431,7 +430,6 @@ public class Player extends CharacterEntity {
 	 private PriceChecker priceChecker = new PriceChecker(this);
 	 private Trading trading = new Trading(this);
 	 private Dueling dueling = new Dueling(this);
-	 private Slayer slayer = new Slayer(this);
 	 private Farming farming = new Farming(this);
 	 private Summoning summoning = new Summoning(this);
 	 private Bank[] bankTabs = new Bank[9];
@@ -747,7 +745,6 @@ public class Player extends CharacterEntity {
 		if (this.getPlayerKillingAttributes().getPlayerKillStreak() >= 15) {
 			LoyaltyProgramme.unlock(this, LoyaltyTitles.IMMORTAL);
 		}
-		PlayerPanel.refreshPanel(this);
 	}
 
 	public boolean addToBank(Item item) {
@@ -2109,10 +2106,6 @@ public class Player extends CharacterEntity {
 
 	public Position getResetPosition() {
 		return resetPosition;
-	}
-
-	public Slayer getSlayer() {
-		return slayer;
 	}
 
 	public Summoning getSummoning() {

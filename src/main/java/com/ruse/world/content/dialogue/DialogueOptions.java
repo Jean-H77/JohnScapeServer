@@ -25,7 +25,6 @@ import com.ruse.world.content.KillsTracker;
 import com.ruse.world.content.Lottery;
 import com.ruse.world.content.LoyaltyProgramme;
 import com.ruse.world.content.PkSets;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.Scoreboards;
 import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.clan.ClanChatManager;
@@ -41,9 +40,6 @@ import com.ruse.world.content.minigames.trioMinigame;
 import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.world.content.skill.dungeoneering.DungeoneeringFloor;
 import com.ruse.world.content.skill.mining.Mining;
-import com.ruse.world.content.skill.slayer.Slayer;
-import com.ruse.world.content.skill.slayer.SlayerDialogues;
-import com.ruse.world.content.skill.slayer.SlayerMaster;
 import com.ruse.world.content.skill.summoning.CharmingImp;
 import com.ruse.world.content.skill.summoning.SummoningTab;
 import com.ruse.world.content.transportation.CityTeleports;
@@ -122,9 +118,6 @@ public class DialogueOptions {
 					}
 					TeleportHandler.teleportPlayer(player, new Position(2855, 3543), player.getSpellbook().getTeleportType());
 					break;
-				case 29:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.VANNAKA);
-					break;
 				case 36:
 					TeleportHandler.teleportPlayer(player, new Position(2871, 5318, 2), player.getSpellbook().getTeleportType());
 					break;
@@ -191,7 +184,6 @@ public class DialogueOptions {
 					break;
 				case 87: //Novite longsword
 					if(player.getClickDelay().elapsed(1000)) {
-						PlayerPanel.refreshPanel(player);
 						DialogueManager.start(player, Tutorial.get(player, 0));
 						player.getClickDelay().reset();
 					}
@@ -251,9 +243,6 @@ public class DialogueOptions {
 					break;
 				case 15:
 					TeleportHandler.teleportPlayer(player, new Position(2663 + Misc.getRandom(1), 2651 + Misc.getRandom(1)), player.getSpellbook().getTeleportType());
-					break;
-				case 29:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.DURADEL);
 					break;
 				case 30:
 					player.getPacketSender().sendString(36030, "Current Points:   "+player.getPointsHandler().getSlayerPoints());
@@ -315,7 +304,6 @@ public class DialogueOptions {
 					break;
 				case 87: //Novite Rapier
 					if(player.getClickDelay().elapsed(1000)) {
-						PlayerPanel.refreshPanel(player);
 						DialogueManager.start(player, Tutorial.get(player, 0));
 						player.getClickDelay().reset();
 					}
@@ -384,9 +372,6 @@ public class DialogueOptions {
 				case 15:
 					TeleportHandler.teleportPlayer(player, new Position(3368 + Misc.getRandom(5), 3267+ Misc.getRandom(3)), player.getSpellbook().getTeleportType());
 					break;
-				case 29:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.KURADEL);
-					break;
 				case 36:
 					player.setDialogueActionId(37);
 					DialogueManager.start(player, 70);
@@ -423,7 +408,6 @@ public class DialogueOptions {
 					break;
 				case 87: //Novite Maul
 					if(player.getClickDelay().elapsed(1000)) {
-						PlayerPanel.refreshPanel(player);
 						DialogueManager.start(player, Tutorial.get(player, 0));
 						player.getClickDelay().reset();
 					}
@@ -481,9 +465,6 @@ public class DialogueOptions {
 					player.setInputHandling(new ChangePassword());
 					player.getPacketSender().sendEnterInputPrompt("Enter a new password:");
 					break;
-				case 29:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.SUMONA);
-					break;
 				case 36:
 					TeleportHandler.teleportPlayer(player, new Position(2717, 9805), player.getSpellbook().getTeleportType());
 					break;
@@ -534,7 +515,6 @@ public class DialogueOptions {
 					break;
 				case 87: //Magic shortbow
 					if(player.getClickDelay().elapsed(1000)) {
-						PlayerPanel.refreshPanel(player);
 						DialogueManager.start(player, Tutorial.get(player, 0));
 						player.getClickDelay().reset();
 					}
@@ -663,27 +643,11 @@ public class DialogueOptions {
 					player.setDialogueActionId(29);
 					DialogueManager.start(player, 62);
 					break;
-				case 30:
-					player.getSlayer().assignTask();
-					break;
-				case 31:
-					DialogueManager.start(player, SlayerDialogues.findAssignment(player));
-					break;
 				case 41:
 					DialogueManager.start(player, 76);
 					break;
 				case 45:
 					GameMode.set(player, GameMode.NORMAL, false);
-					PlayerPanel.refreshPanel(player);
-					break;
-				case 65:
-					player.getPacketSender().sendInterfaceRemoval();
-					if (player.getSlayer().getDuoPartner() != null) {
-						player.getPacketSender().sendMessage(
-								"You already have a duo partner.");
-						return;
-					}
-					player.getPacketSender().sendMessage("<img=10> To do Social slayer, simply use your Slayer gem on another player.");
 					break;
 				case 79:
 					DialogueManager.start(player, 128);
@@ -750,28 +714,11 @@ public class DialogueOptions {
 				case 27:
 					ClanChatManager.clanChatSetupInterface(player, true);
 					break;
-				case 28:
-					if(player.getSlayer().getSlayerMaster().getPosition() != null) {
-						TeleportHandler.teleportPlayer(player, new Position(player.getSlayer().getSlayerMaster().getPosition().getX(), player.getSlayer().getSlayerMaster().getPosition().getY(), player.getSlayer().getSlayerMaster().getPosition().getZ()), player.getSpellbook().getTeleportType());
-						if(player.getSkillManager().getCurrentLevel(Skill.SLAYER) <= 50)
-							player.getPacketSender().sendMessage("").sendMessage("You can train Slayer with a friend by using a Slayer gem on them.").sendMessage("Slayer gems can be bought from all Slayer masters.");;
-					}
-					break;
-				case 31:
-					DialogueManager.start(player, SlayerDialogues.resetTaskDialogue(player));
-					break;
 				case 41:
 					WellOfGoodwill.lookDownWell(player);
 					break;
 				case 45:
 					GameMode.set(player, GameMode.IRONMAN, false);
-					PlayerPanel.refreshPanel(player);
-					break;
-				case 65:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getSlayer().getDuoPartner() != null) {
-						Slayer.resetDuo(player, World.getPlayerByName(player.getSlayer().getDuoPartner()));
-					}
 					break;
 				case 79:
 					player.getPacketSender().sendInterfaceRemoval();
@@ -827,39 +774,12 @@ public class DialogueOptions {
 				case 30:
 					ShopManager.getShops().get(40).open(player);
 					break;
-				case 31:
-					DialogueManager.start(player, SlayerDialogues.totalPointsReceived(player));
-					break;
 				case 41:
 					player.setInputHandling(new DonateToWell());
 					player.getPacketSender().sendInterfaceRemoval().sendEnterAmountPrompt("How much money would you like to contribute with?");
 					break;
 				case 45:
 					GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
-					PlayerPanel.refreshPanel(player);
-					break;
-				case 65:
-					player.getPacketSender().sendInterfaceRemoval();
-					if (player.getSlayer().getDuoPartner() != null) { //slayer
-						Player partner = World.getPlayerByName(player.getSlayer().getDuoPartner());
-						boolean inPos = (player.getLocation() == Location.HOME_BANK || player.getLocation() == Location.NEW_MEMBER_ZONE);
-						if (!inPos || player.busy() || player.getCombatBuilder().isBeingAttacked()) {
-							player.getPacketSender().sendMessage("You may only teleport to your target from the Home bank, or Member Zone.");
-							break;
-						}
-						if (partner.busy() || partner.getLocation() == Location.WILDERNESS || partner.getLocation() == Location.DUNGEONEERING || partner.getLocation() == Location.FIGHT_CAVES || partner.getLocation() == Location.DUEL_ARENA || partner.getLocation() == Location.JAIL || partner.getLocation() == Location.BARROWS
-								|| partner.getLocation() == Location.KRAKEN || partner.getLocation() == Location.NEW_MEMBER_ZONE || partner.getLocation() == Location.MEMBER_ZONE
-								|| partner.getLocation() == Location.FREE_FOR_ALL_ARENA || partner.getLocation() == Location.FREE_FOR_ALL_WAIT || partner.getLocation() == Location.GODWARS_DUNGEON || partner.getLocation() == Location.PEST_CONTROL_GAME || partner.getLocation() == Location.TRIO_ZONE
-								|| partner.getLocation() == Location.THE_SIX || partner.getLocation() == Location.WARRIORS_GUILD || partner.getLocation() == Location.ZULRAH) {
-							player.getPacketSender().sendMessage("Your partner cannot be teleported to at the moment. Are they in combat/minigame/wild?");
-							break;
-						} else {
-							TeleportHandler.teleportPlayer(player, new Position(partner.getPosition().getX(), partner.getPosition().getY(), partner.getPosition().getZ()), TeleportType.NORMAL);
-							player.getPacketSender().sendMessage("Teleporting you to "+partner.getUsername()+"!");
-						}
-					} else {
-						player.getPacketSender().sendMessage("You need to be in a team with a partner first!");
-					}
 					break;
 				case 79:
 					player.getPacketSender().sendMessage("<shad=336600>You currently have "+player.getPointsHandler().getBarrowsPoints()+" Barrows points.");
@@ -902,13 +822,6 @@ public class DialogueOptions {
 				case 18:
 					DialogueManager.start(player, 25);
 					player.setDialogueActionId(15);
-					break;
-				case 30:
-				case 31:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getSlayer().getDuoPartner() != null) {
-						Slayer.resetDuo(player, World.getPlayerByName(player.getSlayer().getDuoPartner()));
-					}
 					break;
 				case 45:
 					player.getPacketSender().sendString(1, GameSettings.IronManModesUrl);
@@ -1027,24 +940,14 @@ public class DialogueOptions {
 					player.getPacketSender().sendInterfaceRemoval();
 					DialogueManager.start(player, 39);
 					player.getMinigameAttributes().getRecipeForDisasterAttributes().setPartFinished(0, true);
-					PlayerPanel.refreshPanel(player);
 					break;
 				case 23:
 					DialogueManager.start(player, 50);
 					player.getMinigameAttributes().getNomadAttributes().setPartFinished(0, true);
 					player.setDialogueActionId(24);
-					PlayerPanel.refreshPanel(player);
 					break;
 				case 24:
 					player.getPacketSender().sendInterfaceRemoval();
-					break;
-				case 33:
-					player.getPacketSender().sendInterfaceRemoval();
-					player.getSlayer().resetSlayerTask();
-					break;
-				case 34:
-					player.getPacketSender().sendInterfaceRemoval();
-					player.getSlayer().handleInvitation(true);
 					break;
 				case 37:
 					TeleportHandler.teleportPlayer(player, new Position(2961, 3882), player.getSpellbook().getTeleportType());
@@ -1209,10 +1112,6 @@ public class DialogueOptions {
 					break;
 				case 24:
 					Nomad.startFight(player);
-					break;
-				case 34:
-					player.getPacketSender().sendInterfaceRemoval();
-					player.getSlayer().handleInvitation(false);
 					break;
 				case 66:
 					player.getPacketSender().sendInterfaceRemoval();
@@ -1395,7 +1294,6 @@ public class DialogueOptions {
 						int amt = !all ? 1 : player.getInventory().getAmount(19670);
 						player.getInventory().delete(19670, amt);
 						player.getPointsHandler().incrementVotingPoints(amt);
-						PlayerPanel.refreshPanel(player);
 						player.getPacketSender().sendMessage("You claim the "+(amt > 1 ? "scrolls" : "scroll")+" and receive your reward.");
 						player.getClickDelay().reset();
 					}

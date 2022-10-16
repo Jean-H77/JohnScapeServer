@@ -35,14 +35,6 @@ public class EquipmentBonus {
 			return false;
 		}
 
-	
-	public static boolean slayerMageBonus(Player player, NPC npc) {
-		if(player.getSlayer().isSlayerTask(npc) && (player.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 15492 || player.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 15488)) {
-			return true;
-		}
-		return false;
-	}
-
 	/*
 		HELMS -> 11665 Melee, 11664 Range, 11663 Mage
 		DEFLECTOR -> 19712

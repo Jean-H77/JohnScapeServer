@@ -11,7 +11,6 @@ import com.ruse.model.container.impl.Shop;
 import com.ruse.model.input.impl.EnterAmountToBuyFromShop;
 import com.ruse.model.input.impl.EnterAmountToSellToShop;
 import com.ruse.world.World;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.dialogue.DialogueManager;
@@ -77,7 +76,6 @@ public class RecipeForDisaster {
 			player.moveTo(new Position(3081, 3500, 0));
 			player.restart();
 			DialogueManager.start(player, 46);
-			PlayerPanel.refreshPanel(player);
 			break;
 		}
 		if(player.getLocation() != Location.RECIPE_FOR_DISASTER || player.getMinigameAttributes().getRecipeForDisasterAttributes().getWavesCompleted() == 6)

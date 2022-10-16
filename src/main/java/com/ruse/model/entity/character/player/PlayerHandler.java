@@ -35,7 +35,6 @@ import com.ruse.world.clip.region.RegionClipping;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.Lottery;
 import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.PlayersOnlineInterface;
 import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.Wildywyrm;
@@ -51,7 +50,6 @@ import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.minigames.Barrows;
 import com.ruse.world.content.skill.hunter.Hunter;
-import com.ruse.world.content.skill.slayer.Slayer;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -98,7 +96,6 @@ public class PlayerHandler {
 		//Skills
 		player.getSummoning().login();
 		player.getFarming().load();
-		Slayer.checkDuoSlayer(player, true);
 		for (Skill skill : Skill.values()) {
 			player.getSkillManager().updateSkill(skill);
 		}
@@ -188,9 +185,6 @@ public class PlayerHandler {
 		if(WellOfGoodwill.isActive()) {
 			player.getPacketSender().sendMessage(MessageType.SERVER_ALERT, "The Well of Goodwill is granting 30% bonus experience for another "+WellOfGoodwill.getMinutesRemaining()+" minutes.");
 		}
-
-		PlayerPanel.refreshPanel(player);
-
 
 		//New player
 		if(player.newPlayer()) {

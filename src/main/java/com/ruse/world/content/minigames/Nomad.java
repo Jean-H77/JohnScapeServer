@@ -7,7 +7,6 @@ import com.ruse.model.Position;
 import com.ruse.model.RegionInstance;
 import com.ruse.model.RegionInstance.RegionInstanceType;
 import com.ruse.world.World;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
@@ -49,7 +48,6 @@ public class Nomad {
 			p.restart();
 			p.getMinigameAttributes().getNomadAttributes().setPartFinished(1, true);
 			DialogueManager.start(p, 53);
-			PlayerPanel.refreshPanel(p);
 		}
 	}
 

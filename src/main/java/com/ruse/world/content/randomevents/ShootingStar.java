@@ -1,6 +1,5 @@
 package com.ruse.world.content.randomevents;
 
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.model.Animation;
 import com.ruse.model.GameObject;
 import com.ruse.model.Position;
@@ -8,11 +7,7 @@ import com.ruse.util.Misc;
 import com.ruse.util.Stopwatch;
 import com.ruse.world.World;
 import com.ruse.world.content.CustomObjects;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.model.entity.character.player.Player;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
-
-import java.awt.*;
 
 public class ShootingStar {
 
@@ -92,7 +87,6 @@ public class ShootingStar {
 				CRASHED_STAR = new CrashedStar(new GameObject(38660, locationData.spawnPos), locationData);
 				CustomObjects.spawnGlobalObject(CRASHED_STAR.starObject);
 				World.sendMessage("<img=10> <shad=1><col=FF9933>A shooting star has just crashed "+locationData.clue+"!");
-				World.getPlayers().forEach(p -> PlayerPanel.refreshPanel(p));
 				/*JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
 						.setTitle("Shooting star spawn!")
 						.setDescription("A shooting star has just crashed "+locationData.clue+"!")

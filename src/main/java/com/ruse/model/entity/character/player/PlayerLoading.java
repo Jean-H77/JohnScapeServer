@@ -16,8 +16,6 @@ import com.ruse.world.content.combat.magic.CombatSpells;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.grandexchange.GrandExchangeSlot;
 import com.ruse.world.content.skill.SkillManager;
-import com.ruse.world.content.skill.slayer.SlayerMaster;
-import com.ruse.world.content.skill.slayer.SlayerTasks;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
@@ -333,35 +331,6 @@ public class PlayerLoading {
 
 			if (reader.has("drops")) {
 				DropLog.submit(player, builder.fromJson(reader.get("drops").getAsJsonArray(), DropLog.DropLogEntry[].class));
-			}
-
-			if (reader.has("slayer-master")) {
-				player.getSlayer().setSlayerMaster(SlayerMaster.valueOf(reader.get("slayer-master").getAsString()));
-			}
-
-			if (reader.has("slayer-task")) {
-				player.getSlayer().setSlayerTask(SlayerTasks.valueOf(reader.get("slayer-task").getAsString()));
-			}
-
-			if (reader.has("prev-slayer-task")) {
-				player.getSlayer().setLastTask(SlayerTasks.valueOf(reader.get("prev-slayer-task").getAsString()));
-			}
-
-			if (reader.has("task-amount")) {
-				player.getSlayer().setAmountToSlay(reader.get("task-amount").getAsInt());
-			}
-
-			if (reader.has("task-streak")) {
-				player.getSlayer().setTaskStreak(reader.get("task-streak").getAsInt());
-			}
-
-			if (reader.has("duo-partner")) {
-				String partner = reader.get("duo-partner").getAsString();
-				player.getSlayer().setDuoPartner(partner.equals("null") ? null : partner);
-			}
-
-			if (reader.has("double-slay-xp")) {
-				player.getSlayer().doubleSlayerXP = reader.get("double-slay-xp").getAsBoolean();
 			}
 
 			if (reader.has("recoil-deg")) {

@@ -16,7 +16,6 @@ import com.ruse.util.Misc;
 import com.ruse.util.Stopwatch;
 import com.ruse.world.World;
 import com.ruse.world.content.CustomObjects;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
 import com.ruse.world.content.skill.woodcutting.BirdNests;
@@ -263,7 +262,6 @@ public final class EvilTree {
 				SPAWNED_TREE = new SpawnedTree(new GameObject(tree.getId(), locationData.spawnPos), locationData);
 				CustomObjects.spawnGlobalObject(SPAWNED_TREE.treeObject);
 				World.sendMessage("<img=10> <shad=1><col=FF9933>An Evil tree has spawned "+locationData.clue+".");
-				World.getPlayers().forEach(p -> PlayerPanel.refreshPanel(p));
 				/*JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
 						.setTitle("Evil tree spawn!")
 						.setDescription("An Evil tree has spawned "+locationData.clue+".")
@@ -308,7 +306,6 @@ public final class EvilTree {
 				if (p == null) {
 					continue;
 				}
-				PlayerPanel.refreshPanel(p);
 			}
 		}
 	}

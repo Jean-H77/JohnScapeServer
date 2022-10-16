@@ -116,7 +116,6 @@ public class Wildywyrm extends NPC {
         //System.out.print("spawned.");
         wyrmAlive = true;
         World.sendMessage("<col=1e56ad><img=10> [WildyWyrm]@bla@ The WildyWyrm has appeared "+location.getLocation()+"!");
-        World.getPlayers().forEach(p -> PlayerPanel.refreshPanel(p));
         /*JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
                 .setTitle("The WildyWyrm just spawned!")
                 .setDescription("The WildyWyrm has appeared "+location.getLocation()+"!")

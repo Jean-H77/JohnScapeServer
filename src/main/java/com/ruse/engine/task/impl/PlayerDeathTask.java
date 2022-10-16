@@ -20,7 +20,6 @@ import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.content.ItemsKeptOnDeath;
 import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.model.entity.character.GroundItemManager;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
@@ -163,7 +162,6 @@ public class PlayerDeathTask extends Task {
 							killer.getPlayerKillingAttributes().add(player);
 							player.getPlayerKillingAttributes().setPlayerDeaths(player.getPlayerKillingAttributes().getPlayerDeaths() + 1);
 							player.getPlayerKillingAttributes().setPlayerKillStreak(0);
-							PlayerPanel.refreshPanel(player);
 						}
 						player.getInventory().resetItems().refreshItems();
 						player.getEquipment().resetItems().refreshItems();

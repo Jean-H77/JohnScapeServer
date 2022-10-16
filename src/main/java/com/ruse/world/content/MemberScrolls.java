@@ -46,7 +46,6 @@ public class MemberScrolls {
 			player.getPointsHandler().setMemberPoints(funds, true);
 			player.getPacketSender().sendMessage("Your account has gained funds worth $"+funds+". Your total is now at $"+player.getAmountDonated()+".");
 			checkForRankUpdate(player);
-			PlayerPanel.refreshPanel(player);
 			break;
 		case 10944:
 			if(player.getRights().isStaff()) {
@@ -66,7 +65,6 @@ public class MemberScrolls {
 				player.setRights(PlayerRights.MEMBER);
 				player.getPacketSender().sendMessage("Congratulations! You've upgraded to a member account!");
 				player.getPacketSender().sendRights();
-				PlayerPanel.refreshPanel(player);
 			}
 			break;
 		case 15420:

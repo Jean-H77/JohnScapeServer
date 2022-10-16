@@ -17,7 +17,6 @@ import com.ruse.world.World;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.BrawlingGloves;
 import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
 import com.ruse.world.content.WellOfGoodwill;
@@ -413,7 +412,6 @@ public class SkillManager {
 			int pts = getPrestigePoints(player, skill);
 			player.getPointsHandler().setPrestigePoints(pts, true);
 			player.getPacketSender().sendMessage("You've received "+pts+" Prestige points!");
-			PlayerPanel.refreshPanel(player);
 		} else {
 			player.getInventory().delete(13663, 1);
 		}

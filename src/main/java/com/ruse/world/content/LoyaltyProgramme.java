@@ -265,7 +265,6 @@ public class LoyaltyProgramme {
 				if(player.getPointsHandler().getLoyaltyPoints() >= title.cost) {
 					player.setLoyaltyTitle(title);
 					player.getPointsHandler().setLoyaltyPoints(-title.cost, true);
-					PlayerPanel.refreshPanel(player);
 					player.getPacketSender().sendMessage("You've changed your title.");
 					player.getUpdateFlag().flag(Flag.APPEARANCE);
 					open(player);

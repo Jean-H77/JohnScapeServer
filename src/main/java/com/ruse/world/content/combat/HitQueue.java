@@ -118,7 +118,7 @@ public class HitQueue {
 
 			// Now we send the hitsplats if needed! We can't send the hitsplats
 			// there are none to send, or if we're using magic and it splashed.
-			if (container.getHits().length != 0 && (container.getCombatType() != CombatType.MAGIC || attacker.isNpc()) || container.isAccurate()) {
+			if (container.getHits().length != 0 && (container.getCombatType() != CombatType.MAGIC || attacker.isNpc()) || container.isAccurate() || (victim.isNpc() && ((NPC)victim).getId() == 7891)) {
 
 				/** PRAYERS **/
 				CombatFactory.applyPrayerProtection(container, builder);

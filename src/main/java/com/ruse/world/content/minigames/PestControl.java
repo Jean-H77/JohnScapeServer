@@ -21,7 +21,6 @@ import com.ruse.model.movement.MovementQueue;
 import com.ruse.model.movement.PathFinder;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
@@ -248,7 +247,6 @@ public class PestControl {
 					p.getPacketSender().sendMessage("The portals were successfully closed. You've been rewarded for your effort.");
 					p.getPacketSender().sendMessage("You've received 15 Commendations and "+p.getSkillManager().getCombatLevel() * 50+" coins.");
 					p.getPointsHandler().setCommendations(15, true);
-					PlayerPanel.refreshPanel(p);
 					p.getInventory().add(995, p.getSkillManager().getCombatLevel() * 80);
 					p.restart();
 				} else if (won)
@@ -593,7 +591,6 @@ public class PestControl {
 			}
 			p.getPointsHandler().setCommendations((p.getPointsHandler().getCommendations() - cost), false);
 			p.getInventory().add(id, amount);
-			PlayerPanel.refreshPanel(p);
 			p.getPacketSender().sendMessage("You have purchased "+Misc.anOrA(name)+" "+name+" for "+cost+" "+comm+".");
 		}
 		p.getPacketSender().sendString(18729, "Commendations: "+Integer.toString(p.getPointsHandler().getCommendations()));

@@ -26,7 +26,6 @@ import com.ruse.util.Misc;
 import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.minigames.RecipeForDisaster;
 import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
 import com.ruse.world.content.skill.summoning.BossPets.BossPet;
@@ -371,9 +370,6 @@ public class Shop extends ItemContainer {
 			}
 			amountToSell--;
 		}
-		if(customShop) {
-			PlayerPanel.refreshPanel(player);
-		}
 		player.getInventory().refreshItems();
 		fireRestockTask();
 		refreshItems();
@@ -691,8 +687,6 @@ public class Shop extends ItemContainer {
 			if(usePouch) {
 				player.getPacketSender().sendString(8135, ""+player.getMoneyInPouch()); //Update the money pouch
 			}
-		} else {
-			PlayerPanel.refreshPanel(player);
 		}
 		player.getInventory().refreshItems();
 		fireRestockTask();

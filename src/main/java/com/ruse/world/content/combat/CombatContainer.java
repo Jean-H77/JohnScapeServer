@@ -157,7 +157,7 @@ public class CombatContainer {
 		ContainerHit[] array = new ContainerHit[hitAmount];
 		for (int i = 0; i < array.length; i++) {
 			boolean accuracy = !checkAccuracy || CombatFactory.rollAccuracy(attacker, victim, combatType);
-				if(victim.isNpc() && ((NPC)victim).getId() == 32668) {
+				if(victim.isNpc() && ((NPC)victim).getId() == 7891) {
 					array[i] = new ContainerHit(CombatFactory.getMaxHit(attacker, victim, combatType), true);
 				} else {
 				array[i] = new ContainerHit(CombatFactory.getHit(attacker, victim, combatType, maxHit), accuracy);

@@ -34,9 +34,6 @@ import com.ruse.world.content.skill.fishing.Fishing;
 import com.ruse.world.content.skill.herblore.Decanting;
 import com.ruse.world.content.skill.hunter.PuroPuro;
 import com.ruse.world.content.skill.runecrafting.DesoSpan;
-import com.ruse.world.content.skill.slayer.SlayerDialogues;
-import com.ruse.world.content.skill.slayer.SlayerMaster;
-import com.ruse.world.content.skill.slayer.SlayerTasks;
 import com.ruse.world.content.skill.summoning.BossPets;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.skill.summoning.SummoningData;
@@ -299,28 +296,6 @@ public class NPCOptionPacketListener implements PacketListener {
 						player.setDialogueActionId(505050);
 					}
 					//DialogueManager.start(player, ExplorerJack.getDialogue(player));
-					break;
-				case 1597:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.VANNAKA);
-					DialogueManager.start(player, SlayerDialogues.dialogue(player));
-					break;
-				case 8275:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.DURADEL);
-					DialogueManager.start(player, SlayerDialogues.dialogue(player));
-					break;
-				case 9085:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.KURADEL);
-					DialogueManager.start(player, SlayerDialogues.dialogue(player));
-					break;
-				case 7780:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.SUMONA);
-					/*if(npc.getId() != player.getSlayer().getSlayerMaster().getNpcId()) {
-						player.getPacketSender().sendMessage(player.getSlayer().getSlayerMaster().toString() + " is your current slayer master. Change it at the Slayer Instructor.");
-						player.getSlayer().setSlayerMaster(SlayerMaster.SUMONA);
-						player.getPacketSender().sendMessage("Master should be Vannaka");
-						//return;
-					}*/
-					DialogueManager.start(player, SlayerDialogues.dialogue(player));
 					break;
 				case 437:
 					DialogueManager.start(player, 99);
@@ -670,34 +645,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 605:
 					player.getPacketSender().sendMessage("").sendMessage("You currently have "+player.getPointsHandler().getVotingPoints()+" Voting points.").sendMessage("You can earn points and coins by voting. To do so, simply use the ::vote command.");;
 					ShopManager.getShops().get(90).open(player);
-					break;
-				case 1597:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.VANNAKA);
-					if(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK)
-						player.getSlayer().assignTask();
-					else
-						DialogueManager.start(player, SlayerDialogues.findAssignment(player));
-					break;
-				case 8275:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.DURADEL);
-					if(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK)
-						player.getSlayer().assignTask();
-					else
-						DialogueManager.start(player, SlayerDialogues.findAssignment(player));
-					break;
-				case 9085:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.KURADEL);
-					if(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK)
-						player.getSlayer().assignTask();
-					else
-						DialogueManager.start(player, SlayerDialogues.findAssignment(player));
-					break;
-				case 7780:
-					SlayerMaster.changeSlayerMaster(player, SlayerMaster.SUMONA);
-					if(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK)
-						player.getSlayer().assignTask();
-					else
-						DialogueManager.start(player, SlayerDialogues.findAssignment(player));
 					break;
 				case 8591:
 					if(!player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(1)) {

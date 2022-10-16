@@ -1861,9 +1861,6 @@ public class CommandPacketListener implements PacketListener {
 			PrayerHandler.deactivateAll(player);
 			CurseHandler.deactivateAll(player);
 		}
-		if (command[0].equalsIgnoreCase("rt")) {
-			player.getSlayer().resetSlayerTask();
-		}
 		if (command[0].equalsIgnoreCase("bcr")) {
 			player.getPacketSender().sendMessage("needsNewSalt ? "+Misc.needsNewSalt(player.getSalt()));
 		}
@@ -2101,7 +2098,6 @@ public class CommandPacketListener implements PacketListener {
 			if(p2 != null) {
 				p2.getPointsHandler().setVotingPoints(-amt, true);
 				player.getPacketSender().sendMessage("Deleted "+amt+" vote points from "+p2.getUsername());
-				PlayerPanel.refreshPanel(p2);
 			}
 		}
 		if(wholeCommand.contains("poh")) {

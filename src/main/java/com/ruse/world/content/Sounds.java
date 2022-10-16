@@ -53,13 +53,11 @@ public class Sounds {
 			if(id <= 931) {
 				sendSound(player, 319);
 			}
-			PlayerPanel.refreshPanel(player);
 			return true;
 		}
 		if(id >= 941 && id <= 945) {
 			player.setSoundsActive(id != 941);
 			sendSound(player, 319);
-			PlayerPanel.refreshPanel(player);
 			return true;
 		}
 		return false;

@@ -117,13 +117,6 @@ public  class PlayerSaving {
 			object.addProperty("autocast", (player.isAutocast()));
 			object.addProperty("autocast-spell", player.getAutocastSpell() != null ? player.getAutocastSpell().spellId() : -1);
 			object.addProperty("dfs-charges", player.getDfsCharges());
-			object.addProperty("slayer-master", player.getSlayer().getSlayerMaster().name());
-			object.addProperty("slayer-task", player.getSlayer().getSlayerTask().name());
-			object.addProperty("prev-slayer-task", player.getSlayer().getLastTask().name());
-			object.addProperty("task-amount", player.getSlayer().getAmountToSlay());
-			object.addProperty("task-streak", player.getSlayer().getTaskStreak());
-			object.addProperty("duo-partner", player.getSlayer().getDuoPartner() == null ? "null" : player.getSlayer().getDuoPartner());
-			object.addProperty("double-slay-xp", player.getSlayer().doubleSlayerXP);
 			object.addProperty("recoil-deg", (player.getRecoilCharges()));
 			object.addProperty("blowpipe-deg", (player.getBlowpipeCharges()));
 			object.add("brawlers-deg", builder.toJsonTree(player.getBrawlerChargers()));

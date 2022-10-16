@@ -48,8 +48,6 @@ import com.ruse.world.content.skill.herblore.PotionCombinating;
 import com.ruse.world.content.skill.herblore.WeaponPoison;
 import com.ruse.world.content.skill.prayer.BonesOnAltar;
 import com.ruse.world.content.skill.prayer.Prayer;
-import com.ruse.world.content.skill.slayer.SlayerDialogues;
-import com.ruse.world.content.skill.slayer.SlayerTasks;
 import com.ruse.world.content.skill.smithing.EquipmentMaking;
 import com.ruse.world.content.skill.smithing.Smelting;
 import com.ruse.model.entity.character.npc.NPC;
@@ -504,43 +502,6 @@ public class UseItemPacketListener implements PacketListener {
 		case 4566:
 			player.performAnimation(new Animation(451));
 				break;
-		case 4155:
-			if (player.getSlayer().getDuoPartner() != null) {
-				player.getPacketSender().sendMessage(
-						"You already have a duo partner.");
-				return;
-			}
-			if (player.getSlayer().getSlayerTask() != SlayerTasks.NO_TASK) {
-				player.getPacketSender().sendMessage(
-						"You already have a Slayer task. You must reset it first.");
-				return;
-			}
-			Player duoPartner = World.getPlayers().get(targetIndex);
-			if (duoPartner != null) {
-				if (duoPartner.getSlayer().getDuoPartner() != null) {
-					player.getPacketSender().sendMessage(
-							"This player already has a duo partner.");
-					return;
-				}
-				if(duoPartner.getSlayer().getSlayerTask() != SlayerTasks.NO_TASK) {
-					player.getPacketSender().sendMessage("This player already has a Slayer task.");
-					return;
-				}
-				if(duoPartner.getSlayer().getSlayerMaster() != player.getSlayer().getSlayerMaster()) {
-					player.getPacketSender().sendMessage("You do not have the same Slayer master as that player.");
-					return;
-				}
-				if (duoPartner.busy() || duoPartner.getLocation() == Location.WILDERNESS) {
-					player.getPacketSender().sendMessage(
-							"This player is currently busy.");
-					return;
-				}
-				DialogueManager.start(duoPartner, SlayerDialogues.inviteDuo(duoPartner, player));
-				player.getPacketSender().sendMessage(
-						"You have invited " + duoPartner.getUsername()
-						+ " to join your Slayer duo team.");
-			}
-			break;
 		}
 	}
 

@@ -11,7 +11,6 @@ import com.ruse.model.Position;
 import com.ruse.model.Skill;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
-import com.ruse.world.content.PlayerPanel;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.dialogue.impl.DungPartyInvitation;
 import com.ruse.model.entity.character.GroundItemManager;
@@ -190,8 +189,6 @@ public class DungeoneeringParty {
 				} else {
 					p.getPacketSender().sendMessage("You must do more damage to recieve experience and tokens.");
 				}
-				//p.getPacketSender().sendMessage("DMG: "+damage);
-				PlayerPanel.refreshPanel(p);
 			}
 			if(p == owner) {
 				hasEnteredDungeon = killedBoss = false;

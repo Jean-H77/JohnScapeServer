@@ -45,8 +45,6 @@ import com.ruse.world.content.skill.prayer.Prayer;
 import com.ruse.world.content.skill.runecrafting.Runecrafting;
 import com.ruse.world.content.skill.runecrafting.RunecraftingPouches;
 import com.ruse.world.content.skill.runecrafting.RunecraftingPouches.RunecraftingPouch;
-import com.ruse.world.content.skill.slayer.SlayerDialogues;
-import com.ruse.world.content.skill.slayer.SlayerTasks;
 import com.ruse.world.content.skill.summoning.BossPets.BossPet;
 import com.ruse.world.content.skill.summoning.CharmingImp;
 import com.ruse.world.content.skill.summoning.SummoningData;
@@ -367,14 +365,6 @@ public class ItemActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("holds the next piece.");
 			break;
 			*/
-		case 4155:
-			if(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK) {
-				player.getPacketSender().sendInterfaceRemoval();
-				player.getPacketSender().sendMessage("You do not have a Slayer task.");
-				return;
-			}
-			DialogueManager.start(player, SlayerDialogues.dialogue(player));
-			break;
 		case 18719: //potion of flight
 			if (player.canFly()) {
 				player.getPacketSender().sendMessage("You already know how to fly.");
@@ -712,16 +702,6 @@ public class ItemActionPacketListener implements PacketListener {
 		case 11126:
 			player.getPacketSender().sendMessage("Your bracelet has run out of charges.");
 			break;
-		case 13281:
-		case 13282:
-		case 13283:
-		case 13284:
-		case 13285:
-		case 13286:
-		case 13287:
-		case 13288:
-			player.getSlayer().handleSlayerRingTP(itemId);
-			break;
 		case 5509:
 		case 5510:
 		case 5512:
@@ -840,20 +820,6 @@ public class ItemActionPacketListener implements PacketListener {
 			break;
 		case 6500:
 			CharmingImp.sendConfig(player);
-			break;
-		case 4155: //kills-remaining
-			player.getPacketSender().sendMessage(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK ? ("You do not have a Slayer task.") : ("You're assigned to kill "+Misc.formatText(player.getSlayer().getSlayerTask().toString().toLowerCase().replaceAll("_", " "))+"s, only "+player.getSlayer().getAmountToSlay()+" more to go."));
-			break;
-		case 13281:
-		case 13282:
-		case 13283:
-		case 13284:
-		case 13285:
-		case 13286:
-		case 13287:
-		case 13288:
-			player.getPacketSender().sendInterfaceRemoval();
-			player.getPacketSender().sendMessage(player.getSlayer().getSlayerTask() == SlayerTasks.NO_TASK ? ("You do not have a Slayer task.") : ("You're assigned to kill "+Misc.formatText(player.getSlayer().getSlayerTask().toString().toLowerCase().replaceAll("_", " "))+"s, only "+player.getSlayer().getAmountToSlay()+" more to go."));
 			break;
 		case 6570:
 			if(player.getInventory().contains(6570) && player.getInventory().getAmount(6529) >= 50000) {

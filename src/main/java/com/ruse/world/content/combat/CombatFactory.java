@@ -711,14 +711,6 @@ public final class CombatFactory {
 			if (EquipmentBonus.berserkerNecklaceEffect(player)) {
 				maxHit *= 1.2;
 			}
-
-			/** SLAYER HELMET **/
-			if(player.getSlayer().isSlayerTask(npc)) {
-				if(player.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 13263 || player.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 15492) {
-					maxHit *= 1.13;
-				}
-			}
-
 		}
 
 		return maxHit;
@@ -811,12 +803,6 @@ public final class CombatFactory {
 				maxHit += (int) ((0.20) * (maxHit));
 			} else if (npc.getDefenceWeakened()[2]) {
 				maxHit += (int) ((0.30) * (maxHit));
-			}
-			/** SLAYER HELMET **/
-			if(player.getSlayer().isSlayerTask(npc)) {
-				if(player.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 15492 || player.getEquipment().getItems()[Equipment.HEAD_SLOT].getId() == 15490) {
-					maxHit *= 1.13;
-				}
 			}
 		}
 		maxHit *= 10;
@@ -987,7 +973,7 @@ public final class CombatFactory {
 					return false;
 				}
 			}
-			if(npc.getLocation() != Location.DUNGEONEERING && npc.getDefinition().getSlayerLevel() > ((Player)entity).getSkillManager().getCurrentLevel(Skill.SLAYER) && !((Player)entity).getSlayer().isSlayerTask(npc)) {
+			if(npc.getLocation() != Location.DUNGEONEERING && npc.getDefinition().getSlayerLevel() > ((Player)entity).getSkillManager().getCurrentLevel(Skill.SLAYER)) {
 				((Player)entity).getPacketSender().sendMessage("You need a Slayer level of at least "+npc.getDefinition().getSlayerLevel()+" to attack this creature.");
 				entity.getCombatBuilder().reset(true);
 				return false;
