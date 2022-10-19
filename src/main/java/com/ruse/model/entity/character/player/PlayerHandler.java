@@ -36,7 +36,6 @@ import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.Lottery;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.PlayersOnlineInterface;
-import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.Wildywyrm;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect;
@@ -181,10 +180,6 @@ public class PlayerHandler {
 		if (Wildywyrm.wyrmAlive) {
 			Wildywyrm.sendHint(player);
 		}
-		
-		if(WellOfGoodwill.isActive()) {
-			player.getPacketSender().sendMessage(MessageType.SERVER_ALERT, "The Well of Goodwill is granting 30% bonus experience for another "+WellOfGoodwill.getMinutesRemaining()+" minutes.");
-		}
 
 		//New player
 		if(player.newPlayer()) {
@@ -249,8 +244,8 @@ public class PlayerHandler {
 		//player.getPacketSender().sendString(39160, "@or2@Players online:   @or2@[ @yel@"+(int)(World.getPlayers().size())+"@or2@ ]"); Handled by PlayerPanel.java
 		player.getPacketSender().sendString(57003, "Players:  @gre@"+(int)(World.getPlayers().size()));
 
-		if(player.getAttendanceManager().checkIfDifferentDay()) {
-			player.getAttendanceManager().receiveReward();
+		if(player.getAttendanceManager().isDifferentDay()) {
+			player.getAttendanceManager().newDay();
 		}
 	}
 
