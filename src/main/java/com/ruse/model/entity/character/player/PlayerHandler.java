@@ -248,7 +248,10 @@ public class PlayerHandler {
 		player.unlockPkTitles();
 		//player.getPacketSender().sendString(39160, "@or2@Players online:   @or2@[ @yel@"+(int)(World.getPlayers().size())+"@or2@ ]"); Handled by PlayerPanel.java
 		player.getPacketSender().sendString(57003, "Players:  @gre@"+(int)(World.getPlayers().size()));
-		
+
+		if(player.getAttendanceManager().checkIfDifferentDay()) {
+			player.getAttendanceManager().receiveReward();
+		}
 	}
 
 	public static boolean handleLogout(Player player, Boolean forced) {

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.ruse.engine.task.impl.FamiliarSpawnTask;
 import com.ruse.model.*;
 import com.ruse.model.container.impl.Bank;
@@ -12,6 +13,8 @@ import com.ruse.util.json.ItemTypeAdapter;
 import com.ruse.world.content.DropLog;
 import com.ruse.world.content.KillsTracker;
 import com.ruse.world.content.LoyaltyProgramme;
+import com.ruse.world.content.attendance.AttendanceTab;
+import com.ruse.world.content.attendance.AttendanceProgress;
 import com.ruse.world.content.combat.magic.CombatSpells;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.skill.SkillManager;
@@ -21,7 +24,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayerLoading {
@@ -612,32 +617,17 @@ public class PlayerLoading {
 				player.setPreviousTeleports(builder.fromJson(reader.get("p-tps").getAsJsonArray(), int[].class));
 			}
 
-			/*File rooms = new File("./data/saves/housing/rooms/" + player.getUsername() + ".ser");
-			if (rooms.exists()) {
-				FileInputStream fileIn = new FileInputStream(rooms);
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				player.setHouseRooms((Room[][][]) in.readObject());
-				in.close();
-				fileIn.close();
+			if(reader.has("lastloggedinday")) {
+				player.getAttendanceManager().setLastLoggedInDate(LocalDate.parse(reader.get("lastloggedinday").getAsString()));
 			}
 
-			File portals = new File("./data/saves/housing/portals/" + player.getUsername() + ".ser");
-			if (portals.exists()) {
-				FileInputStream fileIn = new FileInputStream(portals);
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				player.setHousePortals((ArrayList<Portal>) in.readObject());
-				in.close();
-				fileIn.close();
+			if(reader.has("attendanceprogress")) {
+				HashMap<AttendanceTab, AttendanceProgress> temp = builder.fromJson(reader.get("attendanceprogress"),
+						new TypeToken<HashMap<AttendanceTab, AttendanceProgress>>() {
+						}.getType());
+				player.getAttendanceManager().getPlayerAttendanceProgress().putAll(temp);
 			}
 
-			File furniture = new File("./data/saves/housing/furniture/" + player.getUsername() + ".ser");
-			if (furniture.exists()) {
-				FileInputStream fileIn = new FileInputStream(furniture);
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				player.setHouseFurniture((ArrayList<HouseFurniture>) in.readObject());
-				in.close();
-				fileIn.close();
-			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			return LoginResponses.LOGIN_SUCCESSFUL;

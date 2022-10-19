@@ -142,6 +142,9 @@ public  class PlayerSaving {
 			object.addProperty("toggledglobalmessages", (player.toggledGlobalMessages()));
 			object.addProperty("barrowschests", (player.getPointsHandler().getBarrowsChests()));
 			object.add("bosspets", builder.toJsonTree(player.getBossPetsAll()));
+			object.addProperty("lastloggedinday", player.getAttendanceManager().getLastLoggedInDate().toString());
+			object.add("attendanceprogress", builder.toJsonTree(player.getAttendanceManager().getPlayerAttendanceProgress()));
+
 			writer.write(builder.toJson(object));
 			writer.close();
 

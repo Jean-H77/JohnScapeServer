@@ -70,8 +70,11 @@ import com.ruse.mysql.Store;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
@@ -174,12 +177,8 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (wholeCommand.equalsIgnoreCase("b")) {
-			player.getBuffTimers().sendOverlay(1416, 75);
-			player.getBuffTimers().sendOverlay(1416, 65);
-			player.getBuffTimers().sendOverlay(1416, 12);
-			player.getBuffTimers().sendOverlay(1416, 1131);
-			player.getBuffTimers().sendOverlay(1416, 123);
-			player.getBuffTimers().sendOverlay(1416, 34);
+			System.out.println("Different day: " + player.getAttendanceManager().checkIfDifferentDay());
+			System.out.println(LocalDate.now(ZoneOffset.UTC));
 		}
 
 		if (wholeCommand.equalsIgnoreCase("e")) {

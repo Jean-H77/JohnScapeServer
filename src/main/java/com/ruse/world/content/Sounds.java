@@ -64,18 +64,18 @@ public class Sounds {
 	}
 
 	public static void handleRegionChange(Player player) {
-		if(player.musicActive()) {
-			int songId = getSongID(getAreaID(player));
-			if(songId > 0) {
-				player.getPacketSender().sendSong(songId);
-			}
-		}
+	//	if(player.musicActive()) {
+	//		int songId = getSongID(getAreaID(player));
+		//	if(songId > 0) {
+		//		player.getPacketSender().sendSong(songId);
+		//	}
+		//}
 	}
 
 	public static void sendSound(Player player, int id) {
-		if(player.soundsActive()) {
-			player.getPacketSender().sendSound(id, 10, 0);	
-		}
+	//	if(player.soundsActive()) {
+	//		player.getPacketSender().sendSound(id, 10, 0);
+	//	}
 	}
 
 	public static void sendSound(Player player, Sound sound) {

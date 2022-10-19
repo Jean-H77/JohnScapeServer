@@ -21,13 +21,11 @@ import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.net.PipelineFactory;
 import com.ruse.net.security.ConnectionHandler;
+import com.ruse.scheduler.JobScheduler;
 import com.ruse.util.FileUtils;
 import com.ruse.world.clip.region.RegionClipping;
 import com.ruse.world.content.CustomObjects;
-import com.ruse.world.content.Lottery;
 import com.ruse.world.content.PlayerPunishment;
-import com.ruse.world.content.Scoreboards;
-import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect.CombatPoisonData;
 import com.ruse.world.content.combat.strategy.CombatStrategies;
@@ -99,6 +97,8 @@ public final class GameLoader {
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
 		serviceLoader.execute(() -> NPC.init());
 		serviceLoader.execute(() -> ShopUtils.loadAll());
+		serviceLoader.execute(() -> JobScheduler.initialize());
+
 	}
 
 	public GameEngine getEngine() {

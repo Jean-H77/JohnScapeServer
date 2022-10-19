@@ -166,7 +166,7 @@ public class ShopUtils {
         PlayerShopManager playerShopManager = buyingPlayer.getPlayerShopManager();
         Coffer coffer;
 
-        if(buyingPlayer.isRegistered() && buyingPlayer != null) {
+        if(buyingPlayer.isRegistered()) {
 
             if(buyingPlayer.getInventory().isFull() || (buyingPlayer.getInventory().getFreeSlots() < amountToBuy && !ItemDefinition.forId(listing.getItemId()).isStackable())
                 || ItemDefinition.forId(listing.getItemId()).isStackable() && !buyingPlayer.getInventory().contains(listing.getItemId()) && buyingPlayer.getInventory().isFull()) {

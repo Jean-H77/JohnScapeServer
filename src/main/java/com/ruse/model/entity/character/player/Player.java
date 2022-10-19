@@ -30,6 +30,7 @@ import com.ruse.world.content.KillsTracker.KillsEntry;
 import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
 import com.ruse.world.content.Quest.QuestManager;
 import com.ruse.world.content.achievementsystem.AchievementManager;
+import com.ruse.world.content.attendance.AttendanceManager;
 import com.ruse.world.content.clan.ClanChat;
 import com.ruse.world.content.collectionlog.CollectionLogManager;
 import com.ruse.world.content.combat.CombatFactory;
@@ -2456,6 +2457,12 @@ public class Player extends CharacterEntity {
 		this.previousTeleports[index] = previousTeleport;
 	}
 
+	public AttendanceManager getAttendanceManager() {
+		return attendanceManager;
+	}
+
+	public final AttendanceManager attendanceManager = new AttendanceManager(this);
+
 	private String yellTitle;
 
 	public String getYellTitle() {
@@ -2563,4 +2570,5 @@ public class Player extends CharacterEntity {
 	public void setCurrentDungeon(Dungeon currentDungeon) {
 		this.currentDungeon = currentDungeon;
 	}
+
 }
