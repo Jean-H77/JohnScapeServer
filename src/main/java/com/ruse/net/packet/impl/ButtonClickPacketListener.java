@@ -160,14 +160,7 @@ public class ButtonClickPacketListener implements PacketListener {
 			break;
 		case 1013:
 			player.getSkillManager().setTotalGainedExp(0);
-			break;
-		case -26373:
-			if(WellOfGoodwill.isActive()) {
-				player.getPacketSender().sendMessage("<img=10> <col=008FB2>The Well of Goodwill is granting 30% bonus experience for another "+WellOfGoodwill.getMinutesRemaining()+" minutes.");
-			} else {
-				player.getPacketSender().sendMessage("<img=10> <col=008FB2>The Well of Goodwill needs another "+Misc.insertCommasToNumber(""+WellOfGoodwill.getMissingAmount())+" coins before becoming full.");
-			}
-			break;
+			break;;
 		case -26349:
 			KillsTracker.open(player);
 			break;

@@ -16,7 +16,6 @@ import com.ruse.net.packet.PacketListener;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.content.EnergyHandler;
-import com.ruse.world.content.LoyaltyProgramme;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.magic.CombatSpell;
 import com.ruse.world.content.combat.magic.CombatSpells;
@@ -781,9 +780,6 @@ public class NPCOptionPacketListener implements PacketListener {
 					break;
 				case 2253:
 					ShopManager.getShops().get(8).open(player);
-					break;
-				case 605:
-					LoyaltyProgramme.open(player);
 					break;
 				case 1597:
 				case 9085:

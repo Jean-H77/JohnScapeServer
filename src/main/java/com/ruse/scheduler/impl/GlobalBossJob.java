@@ -1,7 +1,6 @@
 package com.ruse.scheduler.impl;
 
 import com.ruse.scheduler.BaseJob;
-import com.ruse.world.World;
 import org.quartz.*;
 
 public class GlobalBossJob extends BaseJob {

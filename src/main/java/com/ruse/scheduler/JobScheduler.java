@@ -7,7 +7,6 @@ import org.quartz.JobBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
-import org.reflections.Reflections;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -30,14 +29,14 @@ public class JobScheduler {
         }
     }
 
-    public Optional<BaseJob> getJob(BaseJob job) {
+    public static Optional<BaseJob> getJob(String name) {
         return JOBS.stream()
-                .filter(baseJob -> baseJob == job)
+                .filter(baseJob -> Objects.equals(baseJob.getTrigger().getKey().getName(), name))
                 .findFirst();
     }
 
-    public Date getNextFireTime(BaseJob job) {
-        return getJob(job).map(baseJob -> baseJob.getTrigger().getNextFireTime()).orElse(null);
+    public static Date getNextFireTime(String name) {
+        return getJob(name).map(baseJob -> baseJob.getTrigger().getNextFireTime()).orElse(null);
     }
 
     public static void registerNewJob(BaseJob job) {
@@ -46,7 +45,7 @@ public class JobScheduler {
             sch.scheduleJob(JobBuilder.newJob(job.getClass()).build(),job.getTrigger());
             sch.start();
         } catch (SchedulerException e) {
-            LOGGER.log(Level.SEVERE, "Error scheduling job of : " + job.getTrigger().getDescription());
+            LOGGER.log(Level.SEVERE, "Error scheduling job of : " + job.getTrigger().getKey().getName());
             e.printStackTrace();
         }
     }

@@ -29,7 +29,6 @@ import com.ruse.model.input.impl.EnterAmountToTrade;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.world.content.BonusManager;
-import com.ruse.world.content.ItemDegrading;
 import com.ruse.world.content.trading_post.selling_page.SellingPage;
 import com.ruse.world.content.Trading;
 import com.ruse.world.content.combat.CombatFactory;
@@ -328,14 +327,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			if(!player.getEquipment().contains(id))
 				return;
 			switch(id) {
-			case 2550:
-				int recoilcharges = (ItemDegrading.maxRecoilCharges - player.getRecoilCharges());
-				player.getPacketSender().sendMessage("You have "+recoilcharges+" recoil " + (recoilcharges == 1 ? "charge" : "charges") + " remaining.");
-				break;
-			case 2568:
-				int forgingcharges = (ItemDegrading.maxForgingCharges - player.getForgingCharges());
-				player.getPacketSender().sendMessage("You have "+forgingcharges+" forging " + (forgingcharges == 1 ? "charge" : "charges") + " remaining.");
-				break;
 			//case 13738:
 			case 13740:
 			case 13742:

@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 import com.ruse.GameServer;
 import com.ruse.world.World;
-import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
@@ -28,7 +27,6 @@ public class ShutdownHook extends Thread {
 				PlayerHandler.handleLogout(player, false);
 			}
 		}
-		WellOfGoodwill.save();
 		ClanChatManager.save();
 		ShopUtils.saveAll();
 		logger.info("The shudown hook actions have been completed, shutting the server down...");

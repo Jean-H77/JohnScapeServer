@@ -12,7 +12,6 @@ import com.ruse.net.login.LoginResponses;
 import com.ruse.util.json.ItemTypeAdapter;
 import com.ruse.world.content.DropLog;
 import com.ruse.world.content.KillsTracker;
-import com.ruse.world.content.LoyaltyProgramme;
 import com.ruse.world.content.attendance.AttendanceTab;
 import com.ruse.world.content.attendance.AttendanceProgress;
 import com.ruse.world.content.combat.magic.CombatSpells;
@@ -108,11 +107,6 @@ public class PlayerLoading {
 				} else {
 					player.setGameMode(GameMode.valueOf(reader.get("game-mode").getAsString()));
 				}
-			}
-
-
-			if (reader.has("loyalty-title")) {
-				player.setLoyaltyTitle(LoyaltyProgramme.LoyaltyTitles.valueOf(reader.get("loyalty-title").getAsString()));
 			}
 
 			if (reader.has("position")) {

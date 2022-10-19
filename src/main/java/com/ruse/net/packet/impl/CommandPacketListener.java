@@ -34,6 +34,7 @@ import com.ruse.mysql.Voting;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.net.security.ConnectionHandler;
+import com.ruse.scheduler.JobScheduler;
 import com.ruse.util.Misc;
 import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
@@ -70,11 +71,13 @@ import com.ruse.mysql.Store;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
@@ -177,8 +180,10 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (wholeCommand.equalsIgnoreCase("b")) {
-			System.out.println("Different day: " + player.getAttendanceManager().checkIfDifferentDay());
+			System.out.println("Different day: " + player.getAttendanceManager().isDifferentDay());
 			System.out.println(LocalDate.now(ZoneOffset.UTC));
+			Duration duration = Duration.between(LocalDateTime.now(ZoneOffset.UTC), JobScheduler.getNextFireTime("MidnightReset").toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime());
+			System.out.println("Next fire time: " + String.format("%d hours : %02d minutes", duration.toHours(), duration.toMinutesPart()));
 		}
 
 		if (wholeCommand.equalsIgnoreCase("e")) {
@@ -1977,7 +1982,6 @@ public class CommandPacketListener implements PacketListener {
 								World.deregister(player);
 							}
 						}
-						WellOfGoodwill.save();
 						ClanChatManager.save();
 						ShopUtils.saveAll();
 						GameServer.getLogger().info("Update task finished!");

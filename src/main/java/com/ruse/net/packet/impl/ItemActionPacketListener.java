@@ -14,8 +14,6 @@ import com.ruse.model.PlayerRights;
 import com.ruse.model.Position;
 import com.ruse.model.VoteRewardHandler;
 import com.ruse.model.definitions.ItemDefinition;
-import com.ruse.model.definitions.NPCDrops;
-import com.ruse.model.entity.character.npc.NpcItemDropping;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.util.Misc;
@@ -23,8 +21,6 @@ import com.ruse.world.content.Consumables;
 import com.ruse.world.content.Digging;
 import com.ruse.world.content.Effigies;
 import com.ruse.world.content.ExperienceLamps;
-import com.ruse.world.content.Gambling;
-import com.ruse.world.content.ItemDegrading;
 import com.ruse.world.content.MemberScrolls;
 import com.ruse.world.content.MoneyPouch;
 import com.ruse.world.content.combat.item.RecoilRing;
@@ -297,13 +293,6 @@ public class ItemActionPacketListener implements PacketListener {
 				player.getInventory().delete(2714, 1);
 				player.getInventory().add(995, amount);
 				player.getPacketSender().sendMessage("Inside the casket you find " + NumberFormat.getInstance(Locale.US).format(amount) + " coins!");
-				break;
-			case 15084:
-				//player.getPacketSender().sendMessage("Dicing has temporarily been disabled. Sorry for the inconvenience.");
-				Gambling.rollDice(player);
-				break;
-			case 299:
-				Gambling.plantSeed(player);
 				break;
 			case 15103:
 				player.getPacketSender().sendMessage("This came from a Goblin. Kill Nex, or Zulrah for another.");

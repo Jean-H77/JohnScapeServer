@@ -19,7 +19,6 @@ public class MidnightResetJob extends BaseJob {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Triggered");
         AttendanceManager.nextDay();
     }
 }

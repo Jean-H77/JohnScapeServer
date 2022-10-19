@@ -22,7 +22,6 @@ import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.clip.region.RegionClipping;
 import com.ruse.world.content.CrystalChest;
-import com.ruse.world.content.ItemForging;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.combat.item.RecoilRing;
 import com.ruse.world.content.combat.range.ToxicBlowpipe;
@@ -146,7 +145,6 @@ public class UseItemPacketListener implements PacketListener {
 		if (itemUsedWith.getId() == 1759 || usedWith.getId() == 1759) {
 			Jewelry.stringAmulet(player, itemUsedWith.getId(), usedWith.getId());
 		}
-		ItemForging.forgeItem(player, itemUsedWith.getId(), usedWith.getId());
 	}
 
 	@SuppressWarnings("unused")

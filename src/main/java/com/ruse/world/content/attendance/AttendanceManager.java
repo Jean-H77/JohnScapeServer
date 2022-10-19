@@ -24,7 +24,9 @@ public class AttendanceManager {
         this.lastLoggedInDate = LocalDate.now(ZoneOffset.UTC);
     }
 
-    public void receiveReward() {
+    public void newDay() {
+        lastLoggedInDate = LocalDate.now(ZoneOffset.UTC);
+
         for(AttendanceTab tab : getTabs()) {
             int currentDay = getCurrentDay();
             if(!lastLoggedInDate.getMonth().equals(LocalDate.now(ZoneOffset.UTC).getMonth())) {
@@ -37,8 +39,7 @@ public class AttendanceManager {
                     p.getPacketSender().sendMessage("@red@This day has no reward.");
                     return;
                 }
-                lastLoggedInDate = LocalDate.now(ZoneOffset.UTC);
-                if(attendanceProgress.getDayReward(currentDay)) {
+                if(attendanceProgress.put(currentDay)) {
                     p.getPacketSender().sendMessage("@red@You have been given " + item.getDefinition().getName() + " x " + item.getAmount() + " as attendance reward for day " + currentDay + "!");
                     p.getInventory().add(item);
                 }
@@ -49,12 +50,12 @@ public class AttendanceManager {
     public static void nextDay() {
         for(Player onlinePlayer : World.getPlayers()) {
             if(onlinePlayer != null && onlinePlayer.isRegistered() && onlinePlayer.getSession().getState() != SessionState.LOGGING_OUT) {
-                onlinePlayer.getAttendanceManager().receiveReward();
+                onlinePlayer.getAttendanceManager().newDay();
             }
         }
     }
 
-    public boolean checkIfDifferentDay() {
+    public boolean isDifferentDay() {
         return !LocalDate.now(ZoneOffset.UTC).isEqual(lastLoggedInDate);
     }
 

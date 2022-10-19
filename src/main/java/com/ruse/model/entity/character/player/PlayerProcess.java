@@ -2,8 +2,6 @@ package com.ruse.model.entity.character.player;
 
 import com.ruse.model.RegionInstance.RegionInstanceType;
 import com.ruse.model.entity.character.GroundItemManager;
-import com.ruse.world.content.LoyaltyProgramme;
-import com.ruse.world.content.combat.pvp.BountyHunter;
 import com.ruse.world.content.skill.construction.House;
 
 public class PlayerProcess {
@@ -39,43 +37,13 @@ public class PlayerProcess {
 
 	public void sequence() {
 		player.getInventory().processRefreshItems();
-
-		/** COMBAT **/
 		player.getCombatBuilder().process();
-		
-		/** SKILLS **/
-	//	if(player.shouldProcessFarming()) {
-	//		player.getFarming().sequence();
-	//	}
-
-		/** MISC **/
 
 		if(previousHeight != player.getPosition().getZ()) {
 			GroundItemManager.handleRegionChange(player);
 			previousHeight = player.getPosition().getZ();
 		}
-
-		if(!player.isInActive()) {
-			if (loyaltyTick >= 6) {
-				LoyaltyProgramme.incrementPoints(player);
-				loyaltyTick = 0;
-			}
-			loyaltyTick++;
-		}
-
-		player.getDungeonManager().handleTimerOverlay();
-
-		/*if(timerTick >= 1) {
-		 * HANDLED BY PlayerPanel
-			player.getPacketSender().sendString(39166, "@or2@Time played:  @yel@"+Misc.getTimePlayed((player.getTotalPlayTime() + player.getRecordedLogin().elapsed())));
-			timerTick = 0;
-		}*/
 		timerTick++;
-		
-	//	BountyHunter.sequence(player);
-		
-		if(player.getRegionInstance() != null && (player.getRegionInstance().getType() == RegionInstanceType.CONSTRUCTION_HOUSE || player.getRegionInstance().getType() == RegionInstanceType.CONSTRUCTION_DUNGEON)) {
-			((House)player.getRegionInstance()).process();
-		}
+
 	}
 }

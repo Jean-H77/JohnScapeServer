@@ -9,7 +9,7 @@ public class AttendanceProgress {
         return days.get(day) != null;
     }
 
-    public boolean getDayReward(int day) {
+    public boolean put(int day) {
         if(hasReceived(day)) return false;
         days.put(day, true);
         return true;

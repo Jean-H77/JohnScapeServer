@@ -385,7 +385,9 @@ public enum AttendanceTab {
             new Item(4151,1),
             new Item(4151,1))
     ),
-    CHRISTMAS(1),
+    CHRISTMAS(1,
+            new MonthlyReward(Month.DECEMBER,
+                    new Item(6585, 1))),
     EVENT(2),
     DONATOR(3);
     
