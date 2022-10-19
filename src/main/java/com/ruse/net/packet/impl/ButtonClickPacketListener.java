@@ -160,7 +160,7 @@ public class ButtonClickPacketListener implements PacketListener {
 			break;
 		case 1013:
 			player.getSkillManager().setTotalGainedExp(0);
-			break;;
+			break;
 		case -26349:
 			KillsTracker.open(player);
 			break;
