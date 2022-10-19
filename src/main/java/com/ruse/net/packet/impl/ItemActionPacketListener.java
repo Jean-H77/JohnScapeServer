@@ -17,12 +17,7 @@ import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.util.Misc;
-import com.ruse.world.content.Consumables;
-import com.ruse.world.content.Digging;
-import com.ruse.world.content.Effigies;
-import com.ruse.world.content.ExperienceLamps;
-import com.ruse.world.content.MemberScrolls;
-import com.ruse.world.content.MoneyPouch;
+import com.ruse.world.content.*;
 import com.ruse.world.content.combat.item.RecoilRing;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
 import com.ruse.world.content.dialogue.DialogueManager;
@@ -565,19 +560,6 @@ public class ItemActionPacketListener implements PacketListener {
 		case 5512:
 		case 5514:
 			RunecraftingPouches.check(player, RunecraftingPouch.forId(itemId));
-			break;
-		case 2550:
-			if (!player.getInventory().contains(2550)) {
-				player.getPacketSender().sendMessage("You must have a ring of recoil in your inventory to do this.");
-				return;
-			}
-			if (ItemDegrading.maxRecoilCharges - player.getRecoilCharges()  ==  ItemDegrading.maxRecoilCharges) {
-				player.getPacketSender().sendMessage("You already have the maximum ring of recoil charges.");
-				return;
-			}
-			player.getInventory().delete(2550, 1);
-			player.setRecoilCharges(0);
-			player.getPacketSender().sendMessage("Your ring of recoil turns to dust, and your charges are reset.");
 			break;
         case 12926:
                 int charges = player.getBlowpipeCharges();
