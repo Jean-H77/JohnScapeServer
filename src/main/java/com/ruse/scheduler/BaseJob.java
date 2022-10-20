@@ -1,11 +1,8 @@
 package com.ruse.scheduler;
 
-import org.quartz.CronExpression;
 import org.quartz.Job;
 import org.quartz.Trigger;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 
 public abstract class BaseJob implements Job {

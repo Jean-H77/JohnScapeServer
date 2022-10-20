@@ -4,9 +4,9 @@ import com.ruse.scheduler.BaseJob;
 import com.ruse.world.content.attendance.AttendanceManager;
 import org.quartz.*;
 
-import java.time.Clock;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.TimeZone;
@@ -24,7 +24,6 @@ public class MidnightResetJob extends BaseJob {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Fired");
         AttendanceManager.nextDay();
     }
 
@@ -32,7 +31,9 @@ public class MidnightResetJob extends BaseJob {
     @Override
     public Date nextFireTime() {
         try {
-            return new CronExpression("0 0 0 * * ?").getNextValidTimeAfter(Date.from(Instant.now(Clock.systemUTC())));
+            CronExpression cronExpression = new CronExpression("0 0 0 * * ?");
+            cronExpression.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return cronExpression.getNextValidTimeAfter(Date.from(Instant.now()));
         } catch (Exception e) {
             e.printStackTrace();
         }

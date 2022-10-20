@@ -68,17 +68,19 @@ import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
 import com.ruse.mysql.Store;
+import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -180,11 +182,10 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (wholeCommand.equalsIgnoreCase("b")) {
-			System.out.println("Different day: " + player.getAttendanceManager().isDifferentDay());
-			System.out.println(LocalDate.now(ZoneOffset.UTC));
-			Duration duration = Duration.between(LocalDateTime.now(ZoneOffset.UTC), JobScheduler.getNextFireTime("MidnightReset").toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime());
-			System.out.println("H: " + duration.toHours() + " M: " + duration.toMinutesPart() + " S: " + duration.toSecondsPart());
-		//	System.out.println("Next fire time: " + String.format("%d hours : %02d minutes", duration.toHours(), duration.toMinutesPart()));
+			OffsetDateTime date = JobScheduler.getNextFireTime("MidnightReset").toInstant().atOffset(ZoneOffset.UTC);
+			OffsetDateTime offsetDateTime = OffsetDateTime.now(ZoneOffset.UTC);
+			Duration duration = Duration.between(offsetDateTime, date);
+				System.out.println("Next fire time: " + String.format("%d hours : %02d minutes : %02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
 		}
 
 		if (wholeCommand.equalsIgnoreCase("e")) {

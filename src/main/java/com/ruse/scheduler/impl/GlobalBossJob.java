@@ -2,7 +2,7 @@ package com.ruse.scheduler.impl;
 
 import com.ruse.scheduler.BaseJob;
 import org.quartz.*;
-
+@DisallowConcurrentExecution
 public class GlobalBossJob extends BaseJob {
     public static final Trigger trigger = TriggerBuilder.newTrigger().withIdentity("GlobalBossJob")
             .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(5).repeatForever().withMisfireHandlingInstructionIgnoreMisfires())
