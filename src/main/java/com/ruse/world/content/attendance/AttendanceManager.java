@@ -25,13 +25,14 @@ public class AttendanceManager {
     }
 
     public void newDay() {
+        if(!lastLoggedInDate.getMonth().equals(LocalDate.now(ZoneOffset.UTC).getMonth())) {
+            playerAttendanceProgress.clear(); //reset for new month
+        }
+
         lastLoggedInDate = LocalDate.now(ZoneOffset.UTC);
 
         for(AttendanceTab tab : getTabs()) {
             int currentDay = getCurrentDay();
-            if(!lastLoggedInDate.getMonth().equals(LocalDate.now(ZoneOffset.UTC).getMonth())) {
-                playerAttendanceProgress.clear(); //reset for new month
-            }
             AttendanceProgress attendanceProgress = playerAttendanceProgress.computeIfAbsent(tab, x -> new AttendanceProgress());
             if(!attendanceProgress.hasReceived(currentDay)) {
                 Item item = getRewardOfTheDay(tab);
@@ -39,9 +40,11 @@ public class AttendanceManager {
                     p.getPacketSender().sendMessage("@red@This day has no reward.");
                     return;
                 }
-                if(attendanceProgress.put(currentDay)) {
+                int nextUnclaimedDay = getNextUnclaimedDay(tab);
+                if(nextUnclaimedDay != -1 && attendanceProgress.put(nextUnclaimedDay)) {
+                    p.getAttendanceUI().showInterface();
                     p.getPacketSender().sendMessage("@red@You have been given " + item.getDefinition().getName() + " x " + item.getAmount() + " as attendance reward for day " + currentDay + "!");
-                    p.getInventory().add(item);
+                    p.addItemUnderAnyCircumstances(item);
                 }
             }
         }
@@ -49,7 +52,7 @@ public class AttendanceManager {
 
     public static void nextDay() {
         for(Player onlinePlayer : World.getPlayers()) {
-            if(onlinePlayer != null && onlinePlayer.isRegistered() && onlinePlayer.getSession().getState() != SessionState.LOGGING_OUT) {
+            if(onlinePlayer != null && onlinePlayer.isRegistered() && onlinePlayer.getSession().getState() != SessionState.LOGGING_OUT && onlinePlayer.getAttendanceManager().isDifferentDay()) {
                 onlinePlayer.getAttendanceManager().newDay();
             }
         }
@@ -59,7 +62,7 @@ public class AttendanceManager {
         return !LocalDate.now(ZoneOffset.UTC).isEqual(lastLoggedInDate);
     }
 
-    public static int getCurrentDay() {
+    private static int getCurrentDay() {
         return LocalDate.now(ZoneOffset.UTC).getDayOfMonth();
     }
 
@@ -71,13 +74,24 @@ public class AttendanceManager {
         return null;
     }
 
-    public Item getRewardOfTheDay(AttendanceTab tab) {
+    private Item getRewardOfTheDay(AttendanceTab tab) {
         Item[] itemsArray = getMonthlyRewardAsArray(tab);
         if(itemsArray != null) {
             return itemsArray[LocalDate.now(ZoneOffset.UTC).getDayOfMonth()-1];
         } else {
             return null;
         }
+    }
+
+    public int getNextUnclaimedDay(AttendanceTab tab) {
+        int length = LocalDate.now(ZoneOffset.UTC).lengthOfMonth();
+        AttendanceProgress progress = playerAttendanceProgress.computeIfAbsent(tab, x -> new AttendanceProgress());
+        for(int i = 1; i <= length; i++) {
+            if(!progress.hasReceived(i)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public LocalDate getLastLoggedInDate() {

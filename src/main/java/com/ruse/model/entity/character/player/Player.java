@@ -14,6 +14,7 @@ import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.definitions.WeaponInterfaces.WeaponInterface;
 import com.ruse.model.entity.character.CharacterEntity;
+import com.ruse.model.entity.character.GroundItemManager;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.input.Input;
 import com.ruse.net.PlayerSession;
@@ -819,6 +820,21 @@ public class Player extends CharacterEntity {
 
 	public PacketSender getPacketSender() {
 		return packetSender;
+	}
+
+	public void addItemUnderAnyCircumstances(Item item) {
+		if(!getInventory().full(item.getId())) {
+			getInventory().add(item);
+		} else {
+			if(getBank(getCurrentBankTab()).full(item.getId())) {
+				GroundItemManager.spawnGroundItem(this, new GroundItem(item, getPosition(),
+						username, false, 150, false, -1));
+				getPacketSender().sendMessage("@red@[WARNING] @bla@" + item.getDefinition().getName() + " x" + item.getAmount() + " has been dropped below you.");
+				return;
+			}
+			getBank(getCurrentBankTab()).add(item);
+			getPacketSender().sendMessage("@red@[WARNING] @bla@" + item.getDefinition().getName() + " x" + item.getAmount() + " has been sent to your bank.");
+		}
 	}
 
 	public AttendanceUI getAttendanceUI() {
