@@ -1,5 +1,6 @@
 package com.ruse.world.content.teleports;
 
+import com.ruse.model.Item;
 import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.model.definitions.NpcDropItem;
@@ -30,6 +31,11 @@ public class TeleportMenuManager {
      //   player.getPacketSender().sendConfig(389, 0);
       //  reset();
       //  sendTabChangeData();
+        player.getPacketSender().sendItemContainer(new Item[]{new Item(4151,1)
+        ,new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1)
+        ,new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1)
+        ,new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1)
+        ,new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1),new Item(4151,1)},49730);
         player.getPacketSender().sendInterface(49550);
     }
 

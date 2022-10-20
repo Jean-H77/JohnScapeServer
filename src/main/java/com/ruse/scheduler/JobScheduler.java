@@ -3,6 +3,7 @@ package com.ruse.scheduler;
 import com.ruse.scheduler.impl.GlobalBossJob;
 import com.ruse.scheduler.impl.MarketBoardJob;
 import com.ruse.scheduler.impl.MidnightResetJob;
+import org.quartz.CronExpression;
 import org.quartz.JobBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -36,7 +37,8 @@ public class JobScheduler {
     }
 
     public static Date getNextFireTime(String name) {
-        return getJob(name).map(baseJob -> baseJob.getTrigger().getNextFireTime()).orElse(null);
+        Optional<BaseJob> optionalJob = getJob(name);
+        return optionalJob.map(BaseJob::nextFireTime).orElse(null);
     }
 
     public static void registerNewJob(BaseJob job) {

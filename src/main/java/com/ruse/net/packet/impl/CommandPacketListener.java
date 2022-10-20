@@ -183,7 +183,8 @@ public class CommandPacketListener implements PacketListener {
 			System.out.println("Different day: " + player.getAttendanceManager().isDifferentDay());
 			System.out.println(LocalDate.now(ZoneOffset.UTC));
 			Duration duration = Duration.between(LocalDateTime.now(ZoneOffset.UTC), JobScheduler.getNextFireTime("MidnightReset").toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime());
-			System.out.println("Next fire time: " + String.format("%d hours : %02d minutes", duration.toHours(), duration.toMinutesPart()));
+			System.out.println("H: " + duration.toHours() + " M: " + duration.toMinutesPart() + " S: " + duration.toSecondsPart());
+		//	System.out.println("Next fire time: " + String.format("%d hours : %02d minutes", duration.toHours(), duration.toMinutesPart()));
 		}
 
 		if (wholeCommand.equalsIgnoreCase("e")) {
