@@ -113,11 +113,10 @@ public class AttendanceManager {
         tabs.add(AttendanceTab.LOYAL);
 
         if(month == Month.DECEMBER) {
-            tabs.add(AttendanceTab.CHRISTMAS);
+           // tabs.add(AttendanceTab.CHRISTMAS);
         }
-
         if(p.getRights() == PlayerRights.CONTRIBUTOR) {
-            tabs.add(AttendanceTab.DONATOR);
+            //tabs.add(AttendanceTab.DONATOR);
         }
 
         return tabs;
