@@ -31,6 +31,7 @@ import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
 import com.ruse.world.content.Quest.QuestManager;
 import com.ruse.world.content.achievementsystem.AchievementManager;
 import com.ruse.world.content.attendance.AttendanceManager;
+import com.ruse.world.content.attendance.AttendanceUI;
 import com.ruse.world.content.clan.ClanChat;
 import com.ruse.world.content.collectionlog.CollectionLogManager;
 import com.ruse.world.content.combat.CombatFactory;
@@ -820,6 +821,11 @@ public class Player extends CharacterEntity {
 		return packetSender;
 	}
 
+	public AttendanceUI getAttendanceUI() {
+		return attendanceUI;
+	}
+
+	private final AttendanceUI attendanceUI = new AttendanceUI(this);
 	public SkillManager getSkillManager() {
 		return skillManager;
 	}

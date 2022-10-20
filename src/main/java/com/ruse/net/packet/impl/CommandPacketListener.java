@@ -188,9 +188,10 @@ public class CommandPacketListener implements PacketListener {
 				System.out.println("Next fire time: " + String.format("%d hours : %02d minutes : %02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
 		}
 
-		if (wholeCommand.equalsIgnoreCase("e")) {
-			player.getPacketSender().enableDropMenu(51350);
+		if (wholeCommand.equalsIgnoreCase("a")) {
+			player.getAttendanceUI().showInterface();
 		}
+
 		if (wholeCommand.equalsIgnoreCase("d")) {
 			player.getPacketSender().disableDropMenu(51350);
 		}
