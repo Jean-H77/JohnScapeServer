@@ -12,11 +12,11 @@ public enum CollectionLogTab {
     BOSSES(
             new Log[] {
                     new Log("Archer",
-                            LogType.KILLING, new int[] {20859, 16048, 16049, 16050, 16051, 16052, 15126, 995},
+                            LogType.KILLING, new int[] {20859, 16048, 16049, 16050, 16051, 16052, 15126},
                             new Item[] {new Item(4151, 1), new Item(4151, 1), new Item(4151, 1)}),
 
                     new Log("Magician",
-                            LogType.KILLING, new int[] {18341, 16058, 16056, 16057, 16055, 16054, 16053, 42002, 995},
+                            LogType.KILLING, new int[] {18341, 16058, 16056, 16057, 16055, 16054, 16053, 42002},
                             new Item[] {new Item(4151, 1), new Item(4151, 1), new Item(4151, 1)}),
 
                     new Log("Warrior",

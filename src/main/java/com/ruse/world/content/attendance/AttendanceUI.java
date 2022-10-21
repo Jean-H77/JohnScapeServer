@@ -21,6 +21,9 @@ public class AttendanceUI {
        p.getPacketSender().sendConfig(0,178);
        sendTabData(AttendanceTab.LOYAL);
        p.getPacketSender().sendInterface(INTERFACE_ID);
+
+       p.getPacketSender().sendInterfaceVisibility(60136, false);
+       p.getPacketSender().sendString(60137, "");
     }
 
     private void sendTabData(AttendanceTab tab) {
