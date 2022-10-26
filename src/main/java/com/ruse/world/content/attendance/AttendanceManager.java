@@ -27,23 +27,22 @@ public class AttendanceManager {
 
     public void newDay() {
         if(!lastLoggedInDate.getMonth().equals(LocalDate.now(ZoneOffset.UTC).getMonth())) {
-            playerAttendanceProgress.clear(); //reset for new month
+            playerAttendanceProgress.clear();
         }
-
         lastLoggedInDate = LocalDate.now(ZoneOffset.UTC);
-
         for(AttendanceTab tab : getTabs()) {
-            int currentDay = getCurrentDay();
             AttendanceProgress attendanceProgress = playerAttendanceProgress.computeIfAbsent(tab, x -> new AttendanceProgress());
-            if(!attendanceProgress.hasReceived(currentDay)) {
-                Item item = getRewardOfTheDay(tab);
+            int nextUnclaimedDay = getNextUnclaimedDay(tab);
+            if(nextUnclaimedDay != -1) {
+                Item item = getRewardOfTheDay(tab, nextUnclaimedDay);
                 if(item == null) {
                     p.getPacketSender().sendMessage("@red@This day has no reward.");
                     return;
                 }
-                int nextUnclaimedDay = getNextUnclaimedDay(tab);
-                if(nextUnclaimedDay != -1 && attendanceProgress.put(nextUnclaimedDay)) {
-                    p.getAttendanceUI().showInterface();
+                if(attendanceProgress.put(nextUnclaimedDay)) {
+                    if(p.getAttendanceUI().isPopUp()) {
+                        p.getAttendanceUI().showInterface();
+                    }
                     p.getPacketSender().sendMessage("@red@You have been given " + item.getDefinition().getName() + " x " + item.getAmount() + " as attendance reward for day " + nextUnclaimedDay + "!");
                     p.addItemUnderAnyCircumstances(item);
                     PlayerSaving.save(p);
@@ -76,13 +75,12 @@ public class AttendanceManager {
         return null;
     }
 
-    private Item getRewardOfTheDay(AttendanceTab tab) {
+    private Item getRewardOfTheDay(AttendanceTab tab, int day) {
         Item[] itemsArray = getMonthlyRewardAsArray(tab);
         if(itemsArray != null) {
-            return itemsArray[LocalDate.now(ZoneOffset.UTC).getDayOfMonth()-1];
-        } else {
-            return null;
+            return itemsArray[day-1];
         }
+        return null;
     }
 
     public int getNextUnclaimedDay(AttendanceTab tab) {

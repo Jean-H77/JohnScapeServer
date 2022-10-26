@@ -615,6 +615,9 @@ public class PlayerLoading {
 				player.getAttendanceManager().setLastLoggedInDate(LocalDate.parse(reader.get("lastloggedinday").getAsString()));
 			}
 
+			if (reader.has("attendance-popup")) {
+				player.getAttendanceUI().setPopUp(reader.get("attendance-popup").getAsBoolean());
+			}
 			if(reader.has("attendanceprogress")) {
 				HashMap<AttendanceTab, AttendanceProgress> temp = builder.fromJson(reader.get("attendanceprogress"),
 						new TypeToken<HashMap<AttendanceTab, AttendanceProgress>>() {

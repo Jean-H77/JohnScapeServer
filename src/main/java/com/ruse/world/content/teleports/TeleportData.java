@@ -35,11 +35,11 @@ public class TeleportData {
 
                     new TeleportMenuItemParent("Haunted Woods", TeleportType.AREAS,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Forgotten Soul", new Position(2909, 2833), 40534, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Zombified Thrall", new Position(2914, 2856), 40886, TeleportMenuItemChild.CombatStyleType.MELEE),
-                                    new TeleportMenuItemChild("Skeletal Thrall", new Position(2922, 2892), 40883, TeleportMenuItemChild.CombatStyleType.RANGE),
-                                    new TeleportMenuItemChild("Ghostly Thrall", new Position(2911, 2915), 40880, TeleportMenuItemChild.CombatStyleType.MAGIC),
-                                    new TeleportMenuItemChild("Manic Engineer @cya@(World Boss)", new Position(2911, 2915), 13400, TeleportMenuItemChild.CombatStyleType.RANGE)
+                                    new TeleportMenuItemChild("Forgotten Soul", new Position(2909, 2833), 5, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Zombified Thrall", new Position(2914, 2856), 6, TeleportMenuItemChild.CombatStyleType.MELEE),
+                                    new TeleportMenuItemChild("Skeletal Thrall", new Position(2922, 2892), 7, TeleportMenuItemChild.CombatStyleType.RANGE),
+                                    new TeleportMenuItemChild("Ghostly Thrall", new Position(2911, 2915), 8, TeleportMenuItemChild.CombatStyleType.MAGIC),
+                                    new TeleportMenuItemChild("Manic Engineer", new Position(2911, 2915), 13400, TeleportMenuItemChild.CombatStyleType.RANGE)
                             }
                     ),
 
@@ -47,19 +47,19 @@ public class TeleportData {
                             new TeleportMenuItemChild[]{
                                     new TeleportMenuItemChild("Fire Monster", new Position(2864, 3235),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Pyrefiend", new Position(3226, 2847),  1634, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  40939, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  9, TeleportMenuItemChild.CombatStyleType.MIXED),
                                     new TeleportMenuItemChild("Fire Titan", new Position(3284, 2847),  7355, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Infernal Pyrelord @cya@(World Boss)", new Position(3284, 2847),  39465, TeleportMenuItemChild.CombatStyleType.MAGIC)
+                                    new TeleportMenuItemChild("Infernal Pyrelord", new Position(3284, 2847),  22, TeleportMenuItemChild.CombatStyleType.MAGIC)
                             }
                     ),
 
                     new TeleportMenuItemParent("Castle", TeleportType.AREAS,
                             new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Fire Monster", new Position(2918, 2724),  7773, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Pyrefiend", new Position(3226, 2847),  1634, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  40939, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Fire Titan", new Position(3284, 2847),  7355, TeleportMenuItemChild.CombatStyleType.MIXED),
-                                    new TeleportMenuItemChild("Infernal Pyrelord @cya@(World Boss)", new Position(3284, 2847),  39465, TeleportMenuItemChild.CombatStyleType.MAGIC)
+                                    new TeleportMenuItemChild("Fire Monster", new Position(2918, 2724),  10, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Pyrefiend", new Position(3226, 2847),  11, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Wave", new Position(3263, 2838),  12, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Fire Titan", new Position(3284, 2847),  13, TeleportMenuItemChild.CombatStyleType.MIXED),
+                                    new TeleportMenuItemChild("Infernal Pyrelord", new Position(3284, 2847),  14, TeleportMenuItemChild.CombatStyleType.MAGIC)
                             }
                     )
             },
@@ -75,28 +75,6 @@ public class TeleportData {
                     new TeleportMenuItemParent("Duel Arena", TeleportType.MINI_GAMES,
                             new TeleportMenuItemChild[]{
                                     new TeleportMenuItemChild("Fadli", new Position(3372, 3269, 0),  958,TeleportMenuItemChild.CombatStyleType.MIXED)
-                            }
-                    )
-            },
-            {
-                    /*
-                     * RAIDS
-                    */
-                    new TeleportMenuItemParent("Duel Arena", TeleportType.MINI_GAMES,
-                            new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Fadli", new Position(3372, 3269, 0),  958,TeleportMenuItemChild.CombatStyleType.MIXED)
-                            }
-                    )
-            },
-            {
-                    /*
-                     * MISC.
-                    */
-                    new TeleportMenuItemParent("Forbidden Forest", TeleportType.MISC,
-                            new TeleportMenuItemChild[]{
-                                    new TeleportMenuItemChild("Archer", new Position(3333, 3333),  351, TeleportMenuItemChild.CombatStyleType.RANGE),
-                                    new TeleportMenuItemChild("Magician", new Position(3333, 3333),  352, TeleportMenuItemChild.CombatStyleType.MAGIC),
-                                    new TeleportMenuItemChild("Warrior", new Position(3333, 3333),  353, TeleportMenuItemChild.CombatStyleType.MELEE)
                             }
                     )
             }

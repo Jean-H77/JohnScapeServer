@@ -1028,6 +1028,17 @@ public class PacketSender {
 		return this;
 	}
 
+	public PacketSender changeButtonHover(int hoverInterfaceId, int hoveredInterfaceId, int spriteId, int hoverId, String tooltip) {
+		PacketBuilder packetBuilder = new PacketBuilder(49, PacketType.SHORT);
+		packetBuilder.putInt(hoverInterfaceId);
+		packetBuilder.putInt(hoveredInterfaceId);
+		packetBuilder.putShort(spriteId);
+		packetBuilder.putShort(hoverId);
+		packetBuilder.putString(tooltip);
+		player.getSession().queueMessage(packetBuilder);
+		return this;
+	}
+
 	public PacketSender sendPosition(final Position position) {
 		final Position other = player.getLastKnownRegion();		
 		PacketBuilder out = new PacketBuilder(85);

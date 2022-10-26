@@ -127,6 +127,18 @@ public class ButtonClickPacketListener implements PacketListener {
 				Dungeoneering.leave(player, false, true);
 			}
 			break;
+			case -5398:
+				if(player.getClickDelay().elapsed(1000)) {
+					if (player.getAttendanceUI().isPopUp()) {
+						player.getAttendanceUI().setPopUp(false);
+						player.getPacketSender().sendSpriteChange(60138, 588);
+					} else {
+						player.getAttendanceUI().setPopUp(true);
+						player.getPacketSender().sendSpriteChange(60138, 589);
+					}
+					player.getClickDelay().reset();
+				}
+				break;
 		case 26244:
 		case 26247:
 			if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
@@ -242,6 +254,13 @@ public class ButtonClickPacketListener implements PacketListener {
 			player.setDialogueActionId(47);
 			DialogueManager.start(player, 86);
 			break;
+			case -15978:
+				player.getDungeonPartyManager().showInterface();
+				break;
+			case -10530:
+			case 1042:
+				player.getTeleportMenuManager().showInterface();
+				break;
 		case 8659:
 			TeleportHandler.teleportPlayer(player, new Position(3079, 9499), player.getSpellbook().getTeleportType());
 			break;
@@ -382,10 +401,7 @@ public class ButtonClickPacketListener implements PacketListener {
 			else if(id == 1018) 
 				player.getSummoning().toInventory();
 			break;
-		case 1042:
-			player.getTeleportMenuManager().showInterface();
-			break;
-		case 1037:
+			case 1037:
 			SummoningTab.callFollower(player);
 			break;
 		case 1038:
@@ -934,9 +950,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getQuestManager().getQuestInterface().handleTabSwitch(id)) {
 			return true;
 		}
-	//	if(player.getTeleportMenuManager().handleButtonClick(id)) {
-	//		return true;
-	//	}
+		if(player.getTeleportMenuManager().handleButtonClick(id)) {
+			return true;
+		}
 		if(player.getCollectionLogManager().handleButtonClick(id)) {
 			return true;
 		}
@@ -944,6 +960,9 @@ public class ButtonClickPacketListener implements PacketListener {
 			return true;
 		}
 		if(player.getAchievementManger().handleButtonClick(id)) {
+			return true;
+		}
+		if(player.getDungeonPartyManager().handleButtonClick(id)) {
 			return true;
 		}
 	//	if(player.getDungeonViewer().handleButton(id)) {

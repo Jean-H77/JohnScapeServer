@@ -3,7 +3,6 @@ package com.ruse.scheduler;
 import com.ruse.scheduler.impl.GlobalBossJob;
 import com.ruse.scheduler.impl.MarketBoardJob;
 import com.ruse.scheduler.impl.MidnightResetJob;
-import org.quartz.CronExpression;
 import org.quartz.JobBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

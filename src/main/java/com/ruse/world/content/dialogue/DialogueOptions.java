@@ -31,6 +31,9 @@ import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.dialogue.impl.AgilityTicketExchange;
 import com.ruse.world.content.dialogue.impl.Mandrith;
 import com.ruse.world.content.dialogue.impl.Tutorial;
+import com.ruse.world.content.dungeons.DungeonParty;
+import com.ruse.world.content.dungeons.DungeonPartyManager;
+import com.ruse.world.content.dungeons.InviteDialogueOption;
 import com.ruse.world.content.minigames.Barrows;
 import com.ruse.world.content.minigames.Graveyard;
 import com.ruse.world.content.minigames.Nomad;
@@ -784,6 +787,25 @@ public class DialogueOptions {
 			}
 		} else if(id == FIRST_OPTION_OF_TWO) {
 			switch(player.getDialogueActionId()) {
+				case 871:
+					if(player.getDialogue() instanceof InviteDialogueOption) {
+						InviteDialogueOption inviteDialogueOption = (InviteDialogueOption) player.getDialogue();
+						DungeonParty dungeonParty = inviteDialogueOption.getDungeonParty();
+						int slot = inviteDialogueOption.getSlot();
+						if(dungeonParty.slotOpen(slot)) {
+							dungeonParty.addPlayer(player, slot);
+							if(player.getInterfaceId() == DungeonPartyManager.INTERFACE_ID) {
+								player.getDungeonPartyManager().showInterface();
+							} else {
+								player.getPacketSender().sendInterfaceRemoval();
+							}
+							player.getDungeonPartyManager().updatePlayersList();
+						} else {
+							player.getPacketSender().sendMessage("@red@This slot is currently occupied.");
+							player.getPacketSender().sendInterfaceRemoval();
+						}
+					}
+					break;
 				case 365:
 					TeleportHandler.teleportPlayer(player, new Position(3792, 3560, 0), TeleportType.RING_TELE);
 					break;

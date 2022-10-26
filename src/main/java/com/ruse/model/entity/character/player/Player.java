@@ -52,6 +52,7 @@ import com.ruse.world.content.combat.strategy.CombatStrategy;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.dialogue.Dialogue;
+import com.ruse.world.content.dungeons.DungeonPartyManager;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.MinigameAttributes;
 import com.ruse.world.content.skill.SkillManager;
@@ -66,8 +67,6 @@ import com.ruse.world.content.trading_post.PlayerShopManager;
 import com.ruse.world.content.upgrader.UpgradeMachineManager;
 import com.ruse.world.content.zombies.ZombiesManager;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -1400,6 +1399,12 @@ public class Player extends CharacterEntity {
 	private Dungeon currentDungeon;
 
 	private final DungeonManager dungeonManager = new DungeonManager(this);
+
+	public DungeonPartyManager getDungeonPartyManager() {
+		return dungeonPartyManager;
+	}
+
+	private final DungeonPartyManager dungeonPartyManager = new DungeonPartyManager(this);
 
 	private String clanChatName;
 	private String yellHex;

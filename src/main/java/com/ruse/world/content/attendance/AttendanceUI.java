@@ -12,18 +12,19 @@ public class AttendanceUI {
     private static final int INTERFACE_ID = 60000;
 
     private final Player p;
+    private boolean popUp = true;
 
     public AttendanceUI(Player p) {
         this.p = p;
     }
 
     public void showInterface() {
-       p.getPacketSender().sendConfig(0,178);
-       sendTabData(AttendanceTab.LOYAL);
-       p.getPacketSender().sendInterface(INTERFACE_ID);
-
-       p.getPacketSender().sendInterfaceVisibility(60136, false);
-       p.getPacketSender().sendString(60137, "");
+        p.getPacketSender().sendConfig(0,178);
+        p.getPacketSender().sendSpriteChange(60138, popUp ? 589 : 588);
+        p.getPacketSender().sendInterfaceVisibility(60136, false);
+        p.getPacketSender().sendString(60137, "");
+        sendTabData(AttendanceTab.LOYAL);
+        p.getPacketSender().sendInterface(INTERFACE_ID);
     }
 
     private void sendTabData(AttendanceTab tab) {
@@ -92,5 +93,13 @@ public class AttendanceUI {
         packetBuilder.putInt(60009);
 
         p.getSession().queueMessage(packetBuilder);
+    }
+
+    public boolean isPopUp() {
+        return popUp;
+    }
+
+    public void setPopUp(boolean popUp) {
+        this.popUp = popUp;
     }
 }

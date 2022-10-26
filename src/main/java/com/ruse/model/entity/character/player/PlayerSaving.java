@@ -144,6 +144,7 @@ public  class PlayerSaving {
 			object.add("bosspets", builder.toJsonTree(player.getBossPetsAll()));
 			object.addProperty("lastloggedinday", player.getAttendanceManager().getLastLoggedInDate().toString());
 			object.add("attendanceprogress", builder.toJsonTree(player.getAttendanceManager().getPlayerAttendanceProgress()));
+			object.addProperty("attendance-popup", player.getAttendanceUI().isPopUp());
 
 			writer.write(builder.toJson(object));
 			writer.close();
