@@ -5,7 +5,6 @@ import com.ruse.model.entity.character.player.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DungeonParty {
     private final Player leader;
@@ -15,16 +14,11 @@ public class DungeonParty {
 
     public DungeonParty(Player leader) {
         this.leader = leader;
-        playersSlotMap.put(0, leader);
-        playerList.add(leader);
+        addPlayer(leader, 0);
     }
 
     public Player getLeader() {
         return leader;
-    }
-
-    public HashMap<Integer, Player> getPlayers() {
-        return playersSlotMap;
     }
 
     public Dungeon getCurrentDungeon() {
@@ -41,6 +35,7 @@ public class DungeonParty {
         player.setInDungeon(false);
         player.getDungeonPartyManager().setDungeonParty(null);
         player.getDungeonPartyManager().resetInterface();
+        leader.getDungeonPartyManager().updatePlayersList();
     }
 
     public void disband() {
@@ -59,9 +54,18 @@ public class DungeonParty {
         playerList.add(player);
         playersSlotMap.put(slot, player);
         player.getDungeonPartyManager().setDungeonParty(this);
+        player.getDungeonPartyManager().updatePlayersList();
     }
 
     public boolean slotOpen(int slot) {
         return !playersSlotMap.containsKey(slot);
+    }
+
+    public HashMap<Integer, Player> getPlayersSlotMap() {
+        return playersSlotMap;
+    }
+
+    public List<Player> getPlayerList() {
+        return playerList;
     }
 }

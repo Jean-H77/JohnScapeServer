@@ -18,12 +18,17 @@ import java.util.logging.Logger;
 public class JobScheduler {
     private static final Logger LOGGER = Logger.getLogger("Scheduler");
     public final static List<BaseJob> JOBS = new ArrayList<>();
+    public static Scheduler scheduler;
 
     public static void initialize() {
         JOBS.add(new GlobalBossJob());
         JOBS.add(new MarketBoardJob());
         JOBS.add(new MidnightResetJob());
-
+        try {
+            scheduler = StdSchedulerFactory.getDefaultScheduler();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         for(BaseJob job : JOBS) {
             registerNewJob(job);
         }
@@ -42,9 +47,8 @@ public class JobScheduler {
 
     public static void registerNewJob(BaseJob job) {
         try {
-            Scheduler sch = StdSchedulerFactory.getDefaultScheduler();
-            sch.scheduleJob(JobBuilder.newJob(job.getClass()).build(),job.getTrigger());
-            sch.start();
+            scheduler.scheduleJob(JobBuilder.newJob(job.getClass()).build(),job.getTrigger());
+            scheduler.start();
         } catch (SchedulerException e) {
             LOGGER.log(Level.SEVERE, "Error scheduling job of : " + job.getTrigger().getKey().getName());
             e.printStackTrace();

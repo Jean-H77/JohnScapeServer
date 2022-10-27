@@ -20,6 +20,76 @@
     }
   },
   {
+    "npc-id": 5485,
+    "spawns": [
+      {"x":2140,"y":5180,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 4
+    }
+  },
+  {
+    "npc-id": 643,
+    "spawns": [
+      {"x":2137,"y":5170,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 2
+    }
+  },
+  {
+    "npc-id": 458,
+    "spawns": [
+      {"x":2147,"y":5134,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 4
+    }
+  },
+  {
+    "npc-id": 8275,
+    "spawns": [
+      {"x":2131,"y":5153,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 6
+    }
+  },
+  {
+    "npc-id": 549,
+    "spawns": [
+      {"x":2137,"y":5175,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 2
+    }
+  },
+  {
+    "npc-id": 4607,
+    "spawns": [
+      {"x":2148,"y":5168,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 4
+    }
+  },
+  {
+    "npc-id": 611,
+    "spawns": [
+      {"x":2149,"y":5169,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 3
+    }
+  },
+  {
     "npc-id": 1218,
     "spawns": [
       {"x":3111,"y":3043,"z":0},
@@ -127,13 +197,23 @@
     }
   },
   {
-    "npc-id": 605,
+    "npc-id": 1,
     "spawns": [
-      {"x":2149,"y":5148,"z":0}
+      {"x":2146,"y":5148,"z":0}
     ],
     "walking-policy": {
-      "coordinate": false,
-      "radius": 2
+      "coordinate": true,
+      "radius": 10
+    }
+  },
+  {
+    "npc-id": 2919,
+    "spawns": [
+      {"x":2131,"y":5145,"z":0}
+    ],
+    "walking-policy": {
+      "coordinate": true,
+      "radius": 1
     }
   },
   {

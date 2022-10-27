@@ -1,6 +1,12 @@
 package com.ruse.world.content.dungeons;
 
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.net.packet.Packet;
+import com.ruse.net.packet.PacketBuilder;
+import com.ruse.world.content.dungeons.dungeonImpl.CastleUnderworld;
+import com.ruse.world.content.dungeons.dungeonImpl.ForbiddenIsland;
+import com.ruse.world.content.dungeons.dungeonImpl.ForgottenTemple;
+import com.ruse.world.content.dungeons.dungeonImpl.TowerOfTheUndead;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +16,15 @@ public class DungeonPartyManager {
 
     private final Player p;
     private DungeonParty dungeonParty;
+    private Dungeon pickedDungeon;
 
     public DungeonPartyManager(Player p) {
         this.p = p;
     }
 
     public void showInterface() {
-        p.getPacketSender().sendConfig(383, 0);
+        p.getPacketSender().sendConfig(375, 0);
+        p.getPacketSender().sendConfig(383, 2);
         if(dungeonParty == null) {
             resetInterface();
         } else {
@@ -25,71 +33,75 @@ public class DungeonPartyManager {
             } else {
                 p.getPacketSender().sendString(55071, "Leave Party");
             }
-            updatePlayersList();
         }
         p.getPacketSender().sendInterface(INTERFACE_ID);
     }
 
     public void updatePlayersList() {
         if(dungeonParty != null) {
-            for (Map.Entry<Integer, Player> playerEntry : dungeonParty.getPlayers().entrySet()) {
+            for (Map.Entry<Integer, Player> playerEntry : dungeonParty.getPlayersSlotMap().entrySet()) {
                 updateDungeonPartyMemberListInterface(playerEntry.getValue(), dungeonParty.getLeader().equals(playerEntry.getValue()));
             }
         }
     }
 
     public void updateDungeonPartyMemberListInterface(Player p, boolean isLeader) {
+        PacketBuilder packetBuilder = new PacketBuilder(10, Packet.PacketType.SHORT);
         for(int i = 0; i < 5; i++) {
             Player player;
-            if((player = dungeonParty.getPlayers().get(i)) != null) {
+            if((player = dungeonParty.getPlayersSlotMap().get(i)) != null) {
                 if(isLeader) {
-                    p.getPacketSender().sendInterfaceVisibility(55077+(i*3), true)
-                            .sendInterfaceVisibility(55077+((i*3)+2), true)
-                                    .changeButtonHover(55077+(i*3), 55077+((i*3)+2), 1515, 1514, "Remove");
+                    packetBuilder.put(1);
                 } else {
-                    p.getPacketSender().sendInterfaceVisibility(55077+(i*3), false)
-                            .sendInterfaceVisibility(55077+((i*3)+2), false);
+                    packetBuilder.put(0);
                 }
-                p.getPacketSender().sendString(55072+i, player.getUsername());
+                packetBuilder.putString(player.getUsername());
             } else {
                 if(isLeader) {
-                    p.getPacketSender().sendInterfaceVisibility(55077+(i*3), true)
-                            .sendInterfaceVisibility(55077+((i*3)+2), true)
-                            .changeButtonHover(55077+(i*3), 55077+((i*3)+2), 1516, 1517, "Invite")
-                            .sendString(55072+i, "Invite a Player...");
+                    packetBuilder.put(2);
                 } else {
-                    p.getPacketSender().sendInterfaceVisibility(55077+(i*3), false)
-                            .sendInterfaceVisibility(55077+((i*3)+2), false)
-                            .sendString(55072+i, "");
+                    packetBuilder.put(3);
                 }
             }
         }
+        p.getSession().queueMessage(packetBuilder);
     }
 
     public void resetInterface() {
-        for(int i = 0; i < 5; i++) {
-            p.getPacketSender().sendInterfaceVisibility(55077+(i*3), false)
-                    .sendInterfaceVisibility(55079+((i*3)+2), false)
-                    .sendString(55072+i, "")
-                    .sendString(55071, "Create Party");
+        PacketBuilder packetBuilder = new PacketBuilder(10, Packet.PacketType.SHORT);
+        for (int i = 0; i < 5; i++) {
+            packetBuilder.put(4);
         }
+        p.getSession().queueMessage(packetBuilder);
+        p.getPacketSender().sendString(55071, "Create Party");
+
     }
 
     public boolean handleButtonClick(int btnId) {
         if(btnId == -10468) {
             if(dungeonParty == null && !p.isInDungeon()) {
                 dungeonParty = new DungeonParty(p);
+                pickedDungeon = new ForgottenTemple(dungeonParty);
                 p.getPacketSender().sendMessage("@red@You have created a dungeon party!");
                 p.getPacketSender().sendString(55071, "Disband Party");
-                updatePlayersList();
+                p.getPacketSender().sendConfig(375, 0);
                 return true;
             } else {
-                dungeonParty.disband();
+                if(dungeonParty.getLeader().equals(p)) {
+                    dungeonParty.disband();
+                } else {
+                    if(dungeonParty.getPlayersSlotMap().containsValue(p)) {
+                        dungeonParty.removePlayer(p, dungeonParty.getPlayersSlotMap()
+                                .entrySet()
+                                .stream()
+                                .filter(it -> it.getValue() == p).findFirst().get().getKey());
+                    }
+                }
             }
         }
 
         if(dungeonParty != null && dungeonParty.getLeader().equals(p)) {
-            HashMap<Integer,Player> partyMembers= dungeonParty.getPlayers();
+            HashMap<Integer,Player> partyMembers= dungeonParty.getPlayersSlotMap();
             int slot = -1;
             if (btnId == -10459) {
                 slot = 0;
@@ -101,6 +113,17 @@ public class DungeonPartyManager {
                 slot = 3;
             } else if (btnId == -10447) {
                 slot = 4;
+            } else if(btnId == -10442 && dungeonParty.getCurrentDungeon() == null) {
+                dungeonParty.setCurrentDungeon(pickedDungeon);
+                dungeonParty.getCurrentDungeon().start();
+            } else if(btnId == -10521) {
+                pickedDungeon = new ForgottenTemple(dungeonParty);
+            } else if(btnId == -10520) {
+                pickedDungeon = new TowerOfTheUndead(dungeonParty);
+            } else if(btnId == -10519) {
+                pickedDungeon = new CastleUnderworld(dungeonParty);
+            } else if(btnId == -10518) {
+                pickedDungeon = new ForbiddenIsland(dungeonParty);
             }
 
             if(slot != -1) {
@@ -117,12 +140,12 @@ public class DungeonPartyManager {
                     p.setInputHandling(new InviteMemberInput(dungeonParty, slot));
                     p.getPacketSender().sendEnterInputPrompt("Enter player name to invite.");
                 }
+                return true;
             }
         }
 
         return false;
     }
-
 
     public DungeonParty getDungeonParty() {
         return dungeonParty;

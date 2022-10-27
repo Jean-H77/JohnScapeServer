@@ -1061,6 +1061,7 @@ public class DialogueOptions {
 				case 20:
 				case 23:
 				case 33:
+				case 871:
 				case 37:
 				case 39:
 				case 42:

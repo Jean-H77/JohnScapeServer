@@ -1394,6 +1394,16 @@ public class Player extends CharacterEntity {
 		return this;
 	}
 
+	public Position getPreviousPosition() {
+		return previousPosition;
+	}
+
+	public void setPreviousPosition(Position previousPosition) {
+		this.previousPosition = previousPosition;
+	}
+
+	private Position previousPosition;
+
 	private boolean isInDungeon;
 
 	private Dungeon currentDungeon;

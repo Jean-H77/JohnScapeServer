@@ -25,7 +25,7 @@ public class FrameUpdater {
 	}
 
 	public boolean shouldUpdate(String text, int id) {
-		if(text.equalsIgnoreCase("[CLOSEMENU]") || id == 0 || id == 27000 || id == 27001 || id == 27002 || id == 1 || id == 57025 || id == 57028 || id == 5385)
+		if(text.equalsIgnoreCase("[CLOSEMENU]") || id == 0 || id == 27000 || id == 27001 || id == 27002 || id == 1 || id == 57025 || id == 57028 || id == 5385 || (id >= 55072 && id <= 55076))
 			return true;
 		if(!interfaceTextMap.containsKey(id)) {
 			interfaceTextMap.put(id, new Frame126(text, id));
