@@ -259,7 +259,11 @@ public class ButtonClickPacketListener implements PacketListener {
 				break;
 			case -10530:
 			case 1042:
-				player.getTeleportMenuManager().showInterface();
+				if(!player.isInDungeon()) {
+					player.getTeleportMenuManager().showInterface();
+				} else {
+					player.getPacketSender().sendMessage("@red@You can't open this at this moment.");
+				}
 				break;
 		case 8659:
 			TeleportHandler.teleportPlayer(player, new Position(3079, 9499), player.getSpellbook().getTeleportType());

@@ -108,6 +108,10 @@ public class TeleportHandler {
 			player.getPacketSender().sendMessage("You cannot teleport right now.");
 			return false;
 		}
+		if(player.isInDungeon()) {
+			player.getPacketSender().sendMessage("@red@Type ::exit to leave the dungeon.");
+			return false;
+		}
 		return true;
 	}
 
