@@ -9,9 +9,15 @@ import com.ruse.util.Misc;
 import com.ruse.world.content.dialogue.DialogueExpression;
 import com.ruse.world.content.trading_post.Listing;
 import com.ruse.world.content.trading_post.ShopUtils;
+import org.ahocorasick.trie.Emit;
+import org.ahocorasick.trie.Trie;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class BuyingPage {
@@ -60,30 +66,43 @@ public class BuyingPage {
     }
 
     public void getFilteredSearch() {
-
-        if(!itemSearch.equals("Recent")) {
-
-            displayedListings = ShopUtils.marketListings
-                    .stream()
-                    .filter(listing -> ItemDefinition.forId(listing.getItemId()).getName().startsWith(itemSearch)
-                            || ItemDefinition.forId(listing.getItemId()).getName().contains(itemSearch))
-                    .collect(Collectors.toList());
-        }
-
-        if(!playerSearch.equals("")) {
-
-            displayedListings = displayedListings
-                    .stream()
-                    .filter(listing -> listing.getSeller().equalsIgnoreCase(playerSearch))
-                    .collect(Collectors.toList());
-        }
-
+        displayedListings.clear();
         page = 0;
+        if(!itemSearch.equals("Recent") && playerSearch.equals("")) {
+                Trie trie = Trie.builder().addKeyword(itemSearch.toLowerCase()).build();
+                for(Listing l : ShopUtils.marketListings) {
+                    Collection<Emit> emits = trie.parseText(ItemDefinition.forId(l.getItemId()).getName().toLowerCase());
+                    if(!emits.isEmpty()) {
+                        displayedListings.add(l);
+                    }
+                }
+        } else if(itemSearch.equals("Recent") && !playerSearch.equals("")) {
+            Trie trie = Trie.builder().addKeyword(playerSearch.toLowerCase()).build();
+            for(Listing l : ShopUtils.marketListings) {
+                Collection<Emit> emits = trie.parseText(l.getSeller().toLowerCase());
+                if(!emits.isEmpty()) {
+                    if(!displayedListings.contains(l)) {
+                        displayedListings.add(l);
+                    }
+                }
+            }
+        } else if(!itemSearch.equals("Recent")) {
+            Trie trie = Trie.builder().addKeyword(playerSearch.toLowerCase()).build();
+            Trie trie1 = Trie.builder().addKeyword(itemSearch.toLowerCase()).build();
+            for(Listing l : ShopUtils.marketListings) {
+                Collection<Emit> emits = trie.parseText(l.getSeller().toLowerCase());
+                Collection<Emit> emits1 = trie1.parseText(ItemDefinition.forId(l.getItemId()).getName().toLowerCase());
+                if(!emits.isEmpty() && !emits1.isEmpty()) {
+                    displayedListings.add(l);
+                }
+            }
+        } else {
+            getNewMarketListings();
+        }
         displayListings();
     }
 
     public void displayListings() {
-
         sendListingData(displayedListings
                 .stream()
                 .skip(page* 50L)
@@ -427,66 +446,6 @@ public class BuyingPage {
 
     public void setDisplayedListings(List<Listing> displayedListings) {
         this.displayedListings = displayedListings;
-    }
-
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof BuyingPage)) return false;
-        final BuyingPage other = (BuyingPage) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$p = this.getP();
-        final Object other$p = other.getP();
-        if (this$p == null ? other$p != null : !this$p.equals(other$p)) return false;
-        if (this.getPage() != other.getPage()) return false;
-        final Object this$itemSearch = this.getItemSearch();
-        final Object other$itemSearch = other.getItemSearch();
-        if (this$itemSearch == null ? other$itemSearch != null : !this$itemSearch.equals(other$itemSearch))
-            return false;
-        final Object this$playerSearch = this.getPlayerSearch();
-        final Object other$playerSearch = other.getPlayerSearch();
-        if (this$playerSearch == null ? other$playerSearch != null : !this$playerSearch.equals(other$playerSearch))
-            return false;
-        if (this.getLastRecentButtonClickedMilli() != other.getLastRecentButtonClickedMilli()) return false;
-        if (this.getLastPageButtonClickedMilli() != other.getLastPageButtonClickedMilli()) return false;
-        if (this.getLastRefreshButtonClickedMilli() != other.getLastRefreshButtonClickedMilli()) return false;
-        final Object this$selectedListing = this.getSelectedListing();
-        final Object other$selectedListing = other.getSelectedListing();
-        if (this$selectedListing == null ? other$selectedListing != null : !this$selectedListing.equals(other$selectedListing))
-            return false;
-        if (this.getAmountToBuy() != other.getAmountToBuy()) return false;
-        final Object this$displayedListings = this.getDisplayedListings();
-        final Object other$displayedListings = other.getDisplayedListings();
-        if (this$displayedListings == null ? other$displayedListings != null : !this$displayedListings.equals(other$displayedListings))
-            return false;
-        return true;
-    }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof BuyingPage;
-    }
-
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $p = this.getP();
-        result = result * PRIME + ($p == null ? 43 : $p.hashCode());
-        result = result * PRIME + this.getPage();
-        final Object $itemSearch = this.getItemSearch();
-        result = result * PRIME + ($itemSearch == null ? 43 : $itemSearch.hashCode());
-        final Object $playerSearch = this.getPlayerSearch();
-        result = result * PRIME + ($playerSearch == null ? 43 : $playerSearch.hashCode());
-        final long $lastRecentButtonClickedMilli = this.getLastRecentButtonClickedMilli();
-        result = result * PRIME + (int) ($lastRecentButtonClickedMilli >>> 32 ^ $lastRecentButtonClickedMilli);
-        final long $lastPageButtonClickedMilli = this.getLastPageButtonClickedMilli();
-        result = result * PRIME + (int) ($lastPageButtonClickedMilli >>> 32 ^ $lastPageButtonClickedMilli);
-        final long $lastRefreshButtonClickedMilli = this.getLastRefreshButtonClickedMilli();
-        result = result * PRIME + (int) ($lastRefreshButtonClickedMilli >>> 32 ^ $lastRefreshButtonClickedMilli);
-        final Object $selectedListing = this.getSelectedListing();
-        result = result * PRIME + ($selectedListing == null ? 43 : $selectedListing.hashCode());
-        result = result * PRIME + this.getAmountToBuy();
-        final Object $displayedListings = this.getDisplayedListings();
-        result = result * PRIME + ($displayedListings == null ? 43 : $displayedListings.hashCode());
-        return result;
     }
 
     public String toString() {

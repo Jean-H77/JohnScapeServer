@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
-@Getter
+
 public enum Upgradeable {
 
     TWISTED_BOW(50997, new Item[]{ new Item(1420, 2), new Item(995, 175_000_000) }, 100, Category.WEAPONS),
@@ -54,8 +53,6 @@ public enum Upgradeable {
         return this.category;
     }
 
-    @RequiredArgsConstructor
-    @Getter
     enum Category {
         ARMOUR(0),
         JEWELRY(1),

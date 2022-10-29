@@ -239,8 +239,6 @@ public class ShopUtils {
         long minute = TimeUnit.NANOSECONDS.toMinutes(elapsed) - (TimeUnit.NANOSECONDS.toHours(elapsed)* 60);
         long second = TimeUnit.NANOSECONDS.toSeconds(elapsed) - (TimeUnit.NANOSECONDS.toMinutes(elapsed) *60);
 
-        System.out.println("Day: " + day + " elapsed: " + elapsed);
-
         if(day > 0) {
 
             result = day + "d " + hours + " ago";
