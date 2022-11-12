@@ -1740,6 +1740,22 @@ public class Player extends CharacterEntity {
 		return gameMode;
 	}
 
+	public GameType getGameType() {
+		return gameType;
+	}
+
+	public void setGameType(GameType gameType) {
+		this.gameType = gameType;
+	}
+
+	private GameType gameType;
+
+	public GameModeSelector getGameModeSelector() {
+		return gameModeSelector;
+	}
+
+	private final GameModeSelector gameModeSelector = new GameModeSelector(this);
+
 	public boolean isThirdFloorCastle() {
 		return thirdFloorCastle;
 	}

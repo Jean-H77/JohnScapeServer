@@ -192,11 +192,57 @@ public class CommandPacketListener implements PacketListener {
 			player.getAttendanceUI().showInterface();
 		}
 
+		if (wholeCommand.equalsIgnoreCase("q")) {
+			player.getPacketSender().sendInterface(51350);
+		}
+
+		if (wholeCommand.equalsIgnoreCase("cam")) {
+			Position position = new Position(3605, 2846, 0);
+			player.getPacketSender().sendCameraSpin(1, 1,  1, 1000, 25);
+		}
+
+		if (wholeCommand.equalsIgnoreCase("camn")) {
+			player.getPacketSender().sendCameraNeutrality();
+		}
+
 		if (wholeCommand.equalsIgnoreCase("d")) {
 			player.getPacketSender().disableDropMenu(51350);
 		}
 		if (wholeCommand.equalsIgnoreCase("z")) {
 			player.getZombiesManger().openInterface();
+		}
+
+		if (wholeCommand.equalsIgnoreCase("g")) {
+			player.getPacketSender().sendNpcHeadOnInterface(511, 60143);
+			player.getPacketSender().sendInterfaceAnimation(60143, new Animation(9816));
+			player.getPacketSender().sendItemContainer(new Item[]{
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1),new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1),new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1),new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1),new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1)
+					,new Item(4151,1)
+			}, 60151);
+			player.getPacketSender().sendInterface(60140);
+
 		}
 
 		if (wholeCommand.equalsIgnoreCase("lo")) {
@@ -1224,6 +1270,7 @@ public class CommandPacketListener implements PacketListener {
 		}
 		if(command[0].equalsIgnoreCase("pos")) {
 			player.getPacketSender().sendMessage(player.getPosition().toString());
+			player.getPacketSender().sendMessage("LOCALX: " + player.getPosition().getLocalX() + " LOCALY: " + player.getPosition().getLocalY());
 			System.out.println(new Gson().toJson(player.getPosition()) + ",");
 		}
 		if(command[0].equalsIgnoreCase("getpos")) {
@@ -2420,13 +2467,13 @@ public class CommandPacketListener implements PacketListener {
 		if (command[0].equalsIgnoreCase("gamemode")) {
 			if (command[1].equalsIgnoreCase("1")) {
 				player.getGameMode();
-				GameMode.set(player, GameMode.NORMAL, false);
+			//	GameMode.set(player, GameMode.NORMAL, false);
 			} else if (command[1].equalsIgnoreCase("2")) {
 				player.getGameMode();
-				GameMode.set(player, GameMode.IRONMAN, false);
+			//	GameMode.set(player, GameMode.IRONMAN, false);
 			} else if (command[1].equalsIgnoreCase("3")) {
 				player.getGameMode();
-				GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
+			//	GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
 				} else
 					player.getPacketSender().sendMessage("<img=10> Correct usage ::gamemode (#), 1 = Norm, 2 = IM, 3 = UIM");
 		}

@@ -525,6 +525,9 @@ public class ObjectActionPacketListener implements PacketListener {
 							return;
 					}
 					break;
+					case 24389:
+						DialogueManager.sendStatement(player, "This door is locked from this side.");
+					break;
 				case 2274:
 					if (player.getTeleblockTimer() > 0) {
 						player.getPacketSender().sendMessage(

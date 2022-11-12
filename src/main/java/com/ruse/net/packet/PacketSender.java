@@ -318,6 +318,14 @@ public class PacketSender {
 		return this;
 	}
 
+	public PacketSender sendInterfaceChange(int currentId, int changeToId) {
+		PacketBuilder out = new PacketBuilder(62);
+		out.putShort(currentId);
+		out.putShort(changeToId);
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
 	public PacketSender sendWalkableInterface(int interfaceId) {
 		player.setWalkableInterfaceId(interfaceId);
 		PacketBuilder out = new PacketBuilder(208);
@@ -486,8 +494,8 @@ public class PacketSender {
 
 	public PacketSender sendCameraAngle(int x, int y, int level, int speed, int angle) {
 		PacketBuilder out = new PacketBuilder(177);
-		out.put(x / 64);
-		out.put(y / 64);
+		out.put(x);
+		out.put(y);
 		out.putShort(level);
 		out.put(speed);
 		out.put(angle);
@@ -507,8 +515,8 @@ public class PacketSender {
 
 	public PacketSender sendCameraSpin(int x, int y, int z, int speed, int angle) {
 		PacketBuilder out = new PacketBuilder(166);
-		out.put(x / 64);
-		out.put(y / 64);
+		out.put(x);
+		out.put(y);
 		out.putShort(z);
 		out.put(speed);
 		out.put(angle);

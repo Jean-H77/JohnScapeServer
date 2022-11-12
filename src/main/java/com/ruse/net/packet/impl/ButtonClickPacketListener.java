@@ -7,6 +7,7 @@ import com.ruse.model.Position;
 import com.ruse.model.container.impl.Bank;
 import com.ruse.model.container.impl.Bank.BankSearchAttributes;
 import com.ruse.model.definitions.WeaponInterfaces.WeaponInterface;
+import com.ruse.model.input.impl.AchievementSearch;
 import com.ruse.model.input.impl.EnterClanChatToJoin;
 import com.ruse.model.input.impl.EnterSyntaxToBankSearchFor;
 import com.ruse.net.packet.Packet;
@@ -185,6 +186,10 @@ public class ButtonClickPacketListener implements PacketListener {
 				player.getPacketSender().sendTabInterface(GameSettings.QUESTS_TAB, 639);
 			}
 			break;
+			case -14178:
+				player.getPacketSender().sendEnterInputPrompt("Enter achievement to search for.");
+				player.setInputHandling(new AchievementSearch());
+				break;
 		case -26337:
 			player.getPacketSender().sendString(1, GameSettings.StoreUrl);
 			player.getPacketSender().sendMessage("Attempting to open the forums");
@@ -897,9 +902,6 @@ public class ButtonClickPacketListener implements PacketListener {
 			DialogueOptions.handle(player, id);
 			return true;
 		}
-		if(player.isPlayerLocked() && id != 2458) {
-			return true;
-		}
 		if(Sounds.handleButton(player, id)) {
 			return true;
 		}
@@ -944,7 +946,6 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(PlayersOnlineInterface.handleButton(player, id)) {
 			return true;
 		}
-
 		if(ClanChatManager.handleClanChatSetupButton(player, id)) {
 			return true;
 		}
@@ -963,15 +964,15 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getUpgradeManager().handleButtonClick(id)) {
 			return true;
 		}
-		if(player.getAchievementManger().handleButtonClick(id)) {
-			return true;
-		}
+	//	if(player.getAchievementManger().handleButtonClick(id)) {
+	//		return true;
+	//	}
 		if(player.getDungeonPartyManager().handleButtonClick(id)) {
 			return true;
 		}
-	//	if(player.getDungeonViewer().handleButton(id)) {
-		//	return true;
-	//	}
+		if(player.getGameModeSelector().handleButtonClick(id)) {
+			return true;
+		}
 		return false;
 	}
 	

@@ -601,7 +601,7 @@ public class DialogueOptions {
 					DialogueManager.start(player, 76);
 					break;
 				case 45:
-					GameMode.set(player, GameMode.NORMAL, false);
+				//	GameMode.set(player, GameMode.NORMAL, false);
 					break;
 				case 79:
 					DialogueManager.start(player, 128);
@@ -672,7 +672,7 @@ public class DialogueOptions {
 					WellOfGoodwill.lookDownWell(player);
 					break;
 				case 45:
-					GameMode.set(player, GameMode.IRONMAN, false);
+					//GameMode.set(player, GameMode.IRONMAN, false);
 					break;
 				case 79:
 					player.getPacketSender().sendInterfaceRemoval();
@@ -733,7 +733,7 @@ public class DialogueOptions {
 					player.getPacketSender().sendInterfaceRemoval().sendEnterAmountPrompt("How much money would you like to contribute with?");
 					break;
 				case 45:
-					GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
+					//GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
 					break;
 				case 79:
 					player.getPacketSender().sendMessage("<shad=336600>You currently have "+player.getPointsHandler().getBarrowsPoints()+" Barrows points.");

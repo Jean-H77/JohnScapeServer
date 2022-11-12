@@ -32,11 +32,7 @@ import com.ruse.net.security.ConnectionHandler;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.clip.region.RegionClipping;
-import com.ruse.world.content.BonusManager;
-import com.ruse.world.content.Lottery;
-import com.ruse.world.content.PlayerLogs;
-import com.ruse.world.content.PlayersOnlineInterface;
-import com.ruse.world.content.Wildywyrm;
+import com.ruse.world.content.*;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect;
 import com.ruse.world.content.combat.effect.CombatTeleblockEffect;
@@ -184,8 +180,8 @@ public class PlayerHandler {
 		//New player
 		if(player.newPlayer()) {
 			player.setClanChatName("JohnScape");
-			player.setPlayerLocked(true).setDialogueActionId(45);
-			DialogueManager.start(player, 81);
+			player.setPlayerLocked(true);
+			player.getGameModeSelector().displayInterface();
 			JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder().setTitle("New adventurer!") .setDescription(player.getUsername() + " just joined " + GameSettings.RSPS_NAME +"! Your adventure starts now!")
 					.setColor(Color.BLUE).setTimestampToNow()
 					.setThumbnail("https://vignette.wikia.nocookie.net/2007scape/images/f/ff/Vorkath%27s_stuffed_head_detail.png/revision/latest?cb=20180108212531").setFooter("Powered by JavaCord"));
@@ -247,6 +243,9 @@ public class PlayerHandler {
 		if(player.getAttendanceManager().isDifferentDay()) {
 			player.getAttendanceManager().newDay();
 		}
+
+		player.getAchievementManger().sendAchievementData();
+		System.out.println("Login");
 	}
 
 	public static boolean handleLogout(Player player, Boolean forced) {

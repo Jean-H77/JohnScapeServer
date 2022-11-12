@@ -179,7 +179,7 @@ public class PlayerDeathTask extends Task {
 			case 0:
 				if(dropItems) {
 					if(player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						GameMode.set(player, player.getGameMode(), true);
+						//GameMode.set(player, player.getGameMode(), true);
 					} else {
 						if(itemsToKeep != null) {
 							for(Item it : itemsToKeep) {

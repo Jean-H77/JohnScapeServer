@@ -40,7 +40,7 @@ public class AttendanceManager {
                     return;
                 }
                 if(attendanceProgress.put(nextUnclaimedDay)) {
-                    if(p.getAttendanceUI().isPopUp()) {
+                    if(p.getAttendanceUI().isPopUp() && !p.busy()) {
                         p.getAttendanceUI().showInterface();
                     }
                     p.getPacketSender().sendMessage("@red@You have been given " + item.getDefinition().getName() + " x " + item.getAmount() + " as attendance reward for day " + nextUnclaimedDay + "!");
@@ -113,10 +113,10 @@ public class AttendanceManager {
         tabs.add(AttendanceTab.LOYAL);
 
         if(month == Month.DECEMBER) {
-           // tabs.add(AttendanceTab.CHRISTMAS);
+            tabs.add(AttendanceTab.CHRISTMAS);
         }
         if(p.getRights() == PlayerRights.CONTRIBUTOR) {
-            //tabs.add(AttendanceTab.DONATOR);
+            tabs.add(AttendanceTab.DONATOR);
         }
 
         return tabs;
