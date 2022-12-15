@@ -5,7 +5,6 @@ import com.ruse.model.container.ItemContainer;
 import com.ruse.model.container.StackType;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.World;
-import com.ruse.world.content.ShopManager;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -27,15 +26,13 @@ public class Shop extends ItemContainer {
 	private final ShopItem[] shopItems;
 
 	private final boolean restocks;
-	private final boolean deletes;
 	private final boolean canSell;
 
-	public Shop(String name, int currency, boolean restocks, boolean deletes, boolean canSell, ShopItem... shopItems) {
+	public Shop(String name, int currency, boolean restocks, boolean canSell, ShopItem... shopItems) {
 		super(null);
 		this.name = name;
 		this.currency = currency;
 		this.restocks = restocks;
-		this.deletes = deletes;
 		this.canSell = canSell;
 		this.shopItems = shopItems;
 	}
@@ -45,12 +42,10 @@ public class Shop extends ItemContainer {
 			currentlyViewingShopMap.add(player);
 		}
 
-		player.getPacketSender().sendInterfaceSet(SHOP_INTERFACE_ID,3321)
-				.sendItemContainer(player.getInventory(), 3322)
+		player.getPacketSender().sendInterfaceSet(SHOP_INTERFACE_ID,3822)
+				.sendItemContainer(player.getInventory(), 3823)
 				.sendString(88002,name)
-				.sendItemContainer(this.shopItems, name, ITEM_CONTAINER_ID);
-
-		player.getPacketSender().sendString(88002,name);
+				.sendItemContainer(shopItems, name, ITEM_CONTAINER_ID);
 	}
 
 	@Override
@@ -65,23 +60,24 @@ public class Shop extends ItemContainer {
 
 	@Override
 	public ItemContainer refreshItems() {
+		return null;
+	}
+
+
+	public ItemContainer refreshItem(ShopItem shopItem) {
 		for(int i = 0; i < currentlyViewingShopMap.size(); i++) {
-			for (int j = 0; j < shopItems.length; j++) {
-
-				Player player = currentlyViewingShopMap.get(i);
-
-				if(World.getPlayerByName(player.getUsername()) == null) {
-					currentlyViewingShopMap.remove(player);
-				}
-
-				if(!(player.isShopping() && player.getShop() == this)) {
-					currentlyViewingShopMap.remove(player);
-				}
-
-				player.getPacketSender().sendInterfaceSet(SHOP_INTERFACE_ID,3321);
-				player.getPacketSender().sendItemContainer(player.getInventory(), 3322)
-						.sendItemContainer(this,ITEM_CONTAINER_ID);
+			Player player = currentlyViewingShopMap.get(i);
+			if(World.getPlayerByName(player.getUsername()) == null) {
+				currentlyViewingShopMap.remove(player);
+				continue;
 			}
+
+			if(!(player.isShopping() && player.getShop() == this)) {
+				currentlyViewingShopMap.remove(player);
+				continue;
+			}
+
+			player.getPacketSender().sendItemOnInterface(ITEM_CONTAINER_ID,shopItem.getItemId(),0,shopItem.getAmount());
 		}
 		return this;
 	}
@@ -103,16 +99,10 @@ public class Shop extends ItemContainer {
 		return currency;
 	}
 
-	public void addToBuyQueue(Player player, int itemId, int amount) {
-		if(ShopManager.checkRequirements(this,player,itemId,amount)) {
-			buyingQueue.add(new ToBuyShopItem(player, this, itemId, amount));
-		}
-	}
 
 	public void sellItem(int itemId, int amount) {
 
 	}
-
 
 	public String getName() {
 		return name;
@@ -126,28 +116,24 @@ public class Shop extends ItemContainer {
 		return restocks;
 	}
 
-	public boolean isDeletes() {
-		return deletes;
-	}
-
 	public Queue<ToBuyShopItem> getBuyingQueue() {
 		return buyingQueue;
 	}
 
 	public static class ToBuyShopItem {
-		private final Player player;
+		private final String player;
 		private final Shop shop;
 		private final int itemId;
 		private int amount;
 
-		public ToBuyShopItem(Player player, Shop shop, int itemId, int amount) {
+		public ToBuyShopItem(String player, Shop shop, int itemId, int amount) {
 			this.player = player;
 			this.shop = shop;
 			this.itemId = itemId;
 			this.amount = amount;
 		}
 
-		public Player getPlayer() {
+		public String getPlayer() {
 			return player;
 		}
 

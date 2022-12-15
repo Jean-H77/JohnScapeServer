@@ -533,6 +533,7 @@ public class PacketSender {
 			player.setBanking(false);
 		}
 		if(player.isShopping() && player.getShop() != null) {
+			player.setShopping(false);
 			player.getShop().getCurrentlyViewingShopMap().remove(player);
 		}
 		if(player.getPriceChecker().isOpen()) {
@@ -544,7 +545,7 @@ public class PacketSender {
 		}
 		if(player.getDueling().inDuelScreen && player.getDueling().duelingStatus != 5) {
 			sendClientRightClickRemoval();
-			player.getDueling().declineDuel(player.getDueling().duelingWith >= 0 ? true : false);
+			player.getDueling().declineDuel(player.getDueling().duelingWith >= 0);
 		}
 		if(player.isResting()) {
 			player.setResting(false);
@@ -693,15 +694,10 @@ public class PacketSender {
 
 	public PacketSender sendItemOnInterface(int frame, int item, int slot, int amount) {
 		PacketBuilder out = new PacketBuilder(34, PacketType.SHORT);
-		out.putShort(frame);
+		out.putInt(frame);
 		out.put(slot);
 		out.putShort(item + 1);
-		if (amount > 254) {
-			out.put(255);
-			out.putInt(amount);
-		} else {
-			out.put(amount);
-		}
+		out.putInt(amount);
 		player.getSession().queueMessage(out);
 		return this;
 	}

@@ -5,7 +5,7 @@ import com.ruse.model.container.impl.Shop;
 
 public class TestShop extends Shop {
     public TestShop() {
-        super("Test shop", 995, true, true, false, new ShopItem(4151,1500, 1510000000),
+        super("Test shop", 995, true, true, new ShopItem(4151,1500, 1510000000),
                 new ShopItem(6585,3750, 15),new ShopItem(1363,5000, 100),
                 new ShopItem(1391,6000, 150),
                 new ShopItem(11724,7000, 125),

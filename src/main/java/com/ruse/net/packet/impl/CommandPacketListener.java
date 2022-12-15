@@ -1962,6 +1962,9 @@ public class CommandPacketListener implements PacketListener {
 			Doom.spawnMonsters(player);
 			player.getPacketSender().sendMessage("Done spawning doom shit");
 		}
+		if(wholeCommand.equalsIgnoreCase("shop")) {
+			ShopManager.openShop(0, player);
+		}
 		if(wholeCommand.equalsIgnoreCase("afk")) {
 			World.sendMessage("<img=10> <col=FF0000><shad=0>"+player.getUsername()+": I am now away, please don't message me; I won't reply.");
 		}
