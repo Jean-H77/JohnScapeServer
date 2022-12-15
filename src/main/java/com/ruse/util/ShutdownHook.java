@@ -7,7 +7,7 @@ import com.ruse.world.World;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
-import com.ruse.world.content.trading_post.ShopUtils;
+import com.ruse.world.content.tradingpost.ShopUtils;
 
 public class ShutdownHook extends Thread {
 

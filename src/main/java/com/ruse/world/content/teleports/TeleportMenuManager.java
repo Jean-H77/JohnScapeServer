@@ -38,7 +38,6 @@ public class TeleportMenuManager {
 
     public void sendTabChangeData() {
         PacketBuilder packetBuilder = new PacketBuilder(20, Packet.PacketType.SHORT);
-
         for(int i = 0; i < 50; i++) {
             packetBuilder.putInt(49629+i);
             if(i >= TeleportData.TELEPORTS[currentType.getIndex()].length) {

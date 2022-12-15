@@ -1248,6 +1248,9 @@ public class ObjectActionPacketListener implements PacketListener {
 					player.getPacketSender().sendTabInterface(GameSettings.MAGIC_TAB, player.getSpellbook().getInterfaceId()).sendMessage("Your magic spellbook is changed..");
 					Autocasting.resetAutocast(player, true);
 					break;
+					case 28089:
+					player.getTradingPostManager().openOverviewInterface();
+						break;
 				case 410:
 					if(player.getSkillManager().getMaxLevel(Skill.DEFENCE) < 40) {
 						player.getPacketSender().sendMessage("You need a Defence level of at least 40 to use this altar.");

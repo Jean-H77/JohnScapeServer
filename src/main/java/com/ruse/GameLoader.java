@@ -14,7 +14,6 @@ import com.ruse.DiscordBot.JavaCord;
 import com.ruse.engine.GameEngine;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.engine.task.impl.ServerTimeUpdateTask;
-import com.ruse.model.container.impl.Shop.ShopManager;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.definitions.NpcDefinition;
@@ -31,7 +30,7 @@ import com.ruse.world.content.combat.effect.CombatPoisonEffect.CombatPoisonData;
 import com.ruse.world.content.combat.strategy.CombatStrategies;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.model.entity.character.npc.NPC;
-import com.ruse.world.content.trading_post.ShopUtils;
+import com.ruse.world.content.tradingpost.ShopUtils;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.util.HashedWheelTimer;
@@ -46,7 +45,7 @@ public final class GameLoader {
 	private final GameEngine engine;
 	private final int port;
 
-	protected GameLoader(int port) {
+	GameLoader(int port) {
 		this.port = port;
 		this.engine = new GameEngine();
 	}
@@ -69,9 +68,6 @@ public final class GameLoader {
 	}
 
 	private void executeServiceLoad() {
-		/*if (GameSettings.MYSQL_ENABLED) {
-			serviceLoader.execute(() -> MySQLController.init());
-		}*/
 		FileUtils.createSaveDirectories();
 
 		if (GameServer.getConfiguration().isDiscordBotEnabled()) {
@@ -82,22 +78,21 @@ public final class GameLoader {
 			}
 		}
 
-		serviceLoader.execute(() -> ConnectionHandler.init());
-		serviceLoader.execute(() -> PlayerPunishment.init());
-		serviceLoader.execute(() -> RegionClipping.init());
-		serviceLoader.execute(() -> CustomObjects.init());
-		serviceLoader.execute(() -> ItemDefinition.init());
-		serviceLoader.execute(() -> ClanChatManager.init());
-		serviceLoader.execute(() -> CombatPoisonData.init());
-		serviceLoader.execute(() -> CombatStrategies.init());
+		serviceLoader.execute(ConnectionHandler::init);
+		serviceLoader.execute(PlayerPunishment::init);
+		serviceLoader.execute(RegionClipping::init);
+		serviceLoader.execute(CustomObjects::init);
+		serviceLoader.execute(ItemDefinition::init);
+		serviceLoader.execute(ClanChatManager::init);
+		serviceLoader.execute(CombatPoisonData::init);
+		serviceLoader.execute(CombatStrategies::init);
 		serviceLoader.execute(() -> NpcDefinition.parseNpcs().load());
-		serviceLoader.execute(() -> NPCDrops.load());
+		serviceLoader.execute(NPCDrops::load);
 		serviceLoader.execute(() -> WeaponInterfaces.parseInterfaces().load());
-		serviceLoader.execute(() -> ShopManager.load());
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
-		serviceLoader.execute(() -> NPC.init());
-		serviceLoader.execute(() -> ShopUtils.loadAll());
-		serviceLoader.execute(() -> JobScheduler.initialize());
+		serviceLoader.execute(NPC::init);
+		serviceLoader.execute(ShopUtils::loadAll);
+		serviceLoader.execute(JobScheduler::initialize);
 
 	}
 

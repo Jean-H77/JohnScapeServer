@@ -23,6 +23,7 @@ import com.ruse.model.entity.character.player.PlayerHandler;
 import com.ruse.model.entity.character.updating.NpcUpdateSequence;
 import com.ruse.model.entity.character.updating.PlayerUpdateSequence;
 import com.ruse.model.entity.character.updating.UpdateSequence;
+import com.ruse.world.content.tradingpost.newer.TradingPostUtils;
 
 /**
  * @author Gabriel Hannason
@@ -182,6 +183,7 @@ public class World {
 		// Then we execute post-updating code.
 		players.forEach(playerUpdate::executePostUpdate);
 		npcs.forEach(npcUpdate::executePostUpdate);
+		TradingPostUtils.processQueues();
 	}
 	
 	public static Queue<Player> getLoginQueue() {

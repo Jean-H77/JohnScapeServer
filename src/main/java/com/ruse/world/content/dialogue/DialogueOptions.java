@@ -8,7 +8,6 @@ import com.ruse.model.Locations.Location;
 import com.ruse.model.PlayerRights;
 import com.ruse.model.Position;
 import com.ruse.model.Skill;
-import com.ruse.model.container.impl.Shop.ShopManager;
 import com.ruse.model.input.impl.BuyShards;
 import com.ruse.model.input.impl.ChangePassword;
 import com.ruse.model.input.impl.DonateToWell;
@@ -286,9 +285,6 @@ public class DialogueOptions {
 						player.getClickDelay().reset();
 					}
 					break;
-				case 88:
-					ShopManager.getShops().get(24).open(player);
-					break;
 			}
 		} else if(id == THIRD_OPTION_OF_FIVE) {
 			switch(player.getDialogueActionId()) {
@@ -378,9 +374,6 @@ public class DialogueOptions {
 						player.getClickDelay().reset();
 					}
 					break;
-				case 88:
-					ShopManager.getShops().get(25).open(player);
-					break;
 			}
 		} else if(id == FOURTH_OPTION_OF_FIVE) {
 			switch(player.getDialogueActionId()) {
@@ -399,9 +392,6 @@ public class DialogueOptions {
 					break;
 				case 9:
 					DialogueManager.start(player, Lottery.Dialogues.getLastWinner(player));
-					break;
-				case 10:
-					ShopManager.getShops().get(26).open(player);
 					break;
 				case 11:
 					Scoreboards.open(player, Scoreboards.TOP_ACHIEVER);
@@ -472,9 +462,6 @@ public class DialogueOptions {
 						DialogueManager.start(player, Tutorial.get(player, 0));
 						player.getClickDelay().reset();
 					}
-					break;
-				case 88:
-					ShopManager.getShops().get(80).open(player); //DONATOR SHOP 3 HERE
 					break;
 			}
 		} else if(id == FIFTH_OPTION_OF_FIVE) {
@@ -567,9 +554,6 @@ public class DialogueOptions {
 			}
 		} else if(id == FIRST_OPTION_OF_FOUR) {
 			switch(player.getDialogueActionId()) {
-				case 8:
-					ShopManager.getShops().get(90).open(player);
-					break;
 				case 9:
 					TeleportHandler.teleportPlayer(player, new Position(3184, 3434), player.getSpellbook().getTeleportType());
 					break;
@@ -698,9 +682,6 @@ public class DialogueOptions {
 					LoyaltyProgramme.reset(player);
 					player.getPacketSender().sendInterfaceRemoval();
 					break;
-				case 9:
-					ShopManager.getShops().get(41).open(player);
-					break;
 				case 14:
 					TeleportHandler.teleportPlayer(player, new Position(1745, 5325), player.getSpellbook().getTeleportType());
 					break;
@@ -725,19 +706,12 @@ public class DialogueOptions {
 				case 28:
 					TeleportHandler.teleportPlayer(player, new Position(3427, 3537, 0), player.getSpellbook().getTeleportType());
 					break;
-				case 30:
-					ShopManager.getShops().get(40).open(player);
-					break;
 				case 41:
 					player.setInputHandling(new DonateToWell());
 					player.getPacketSender().sendInterfaceRemoval().sendEnterAmountPrompt("How much money would you like to contribute with?");
 					break;
 				case 45:
 					//GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
-					break;
-				case 79:
-					player.getPacketSender().sendMessage("<shad=336600>You currently have "+player.getPointsHandler().getBarrowsPoints()+" Barrows points.");
-					ShopManager.getShops().get(79).open(player);
 					break;
 				case 80:
 					DialogueManager.start(player, 129);
@@ -889,9 +863,6 @@ public class DialogueOptions {
 					player.getPacketSender().sendMessage("@red@<shad=0>It might be time to speak with Explorer Jack at Home.");
 					player.getPacketSender().sendInterfaceRemoval();
 					break;
-				case 3:
-					ShopManager.getShops().get(22).open(player);
-					break;
 				case 4:
 					SummoningTab.handleDismiss(player, true);
 					break;
@@ -1029,15 +1000,7 @@ public class DialogueOptions {
 
 		} else if(id == SECOND_OPTION_OF_TWO) {
 			switch(player.getDialogueActionId()) {
-				case 178:
-					player.getPacketSender().sendInterfaceRemoval();
-					ShopManager.getShops().get(85).open(player);
-					break;
 				case 505050:
-				case 173:
-					player.getPacketSender().sendInterfaceRemoval();
-					ShopManager.getShops().get(28).open(player);
-					break;
 				case 100000:
 					player.getPacketSender().sendInterfaceRemoval();
 					KillsTracker.open(player);
@@ -1046,9 +1009,6 @@ public class DialogueOptions {
 					//player.getPacketSender().sendMessage("denied santa");
 					player.getPacketSender().sendInterfaceRemoval();
 					return;
-				case 3:
-					ShopManager.getShops().get(23).open(player);
-					break;
 				case 211:
 				case 210:
 				case 198:
@@ -1159,10 +1119,6 @@ public class DialogueOptions {
 				case 64:
 					CharmingImp.changeConfig(player, 3, 0);
 					break;
-				case 69:
-					ShopManager.getShops().get(44).open(player);
-					player.getPacketSender().sendMessage("<img=10> <col=660000>You currently have "+player.getPointsHandler().getDungeoneeringTokens()+" Dungeoneering tokens.");
-					break;
 				case 70:
 				case 71:
 					if(player.getInventory().contains(19670) && player.getClickDelay().elapsed(700)) {
@@ -1235,9 +1191,6 @@ public class DialogueOptions {
 						return;
 					}
 					TeleportHandler.teleportPlayer(player, new Position(2558, 3884), player.getSpellbook().getTeleportType());
-					break;
-				case 58:
-					ShopManager.getShops().get(39).open(player);
 					break;
 				case 61:
 					CharmingImp.changeConfig(player, 0, 1);

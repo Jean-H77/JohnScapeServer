@@ -62,15 +62,16 @@ public class CollectionLogManager {
             return true;
         }
         switch (btnID) {
-            case OPEN_COLLECTION_LOG_BTN_ID:
+            case OPEN_COLLECTION_LOG_BTN_ID -> {
                 displayMainInterface();
                 return true;
-            case CLAIM_BTN_ID:
+            }
+            case CLAIM_BTN_ID -> {
                 PlayerLog playerLog = logs.computeIfAbsent(currentLog.getName(), x -> new PlayerLog());
-                if(playerLog.isCanClaim() && playerLog.isHasCompleted() && !playerLog.isHasClaimed()) {
+                if (playerLog.isCanClaim() && playerLog.isHasCompleted() && !playerLog.isHasClaimed()) {
                     int freeSlots = p.getInventory().getFreeSlots();
                     Item[] rewards = currentLog.getRewards();
-                    if(freeSlots >= rewards.length) {
+                    if (freeSlots >= rewards.length) {
                         playerLog.setCanClaim(false);
                         playerLog.setHasClaimed(true);
                         p.getInventory().addItemSet(rewards);
@@ -81,21 +82,27 @@ public class CollectionLogManager {
                     p.getPacketSender().sendMessage(playerLog.isHasClaimed() ? "@red@You already claimed this reward." : "@red@You cannot claim this.");
                 }
                 return true;
-            case BOSSES_TAB_BTN_ID:
+            }
+            case BOSSES_TAB_BTN_ID -> {
                 changeAndDisplayTab(CollectionLogTab.BOSSES);
                 return true;
-            case RAIDS_TAB_BTN_ID:
+            }
+            case RAIDS_TAB_BTN_ID -> {
                 changeAndDisplayTab(CollectionLogTab.RAIDS);
                 return true;
-            case CLUES_TAB_BTN_ID:
+            }
+            case CLUES_TAB_BTN_ID -> {
                 changeAndDisplayTab(CollectionLogTab.CLUES);
                 return true;
-            case MINIGAMES_TAB_BTN_ID:
+            }
+            case MINIGAMES_TAB_BTN_ID -> {
                 changeAndDisplayTab(CollectionLogTab.MINIGAMES);
                 return true;
-            case OTHER_TAB_BTN_ID:
+            }
+            case OTHER_TAB_BTN_ID -> {
                 changeAndDisplayTab(CollectionLogTab.OTHER);
                 return true;
+            }
         }
         return false;
     }

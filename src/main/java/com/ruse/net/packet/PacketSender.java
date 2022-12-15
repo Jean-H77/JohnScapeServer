@@ -542,10 +542,6 @@ public class PacketSender {
 			sendClientRightClickRemoval();
 			player.setBanking(false);
 		}
-		if(player.isShopping()) {
-			sendClientRightClickRemoval().sendItemsOnInterface(Shop.INTERFACE_ID, new Item[]{new Item(-1)});
-			player.setShopping(false);
-		}
 		if(player.getPriceChecker().isOpen()) {
 			player.getPriceChecker().exit();
 		}

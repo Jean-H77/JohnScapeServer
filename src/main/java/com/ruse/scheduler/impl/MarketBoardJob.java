@@ -1,7 +1,7 @@
 package com.ruse.scheduler.impl;
 
 import com.ruse.scheduler.BaseJob;
-import com.ruse.world.content.trading_post.ShopUtils;
+import com.ruse.world.content.tradingpost.ShopUtils;
 import org.quartz.*;
 @DisallowConcurrentExecution
 public class MarketBoardJob extends BaseJob {

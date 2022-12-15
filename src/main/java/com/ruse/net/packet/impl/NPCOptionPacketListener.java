@@ -9,7 +9,6 @@ import com.ruse.model.Locations.Location;
 import com.ruse.model.PlayerRights;
 import com.ruse.model.Position;
 import com.ruse.model.Skill;
-import com.ruse.model.container.impl.Shop.ShopManager;
 import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
@@ -92,10 +91,6 @@ public class NPCOptionPacketListener implements PacketListener {
 							player.setFirstFloorCastle(true);
 							break;
 						}
-						break;
-					case 37651:
-						System.out.println("here");
-						ShopManager.getShops().get(99).open(player);
 						break;
 					case 2728:
 						if(player.isSecondFloorCastle()) {
@@ -227,20 +222,9 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 8705:
 					EnergyHandler.rest(player);
 					break;
-				case 534:
-					ShopManager.getShops().get(78).open(player);
-					break;
-				case 11226:
-					if(Dungeoneering.doingDungeoneering(player)) {
-						ShopManager.getShops().get(45).open(player);
-					}
-					break;
 				case 9713:
 					DialogueManager.start(player, 107);
 					player.setDialogueActionId(69);
-					break;
-				case 2622:
-					ShopManager.getShops().get(43).open(player);
 					break;
 				case 3101:
 					DialogueManager.start(player, 90);
@@ -249,9 +233,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 437:
 					DialogueManager.start(player, 99);
 					player.setDialogueActionId(58);
-					break;
-				case 5112:
-					ShopManager.getShops().get(38).open(player);
 					break;
 				case 8591:
 					//player.nomadQuest[0] = player.nomadQuest[1] = player.nomadQuest[2] = false;
@@ -290,9 +271,6 @@ public class NPCOptionPacketListener implements PacketListener {
 					break;
 				case 2948:
 					DialogueManager.start(player, WarriorsGuild.warriorsGuildDialogue(player));
-					break;
-				case 650:
-					ShopManager.getShops().get(35).open(player);
 					break;
 				case 6055:
 				case 6056:
@@ -363,96 +341,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 312:
 					player.setEntityInteraction(npc);
 					Fishing.setupFishing(player, Fishing.forSpot(npc.getId(), false));
-					break;
-				case 805:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(97).open(player);
-						return;
-					}
-					ShopManager.getShops().get(34).open(player);
-					break;
-				case 462:
-					ShopManager.getShops().get(33).open(player);
-					break;
-				case 461:
-					ShopManager.getShops().get(32).open(player);
-					break;
-				case 8444:
-					if(!player.getRights().isMember()) {
-						player.getPacketSender().sendMessage("You must be a Member to use this.");
-						return;
-					}
-					ShopManager.getShops().get(31).open(player);
-					break;
-				case 8459:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(94).open(player);
-						return;
-					}
-					ShopManager.getShops().get(30).open(player);
-					break;
-				case 3299:
-					ShopManager.getShops().get(21).open(player);
-					break;
-				case 548:
-					ShopManager.getShops().get(20).open(player);
-					break;
-				case 1685:
-					ShopManager.getShops().get(19).open(player);
-					break;
-				case 308:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(93).open(player);
-						return;
-					}
-					ShopManager.getShops().get(18).open(player);
-					break;
-				case 802:
-					ShopManager.getShops().get(17).open(player);
-					break;
-				case 970:
-					ShopManager.getShops().get(81).open(player);
-					break;
-				case 278:
-					ShopManager.getShops().get(16).open(player);
-					break;
-				case 4946:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(98).open(player);
-						return;
-					}
-					ShopManager.getShops().get(15).open(player);
-					break;
-				case 948:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(95).open(player);
-						return;
-					}
-					ShopManager.getShops().get(13).open(player);
-					break;
-				case 4906:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(96).open(player);
-						return;
-					}
-					ShopManager.getShops().get(14).open(player);
-					break;
-				case 520:
-				case 521:
-					ShopManager.getShops().get(12).open(player);
-					break;
-				case 2292:
-					ShopManager.getShops().get(11).open(player);
-					break;
-				case 28:
-					ShopManager.getShops().get(83).open(player);
-					break;
-				case 2676:
-					player.getPacketSender().sendInterface(3559);
-					player.getAppearance().setCanChangeAppearance(true);
-					break;
-				case 519:
-					ShopManager.getShops().get(84).open(player);
 					break;
 				case 494:
 				case 1360:
@@ -531,10 +419,6 @@ public class NPCOptionPacketListener implements PacketListener {
 					
 					player.getClickDelay().reset();
 					break;
-				case 4653:
-					player.getPacketSender().sendInterfaceRemoval();
-					ShopManager.getShops().get(85).open(player);
-				break;
 				case 736:
 					npc.forceChat("Thanx for the follow :)");
 					break;
@@ -557,27 +441,10 @@ public class NPCOptionPacketListener implements PacketListener {
 						trioMinigame.handleTokenRemoval(player);
 
 					break;
-				case 3777:
-					ShopManager.getShops().get(24).open(player);
-					break;
-				case 550:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(92).open(player);
-						return;
-					}
-					ShopManager.getShops().get(2).open(player);
-					break;
-				case 2579:
-					ShopManager.getShops().get(46).open(player);
-					player.getPacketSender().sendMessage("<col=255>You currently have "+player.getPointsHandler().getPrestigePoints()+" Prestige points!");
-					break;
 				case 457:
 					player.getPacketSender().sendMessage("The ghost teleports you away.");
 					player.getPacketSender().sendInterfaceRemoval();
 					player.moveTo(new Position(3651, 3486));
-					break;
-				case 2622:
-					ShopManager.getShops().get(43).open(player);
 					break;
 				case 462:
 					npc.performAnimation(CombatSpells.CONFUSE.getSpell().castAnimation().get());
@@ -588,20 +455,6 @@ public class NPCOptionPacketListener implements PacketListener {
 					DialogueManager.start(player, 95);
 					player.setDialogueActionId(57);
 					break;
-				case 7969:
-					ShopManager.getShops().get(28).open(player);
-					break;
-				case 605:
-					player.getPacketSender().sendMessage("").sendMessage("You currently have "+player.getPointsHandler().getVotingPoints()+" Voting points.").sendMessage("You can earn points and coins by voting. To do so, simply use the ::vote command.");;
-					ShopManager.getShops().get(90).open(player);
-					break;
-				case 8591:
-					if(!player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(1)) {
-						player.getPacketSender().sendMessage("You must complete Nomad's quest before being able to use this shop.");
-						return;
-					}
-					ShopManager.getShops().get(37).open(player);
-					break;
 				case 805:
 					Tanning.selectionInterface(player);
 					break;
@@ -611,28 +464,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 312:
 					player.setEntityInteraction(npc);
 					Fishing.setupFishing(player, Fishing.forSpot(npc.getId(), true));
-					break;
-				case 4946:
-					ShopManager.getShops().get(15).open(player);
-					break;
-				case 946:
-					ShopManager.getShops().get(1).open(player);
-					break;
-				case 961:
-					ShopManager.getShops().get(6).open(player);
-					break;
-				case 1861:
-						if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-							ShopManager.getShops().get(92).open(player);
-							return;
-						}
-						ShopManager.getShops().get(3).open(player);
-						break;
-				case 705:
-					ShopManager.getShops().get(4).open(player);
-					break;
-				case 2253:
-					ShopManager.getShops().get(9).open(player);
 					break;
 				case 6970:
 					player.setDialogueActionId(35);
@@ -678,32 +509,6 @@ public class NPCOptionPacketListener implements PacketListener {
 				case 736:
 					player.forceChat("Nah. I don't want to feed the cancer.");
 					break;
-				case 3777:
-					ShopManager.getShops().get(25).open(player);
-					break;
-				case 3101:
-					ShopManager.getShops().get(42).open(player);
-					break;
-				case 1597:
-				case 8275:
-				case 9085:
-				case 7780:
-					ShopManager.getShops().get(40).open(player);
-					break;
-				case 946:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(91).open(player);
-						return;
-					}
-					ShopManager.getShops().get(0).open(player);
-					break;
-				case 1861:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(92).open(player);
-						return;
-					}
-					ShopManager.getShops().get(2).open(player);
-					break;
 				//case 597:
 					//ShopManager.getShops().get(54).open(player);
 					//break;
@@ -730,24 +535,11 @@ public class NPCOptionPacketListener implements PacketListener {
 					} else
 						player.getPacketSender().sendMessage("Your stats do not need to be restored at the moment.");
 					break;
-				case 705:
-					ShopManager.getShops().get(5).open(player);
-					break;
 					case 605:
 						player.getPacketSender().sendMessage("Coming soon!");
 					//	player.getPacketSender().sendMessage("").sendMessage("You currently have "+player.getPointsHandler().getVotingPoints()+" Voting points.").sendMessage("You can earn points and coins by voting. To do so, simply use the ::vote command.");;
 						//ShopManager.getShops().get(90).open(player);
 						break;
-				case 2253:
-					ShopManager.getShops().get(10).open(player);
-					break;
-				case 5913:
-					if (player.getGameMode() == GameMode.IRONMAN || player.getGameMode() == GameMode.ULTIMATE_IRONMAN) {
-						ShopManager.getShops().get(91).open(player);
-						return;
-					}
-						ShopManager.getShops().get(0).open(player);
-					break;
 				}
 				npc.setPositionToFace(player.getPosition());
 				player.setPositionToFace(npc.getPosition());
@@ -769,18 +561,6 @@ public class NPCOptionPacketListener implements PacketListener {
 			@Override
 			public void execute() {
 				switch(npc.getId()) {
-				case 946:
-					ShopManager.getShops().get(82).open(player);
-					break;
-				case 3777:
-					ShopManager.getShops().get(80).open(player); //DONATOR SHOP 3 HERE
-					break;
-				case 705:
-					ShopManager.getShops().get(7).open(player);
-					break;
-				case 2253:
-					ShopManager.getShops().get(8).open(player);
-					break;
 				case 1597:
 				case 9085:
 				case 8275:

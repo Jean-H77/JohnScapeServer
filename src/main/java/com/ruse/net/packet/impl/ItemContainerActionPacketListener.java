@@ -29,7 +29,7 @@ import com.ruse.model.input.impl.EnterAmountToTrade;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.world.content.BonusManager;
-import com.ruse.world.content.trading_post.selling_page.SellingPage;
+import com.ruse.world.content.tradingpost.newer.TradingPostManager;
 import com.ruse.world.content.Trading;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.magic.Autocasting;
@@ -63,8 +63,8 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, 1, slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, 1, slot);
-			} else if(player.getInterfaceId() == SellingPage.INTERFACE_ID) {
-				player.getPlayerShopManager().getSellingPage().setItem(item);
+			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
+				player.getTradingPostManager().selectUnlistedItem(id,1);
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -135,14 +135,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			item = player.getInventory().get(slot);
 			player.setCurrentBankTab(Bank.getTabToDepositItem(player, item));
 			player.getInventory().switchItem(player.getBank(player.getCurrentBankTab()), item, slot, false, true);
-			break;
-		case Shop.ITEM_CHILD_ID:
-			if(player.getShop() != null)
-				player.getShop().checkValue(player, slot, false);
-			break;
-		case Shop.INVENTORY_INTERFACE_ID:
-			if(player.getShop() != null)
-				player.getShop().checkValue(player, slot, true);
 			break;
 		case BeastOfBurden.INTERFACE_ID:
 			if(player.getInterfaceId() == BeastOfBurden.INTERFACE_ID && player.getSummoning().getBeastOfBurden() != null) {
@@ -215,6 +207,8 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, 5, slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, 5, slot);
+			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
+				player.getTradingPostManager().selectUnlistedItem(id,5);
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -244,18 +238,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				return;
 			player.setCurrentBankTab(Bank.getTabToDepositItem(player, item));
 			player.getInventory().switchItem(player.getBank(player.getCurrentBankTab()), item, slot, false, true);
-			break;
-		case Shop.ITEM_CHILD_ID:
-			if(player.getShop() == null)
-				return;
-			item = player.getShop().forSlot(slot).copy().setAmount(1).copy();
-			player.getShop().setPlayer(player).switchItem(player.getInventory(), item, slot, false, true);
-			break;
-		case Shop.INVENTORY_INTERFACE_ID:
-			if(player.isShopping()) {
-				player.getShop().sellItem(player, slot, 1);
-				return;
-			}
 			break;
 		case BeastOfBurden.INTERFACE_ID:
 			if(player.getInterfaceId() == BeastOfBurden.INTERFACE_ID && player.getSummoning().getBeastOfBurden() != null) {
@@ -398,6 +380,8 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, 10, slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, 10, slot);
+			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
+				player.getTradingPostManager().selectUnlistedItem(id,10);
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -427,18 +411,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				return;
 			player.setCurrentBankTab(Bank.getTabToDepositItem(player, item));
 			player.getInventory().switchItem(player.getBank(player.getCurrentBankTab()), item, slot, false, true);
-			break;
-		case Shop.ITEM_CHILD_ID:
-			if(player.getShop() == null)
-				return;
-			item = player.getShop().forSlot(slot).copy().setAmount(5).copy();
-			player.getShop().setPlayer(player).switchItem(player.getInventory(), item, slot, false, true);
-			break;
-		case Shop.INVENTORY_INTERFACE_ID:
-			if(player.isShopping()) {
-				player.getShop().sellItem(player, slot, 5);
-				return;
-			}
 			break;
 		case BeastOfBurden.INTERFACE_ID:
 			if(player.getInterfaceId() == BeastOfBurden.INTERFACE_ID && player.getSummoning().getBeastOfBurden() != null) {
@@ -522,6 +494,8 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, player.getInventory().getAmount(id), slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, player.getInventory().getAmount(id), slot);
+			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
+				player.getTradingPostManager().selectUnlistedItem(id,player.getInventory().getAmount(id));
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -561,18 +535,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				return;
 			player.setCurrentBankTab(Bank.getTabToDepositItem(player, item));
 			player.getInventory().switchItem(player.getBank(player.getCurrentBankTab()), item, slot, false, true);
-			break;
-		case Shop.ITEM_CHILD_ID:
-			if(player.getShop() == null)
-				return;
-			item = player.getShop().forSlot(slot).copy().setAmount(10).copy();
-			player.getShop().setPlayer(player).switchItem(player.getInventory(), item, slot, true, true);
-			break;
-		case Shop.INVENTORY_INTERFACE_ID:
-			if(player.isShopping()) {
-				player.getShop().sellItem(player,slot, 10);
-				return;
-			}
 			break;
 		case BeastOfBurden.INTERFACE_ID:
 			if(player.getInterfaceId() == BeastOfBurden.INTERFACE_ID && player.getSummoning().getBeastOfBurden() != null) {
@@ -655,6 +617,9 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.setInputHandling(new EnterAmountToStake(id, slot));
 				player.getPacketSender().sendEnterAmountPrompt("How many would you like to stake?");
+			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
+				player.getPacketSender().sendEnterAmountPrompt("Enter amount to list:");
+				player.setInputHandling(new TradingPostManager.EnterAmountToList(id,slot));
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -710,24 +675,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				}
 			}
 			break;
-		case Shop.ITEM_CHILD_ID:
-			if(player.isBanking())
-				return;
-			if(player.isShopping()) {
-				player.setInputHandling(new EnterAmountToBuyFromShop(id, slot));
-				player.getPacketSender().sendEnterAmountPrompt("How many would you like to buy?");
-				player.getShop().setPlayer(player);
-			}
-			break;
-		case Shop.INVENTORY_INTERFACE_ID:
-			if(player.isBanking())
-				return;
-			if(player.isShopping()) {
-				player.setInputHandling(new EnterAmountToSellToShop(id, slot));
-				player.getPacketSender().sendEnterAmountPrompt("How many would you like to sell?");
-				player.getShop().setPlayer(player);
-			}
-			break;
 		case PriceChecker.INTERFACE_PC_ID:
 			if(player.getInterfaceId() == PriceChecker.INTERFACE_ID && player.getPriceChecker().isOpen()) {
 				player.setInputHandling(new EnterAmountToPriceCheck(id, slot));
@@ -767,14 +714,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 
 		if(player.getRights().isDeveloperOnly()) {
 			player.getPacketSender().sendMessage("sixthAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
-		}
-		switch (interfaceId) {
-		case Shop.INVENTORY_INTERFACE_ID:
-			if(player.isShopping()) {
-				player.getShop().sellItem(player, slot, player.getInventory().getAmount(id));
-				return;
-			}
-			break;
 		}
 	}
 

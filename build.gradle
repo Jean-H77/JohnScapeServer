@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_12
-    targetCompatibility = JavaVersion.VERSION_12
+    sourceCompatibility = JavaVersion.VERSION_19
+    targetCompatibility = JavaVersion.VERSION_19
 }
 
 sourceSets {
@@ -25,6 +25,14 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile).each {
+    it.options.compilerArgs.add('--enable-preview')
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs += '--enable-preview'
+}
+
 test {
     useJUnitPlatform()
 }
@@ -33,12 +41,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
-    compile fileTree(dir: 'lib', include: ['*.jar'])
+    implementation  fileTree(dir: 'lib', include: ['*.jar'])
     providedCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.22'
-    compile group: 'org.javacord', name: 'javacord', version: '3.0.4'
-    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.1'
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.10.1'
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    implementation  group: 'org.javacord', name: 'javacord', version: '3.0.4'
+    implementation  group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.1'
+    implementation  group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.10.1'
+    implementation  group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.3'
     implementation 'org.reflections:reflections:0.9.11'
     implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'

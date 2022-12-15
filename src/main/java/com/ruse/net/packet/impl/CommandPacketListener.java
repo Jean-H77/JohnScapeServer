@@ -22,7 +22,6 @@ import com.ruse.model.Skill;
 import com.ruse.model.container.ItemContainer;
 import com.ruse.model.container.impl.Bank;
 import com.ruse.model.container.impl.Equipment;
-import com.ruse.model.container.impl.Shop.ShopManager;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.definitions.NpcDefinition;
@@ -60,7 +59,9 @@ import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.crafting.Jewelry;
 import com.ruse.world.content.skill.fletching.BoltData;
 import com.ruse.world.content.skill.herblore.Decanting;
-import com.ruse.world.content.trading_post.ShopUtils;
+import com.ruse.world.content.tradingpost.ShopUtils;
+import com.ruse.world.content.tradingpost.newer.Listing;
+import com.ruse.world.content.tradingpost.newer.TradingPostUtils;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.CharacterEntity;
@@ -68,19 +69,14 @@ import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
 import com.ruse.mysql.Store;
-import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -188,8 +184,19 @@ public class CommandPacketListener implements PacketListener {
 				System.out.println("Next fire time: " + String.format("%d hours : %02d minutes : %02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
 		}
 
-		if (wholeCommand.equalsIgnoreCase("a")) {
-			player.getAttendanceUI().showInterface();
+		if (wholeCommand.equalsIgnoreCase("test")) {
+			Thread thread = new Thread(() -> {
+				for(int i = 0; i < 50; i++) {
+					TradingPostUtils.submitNewListingRequest(new Listing(player.getUsername(), ItemDefinition.forId(4151).getName(), 4151, 100, 5, new Date()));
+					player.getTradingPostManager().sendOverviewData();
+					try {
+						Thread.sleep(350);
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			});
+		thread.start();
 		}
 
 		if (wholeCommand.equalsIgnoreCase("q")) {
@@ -197,8 +204,23 @@ public class CommandPacketListener implements PacketListener {
 		}
 
 		if (wholeCommand.equalsIgnoreCase("cam")) {
-			Position position = new Position(3605, 2846, 0);
-			player.getPacketSender().sendCameraSpin(1, 1,  1, 1000, 25);
+		//	Position position = new Position(3605, 2846, 0);
+		//	player.getPacketSender().sendCameraSpin(1, 1,  1, 1000, 25);
+			Item[] item = new Item[] {
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+					new Item(4151,1),
+			};
+			player.getPacketSender().sendItemContainer(item, 41383).sendItemContainer(item, 41260).sendInterface(41050);
 		}
 
 		if (wholeCommand.equalsIgnoreCase("camn")) {
@@ -1940,13 +1962,6 @@ public class CommandPacketListener implements PacketListener {
 			Doom.spawnMonsters(player);
 			player.getPacketSender().sendMessage("Done spawning doom shit");
 		}
-		if(command[0].equalsIgnoreCase("runes")) {
-			for(Item t : ShopManager.getShops().get(0).getItems()) {
-				if(t != null) {
-					player.getInventory().add(new Item(t.getId(), 200000));
-				}
-			}
-		}
 		if(wholeCommand.equalsIgnoreCase("afk")) {
 			World.sendMessage("<img=10> <col=FF0000><shad=0>"+player.getUsername()+": I am now away, please don't message me; I won't reply.");
 		}
@@ -2282,13 +2297,6 @@ public class CommandPacketListener implements PacketListener {
 			player.getUpdateFlag().flag(Flag.APPEARANCE);
 			player.getEquipment().refreshItems();
 		}
-		if (command[0].equalsIgnoreCase("massacreitems")) {
-			int i = 0;
-			while (i < GameSettings.MASSACRE_ITEMS.length) {
-				player.getInventory().add(GameSettings.MASSACRE_ITEMS[i], 1);
-			i++;
-			}
-		}
 		if(command[0].equalsIgnoreCase("location")) {
 			player.getPacketSender().sendConsoleMessage("Current location: "+player.getLocation().toString()+", coords: "+player.getPosition());
 		}
@@ -2324,9 +2332,6 @@ public class CommandPacketListener implements PacketListener {
 		}
 		if(command[0].equalsIgnoreCase("saveall")) {
 			World.savePlayers();
-		}
-		if(command[0].equalsIgnoreCase("v1")) {
-			World.sendMessage("<img=10> <col=008FB2>Another 20 voters have been rewarded! Vote now using the ::vote command!");
 		}
 		if(command[0].equalsIgnoreCase("frame")) {
 			int frame = Integer.parseInt(command[1]);
@@ -2420,23 +2425,6 @@ public class CommandPacketListener implements PacketListener {
 				CombatFactory.skullPlayer(player);
 			}
 		}
-		if (command[0].equalsIgnoreCase("fillinv") || command[0].equalsIgnoreCase("fill")) {
-			if (command.length > 1 && command[1] != null && command[1].equalsIgnoreCase("y")) {
-				
-				/* Empty the inv first */
-				player.getInventory().resetItems().refreshItems();
-				
-			}
-			
-			while(player.getInventory().getFreeSlots() > 0) { //why 22052? Fuck you. that's why.
-				int it = Misc.inclusiveRandom(1, 22052);
-				if (ItemDefinition.forId(it) == null || ItemDefinition.forId(it).getName() == null || ItemDefinition.forId(it).getName().equalsIgnoreCase("null") ) {
-					continue;
-				} else {
-					player.getInventory().add(it, 1);
-				}
-			}
-		}
 		if(command[0].equalsIgnoreCase("pnpc")) {
 			int npcID = Integer.parseInt(command[1]);
 			player.setNpcTransformationId(npcID);
@@ -2464,19 +2452,6 @@ public class CommandPacketListener implements PacketListener {
 			int state = Integer.parseInt(command[2]);
 			player.getPacketSender().sendConfig(id, state).sendMessage("Sent config.");
 		}
-		if (command[0].equalsIgnoreCase("gamemode")) {
-			if (command[1].equalsIgnoreCase("1")) {
-				player.getGameMode();
-			//	GameMode.set(player, GameMode.NORMAL, false);
-			} else if (command[1].equalsIgnoreCase("2")) {
-				player.getGameMode();
-			//	GameMode.set(player, GameMode.IRONMAN, false);
-			} else if (command[1].equalsIgnoreCase("3")) {
-				player.getGameMode();
-			//	GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);
-				} else
-					player.getPacketSender().sendMessage("<img=10> Correct usage ::gamemode (#), 1 = Norm, 2 = IM, 3 = UIM");
-		}
 		if (command[0].equalsIgnoreCase("fly")) {
 			player.getPlayerViewingIndex();
 		}
@@ -2501,16 +2476,6 @@ public class CommandPacketListener implements PacketListener {
 				player.getPacketSender().sendMessage("Player is offline!");
 			}
 		}
-		if (command[0].equalsIgnoreCase("setpray")) {
-			int setlv = Integer.parseInt(command[1]);
-			player.getPacketSender().sendMessage("You've set your current prayer points to: @red@"+setlv+"@bla@.");
-			player.getSkillManager().setCurrentLevel(Skill.PRAYER, setlv);
-		}
-		if (command[0].equalsIgnoreCase("sethp") || command[0].equalsIgnoreCase("sethealth")) {
-			int setlv = Integer.parseInt(command[1]);
-			player.getPacketSender().sendMessage("You've set your constitution to: @red@"+setlv+"@bla@.");
-			player.getSkillManager().setCurrentLevel(Skill.CONSTITUTION, setlv);
-		}
 		if (command[0].equalsIgnoreCase("clani")) {
 			ClanChatManager.updateList(player.getCurrentClanChat());
 			player.getPacketSender().sendMessage("Int to enter: "+ClanChat.RANK_REQUIRED_TO_ENTER);
@@ -2526,11 +2491,7 @@ public class CommandPacketListener implements PacketListener {
 			}
 			player.getPacketSender().sendMessage("ID: "+player.getInteractingItem().getId()+", amount: "+player.getInteractingItem().getAmount());
 		}
-		if (command[0].equalsIgnoreCase("tits")) {
-		//	ClanChat.RANK_REQUIRED_TO_ENTER = 7;
-			player.getPacketSender().sendMessage("tits are done");
-			player.getPacketSender().sendMessage("tits are: " +ClanChat.RANK_REQUIRED_TO_ENTER);
-		}
+
 		if (command[0].equalsIgnoreCase("index")) {
 			player.getPacketSender().sendMessage("Player index: " + player.getIndex());
 			player.getPacketSender().sendMessage("Player index * 4: " + player.getIndex() * 4);

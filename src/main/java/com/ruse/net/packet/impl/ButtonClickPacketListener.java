@@ -973,6 +973,10 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getGameModeSelector().handleButtonClick(id)) {
 			return true;
 		}
+		if(player.getTradingPostManager().handleButtonClick(id)) {
+			return true;
+		}
+
 		return false;
 	}
 	

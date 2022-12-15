@@ -167,16 +167,6 @@ public class RecipeForDisaster {
 		Item[] stockItems = new Item[stock.length];
 		for(int i = 0; i < stock.length; i++)
 			stockItems[i] = new Item(stock[i], stockAmount[i]);
-		Shop shop = new Shop(player, Shop.RECIPE_FOR_DISASTER_STORE, "Culinaromancer's chest", new Item(995), stockItems);
-		stock = stockAmount = null;
-		stockItems = null;
-		shop.setPlayer(player);
-		player.getPacketSender().sendItemContainer(player.getInventory(), Shop.INVENTORY_INTERFACE_ID);
-		player.getPacketSender().sendItemContainer(shop, Shop.ITEM_CHILD_ID);
-		player.getPacketSender().sendString(Shop.NAME_INTERFACE_CHILD_ID, "Culinaromancer's chest");
-		if(player.getInputHandling() == null || !(player.getInputHandling() instanceof EnterAmountToSellToShop || player.getInputHandling() instanceof EnterAmountToBuyFromShop))
-			player.getPacketSender().sendInterfaceSet(Shop.INTERFACE_ID, Shop.INVENTORY_INTERFACE_ID - 1);
-		player.setShop(shop).setInterfaceId(Shop.INTERFACE_ID).setShopping(true);
 	}
 
 

@@ -2,7 +2,7 @@ package com.ruse.util;
 
 import com.ruse.GameSettings;
 import com.ruse.world.World;
-import com.ruse.world.content.trading_post.ShopUtils;
+import com.ruse.world.content.tradingpost.ShopUtils;
 
 public class PlayerSavingTimer {
 	
