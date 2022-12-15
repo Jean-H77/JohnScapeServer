@@ -9,6 +9,7 @@ import com.ruse.model.container.impl.Bank.BankSearchAttributes;
 import com.ruse.model.definitions.WeaponInterfaces.WeaponInterface;
 import com.ruse.model.input.impl.AchievementSearch;
 import com.ruse.model.input.impl.EnterClanChatToJoin;
+import com.ruse.model.input.impl.EnterShopItemSearch;
 import com.ruse.model.input.impl.EnterSyntaxToBankSearchFor;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
@@ -391,6 +392,10 @@ public class ButtonClickPacketListener implements PacketListener {
 				player.getPacketSender().sendMessage("You do not have a familiar who can hold items.");
 			}
 			break;
+			case 22471:
+				player.getPacketSender().sendEnterInputPrompt("Enter item name to search for:");
+				player.setInputHandling(new EnterShopItemSearch());
+				break;
 		case -11501:
 		case -11504:
 		case -11498:
@@ -964,7 +969,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getUpgradeManager().handleButtonClick(id)) {
 			return true;
 		}
-	//	if(player.getAchievementManger().handleButtonClick(id)) {
+	//	if(player.getAchievementManger().handleButtonClick(itemId)) {
 	//		return true;
 	//	}
 		if(player.getDungeonPartyManager().handleButtonClick(id)) {

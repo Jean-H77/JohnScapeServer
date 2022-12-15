@@ -75,7 +75,65 @@ public class Misc {
 		plrs.add(p);
 		return plrs;
 	}
-	
+
+	public static String formatNumber(long num) {
+		boolean negative = false;
+		if (num < 0) {
+			num = -num;
+			negative = true;
+		}
+		int length = String.valueOf(num).length();
+		String number = Long.toString(num);
+		String numberString = number;
+		String end = "";
+		if (length == 4) {
+			numberString = number.substring(0, 1) + "k";
+			//6400
+			double doubleVersion = 0.0;
+			doubleVersion = num / 1000.0;
+			if (doubleVersion != (int)(doubleVersion)) {
+				if (num - (1000 * Math.ceil(doubleVersion)) > 100) {
+					numberString = number.substring(0, 1) + "." + number.substring(1, 2) + "k";
+				}
+			}
+		} else if (length == 5) {
+			numberString = number.substring(0, 2) + "k";
+		} else if (length == 6) {
+			numberString = number.substring(0, 3) + "k";
+		} else if (length == 7) {
+			String sub = number.substring(1, 2);
+			if (sub.equals("0")) {
+				numberString = number.substring(0, 1) + "m";
+			} else {
+				numberString = number.substring(0, 1) + "." + number.substring(1, 2) + "m";
+			}
+		} else if (length == 8) {
+			end = "." + number.substring(2, 3);
+			if (end.equals(".0")) {
+				end = "";
+			}
+			numberString = number.substring(0, 2) + end + "m";
+		} else if (length == 9) {
+			end = "." + number.substring(3, 4);
+			if (end.equals(".0")) {
+				end = "";
+			}
+			numberString = number.substring(0, 3) + end + "m";
+		} else if (length == 10) {
+			numberString = number.substring(0, 4) + "m";
+		} else if (length == 11) {
+			numberString = number.substring(0, 2) + "." + number.substring(2, 5) + "b";
+		} else if (length == 12) {
+			numberString = number.substring(0, 3) + "." + number.substring(3, 6) + "b";
+		} else if (length == 13) {
+			numberString = number.substring(0, 4) + "." + number.substring(4, 7) + "b";
+		}
+		if (negative) {
+			numberString = "-" + numberString;
+		}
+		return numberString;
+	}
+
 	public static String capitalizeString(String string) {
 		  char[] chars = string.toLowerCase().toCharArray();
 		  boolean found = false;

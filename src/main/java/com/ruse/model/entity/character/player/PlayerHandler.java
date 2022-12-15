@@ -279,6 +279,9 @@ public class PlayerHandler {
 				if(player.getRegionInstance() != null) {
 					player.getRegionInstance().destruct();
 				}
+				if(player.isShopping() && player.getShop() != null) {
+					player.getShop().getCurrentlyViewingShopMap().remove(player);
+				}
 				player.getDungeonManager().leaveDungeon(true);
 				Hunter.handleLogout(player);
 				Locations.logout(player);

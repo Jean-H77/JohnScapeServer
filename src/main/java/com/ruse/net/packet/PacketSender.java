@@ -6,17 +6,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ruse.GameSettings;
-import com.ruse.model.Animation;
-import com.ruse.model.DamageDealer;
-import com.ruse.model.GameObject;
-import com.ruse.model.Graphic;
-import com.ruse.model.Item;
-import com.ruse.model.Locations;
-import com.ruse.model.MessageType;
-import com.ruse.model.PlayerInteractingOption;
-import com.ruse.model.PlayerRights;
-import com.ruse.model.Position;
-import com.ruse.model.Skill;
+import com.ruse.model.*;
 import com.ruse.model.container.ItemContainer;
 import com.ruse.model.container.impl.Shop;
 import com.ruse.model.definitions.NpcDropItem;
@@ -312,7 +302,7 @@ public class PacketSender {
 
 	public PacketSender sendInterface(int id) {
 		PacketBuilder out = new PacketBuilder(97);
-		out.putShort(id);
+		out.putInt(id);
 		player.getSession().queueMessage(out);
 		player.setInterfaceId(id);
 		return this;
@@ -542,6 +532,9 @@ public class PacketSender {
 			sendClientRightClickRemoval();
 			player.setBanking(false);
 		}
+		if(player.isShopping() && player.getShop() != null) {
+			player.getShop().getCurrentlyViewingShopMap().remove(player);
+		}
 		if(player.getPriceChecker().isOpen()) {
 			player.getPriceChecker().exit();
 		}
@@ -585,8 +578,8 @@ public class PacketSender {
 
 	public PacketSender sendInterfaceSet(int interfaceId, int sidebarInterfaceId) {
 		PacketBuilder out = new PacketBuilder(248);
-		out.putShort(interfaceId, ValueType.A);
-		out.putShort(sidebarInterfaceId);
+		out.putInt(interfaceId);
+		out.putInt(sidebarInterfaceId);
 		player.getSession().queueMessage(out);
 		player.setInterfaceId(interfaceId);
 		return this;
@@ -594,7 +587,8 @@ public class PacketSender {
 
 	public PacketSender sendItemContainer(ItemContainer container, int interfaceId) {
 		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
-		out.putShort(interfaceId);
+		out.putInt(interfaceId);
+		out.putString("");
 		out.putShort(container.capacity());
 		for (Item item: container.getItems()) {
 			if(item == null) {
@@ -616,7 +610,8 @@ public class PacketSender {
 
 	public PacketSender sendItemContainer(Item[] items, int interfaceId) {
 		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
-		out.putShort(interfaceId);
+		out.putInt(interfaceId);
+		out.putString("");
 		out.putShort(items.length);
 		for (Item item : items) {
 			if(item == null) {
@@ -638,7 +633,8 @@ public class PacketSender {
 
 	public PacketSender sendItemContainer(NpcDropItem[] items, int interfaceId) {
 		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
-		out.putShort(interfaceId);
+		out.putInt(interfaceId);
+		out.putString("");
 		out.putShort(items.length);
 		for (NpcDropItem item : items) {
 			if(item == null) {
@@ -658,10 +654,34 @@ public class PacketSender {
 		return this;
 	}
 
+	public PacketSender sendItemContainer(ShopItem[] items, String shopName, int interfaceId) {
+		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
+		out.putInt(interfaceId);
+		out.putString("Shop :"+shopName);
+		out.putShort(items.length);
+		for (ShopItem item : items) {
+			if(item == null) {
+				out.put(0);
+				out.putShort(0, ValueType.A, ByteOrder.LITTLE);
+				continue;
+			}
+			if (item.getAmount() > 254) {
+				out.put((byte)255);
+				out.putInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
+			} else {
+				out.put(item.getAmount());
+			}
+			out.putShort(item.getItemId() + 1, ValueType.A, ByteOrder.LITTLE);
+		}
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
 	public PacketSender sendItemContainer(int[] itemIds, int interfaceId) {
 		if(itemIds==null) return this;
 		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
-		out.putShort(interfaceId);
+		out.putInt(interfaceId);
+		out.putString("");
 		out.putShort(itemIds.length);
 		for (int itemId : itemIds) {
 			out.put(1);
@@ -712,7 +732,8 @@ public class PacketSender {
 
 	public PacketSender sendInterfaceItems(int interfaceId, CopyOnWriteArrayList<Item> items) {
 		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
-		out.putShort(interfaceId);
+		out.putInt(interfaceId);
+		out.putString("");
 		out.putShort(items.size());
 		int current = 0;
 		for (Item item : items) {
@@ -743,7 +764,8 @@ public class PacketSender {
 		if(interfaceId <= 0)
 			return this;
 		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
-		out.putShort(interfaceId);
+		out.putInt(interfaceId);
+		out.putString("");
 		out.putShort(1);
 		if (amount > 254) {
 			out.put((byte)255);
@@ -816,7 +838,7 @@ public class PacketSender {
 			return this;
 		PacketBuilder out = new PacketBuilder(126, PacketType.SHORT);
 		out.putString(string);
-		out.putShort(id);
+		out.putInt(id);
 		player.getSession().queueMessage(out);
 		return this;
 	}
@@ -1214,7 +1236,8 @@ public class PacketSender {
 
 	public PacketSender sendConstructionInterfaceItems(ArrayList<Furniture> items) {
 		PacketBuilder builder = new PacketBuilder(53, PacketType.SHORT);
-		builder.putShort(38274);
+		builder.putInt(38274);
+		builder.putString("");
 		builder.putShort(items.size());
 		for (int i = 0; i < items.size(); i++) {
 			builder.put(1);

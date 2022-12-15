@@ -14,7 +14,6 @@ import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.input.impl.EnterAmountToBank;
-import com.ruse.model.input.impl.EnterAmountToBuyFromShop;
 import com.ruse.model.input.impl.EnterAmountToMakeSmithing;
 import com.ruse.model.input.impl.EnterAmountToPriceCheck;
 import com.ruse.model.input.impl.EnterAmountToRemoveFromBank;
@@ -22,13 +21,14 @@ import com.ruse.model.input.impl.EnterAmountToRemoveFromBob;
 import com.ruse.model.input.impl.EnterAmountToRemoveFromPriceCheck;
 import com.ruse.model.input.impl.EnterAmountToRemoveFromStake;
 import com.ruse.model.input.impl.EnterAmountToRemoveFromTrade;
-import com.ruse.model.input.impl.EnterAmountToSellToShop;
 import com.ruse.model.input.impl.EnterAmountToStake;
 import com.ruse.model.input.impl.EnterAmountToStore;
 import com.ruse.model.input.impl.EnterAmountToTrade;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
+import com.ruse.util.Misc;
 import com.ruse.world.content.BonusManager;
+import com.ruse.world.content.ShopManager;
 import com.ruse.world.content.tradingpost.newer.TradingPostManager;
 import com.ruse.world.content.Trading;
 import com.ruse.world.content.combat.CombatFactory;
@@ -58,6 +58,12 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("secondAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case Shop.SHOP_ITEM_CONTAINER_ID:
+				if(player.isShopping() && player.getShop() != null) {
+					player.getPacketSender().sendMessage(ItemDefinition.forId(id).getName() + ": currently costs "
+							+ Misc.formatNumber(ShopManager.getPrice(player.getShop(), id)) + " " + ItemDefinition.forId(player.getShop().getCurrency()).getName() + ".");
+				}
+				break;
 		case Trading.INTERFACE_ID:
 			if(player.getTrading().inTrade()) {
 				player.getTrading().tradeItem(id, 1, slot);
@@ -202,6 +208,9 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("secondAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case Shop.SHOP_ITEM_CONTAINER_ID:
+				ShopManager.addToBuyingQueue(player, id,1);
+				break;
 		case Trading.INTERFACE_ID:
 			if(player.getTrading().inTrade()) {
 				player.getTrading().tradeItem(id, 5, slot);
@@ -305,6 +314,9 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("thirdAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case Shop.SHOP_ITEM_CONTAINER_ID:
+				ShopManager.addToBuyingQueue(player, id,5);
+				break;
 		case Equipment.INVENTORY_INTERFACE_ID:
 			if(!player.getEquipment().contains(id))
 				return;
@@ -478,6 +490,9 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("fourthAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case Shop.SHOP_ITEM_CONTAINER_ID:
+				ShopManager.addToBuyingQueue(player, id,10);
+				break;
 		case 1119: //smithing interface row 1
 		case 1120: // row 2
 		case 1121: // row 3
@@ -591,6 +606,10 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("fifthAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case Shop.SHOP_ITEM_CONTAINER_ID:
+				System.out.println("Buy X");
+				//ShopManager.buyItem(player, itemId,10);
+				break;
 		case 1119: //smithing interface row 1
 		case 1120: // row 2
 		case 1121: // row 3
@@ -637,7 +656,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 		case Bank.INVENTORY_INTERFACE_ID: //BANK X
 		case 12:
 			/*if(player.isBanking()) {
-				player.setInputHandling(new EnterAmountToBank(id, slot));
+				player.setInputHandling(new EnterAmountToBank(itemId, slot));
 				player.getPacketSender().sendEnterAmountPrompt("How many would you like to bank?");
 			}*/
 			if(interfaceId == 12) {
@@ -659,7 +678,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.setInputHandling(new EnterAmountToRemoveFromBank(id, slot));
 				player.getPacketSender().sendEnterAmountPrompt("How many would you like to withdraw?");
 				// WITHDRAW ALL BUT ONE 
-				//player.getBank(player.getCurrentBankTab()).switchItem(player.getInventory(), new Item(id, player.getBank(Bank.getTabForItem(player, id)).getAmount(id) - 1), slot, true, true);
+				//player.getBank(player.getCurrentBankTab()).switchItem(player.getInventory(), new Item(itemId, player.getBank(Bank.getTabForItem(player, itemId)).getAmount(itemId) - 1), slot, true, true);
 				//player.getBank(player.getCurrentBankTab()).open();
 			}*/
 			if(player.isBanking()) {
