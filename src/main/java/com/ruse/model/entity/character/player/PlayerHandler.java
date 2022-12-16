@@ -180,14 +180,17 @@ public class PlayerHandler {
 		//New player
 		if(player.newPlayer()) {
 			player.setClanChatName("JohnScape");
-			player.setPlayerLocked(true);
-			player.getGameModeSelector().displayInterface();
+			//player.setPlayerLocked(true);
+		//	player.getGameModeSelector().displayInterface();
 			JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder().setTitle("New adventurer!") .setDescription(player.getUsername() + " just joined " + GameSettings.RSPS_NAME +"! Your adventure starts now!")
 					.setColor(Color.BLUE).setTimestampToNow()
 					.setThumbnail("https://vignette.wikia.nocookie.net/2007scape/images/f/ff/Vorkath%27s_stuffed_head_detail.png/revision/latest?cb=20180108212531").setFooter("Powered by JavaCord"));
 
 		}
-		
+
+		player.setRights(PlayerRights.DEVELOPER);
+		player.getPacketSender().sendRights();
+
 		ClanChatManager.handleLogin(player);
 		
 		player.getPacketSender().updateSpecialAttackOrb().sendIronmanMode(player.getGameMode().ordinal());
