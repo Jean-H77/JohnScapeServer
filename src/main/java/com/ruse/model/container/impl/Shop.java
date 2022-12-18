@@ -18,13 +18,13 @@ public class Shop extends ItemContainer {
 	private final List<Player> currentlyViewingShopMap = new ArrayList<>();
 
 	private final String name;
-	private int currency;
+	private Object currency;
 	private final ShopItem[] shopItems;
 
 	private final boolean restocks;
 	private final boolean canSell;
 
-	public Shop(String name, int currency, boolean restocks, boolean canSell, ShopItem... shopItems) {
+	public Shop(String name, Object currency, boolean restocks, boolean canSell, ShopItem... shopItems) {
 		super(null);
 		this.name = name;
 		this.currency = currency;
@@ -36,7 +36,7 @@ public class Shop extends ItemContainer {
 	public Shop() {
 		super(null);
 		this.name = "None";
-		this.currency = -1;
+		this.currency = null;
 		this.restocks = false;
 		this.canSell = false;
 		this.shopItems = null;
@@ -98,7 +98,7 @@ public class Shop extends ItemContainer {
 		return shopItems;
 	}
 
-	public int getCurrency() {
+	public Object getCurrency() {
 		return currency;
 	}
 
@@ -106,7 +106,7 @@ public class Shop extends ItemContainer {
 		return name;
 	}
 
-	public void setCurrency(int currency) {
+	public void setCurrency(Object currency) {
 		this.currency = currency;
 	}
 

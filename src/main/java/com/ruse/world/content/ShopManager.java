@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ruse.GameSettings;
 import com.ruse.model.ShopItem;
 import com.ruse.model.container.impl.Shop;
+import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.entity.character.player.Player;
 
 import java.io.File;
@@ -89,10 +90,10 @@ public class ShopManager {
         }
 
         if(checkRequirements(player, itemId, amount)) {
-            player.getInventory().delete(shop.getCurrency(),amount*getPrice(shop,itemId));
-            ShopItem shopItem = getShopItem(shop,itemId);
-            shopItem.setAmount(shopItem.getAmount()-amount);
-            player.getInventory().add(itemId,amount);
+            decrementCurrency(player,shop.getCurrency(),amount*getPrice(shop,itemId));
+            ShopItem shopItem = getShopItem(shop, itemId);
+            shopItem.setAmount(shopItem.getAmount() - amount);
+            player.getInventory().add(itemId, amount);
             shop.refreshItem(shopItem);
             player.getPacketSender().sendItemContainer(player.getInventory(), 3823);
         }
@@ -124,13 +125,39 @@ public class ShopManager {
             return false;
         }
 
-        int totalPrice = singlePrice * amount;
-
-        if(player.getInventory().getAmount(shop.getCurrency()) < totalPrice) {
+        if(!hasEnoughCurrency(player,shop.getCurrency(),singlePrice * amount)) {
             player.getPacketSender().sendMessage("You cannot afford to buy anymore of that item");
             return false;
         }
 
         return true;
+    }
+
+    public static String getCurrencyName(Shop shop) {
+        return shop.getCurrency() instanceof Integer ? ItemDefinition.forId((Integer) shop.getCurrency()).getName() : shop.getCurrency().toString();
+    }
+
+    public static void decrementCurrency(Player player, Object currency, int amount) {
+        if(amount == 0) {
+            return;
+        }
+
+        if(currency instanceof Integer) {
+            player.getInventory().delete((Integer) currency,amount);
+            return;
+        }
+
+        Integer currentAmount = player.getPoints().get(currency.toString());
+
+        if(currentAmount == null) { // return because there's a previous check getOrDefault(currency.toString(), 0)) >= amount
+            return;
+        }
+
+        currentAmount -= amount;
+        player.getPoints().put(currency.toString(),currentAmount);
+    }
+
+    public static boolean hasEnoughCurrency(Player player, Object currency, int amount) {
+        return (currency instanceof Integer ? player.getInventory().getAmount((Integer) currency) : player.getPoints().getOrDefault(currency.toString(), 0)) >= amount;
     }
 }

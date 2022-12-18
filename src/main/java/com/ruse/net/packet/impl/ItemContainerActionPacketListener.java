@@ -61,7 +61,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			case Shop.SHOP_ITEM_CONTAINER_ID:
 				if(player.isShopping() && player.getShop() != null) {
 					player.getPacketSender().sendMessage(ItemDefinition.forId(id).getName() + ": currently costs "
-							+ Misc.formatNumber(ShopManager.getPrice(player.getShop(), id)) + " " + ItemDefinition.forId(player.getShop().getCurrency()).getName() + ".");
+							+ Misc.formatNumber(ShopManager.getPrice(player.getShop(), id)) + " " + ShopManager.getCurrencyName(player.getShop()) + ".");
 				}
 				break;
 		case Trading.INTERFACE_ID:

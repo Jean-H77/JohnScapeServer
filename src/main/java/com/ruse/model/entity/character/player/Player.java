@@ -73,6 +73,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -1192,6 +1193,13 @@ public class Player extends CharacterEntity {
 		this.spellbook = spellbook;
 		return this;
 	}
+
+	public HashMap<String, Integer> getPoints() {
+		return points;
+	}
+
+	private final HashMap<String, Integer> points = new HashMap<>();
+
 
 
 	public MagicSpellbook getSpellbook() {
