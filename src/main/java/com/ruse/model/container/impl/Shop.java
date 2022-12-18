@@ -50,6 +50,7 @@ public class Shop extends ItemContainer {
 		player.getPacketSender().sendInterfaceSet(SHOP_INTERFACE_ID,3822)
 				.sendItemContainer(player.getInventory(), 3823)
 				.sendString(88002,name)
+				.sendString(88010,currency instanceof Integer ? "" : "Points: " + player.getPoints().getOrDefault(currency.toString(),0))
 				.sendItemContainer(shopItems, name, ITEM_CONTAINER_ID);
 	}
 
