@@ -184,8 +184,6 @@ public class World {
 		// Then we execute post-updating code.
 		players.forEach(playerUpdate::executePostUpdate);
 		npcs.forEach(npcUpdate::executePostUpdate);
-		TradingPostUtils.processQueues();
-		ShopManager.processPurchaseQueues();
 	}
 	
 	public static Queue<Player> getLoginQueue() {

@@ -4,9 +4,10 @@ import com.ruse.model.ShopItem;
 import com.ruse.model.container.impl.Shop;
 import com.ruse.model.container.impl.shopImpl.TestShop;
 import com.ruse.model.entity.character.player.Player;
-import com.ruse.world.World;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Optional;
 
 public class ShopManager {
 
@@ -47,71 +48,60 @@ public class ShopManager {
         return shopItemOptional.orElse(null);
     }
 
-    public static void addToBuyingQueue(Player player, int itemId, int amount) {
-        if(player.isShopping() && player.getShop() != null) {
-            selectToBuy(player.getShop(),player, itemId, amount);
-        }
-    }
-
-    public static void processPurchaseQueues() {
-        List<Shop> shops = new ArrayList<>(SHOPS.values());
-        for(int i = 0; i < shops.size(); i++) {
-            Shop shop = shops.get(i);
-            for (int j = 0; j < shop.getBuyingQueue().size(); i++) {
-                Shop.ToBuyShopItem toBuyShopItem = shop.getBuyingQueue().poll();
-                if (toBuyShopItem != null) {
-                    buyItem(toBuyShopItem);
-                }
-            }
-        }
-    }
-
-    public static void buyItem(Shop.ToBuyShopItem toBuyShopItem) {
-        Player player = World.getPlayerByName(toBuyShopItem.getPlayer());
-
+    public static void buyItem(Player player, int itemId, int amount) {
         if(player == null) {
             return;
         }
 
-        Shop shop = toBuyShopItem.getShop();
+        if(player.getShop() == null) {
+            return;
+        }
 
-        if(checkRequirements(toBuyShopItem)) {
-            player.getInventory().delete(shop.getCurrency(),toBuyShopItem.getAmount()*getPrice(shop,toBuyShopItem.getItemId()));
-            ShopItem shopItem = getShopItem(shop,toBuyShopItem.getItemId());
-            shopItem.setAmount(shopItem.getAmount()-toBuyShopItem.getAmount());
-            player.getInventory().add(toBuyShopItem.getItemId(),toBuyShopItem.getAmount());
+        Shop shop = player.getShop();
+
+        int currentStock = getCurrentStock(shop, itemId);
+
+        if(currentStock <= 0) {
+            player.getPacketSender().sendMessage("This item has no stock left");
+            return;
+        }
+
+        if(amount > currentStock) {
+            amount = currentStock;
+        }
+
+        if(player.getInventory().getFreeSlots() < amount) {
+            amount = player.getInventory().getFreeSlots();
+        }
+
+        if(checkRequirements(player, itemId, amount)) {
+            player.getInventory().delete(shop.getCurrency(),amount*getPrice(shop,itemId));
+            ShopItem shopItem = getShopItem(shop,itemId);
+            shopItem.setAmount(shopItem.getAmount()-amount);
+            player.getInventory().add(itemId,amount);
             shop.refreshItem(shopItem);
             player.getPacketSender().sendItemContainer(player.getInventory(), 3322);
         }
     }
 
-    public static boolean checkRequirements(Shop.ToBuyShopItem toBuyShopItem) {
-        int itemId = toBuyShopItem.getItemId();
-        Player player = World.getPlayerByName(toBuyShopItem.getPlayer());
-
-        if(player == null) return false;
+    public static boolean checkRequirements(Player player, int itemId, int amount) {
+        if(player == null) {
+            return false;
+        }
 
         if(player.getInventory().isFull()) {
             player.getPacketSender().sendMessage("You don't have enough free inventory spots to buy this amount");
             return false;
         }
 
-        int amount = toBuyShopItem.getAmount();
-        Shop shop = toBuyShopItem.getShop();
+        if(player.getShop() == null) {
+            return false;
+        }
+
+        Shop shop = player.getShop();
 
         if(getShopItem(shop,itemId) == null) {
             return false;
-        }
-
-        int currentStock = getCurrentStock(shop, itemId);
-
-        if(currentStock <= 0) {
-            player.getPacketSender().sendMessage("This item has no stock left");
-            return false;
-        }
-
-        if(toBuyShopItem.getAmount() > currentStock) {
-            toBuyShopItem.setAmount(currentStock);
         }
 
         int singlePrice = ShopManager.getPrice(shop,itemId);
@@ -122,22 +112,11 @@ public class ShopManager {
 
         int totalPrice = singlePrice * amount;
 
-        if(player.getInventory().getFreeSlots() < amount) {
-            toBuyShopItem.setAmount(player.getInventory().getFreeSlots());
-        }
-
         if(player.getInventory().getAmount(shop.getCurrency()) < totalPrice) {
             player.getPacketSender().sendMessage("You cannot afford to buy anymore of that item");
             return false;
         }
 
         return true;
-    }
-
-    public static void selectToBuy(Shop shop, Player player, int itemId, int amount) {
-        Shop.ToBuyShopItem toBuyShopItem = new Shop.ToBuyShopItem(player.getUsername(), shop, itemId, amount);
-        if(ShopManager.checkRequirements(toBuyShopItem)) {
-            shop.getBuyingQueue().add(toBuyShopItem);
-        }
     }
 }

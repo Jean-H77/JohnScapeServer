@@ -1,7 +1,6 @@
 package com.ruse.scheduler;
 
 import com.ruse.scheduler.impl.GlobalBossJob;
-import com.ruse.scheduler.impl.MarketBoardJob;
 import com.ruse.scheduler.impl.MidnightResetJob;
 import org.quartz.JobBuilder;
 import org.quartz.Scheduler;
@@ -22,7 +21,6 @@ public class JobScheduler {
 
     public static void initialize() {
         JOBS.add(new GlobalBossJob());
-        JOBS.add(new MarketBoardJob());
         JOBS.add(new MidnightResetJob());
         try {
             scheduler = StdSchedulerFactory.getDefaultScheduler();

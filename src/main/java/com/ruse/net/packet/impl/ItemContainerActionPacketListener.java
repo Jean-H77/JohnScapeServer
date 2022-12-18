@@ -209,7 +209,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 		}
 		switch (interfaceId) {
 			case Shop.SHOP_ITEM_CONTAINER_ID:
-				ShopManager.addToBuyingQueue(player, id,1);
+				ShopManager.buyItem(player, id,1);
 				break;
 		case Trading.INTERFACE_ID:
 			if(player.getTrading().inTrade()) {
@@ -315,7 +315,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 		}
 		switch (interfaceId) {
 			case Shop.SHOP_ITEM_CONTAINER_ID:
-				ShopManager.addToBuyingQueue(player, id,5);
+				ShopManager.buyItem(player, id,5);
 				break;
 		case Equipment.INVENTORY_INTERFACE_ID:
 			if(!player.getEquipment().contains(id))
@@ -491,7 +491,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 		}
 		switch (interfaceId) {
 			case Shop.SHOP_ITEM_CONTAINER_ID:
-				ShopManager.addToBuyingQueue(player, id,10);
+				ShopManager.buyItem(player, id,10);
 				break;
 		case 1119: //smithing interface row 1
 		case 1120: // row 2
