@@ -1,0 +1,12 @@
+name: Range Store
+currency: 995
+restocks: false
+canSell: false
+
+shopItems:
+  - itemId: 11732
+    cost: 3000
+    amount: 300
+  - itemId: 6585
+    cost: 5000
+    amount: 500

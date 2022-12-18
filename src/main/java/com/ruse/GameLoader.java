@@ -25,6 +25,7 @@ import com.ruse.util.FileUtils;
 import com.ruse.world.clip.region.RegionClipping;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.PlayerPunishment;
+import com.ruse.world.content.ShopManager;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect.CombatPoisonData;
 import com.ruse.world.content.combat.strategy.CombatStrategies;
@@ -91,8 +92,8 @@ public final class GameLoader {
 		serviceLoader.execute(() -> WeaponInterfaces.parseInterfaces().load());
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
 		serviceLoader.execute(NPC::init);
-		serviceLoader.execute(ShopUtils::loadAll);
 		serviceLoader.execute(JobScheduler::initialize);
+		serviceLoader.execute(ShopManager::loadShops);
 
 	}
 

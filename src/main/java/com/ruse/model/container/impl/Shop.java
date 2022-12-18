@@ -19,8 +19,6 @@ public class Shop extends ItemContainer {
 
 	private final List<Player> currentlyViewingShopMap = new ArrayList<>();
 
-	private final Queue<ToBuyShopItem> buyingQueue = new ArrayDeque<>();
-
 	private final String name;
 	private int currency;
 	private final ShopItem[] shopItems;
@@ -35,6 +33,15 @@ public class Shop extends ItemContainer {
 		this.restocks = restocks;
 		this.canSell = canSell;
 		this.shopItems = shopItems;
+	}
+
+	public Shop() {
+		super(null);
+		this.name = "None";
+		this.currency = -1;
+		this.restocks = false;
+		this.canSell = false;
+		this.shopItems = null;
 	}
 
 	public void openShop(Player player) {
@@ -64,7 +71,7 @@ public class Shop extends ItemContainer {
 	}
 
 
-	public ItemContainer refreshItem(ShopItem shopItem) {
+	public void refreshItem(ShopItem shopItem) {
 		for(int i = 0; i < currentlyViewingShopMap.size(); i++) {
 			Player player = currentlyViewingShopMap.get(i);
 			if(World.getPlayerByName(player.getUsername()) == null) {
@@ -79,7 +86,6 @@ public class Shop extends ItemContainer {
 
 			player.getPacketSender().sendItemOnInterface(ITEM_CONTAINER_ID,shopItem.getItemId(),0,shopItem.getAmount());
 		}
-		return this;
 	}
 
 	@Override
@@ -99,11 +105,6 @@ public class Shop extends ItemContainer {
 		return currency;
 	}
 
-
-	public void sellItem(int itemId, int amount) {
-
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -116,8 +117,8 @@ public class Shop extends ItemContainer {
 		return restocks;
 	}
 
-	public Queue<ToBuyShopItem> getBuyingQueue() {
-		return buyingQueue;
+	public boolean isCanSell() {
+		return canSell;
 	}
 
 	public static class ToBuyShopItem {

@@ -1,0 +1,12 @@
+name: Magic Store
+currency: 995
+restocks: true
+canSell: true
+
+shopItems:
+  - itemId: 4151
+    cost: 3000
+    amount: 300
+  - itemId: 6585
+    cost: 5000
+    amount: 500

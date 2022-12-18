@@ -13,6 +13,13 @@ public class ShopItem {
         this.maxStock = amount;
     }
 
+    public ShopItem() {
+        this.itemId = -1;
+        this.cost = -1;
+        this.amount = -1;
+        this.maxStock = -1;
+    }
+
     public int getItemId() {
         return itemId;
     }
