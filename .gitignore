@@ -1,6 +1,5 @@
 *.xml
 *.iml
-
 *.class
 .classpath
 .project
@@ -10,3 +9,5 @@
 /temp/
 /data/saves/
 /data/config.yaml
+
+tmp/
