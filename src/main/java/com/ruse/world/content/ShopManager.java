@@ -145,6 +145,10 @@ public class ShopManager {
             return;
         }
 
+        if(!hasEnoughCurrency(player,currency,amount)) { // check currency a second time
+            player.getPacketSender().sendMessage("You cannot afford to buy anymore of that item");
+            return;
+        }
         if(currency instanceof Integer) {
             player.getInventory().delete((Integer) currency,amount);
             return;
