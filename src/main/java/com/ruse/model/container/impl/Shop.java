@@ -6,10 +6,8 @@ import com.ruse.model.container.StackType;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.World;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 
 public class Shop extends ItemContainer {
@@ -70,7 +68,6 @@ public class Shop extends ItemContainer {
 		return null;
 	}
 
-
 	public void refreshItem(ShopItem shopItem) {
 		for(int i = 0; i < currentlyViewingShopMap.size(); i++) {
 			Player player = currentlyViewingShopMap.get(i);
@@ -121,37 +118,4 @@ public class Shop extends ItemContainer {
 		return canSell;
 	}
 
-	public static class ToBuyShopItem {
-		private final String player;
-		private final Shop shop;
-		private final int itemId;
-		private int amount;
-
-		public ToBuyShopItem(String player, Shop shop, int itemId, int amount) {
-			this.player = player;
-			this.shop = shop;
-			this.itemId = itemId;
-			this.amount = amount;
-		}
-
-		public String getPlayer() {
-			return player;
-		}
-
-		public Shop getShop() {
-			return shop;
-		}
-
-		public int getItemId() {
-			return itemId;
-		}
-
-		public int getAmount() {
-			return amount;
-		}
-
-		public void setAmount(int amount) {
-			this.amount = amount;
-		}
-	}
 }

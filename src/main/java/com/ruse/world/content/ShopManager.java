@@ -5,7 +5,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ruse.GameSettings;
 import com.ruse.model.ShopItem;
 import com.ruse.model.container.impl.Shop;
-import com.ruse.model.container.impl.shopImpl.TestShop;
 import com.ruse.model.entity.character.player.Player;
 
 import java.io.File;
@@ -17,22 +16,15 @@ public class ShopManager {
     private static final String FOLDER_LOCATION = GameSettings.DEFINITION_DIRECTORY + "shops/";
     private static final HashMap<String, Shop> SHOPS = new HashMap<>();
 
-
     public static void loadShops() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-
         try {
             File folder = new File(FOLDER_LOCATION);
             File[] files = folder.listFiles();
-
+            assert files != null;
             for(File f : files) {
                 Shop result = mapper.readValue(new File(FOLDER_LOCATION + f.getName()), Shop.class);
-                System.out.println("Loading shop to hashmap: " + result.getName() + " currency: " + result.getCurrency());
-                for(ShopItem si : result.getShopItems()) {
-                    System.out.println("Item: " + si.getItemId() + " amount: " + si.getAmount() + " price: " + si.getCost());
-                }
                 SHOPS.put(result.getName(), result);
-                System.out.println("-----");
             }
         } catch (Exception e) {
             e.printStackTrace();
