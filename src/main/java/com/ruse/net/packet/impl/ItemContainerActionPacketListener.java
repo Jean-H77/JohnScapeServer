@@ -545,7 +545,7 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getBank(player.getCurrentBankTab()).open();
 			break;
 		case Bank.INVENTORY_INTERFACE_ID:
-			Item item = player.getInventory().forSlot(slot);
+			Item item = player.getInventory().getFromSlot(slot, player.getInventory().getAmount(id));
 			if (!player.isBanking() || item.getId() != id || !player.getInventory().contains(item.getId()) || player.getInterfaceId() != 5292)
 				return;
 			player.setCurrentBankTab(Bank.getTabToDepositItem(player, item));
@@ -663,7 +663,10 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.setInputHandling(new EnterAmountToBank(id, slot));
 				player.getPacketSender().sendEnterAmountPrompt("How many would you like to bank?");
 			} else {
-				Item item = player.getInventory().forSlot(slot);
+				Item item = player.getInventory().getFromSlot(slot, player.getInventory().getAmount(id));
+				if(item == null) {
+					return;
+				}
 				if (!player.isBanking() || item.getId() != id || !player.getInventory().contains(item.getId()) || player.getInterfaceId() != 5292)
 					return;
 				if (!item.getAttributes().hasAttributes())

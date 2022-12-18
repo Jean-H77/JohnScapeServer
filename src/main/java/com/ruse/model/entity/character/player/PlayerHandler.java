@@ -42,7 +42,6 @@ import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.pvp.BountyHunter;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
-import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.minigames.Barrows;
 import com.ruse.world.content.skill.hunter.Hunter;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -282,7 +281,7 @@ public class PlayerHandler {
 					player.getRegionInstance().destruct();
 				}
 				if(player.isShopping() && player.getShop() != null) {
-					player.getShop().getCurrentlyViewingShopMap().remove(player);
+					player.getShop().getPlayersCurrentlyViewing().remove(player);
 				}
 				player.getDungeonManager().leaveDungeon(true);
 				Hunter.handleLogout(player);

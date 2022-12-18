@@ -34,8 +34,9 @@ public class Inventory extends ItemContainer {
 		Item item = get(slot);
 		if (item.getAttributes().hasAttributes())
 			return item;
-		if (item.getAmount() < amount)
+		if (amount > item.getAmount() && (item.getDefinition().isNoted() || item.getDefinition().isStackable())) {
 			amount = item.getAmount();
+		}
 		return item.copy().setAmount(amount);
 	}
 

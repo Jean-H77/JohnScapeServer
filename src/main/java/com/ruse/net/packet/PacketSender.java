@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.ruse.GameSettings;
 import com.ruse.model.*;
 import com.ruse.model.container.ItemContainer;
-import com.ruse.model.container.impl.Shop;
 import com.ruse.model.definitions.NpcDropItem;
 import com.ruse.net.packet.Packet.PacketType;
 import com.ruse.world.content.CustomObjects;
@@ -534,7 +533,7 @@ public class PacketSender {
 		}
 		if(player.isShopping() && player.getShop() != null) {
 			player.setShopping(false);
-			player.getShop().getCurrentlyViewingShopMap().remove(player);
+			player.getShop().getPlayersCurrentlyViewing().remove(player);
 		}
 		if(player.getPriceChecker().isOpen()) {
 			player.getPriceChecker().exit();
