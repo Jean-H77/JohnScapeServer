@@ -248,7 +248,6 @@ public class PlayerHandler {
 		}
 
 		player.getAchievementManger().sendAchievementData();
-		System.out.println("Login");
 	}
 
 	public static boolean handleLogout(Player player, Boolean forced) {

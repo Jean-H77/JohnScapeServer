@@ -15,7 +15,7 @@ public class Shop extends ItemContainer {
 	private static final int ITEM_CONTAINER_ID = 88011;
 	public static final int SHOP_ITEM_CONTAINER_ID = 22475;
 
-	private final List<Player> currentlyViewingShopMap = new ArrayList<>();
+	private final List<String> currentlyViewingShopMap = new ArrayList<>();
 
 	private final String name;
 	private Object currency;
@@ -43,8 +43,8 @@ public class Shop extends ItemContainer {
 	}
 
 	public void openShop(Player player) {
-		if(!currentlyViewingShopMap.contains(player)) {
-			currentlyViewingShopMap.add(player);
+		if(!currentlyViewingShopMap.contains(player.getUsername())) {
+			currentlyViewingShopMap.add(player.getUsername());
 		}
 
 		player.getPacketSender().sendInterfaceSet(SHOP_INTERFACE_ID,3822)
@@ -70,14 +70,15 @@ public class Shop extends ItemContainer {
 
 	public void refreshItem(ShopItem shopItem) {
 		for(int i = 0; i < currentlyViewingShopMap.size(); i++) {
-			Player player = currentlyViewingShopMap.get(i);
-			if(World.getPlayerByName(player.getUsername()) == null) {
-				currentlyViewingShopMap.remove(player);
+			String playerName = currentlyViewingShopMap.get(i);
+			Player player;
+			if((player = World.getPlayerByName(playerName)) == null) {
+				currentlyViewingShopMap.remove(playerName);
 				continue;
 			}
 
 			if(!(player.isShopping() && player.getShop() == this)) {
-				currentlyViewingShopMap.remove(player);
+				currentlyViewingShopMap.remove(playerName);
 				continue;
 			}
 
@@ -90,7 +91,7 @@ public class Shop extends ItemContainer {
 		return null;
 	}
 
-	public List<Player> getCurrentlyViewingShopMap() {
+	public List<String> getCurrentlyViewingShopMap() {
 		return currentlyViewingShopMap;
 	}
 

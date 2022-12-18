@@ -19,6 +19,7 @@ public class ShopManager {
 
     public static void loadShops() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        int count = 0;
         try {
             File folder = new File(FOLDER_LOCATION);
             File[] files = folder.listFiles();
@@ -26,7 +27,9 @@ public class ShopManager {
             for(File f : files) {
                 Shop result = mapper.readValue(new File(FOLDER_LOCATION + f.getName()), Shop.class);
                 SHOPS.put(result.getName(), result);
+                count++;
             }
+            System.out.println("Loaded " + count + " shops.");
         } catch (Exception e) {
             e.printStackTrace();
         }
