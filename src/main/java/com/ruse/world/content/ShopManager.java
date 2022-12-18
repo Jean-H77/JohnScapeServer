@@ -93,12 +93,13 @@ public class ShopManager {
         }
 
         if(checkRequirements(player, itemId, amount)) {
-            decrementCurrency(player,shop.getCurrency(),amount*getPrice(shop,itemId));
-            ShopItem shopItem = getShopItem(shop, itemId);
-            shopItem.setAmount(shopItem.getAmount() - amount);
-            player.getInventory().add(itemId, amount);
-            shop.refreshItem(shopItem);
-            player.getPacketSender().sendItemContainer(player.getInventory(), 3823);
+            if(decrementCurrency(player,shop.getCurrency(),amount*getPrice(shop,itemId))) {
+                ShopItem shopItem = getShopItem(shop, itemId);
+                shopItem.setAmount(shopItem.getAmount() - amount);
+                player.getInventory().add(itemId, amount);
+                shop.refreshItem(shopItem);
+                player.getPacketSender().sendItemContainer(player.getInventory(), 3823);
+            }
         }
     }
 
@@ -140,28 +141,30 @@ public class ShopManager {
         return shop.getCurrency() instanceof Integer ? ItemDefinition.forId((Integer) shop.getCurrency()).getName() : shop.getCurrency().toString();
     }
 
-    public static void decrementCurrency(Player player, Object currency, int amount) {
+    public static boolean decrementCurrency(Player player, Object currency, int amount) {
         if(amount == 0) {
-            return;
+            return true;
         }
 
         if(!hasEnoughCurrency(player,currency,amount)) { // check currency a second time
             player.getPacketSender().sendMessage("You cannot afford to buy anymore of that item");
-            return;
+            return false;
         }
+
         if(currency instanceof Integer) {
             player.getInventory().delete((Integer) currency,amount);
-            return;
+            return true;
         }
 
         Integer currentAmount = player.getPoints().get(currency.toString());
 
         if(currentAmount == null) { // return because there's a previous check getOrDefault(currency.toString(), 0)) >= amount
-            return;
+            return true;
         }
 
         currentAmount -= amount;
         player.getPoints().put(currency.toString(),currentAmount);
+        return true;
     }
 
     public static boolean hasEnoughCurrency(Player player, Object currency, int amount) {
