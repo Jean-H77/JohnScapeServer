@@ -129,10 +129,19 @@ public class ShopManager {
             return false;
         }
 
-        if(!hasEnoughCurrency(player,shop.getCurrency(),singlePrice * amount)) {
+        long total = (long) singlePrice * amount;
+
+        if(total > Integer.MAX_VALUE) {
+            player.getPacketSender().sendMessage("You cannot buy this much for this amount. try buying in smaller increments.");
+            return false;
+        }
+
+        if(!hasEnoughCurrency(player,shop.getCurrency(), (int) total)) {
             player.getPacketSender().sendMessage("You cannot afford to buy anymore of that item");
             return false;
         }
+
+
 
         return true;
     }
