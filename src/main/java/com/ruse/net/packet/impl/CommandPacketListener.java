@@ -51,6 +51,7 @@ import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.ToxicBlowpipe;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
+import com.ruse.world.content.dialogue.*;
 import com.ruse.world.content.randomevents.EvilTree;
 import com.ruse.world.content.randomevents.ShootingStar;
 import com.ruse.world.content.skill.SkillManager;
@@ -763,7 +764,7 @@ public class CommandPacketListener implements PacketListener {
 			String yellMessage = wholeCommand.substring(5, wholeCommand.length());
 			String formatYell = yellMessage.substring(0, 1).toUpperCase() + yellMessage.substring(1).toLowerCase();
 			if(Misc.blockedWord(yellMessage) && !(player.getRights().OwnerDeveloperOnly())) {
-				player.sendStatement("A word was blocked in your sentence. Please do not repeat it!");
+				DialogueManager.sendStatement(player, "A word was blocked in your sentence. Please do not repeat it!");
 				return;
 			} else {
 				
@@ -780,7 +781,7 @@ public class CommandPacketListener implements PacketListener {
 			player.getLastYell().reset();
 			}
 		}
-		/*if(wholeCommand.equalsIgnoreCase("bank") && player.getAmountDonated() >= 200) {
+		if(wholeCommand.equalsIgnoreCase("bank") && player.getAmountDonated() >= 200) {
 			if(player.getInterfaceId() > 0) {
 				player.getPacketSender().sendMessage("Please close the interface you have open before opening another one.");
 				return;
@@ -790,7 +791,7 @@ public class CommandPacketListener implements PacketListener {
 				return;
 			}
 			player.getBank(player.getCurrentBankTab()).open();
-		}*/
+		}
 		if (wholeCommand.equalsIgnoreCase("crystalchest") || wholeCommand.equalsIgnoreCase("crystalkey")
 				|| wholeCommand.equalsIgnoreCase("crystal") || wholeCommand.equalsIgnoreCase("ckey")) {
 			if (!player.getClickDelay().elapsed(500))
@@ -1962,9 +1963,8 @@ public class CommandPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("Done spawning doom shit");
 		}
 		if(wholeCommand.equalsIgnoreCase("sr")) {
-			DropItemPacketListener.destroyItemInterface(player, new Item(4151,1), 1);
 
-			/*player.setDialogueChain(new DialogueChain(new Options((p,o) -> {
+			player.setDialogueChain(new DialogueChain(new Options((p, o) -> {
 				switch (o) {
 					case 1 -> System.out.println("Clicked: " + o);
 					case 2 -> System.out.println("Clicked: " + o);
@@ -1973,10 +1973,10 @@ public class CommandPacketListener implements PacketListener {
 					case 5 -> System.out.println("Clicked: " + o);
 				}
 			}, "This is the title", "option 1", "option 2", "Option 3", "Option 4", "Option 5"),
-					new NpcStatement(DialogueExpression.NO_EXPRESSION, 5, "Hello how are you"),
-					new PlayerStatement(DialogueExpression.NO_EXPRESSION, "I'm good"),
+					new NpcStatement(() -> System.out.println("sup"), DialogueExpression.NO_EXPRESSION, 5, "Hello how are you"),
+					new PlayerStatement(() -> System.out.println("clicked next here!!"), DialogueExpression.NO_EXPRESSION, "I'm good"),
 					new ItemStatement(4151, 1, "Here a whip")
-			)).start(player);*/
+			)).start(player);
 		}
 
 		if(wholeCommand.equalsIgnoreCase("Ms")) {

@@ -904,6 +904,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		case 2483:
 		case 2484:
 		case 2485:
+			if(player.getDialogueChain() != null && player.getDialogueChain().click(player, id)) {
+				return true;
+			}
 			DialogueOptions.handle(player, id);
 			return true;
 		}

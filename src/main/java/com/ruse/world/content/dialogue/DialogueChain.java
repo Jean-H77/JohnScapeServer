@@ -40,6 +40,17 @@ public class DialogueChain {
     }
 
     public void nextDialogue(Player player) {
+
+        DialoguePart dp = dialogueParts.get(step);
+
+        if(dp instanceof ItemStatement && ((ItemStatement) dp).getClickContinueEvent() != null) {
+            ((ItemStatement) dp).getClickContinueEvent().event();
+        } else if(dp instanceof  NpcStatement  && ((NpcStatement) dp).getClickContinueEvent() != null) {
+            ((NpcStatement) dp).getClickContinueEvent().event();
+        } else if(dp instanceof  PlayerStatement  && ((PlayerStatement) dp).getClickContinueEvent() != null) {
+            ((PlayerStatement) dp).getClickContinueEvent().event();
+        }
+
         if(step == dialogueParts.size()-1) {
             player.getPacketSender().sendInterfaceRemoval();
         } else {

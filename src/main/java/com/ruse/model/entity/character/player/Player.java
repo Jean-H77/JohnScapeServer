@@ -51,6 +51,7 @@ import com.ruse.world.content.combat.strategy.CombatStrategies;
 import com.ruse.world.content.combat.strategy.CombatStrategy;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.combat.weapon.FightType;
+import com.ruse.world.content.dialogue.Dialogue;
 import com.ruse.world.content.dialogue.DialogueChain;
 import com.ruse.world.content.dungeons.DungeonPartyManager;
 import com.ruse.world.content.minigames.Dueling;
@@ -571,11 +572,15 @@ public class Player extends CharacterEntity {
 
 	private DialogueChain dialogueChain;
 
-	public void sendStatement(String statement) {
-		packetSender.sendString(357, statement);
-		packetSender.sendString(358, "Click here to continue");
-		packetSender.sendChatboxInterface(356);
+	public Dialogue getDialogue() {
+		return dialogue;
 	}
+
+	public void setDialogue(Dialogue dialogue) {
+		this.dialogue = dialogue;
+	}
+
+	private Dialogue dialogue;
 
 	public PlayerSession getSession() {
 		return session;
