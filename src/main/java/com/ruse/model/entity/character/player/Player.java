@@ -51,7 +51,7 @@ import com.ruse.world.content.combat.strategy.CombatStrategies;
 import com.ruse.world.content.combat.strategy.CombatStrategy;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.combat.weapon.FightType;
-import com.ruse.world.content.dialogue.Dialogue;
+import com.ruse.world.content.dialogue.DialogueChain;
 import com.ruse.world.content.dungeons.DungeonPartyManager;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.MinigameAttributes;
@@ -444,7 +444,6 @@ public class Player extends CharacterEntity {
 	 private Shop shop;
 	 private GameObject interactingObject;
 	 private Item interactingItem;
-	 private Dialogue dialogue;
 	 private DwarfCannon cannon;
 	 private CombatSpell autocastSpell, castSpell, previousCastSpell;
 	 private RangedWeaponData rangedWeaponData;
@@ -560,6 +559,23 @@ public class Player extends CharacterEntity {
 	private boolean[] bossPets = new boolean[100];
 	private boolean bonecrushEffect = true;
 	private List<Integer> lootList;
+
+	public DialogueChain getDialogueChain() {
+		return dialogueChain;
+	}
+
+	public DialogueChain setDialogueChain(DialogueChain dialogueChain) {
+		this.dialogueChain = dialogueChain;
+		return this.dialogueChain;
+	}
+
+	private DialogueChain dialogueChain;
+
+	public void sendStatement(String statement) {
+		packetSender.sendString(357, statement);
+		packetSender.sendString(358, "Click here to continue");
+		packetSender.sendChatboxInterface(356);
+	}
 
 	public PlayerSession getSession() {
 		return session;
@@ -1563,14 +1579,6 @@ public class Player extends CharacterEntity {
 
 	public void setInteractingItem(Item interactingItem) {
 		this.interactingItem = interactingItem;
-	}
-
-	public Dialogue getDialogue() {
-		return this.dialogue;
-	}
-
-	public void setDialogue(Dialogue dialogue) {
-		this.dialogue = dialogue;
 	}
 
 	public int getDialogueActionId() {

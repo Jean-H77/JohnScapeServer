@@ -550,6 +550,9 @@ public class PacketSender {
 			player.setResting(false);
 			player.performAnimation(new Animation(11788));
 		}
+		if(player.getDialogueChain() != null) {
+			player.setDialogueChain(null);
+		}
 		/*	
 		if(player.getMinigameAttributes().getFishingTrawlerAttributes().isViewingInterface()) {
 			sendClientRightClickRemoval().sendItemsOnInterface(Shop.INTERFACE_ID, new Item[]{new Item(-1)});

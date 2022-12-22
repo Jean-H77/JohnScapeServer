@@ -51,7 +51,6 @@ import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.ToxicBlowpipe;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
-import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.randomevents.EvilTree;
 import com.ruse.world.content.randomevents.ShootingStar;
 import com.ruse.world.content.skill.SkillManager;
@@ -764,7 +763,7 @@ public class CommandPacketListener implements PacketListener {
 			String yellMessage = wholeCommand.substring(5, wholeCommand.length());
 			String formatYell = yellMessage.substring(0, 1).toUpperCase() + yellMessage.substring(1).toLowerCase();
 			if(Misc.blockedWord(yellMessage) && !(player.getRights().OwnerDeveloperOnly())) {
-				DialogueManager.sendStatement(player, "A word was blocked in your sentence. Please do not repeat it!");
+				player.sendStatement("A word was blocked in your sentence. Please do not repeat it!");
 				return;
 			} else {
 				
@@ -1962,6 +1961,24 @@ public class CommandPacketListener implements PacketListener {
 			Doom.spawnMonsters(player);
 			player.getPacketSender().sendMessage("Done spawning doom shit");
 		}
+		if(wholeCommand.equalsIgnoreCase("sr")) {
+			DropItemPacketListener.destroyItemInterface(player, new Item(4151,1), 1);
+
+			/*player.setDialogueChain(new DialogueChain(new Options((p,o) -> {
+				switch (o) {
+					case 1 -> System.out.println("Clicked: " + o);
+					case 2 -> System.out.println("Clicked: " + o);
+					case 3 -> System.out.println("Clicked: " + o);
+					case 4 -> System.out.println("Clicked: " + o);
+					case 5 -> System.out.println("Clicked: " + o);
+				}
+			}, "This is the title", "option 1", "option 2", "Option 3", "Option 4", "Option 5"),
+					new NpcStatement(DialogueExpression.NO_EXPRESSION, 5, "Hello how are you"),
+					new PlayerStatement(DialogueExpression.NO_EXPRESSION, "I'm good"),
+					new ItemStatement(4151, 1, "Here a whip")
+			)).start(player);*/
+		}
+
 		if(wholeCommand.equalsIgnoreCase("Ms")) {
 			ShopManager.openShop("Magic Store", player);
 		}
