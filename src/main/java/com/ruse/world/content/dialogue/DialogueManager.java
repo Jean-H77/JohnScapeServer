@@ -21,7 +21,7 @@ public class DialogueManager {
 	/**
 	 * Contains all dialogues loaded from said file.
 	 */
-	public static Map<Integer, Dialogue> dialogues = new HashMap<Integer, Dialogue>();
+	public static Map<Integer, Dialogue> dialogues = new HashMap<>();
 
 	/**
 	 * Parses the information from the dialogue file.
@@ -158,6 +158,7 @@ public class DialogueManager {
 			for (int i = 0; i < lines.length; i++) {
 				player.getPacketSender().sendString(startDialogueChildId + i, lines[i]);
 			}
+			System.out.println("Showing chatbox: " + (startDialogueChildId - 3));
 			player.getPacketSender().sendChatboxInterface(startDialogueChildId - 3);
 			break;
 		case PLAYER_STATEMENT:
@@ -230,7 +231,7 @@ public class DialogueManager {
 	 * This array contains the child id where the dialogue
 	 * statement starts for npc and item dialogues.
 	 */
-	private static final int[] NPC_DIALOGUE_ID = {
+	public static final int[] NPC_DIALOGUE_ID = {
 		4885,
 		4890,
 		4896,

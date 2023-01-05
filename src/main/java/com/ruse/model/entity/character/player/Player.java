@@ -52,7 +52,7 @@ import com.ruse.world.content.combat.strategy.CombatStrategy;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.dialogue.Dialogue;
-import com.ruse.world.content.dialogue.DialogueChain;
+import com.ruse.world.content.dialogue.DialogueChain.DialogueChain;
 import com.ruse.world.content.dungeons.DungeonPartyManager;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.MinigameAttributes;

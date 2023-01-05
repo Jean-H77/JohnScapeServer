@@ -7,18 +7,8 @@ import com.ruse.GameSettings;
 import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.engine.task.impl.BonusExperienceTask;
-import com.ruse.model.Animation;
-import com.ruse.model.Flag;
-import com.ruse.model.GameMode;
-import com.ruse.model.GameObject;
-import com.ruse.model.Graphic;
-import com.ruse.model.Item;
+import com.ruse.model.*;
 import com.ruse.model.Locations.Location;
-import com.ruse.model.MagicSpellbook;
-import com.ruse.model.PlayerRights;
-import com.ruse.model.Position;
-import com.ruse.model.Prayerbook;
-import com.ruse.model.Skill;
 import com.ruse.model.container.ItemContainer;
 import com.ruse.model.container.impl.Bank;
 import com.ruse.model.container.impl.Equipment;
@@ -52,6 +42,7 @@ import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.ToxicBlowpipe;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.*;
+import com.ruse.world.content.dialogue.DialogueChain.*;
 import com.ruse.world.content.randomevents.EvilTree;
 import com.ruse.world.content.randomevents.ShootingStar;
 import com.ruse.world.content.skill.SkillManager;
@@ -1963,21 +1954,22 @@ public class CommandPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("Done spawning doom shit");
 		}
 		if(wholeCommand.equalsIgnoreCase("sr")) {
-
-			player.setDialogueChain(new DialogueChain(new Options((p, o) -> {
-				switch (o) {
-					case 1 -> System.out.println("Clicked: " + o);
-					case 2 -> System.out.println("Clicked: " + o);
-					case 3 -> System.out.println("Clicked: " + o);
-					case 4 -> System.out.println("Clicked: " + o);
-					case 5 -> System.out.println("Clicked: " + o);
-				}
-			}, "This is the title", "option 1", "option 2", "Option 3", "Option 4", "Option 5"),
-					new NpcStatement(() -> System.out.println("sup"), DialogueExpression.NO_EXPRESSION, 5, "Hello how are you"),
-					new PlayerStatement(() -> System.out.println("clicked next here!!"), DialogueExpression.NO_EXPRESSION, "I'm good"),
-					new ItemStatement(4151, 1, "Here a whip")
-			)).start(player);
+			DialogueChain.create(player,
+							new NpcStatement(DialogueExpression.ANGRY, 3, "What's up"),
+							new PlayerStatement(DialogueExpression.PLAIN_TALKING, "Hey", "I'm doing good", "What about you?"),
+							new NpcStatement((OpenDialogueEvent) () -> player.addItemUnderAnyCircumstances(new Item(4151,1)),DialogueExpression.ANGRY, 3, "I'm doing fine", "here's a whip for your help.", "I won't give you anymore"),
+							new PlayerStatement(DialogueExpression.CONFUSED, "Why can't I have another one?"),
+							new NpcStatement(DialogueExpression.ANGRY, 3, "Because I said so", "don't ask again or i'll have to kill you"),
+							new Options((p,o) -> {
+								if(o == 1) {
+									p.getPacketSender().sendMessage("An invisible force strikes you down");
+								} if(o == 2) {
+									p.getPacketSender().sendMessage("phew that was a close one");
+								}
+							}, "Select an Option", "Ask again", "Leave without saying anything"))
+					.start();
 		}
+
 
 		if(wholeCommand.equalsIgnoreCase("Ms")) {
 			ShopManager.openShop("Magic Store", player);

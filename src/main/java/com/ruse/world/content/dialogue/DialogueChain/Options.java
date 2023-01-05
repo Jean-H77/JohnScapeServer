@@ -1,4 +1,4 @@
-package com.ruse.world.content.dialogue;
+package com.ruse.world.content.dialogue.DialogueChain;
 
 import com.ruse.model.entity.character.player.Player;
 
@@ -31,6 +31,10 @@ public class Options implements DialoguePart {
 
     public Options.clickOption getClickOption() {
         return clickOption;
+    }
+
+    public String[] getOptions() {
+        return options;
     }
 
     public static final int[] OPTION_DIALOGUE_ID = {

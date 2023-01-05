@@ -19,7 +19,7 @@ public class DialoguePacketListener implements PacketListener {
 		switch (packet.getOpcode()) {
 		case DIALOGUE_OPCODE:
 			if(player.getDialogueChain() != null) {
-				player.getDialogueChain().nextDialogue(player);
+				player.getDialogueChain().nextDialogue();
 			} else {
 				DialogueManager.next(player);
 			}

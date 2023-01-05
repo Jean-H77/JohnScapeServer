@@ -1,4 +1,4 @@
-package com.ruse.world.content.dialogue;
+package com.ruse.world.content.dialogue.DialogueChain;
 
 import com.ruse.model.entity.character.player.Player;
 
