@@ -11,7 +11,7 @@ import com.ruse.engine.task.TaskManager;
 import com.ruse.util.messageSpammerTimer;
 import com.ruse.util.PlayerSavingTimer;
 import com.ruse.world.World;
-import com.ruse.world.content.tradingpost.ShopUtils;
+//import com.ruse.world.content.tradingpost.ShopUtils;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.model.entity.character.GlobalItemSpawner;
 
@@ -36,7 +36,7 @@ public final class GameEngine implements Runnable {
 			World.savePlayers();
 			PlayerSavingTimer.massSaving();
 			ClanChatManager.save();
-			ShopUtils.saveAll();
+	//		ShopUtils.saveAll();
 		}
 	}
 

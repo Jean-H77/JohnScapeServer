@@ -31,7 +31,6 @@ import com.ruse.world.content.combat.effect.CombatPoisonEffect.CombatPoisonData;
 import com.ruse.world.content.combat.strategy.CombatStrategies;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.model.entity.character.npc.NPC;
-import com.ruse.world.content.tradingpost.ShopUtils;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.util.HashedWheelTimer;

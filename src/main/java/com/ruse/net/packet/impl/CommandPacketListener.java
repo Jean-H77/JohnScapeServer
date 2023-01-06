@@ -50,9 +50,6 @@ import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.crafting.Jewelry;
 import com.ruse.world.content.skill.fletching.BoltData;
 import com.ruse.world.content.skill.herblore.Decanting;
-import com.ruse.world.content.tradingpost.ShopUtils;
-import com.ruse.world.content.tradingpost.newer.Listing;
-import com.ruse.world.content.tradingpost.newer.TradingPostUtils;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.CharacterEntity;
@@ -173,21 +170,6 @@ public class CommandPacketListener implements PacketListener {
 			OffsetDateTime offsetDateTime = OffsetDateTime.now(ZoneOffset.UTC);
 			Duration duration = Duration.between(offsetDateTime, date);
 				System.out.println("Next fire time: " + String.format("%d hours : %02d minutes : %02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
-		}
-
-		if (wholeCommand.equalsIgnoreCase("test")) {
-			Thread thread = new Thread(() -> {
-				for(int i = 0; i < 50; i++) {
-					TradingPostUtils.submitNewListingRequest(new Listing(player.getUsername(), ItemDefinition.forId(4151).getName(), 4151, 100, 5, new Date()));
-					player.getTradingPostManager().sendOverviewData();
-					try {
-						Thread.sleep(350);
-					} catch (InterruptedException e) {
-						throw new RuntimeException(e);
-					}
-				}
-			});
-		thread.start();
 		}
 
 		if (wholeCommand.equalsIgnoreCase("q")) {
@@ -451,10 +433,6 @@ public class CommandPacketListener implements PacketListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-
-		if (command[0].equalsIgnoreCase("p")) {
-			player.getPlayerShopManager().showInterface();
 		}
 
 
@@ -2063,7 +2041,6 @@ public class CommandPacketListener implements PacketListener {
 							}
 						}
 						ClanChatManager.save();
-						ShopUtils.saveAll();
 						GameServer.getLogger().info("Update task finished!");
 						//DiscordMessager.sendDebugMessage("The server has gone offline, pending an update.");
 						stop();

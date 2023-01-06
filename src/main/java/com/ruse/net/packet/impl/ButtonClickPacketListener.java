@@ -957,9 +957,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(ClanChatManager.handleClanChatSetupButton(player, id)) {
 			return true;
 		}
-		if(player.getPlayerShopManager().handleButtonClick(id)) {
-			return true;
-		}
+
 		if(player.getQuestManager().getQuestInterface().handleTabSwitch(id)) {
 			return true;
 		}
@@ -979,9 +977,6 @@ public class ButtonClickPacketListener implements PacketListener {
 			return true;
 		}
 		if(player.getGameModeSelector().handleButtonClick(id)) {
-			return true;
-		}
-		if(player.getTradingPostManager().handleButtonClick(id)) {
 			return true;
 		}
 

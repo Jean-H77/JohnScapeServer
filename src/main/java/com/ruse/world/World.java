@@ -24,7 +24,6 @@ import com.ruse.model.entity.character.updating.NpcUpdateSequence;
 import com.ruse.model.entity.character.updating.PlayerUpdateSequence;
 import com.ruse.model.entity.character.updating.UpdateSequence;
 import com.ruse.world.content.ShopManager;
-import com.ruse.world.content.tradingpost.newer.TradingPostUtils;
 
 /**
  * @author Gabriel Hannason

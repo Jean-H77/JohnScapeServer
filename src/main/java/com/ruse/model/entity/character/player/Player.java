@@ -64,8 +64,6 @@ import com.ruse.world.content.skill.farming.Farming;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.teleports.TeleportMenuManager;
-import com.ruse.world.content.tradingpost.PlayerShopManager;
-import com.ruse.world.content.tradingpost.newer.TradingPostManager;
 import com.ruse.world.content.upgrader.UpgradeMachineManager;
 import com.ruse.world.content.zombies.ZombiesManager;
 
@@ -373,8 +371,6 @@ public class Player extends CharacterEntity {
 	private String hostAddress;
 	private Long longUsername;
 
-
-	private final PlayerShopManager playerShopManager = new PlayerShopManager(this);
 
 	//Timers (Stopwatches)
 	 private final Stopwatch sqlTimer = new Stopwatch();
@@ -1474,12 +1470,6 @@ public class Player extends CharacterEntity {
 	public void setInputHandling(Input inputHandling) {
 		this.inputHandling = inputHandling;
 	}
-
-	public TradingPostManager getTradingPostManager() {
-		return tradingPostManager;
-	}
-
-	private final TradingPostManager tradingPostManager = new TradingPostManager(this);
 
 	public Input getInputHandling() {
 		return inputHandling;
@@ -2614,10 +2604,6 @@ public class Player extends CharacterEntity {
 
 	public CollectionLogManager getCollectionLogManager() {
 		return this.collectionLogManager;
-	}
-
-	public PlayerShopManager getPlayerShopManager() {
-		return this.playerShopManager;
 	}
 
 	public boolean isInDungeon() {

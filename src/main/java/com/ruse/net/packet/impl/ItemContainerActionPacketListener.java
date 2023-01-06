@@ -29,7 +29,6 @@ import com.ruse.net.packet.PacketListener;
 import com.ruse.util.Misc;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.ShopManager;
-import com.ruse.world.content.tradingpost.newer.TradingPostManager;
 import com.ruse.world.content.Trading;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.magic.Autocasting;
@@ -69,8 +68,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, 1, slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, 1, slot);
-			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
-				player.getTradingPostManager().selectUnlistedItem(id,1);
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -216,8 +213,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, 5, slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, 5, slot);
-			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
-				player.getTradingPostManager().selectUnlistedItem(id,5);
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -392,8 +387,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, 10, slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, 10, slot);
-			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
-				player.getTradingPostManager().selectUnlistedItem(id,10);
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -509,8 +502,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 				player.getTrading().tradeItem(id, player.getInventory().getAmount(id), slot);
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.getDueling().stakeItem(id, player.getInventory().getAmount(id), slot);
-			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
-				player.getTradingPostManager().selectUnlistedItem(id,player.getInventory().getAmount(id));
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
@@ -636,9 +627,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			} else if(Dueling.checkDuel(player, 1) || Dueling.checkDuel(player, 2)) {
 				player.setInputHandling(new EnterAmountToStake(id, slot));
 				player.getPacketSender().sendEnterAmountPrompt("How many would you like to stake?");
-			} else if(player.getInterfaceId() == TradingPostManager.SELLING_PAGE_INTERFACE_ID) {
-				player.getPacketSender().sendEnterAmountPrompt("Enter amount to list:");
-				player.setInputHandling(new TradingPostManager.EnterAmountToList(id,slot));
 			}
 			break;
 		case Trading.INTERFACE_REMOVAL_ID:
