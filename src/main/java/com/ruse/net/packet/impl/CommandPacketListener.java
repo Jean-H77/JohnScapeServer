@@ -1585,6 +1585,7 @@ public class CommandPacketListener implements PacketListener {
 				int amount = (command.length == 2 ? 1 : Integer.parseInt(command[2].trim().toLowerCase().replaceAll("k", "000").replaceAll("m", "000000").replaceAll("b", "000000000")));
 				Item item = new Item(id, amount);
 				player.getInventory().add(item, true);
+				System.out.println("Added item");
 			} catch (NumberFormatException cause) {
 				String name = command[1].replaceAll("_", " ");
 				ItemDefinition definition = ItemDefinition.getDefinitionForName(name);
@@ -1931,23 +1932,6 @@ public class CommandPacketListener implements PacketListener {
 			Doom.spawnMonsters(player);
 			player.getPacketSender().sendMessage("Done spawning doom shit");
 		}
-		if(wholeCommand.equalsIgnoreCase("sr")) {
-			DialogueChain.create(player,
-							new NpcStatement(DialogueExpression.ANGRY, 3, "What's up"),
-							new PlayerStatement(DialogueExpression.PLAIN_TALKING, "Hey", "I'm doing good", "What about you?"),
-							new NpcStatement((OpenDialogueEvent) () -> player.addItemUnderAnyCircumstances(new Item(4151,1)),DialogueExpression.ANGRY, 3, "I'm doing fine", "here's a whip for your help.", "I won't give you anymore"),
-							new PlayerStatement(DialogueExpression.CONFUSED, "Why can't I have another one?"),
-							new NpcStatement(DialogueExpression.ANGRY, 3, "Because I said so", "don't ask again or i'll have to kill you"),
-							new Options((p,o) -> {
-								if(o == 1) {
-									p.getPacketSender().sendMessage("An invisible force strikes you down");
-								} if(o == 2) {
-									p.getPacketSender().sendMessage("phew that was a close one");
-								}
-							}, "Select an Option", "Ask again", "Leave without saying anything"))
-					.start();
-		}
-
 
 		if(wholeCommand.equalsIgnoreCase("Ms")) {
 			ShopManager.openShop("Magic Store", player);
@@ -2425,6 +2409,9 @@ public class CommandPacketListener implements PacketListener {
 		} else if(command[0].equalsIgnoreCase("playobject")) {
 			player.getPacketSender().sendObjectAnimation(new GameObject(2283, player.getPosition().copy()), new Animation(751));
 			player.getUpdateFlag().flag(Flag.APPEARANCE);
+		}
+		if (command[0].equalsIgnoreCase("te")) {
+			player.getPacketSender().sendInterface(49550);
 		}
 		if (command[0].equalsIgnoreCase("interface")) {
 			int id = Integer.parseInt(command[1]);

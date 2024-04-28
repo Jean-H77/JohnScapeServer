@@ -73,6 +73,7 @@ public class ObjectActionPacketListener implements PacketListener {
 	 * The PacketListener logger to debug information and print out errors.
 	 */
 	//private final static Logger logger = Logger.getLogger(ObjectActionPacketListener.class);
+	private static final Animation DRINK_ANIMATION = new Animation(2289);
 
 	private static void firstClick(final Player player, Packet packet) {
 		final int x = packet.readLEShortA();
@@ -150,6 +151,15 @@ public class ObjectActionPacketListener implements PacketListener {
 					door.setOpen(!door.isOpen());*/
 				}
 				switch(id) {
+					case 36695:
+						player.setSpecialPercentage(100);
+						player.heal(player.getSkillManager().getMaxLevel(Skill.CONSTITUTION));
+						if(player.getSkillManager().getCurrentLevel(Skill.PRAYER) < player.getSkillManager().getMaxLevel(Skill.PRAYER)) {
+							player.getSkillManager().setCurrentLevel(Skill.PRAYER, player.getSkillManager().getMaxLevel(Skill.PRAYER), true);
+						}
+						player.setAnimation(DRINK_ANIMATION);
+						System.out.println("Clack");
+						break;
 				case 2305:
 					if (player.getLocation() != null && player.getLocation() == Location.WILDERNESS) {
 						player.moveTo(new Position(3003, 10354, player.getPosition().getZ()));
@@ -180,6 +190,8 @@ public class ObjectActionPacketListener implements PacketListener {
 								player.moveTo(new Position(3110, 3035, 3));
 						}
 						break;
+					case 97097:
+						player.getTeleporter().open();
 				case 17953:
 					if (player.getLocation() == Location.ZULRAH_WAITING) {
 						player.getPacketSender().sendMessage("You push the boat into the swamp...");

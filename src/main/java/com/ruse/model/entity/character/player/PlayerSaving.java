@@ -20,8 +20,8 @@ public  class PlayerSaving {
 
 
 	public static void save(Player player) {
-		if(player.newPlayer())
-			return;
+		//if(player.newPlayer())
+		//	return;
 		// Create the path and file objects.
 		Path path = Paths.get("./data/saves/characters/", player.getUsername() + ".json");
 		File file = path.toFile();
@@ -43,7 +43,6 @@ public  class PlayerSaving {
 					.registerTypeAdapter(Item.class, new ItemTypeAdapter())
 					.setPrettyPrinting()
 					.create();
-
 
 			object.addProperty("total-play-time-ms", player.getTotalPlayTime());
 			object.addProperty("username", player.getUsername().trim());

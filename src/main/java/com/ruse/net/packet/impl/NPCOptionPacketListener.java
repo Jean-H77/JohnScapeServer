@@ -1,6 +1,8 @@
 package com.ruse.net.packet.impl;
 
 import com.ruse.GameSettings;
+import com.ruse.engine.task.Task;
+import com.ruse.engine.task.TaskManager;
 import com.ruse.engine.task.impl.WalkToTask;
 import com.ruse.engine.task.impl.WalkToTask.FinalizedMovementTask;
 import com.ruse.model.GameMode;
@@ -15,10 +17,13 @@ import com.ruse.net.packet.PacketListener;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.content.EnergyHandler;
+import com.ruse.world.content.ShopManager;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.magic.CombatSpell;
 import com.ruse.world.content.combat.magic.CombatSpells;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
+import com.ruse.world.content.dialogue.DialogueChain.*;
+import com.ruse.world.content.dialogue.DialogueExpression;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.minigames.trioMinigame;
@@ -91,6 +96,54 @@ public class NPCOptionPacketListener implements PacketListener {
 							player.setFirstFloorCastle(true);
 							break;
 						}
+						break;
+					case 33572:
+						DialogueChain.create(player)
+										.addPart(new Options((p, chain, o) -> {
+											switch (o) {
+												case 1 -> chain.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
+                                                        npc.getId(),
+                                                        "I'm glad you asked that " + p.getUsername() + "!",
+                                                        "The AFK tree requires AFK tickets to chop", "But everytime you chop the tree", "Your AFK tickets have a small chance of depleting"))
+                                                        .addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
+																npc.getId(),
+                                                                "tickets are acquired doing various tasks around JohnScape",
+                                                                "So the more you play then the more you get to AFK!"));
+												case 2 -> TaskManager.submit(new Task(1) {
+													@Override
+													protected void execute() {
+														ShopManager.openShop("AFK Store", player);
+														stop();
+													}
+												});
+											}
+										}, "Select an option",  "How does this work?", "View shop"))
+								.start();
+						break;
+					case 33578:
+						DialogueChain.create(player)
+								.addPart(new Options((p, chain, o) -> {
+									switch (o) {
+										case 1 -> chain.addPart(new PlayerStatement(DialogueExpression.NO_EXPRESSION,
+														"What's up?"))
+												.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
+														npc.getId(),
+														"What?"))
+												.addPart(new PlayerStatement(DialogueExpression.CONFUSED, "How's it going?"))
+												.addPart(new NpcStatement((ClickContinueEvent) () -> DialogueManager.sendStatement(p, "@red@Complete Adventures Mercenary before speaking with " + npc.getDefinition().getName()),
+														DialogueExpression.ANGRY,
+														npc.getId(),
+														"@red@......."));
+										case 2 -> TaskManager.submit(new Task(1) {
+											@Override
+											protected void execute() {
+												ShopManager.openShop("AFK Store", player);
+												stop();
+											}
+										});
+									}
+								}, "Select an option",  "What's up?", "View slayer interface"))
+								.start();
 						break;
 					case 2728:
 						if(player.isSecondFloorCastle()) {

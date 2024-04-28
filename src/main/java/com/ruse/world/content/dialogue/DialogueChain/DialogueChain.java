@@ -2,6 +2,7 @@ package com.ruse.world.content.dialogue.DialogueChain;
 
 import com.ruse.model.entity.character.player.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,11 @@ public class DialogueChain {
     public DialogueChain(Player player, DialoguePart... dialogueParts) {
         this.player = player;
         this.dialogueParts = Arrays.asList(dialogueParts);
+    }
+
+    public DialogueChain(Player player) {
+        this.player = player;
+        this.dialogueParts = new ArrayList<>();
     }
 
     public void start() {
@@ -67,7 +73,7 @@ public class DialogueChain {
                };
             }
 
-            ((Options) dialogueParts.get(step)).getClickOption().option(player, option);
+            ((Options) dialogueParts.get(step)).getClickOption().option(player, this, option);
         }
 
         nextDialogue();
@@ -97,5 +103,15 @@ public class DialogueChain {
     public static DialogueChain create(Player player, DialoguePart... parts) {
         player.setDialogueChain(new DialogueChain(player, parts));
         return player.getDialogueChain();
+    }
+
+    public static DialogueChain create(Player player) {
+        player.setDialogueChain(new DialogueChain(player));
+        return player.getDialogueChain();
+    }
+
+    public DialogueChain addPart(DialoguePart dialoguePart) {
+        dialogueParts.add(dialoguePart);
+        return this;
     }
 }

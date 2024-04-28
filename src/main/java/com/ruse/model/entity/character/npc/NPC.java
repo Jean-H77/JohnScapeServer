@@ -78,9 +78,9 @@ public class NPC extends CharacterEntity {
 				if(id==7891) {
 					direction = Direction.EAST;
 				}
-				if(id > 30_000) {
-					return;
-				}
+				//if(id > 30_000) {
+				//	return;
+			//	}
 				ArrayList<NPC> spawned = Lists.newArrayList();
 
 				if (reader.has("spawns")) {

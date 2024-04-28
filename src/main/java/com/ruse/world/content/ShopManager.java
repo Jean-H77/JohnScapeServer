@@ -27,6 +27,7 @@ public class ShopManager {
             for(File f : files) {
                 Shop result = mapper.readValue(new File(FOLDER_LOCATION + f.getName()), Shop.class);
                 SHOPS.put(result.getName(), result);
+                System.out.println("Put Shop: " + result.getName());
                 count++;
             }
             System.out.println("Loaded " + count + " shops.");

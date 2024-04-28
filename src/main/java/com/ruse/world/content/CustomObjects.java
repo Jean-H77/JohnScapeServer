@@ -227,6 +227,7 @@ public class CustomObjects {
 
 			{107569, 3615, 2830, 0, 1},
 			{107569, 3681, 2866, 0, 1},
+			{97097, 3467, 4809, 0, 1},
 
 			/* Start of Woodcutting Area Fixes */
     		{1315, 2558, 3869, 0, 0},

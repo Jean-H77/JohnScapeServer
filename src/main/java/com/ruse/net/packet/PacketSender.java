@@ -304,6 +304,7 @@ public class PacketSender {
 		out.putInt(id);
 		player.getSession().queueMessage(out);
 		player.setInterfaceId(id);
+		System.out.println("Sending interface: " + id);
 		return this;
 	}
 

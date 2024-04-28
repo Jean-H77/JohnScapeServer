@@ -46,7 +46,6 @@ public class Shop extends ItemContainer {
 		if(!playersCurrentlyViewing.contains(player.getUsername())) {
 			playersCurrentlyViewing.add(player.getUsername());
 		}
-
 		player.getPacketSender().sendInterfaceSet(SHOP_INTERFACE_ID,3822)
 				.sendItemContainer(player.getInventory(), 3823)
 				.sendString(88002,name)

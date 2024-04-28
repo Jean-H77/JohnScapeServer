@@ -91,8 +91,8 @@ public final class GameLoader {
 		serviceLoader.execute(() -> WeaponInterfaces.parseInterfaces().load());
 		serviceLoader.execute(() -> DialogueManager.parseDialogues().load());
 		serviceLoader.execute(NPC::init);
-//		serviceLoader.execute(JobScheduler::initialize);
-//		serviceLoader.execute(ShopManager::loadShops);
+		serviceLoader.execute(JobScheduler::initialize);
+		serviceLoader.execute(ShopManager::loadShops);
 
 	}
 

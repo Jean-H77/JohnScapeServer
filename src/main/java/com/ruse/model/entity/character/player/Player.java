@@ -63,6 +63,7 @@ import com.ruse.world.content.skill.construction.Room;
 import com.ruse.world.content.skill.farming.Farming;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
+import com.ruse.world.content.teleporter.Teleporter;
 import com.ruse.world.content.teleports.TeleportMenuManager;
 import com.ruse.world.content.upgrader.UpgradeMachineManager;
 import com.ruse.world.content.zombies.ZombiesManager;
@@ -444,7 +445,32 @@ public class Player extends CharacterEntity {
 	 private DwarfCannon cannon;
 	 private CombatSpell autocastSpell, castSpell, previousCastSpell;
 	 private RangedWeaponData rangedWeaponData;
-	 private CombatSpecial combatSpecial;
+
+	public Teleporter getTeleporter() {
+		return teleporter;
+	}
+
+	private final Teleporter teleporter = new Teleporter(this);
+
+	public CombatSpecial getCombatSpecial() {
+		return combatSpecial;
+	}
+
+	public void setCombatSpecial(CombatSpecial combatSpecial) {
+		this.combatSpecial = combatSpecial;
+	}
+
+	/**
+	 * -- GETTER --
+	 *
+	 *
+	 * -- SETTER --
+	 *
+	 @return the combatSpecial
+	  * @param combatSpecial
+	  *            the combatSpecial to set
+	 */
+	private CombatSpecial combatSpecial;
 	 private WeaponInterface weapon;
 	 private int destroyItemSlot = -1;
 	 private Object[] usableObject;
@@ -470,8 +496,37 @@ public class Player extends CharacterEntity {
 	 private int overloadPotionTimer, prayerRenewalPotionTimer;
 	 private int fireImmunity, fireDamageModifier;
 	 private int amountDonated;
-	 private int wildernessLevel;
-	 private int fireAmmo;
+
+	public int getWildernessLevel() {
+		return wildernessLevel;
+	}
+
+	public void setWildernessLevel(int wildernessLevel) {
+		this.wildernessLevel = wildernessLevel;
+	}
+
+	private int wildernessLevel;
+
+	public int getFireAmmo() {
+		return fireAmmo;
+	}
+
+	public void setFireAmmo(int fireAmmo) {
+		this.fireAmmo = fireAmmo;
+	}
+
+	/**
+	 * -- GETTER --
+	 *
+	 *
+	 * -- SETTER --
+	 *
+	 @return the fireAmmo
+	  * @param fireAmmo
+	  *            the fireAmmo to set
+	 */
+
+	private int fireAmmo;
 	 private int specialPercentage = 100;
 	 private int skullIcon = -1, skullTimer;
 	 private int teleblockTimer;
@@ -1050,44 +1105,6 @@ public class Player extends CharacterEntity {
 	 */
 	public void setSpecialPercentage(int specialPercentage) {
 		this.specialPercentage = specialPercentage;
-	}
-
-	/**
-	 * @return the fireAmmo
-	 */
-	public int getFireAmmo() {
-		return fireAmmo;
-	}
-
-	/**
-	 * @param fireAmmo
-	 *            the fireAmmo to set
-	 */
-	public void setFireAmmo(int fireAmmo) {
-		this.fireAmmo = fireAmmo;
-	}
-
-	public int getWildernessLevel() {
-		return wildernessLevel;
-	}
-
-	public void setWildernessLevel(int wildernessLevel) {
-		this.wildernessLevel = wildernessLevel;
-	}
-
-	/**
-	 * @return the combatSpecial
-	 */
-	public CombatSpecial getCombatSpecial() {
-		return combatSpecial;
-	}
-
-	/**
-	 * @param combatSpecial
-	 *            the combatSpecial to set
-	 */
-	public void setCombatSpecial(CombatSpecial combatSpecial) {
-		this.combatSpecial = combatSpecial;
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class Options implements DialoguePart {
 
     @FunctionalInterface
     public interface clickOption {
-        void option(Player player, int option);
+        void option(Player player, DialogueChain parent, int option);
     }
 
     public Options.clickOption getClickOption() {

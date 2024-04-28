@@ -13,7 +13,6 @@ import com.ruse.model.input.impl.EnterShopItemSearch;
 import com.ruse.model.input.impl.EnterSyntaxToBankSearchFor;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
-import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.content.*;
 import com.ruse.world.content.Sounds.Sound;
@@ -72,6 +71,9 @@ public class ButtonClickPacketListener implements PacketListener {
 			return;
 
 		if(player.getProcessing().clickRecipe(id))
+			return;
+
+		if(player.getTeleporter().handleButtonClick(id))
 			return;
 
 		switch(id) {
@@ -260,17 +262,17 @@ public class ButtonClickPacketListener implements PacketListener {
 			player.setDialogueActionId(47);
 			DialogueManager.start(player, 86);
 			break;
-			case -15978:
-				player.getDungeonPartyManager().showInterface();
-				break;
+			//case -15978:
+		//	//	player.getDungeonPartyManager().showInterface();
+			//	break;
 			case -10530:
-			case 1042:
+			/*case 1042:
 				if(!player.isInDungeon()) {
 					player.getTeleportMenuManager().showInterface();
 				} else {
 					player.getPacketSender().sendMessage("@red@You can't open this at this moment.");
 				}
-				break;
+				break;*/
 		case 8659:
 			TeleportHandler.teleportPlayer(player, new Position(3079, 9499), player.getSpellbook().getTeleportType());
 			break;
@@ -961,9 +963,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getQuestManager().getQuestInterface().handleTabSwitch(id)) {
 			return true;
 		}
-		if(player.getTeleportMenuManager().handleButtonClick(id)) {
-			return true;
-		}
+		//if(player.getTeleportMenuManager().handleButtonClick(id)) {
+		//	return true;
+	//	}
 		if(player.getCollectionLogManager().handleButtonClick(id)) {
 			return true;
 		}
