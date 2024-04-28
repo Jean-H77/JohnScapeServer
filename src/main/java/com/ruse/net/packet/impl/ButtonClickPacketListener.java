@@ -266,13 +266,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		//	//	player.getDungeonPartyManager().showInterface();
 			//	break;
 			case -10530:
-			/*case 1042:
-				if(!player.isInDungeon()) {
-					player.getTeleportMenuManager().showInterface();
-				} else {
-					player.getPacketSender().sendMessage("@red@You can't open this at this moment.");
-				}
-				break;*/
+				case 1042:
+					player.getTeleporter().open();
+					break;
 		case 8659:
 			TeleportHandler.teleportPlayer(player, new Position(3079, 9499), player.getSpellbook().getTeleportType());
 			break;
@@ -931,9 +927,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(PouchMaking.pouchInterface(player, id)) {
 			return true;
 		}
-		if(LoyaltyProgramme.handleButton(player, id)) {
-			return true;
-		}
+
 		if(Fletching.fletchingButton(player, id)) {
 			return true;
 		}

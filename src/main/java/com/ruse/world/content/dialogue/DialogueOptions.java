@@ -10,7 +10,6 @@ import com.ruse.model.Position;
 import com.ruse.model.Skill;
 import com.ruse.model.input.impl.BuyShards;
 import com.ruse.model.input.impl.ChangePassword;
-import com.ruse.model.input.impl.DonateToWell;
 import com.ruse.model.input.impl.EnterFriendsHouse;
 import com.ruse.model.input.impl.SellShards;
 import com.ruse.util.Misc;
@@ -22,10 +21,8 @@ import com.ruse.world.content.Effigies;
 import com.ruse.world.content.Gambling.FlowersData;
 import com.ruse.world.content.KillsTracker;
 import com.ruse.world.content.Lottery;
-import com.ruse.world.content.LoyaltyProgramme;
 import com.ruse.world.content.PkSets;
 import com.ruse.world.content.Scoreboards;
-import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.dialogue.impl.AgilityTicketExchange;
 import com.ruse.world.content.dialogue.impl.Mandrith;
@@ -152,10 +149,6 @@ public class DialogueOptions {
 					break;
 				case 78:
 					player.getPacketSender().sendInterfaceRemoval();
-					if(!player.getUnlockedLoyaltyTitles()[LoyaltyProgramme.LoyaltyTitles.VETERAN.ordinal()]) {
-						player.getPacketSender().sendMessage("You must have unlocked the 'Veteran' Loyalty Title in order to buy this cape.");
-						return;
-					}
 					boolean usePouch = player.getMoneyInPouch() >= 75000000;
 					if(!usePouch && player.getInventory().getAmount(995) < 75000000) {
 						player.getPacketSender().sendMessage("You do not have enough coins.");
@@ -246,10 +239,6 @@ public class DialogueOptions {
 					break;
 				case 78:
 					player.getPacketSender().sendInterfaceRemoval();
-					if(!player.getUnlockedLoyaltyTitles()[LoyaltyProgramme.LoyaltyTitles.MAXED.ordinal()]) {
-						player.getPacketSender().sendMessage("You must have unlocked the 'Maxed' Loyalty Title in order to buy this cape.");
-						return;
-					}
 					boolean usePouch = player.getMoneyInPouch() >= 50000000;
 					if(!usePouch && player.getInventory().getAmount(995) < 50000000) {
 						player.getPacketSender().sendMessage("You do not have enough coins.");
@@ -607,9 +596,6 @@ public class DialogueOptions {
 			}
 		} else if(id == SECOND_OPTION_OF_FOUR) {
 			switch(player.getDialogueActionId()) {
-				case 8:
-					LoyaltyProgramme.open(player);
-					break;
 				case 9:
 					DialogueManager.start(player, 14);
 					break;
@@ -652,9 +638,6 @@ public class DialogueOptions {
 				case 27:
 					ClanChatManager.clanChatSetupInterface(player, true);
 					break;
-				case 41:
-					WellOfGoodwill.lookDownWell(player);
-					break;
 				case 45:
 					//GameMode.set(player, GameMode.IRONMAN, false);
 					break;
@@ -678,10 +661,6 @@ public class DialogueOptions {
 			}
 		} else if(id == THIRD_OPTION_OF_FOUR) {
 			switch(player.getDialogueActionId()) {
-				case 8:
-					LoyaltyProgramme.reset(player);
-					player.getPacketSender().sendInterfaceRemoval();
-					break;
 				case 14:
 					TeleportHandler.teleportPlayer(player, new Position(1745, 5325), player.getSpellbook().getTeleportType());
 					break;
@@ -705,10 +684,6 @@ public class DialogueOptions {
 					break;
 				case 28:
 					TeleportHandler.teleportPlayer(player, new Position(3427, 3537, 0), player.getSpellbook().getTeleportType());
-					break;
-				case 41:
-					player.setInputHandling(new DonateToWell());
-					player.getPacketSender().sendInterfaceRemoval().sendEnterAmountPrompt("How much money would you like to contribute with?");
 					break;
 				case 45:
 					//GameMode.set(player, GameMode.ULTIMATE_IRONMAN, false);

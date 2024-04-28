@@ -19,7 +19,6 @@ import com.ruse.world.content.BrawlingGloves;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
-import com.ruse.world.content.WellOfGoodwill;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
@@ -178,10 +177,6 @@ public class SkillManager {
 
 		if (multiply) {
 			experience *= player.getRights().getExperienceGainModifier(skill);
-		}
-		
-		if(WellOfGoodwill.isActive()) {
-			experience *= 1.3;
 		}
 
 		if(player.getMinutesBonusExp() != -1) {

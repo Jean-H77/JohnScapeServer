@@ -634,7 +634,6 @@ public class PlayerUpdating {
 		properties.putLong(target.getLongUsername());
 		properties.put(target.getSkillManager().getCombatLevel());
 		properties.putShort(target.getRights().ordinal());
-		properties.putShort(target.getLoyaltyTitle().ordinal());
 
 		out.put(properties.buffer().writerIndex(), ValueType.C);
 		out.putBytes(properties.buffer());

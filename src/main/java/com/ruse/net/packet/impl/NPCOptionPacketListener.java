@@ -43,6 +43,7 @@ import com.ruse.world.content.skill.thieving.PickpocketData;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.transportation.TeleportHandler;
+import com.ruse.world.content.transportation.TeleportType;
 
 public class NPCOptionPacketListener implements PacketListener {
 
@@ -116,8 +117,9 @@ public class NPCOptionPacketListener implements PacketListener {
 														stop();
 													}
 												});
+												case 3 -> TeleportHandler.teleportPlayer(player, new Position(3449, 4824, 0), TeleportType.NORMAL);
 											}
-										}, "Select an option",  "How does this work?", "View shop"))
+										}, "Select an option",  "How does this work?", "View shop", "I want to leave now"))
 								.start();
 						break;
 					case 33578:

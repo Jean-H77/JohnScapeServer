@@ -6,8 +6,6 @@ import java.util.List;
 import com.ruse.model.Locations.Location;
 import com.ruse.util.Misc;
 import com.ruse.world.content.Artifacts;
-import com.ruse.world.content.LoyaltyProgramme;
-import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
 import com.ruse.model.entity.character.player.Player;
 
 public class PlayerKillingAttributes {
@@ -70,8 +68,6 @@ public class PlayerKillingAttributes {
 			Artifacts.handleDrops(player, o, targetKilled);
 			if(player.getAppearance().getBountyHunterSkull() < 4)
 				player.getAppearance().setBountyHunterSkull(player.getAppearance().getBountyHunterSkull()+1);
-			/** ACHIEVEMENTS AND LOYALTY TITLES **/
-			LoyaltyProgramme.unlock(player, LoyaltyTitles.KILLER);
 		}
 	}
 

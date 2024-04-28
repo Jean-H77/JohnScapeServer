@@ -9,7 +9,6 @@ import com.ruse.model.*;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.GameObjectDefinition;
-import com.ruse.model.input.impl.DonateToWell;
 import com.ruse.model.input.impl.EnterAmountOfLogsToAdd;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
@@ -24,6 +23,8 @@ import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
+import com.ruse.world.content.dialogue.DialogueChain.DialogueChain;
+import com.ruse.world.content.dialogue.DialogueChain.Options;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.minigames.Barrows;
 import com.ruse.world.content.minigames.Dueling;
@@ -59,6 +60,7 @@ import com.ruse.world.content.skill.woodcutting.WoodcuttingData.Hatchet;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.world.content.wogw.WellOfGoodwill;
 
 /**
  * This packet listener is called when a player clicked
@@ -189,6 +191,18 @@ public class ObjectActionPacketListener implements PacketListener {
 							else
 								player.moveTo(new Position(3110, 3035, 3));
 						}
+						break;
+					case 6097:
+						WellOfGoodwill.open(player);
+						break;
+					case 16150:
+						DialogueChain.create(player)
+								.addPart(new Options((p, c, o) -> {
+                                    if (o == 1) {
+                                        TeleportHandler.teleportPlayer(player, new Position(3446, 4828, 0), TeleportType.NORMAL);
+                                    }
+								},"Select an Option", "Enter AFK Zone", "Nevermind"))
+								.start();
 						break;
 					case 97097:
 						player.getTeleporter().open();
@@ -1349,11 +1363,6 @@ public class ObjectActionPacketListener implements PacketListener {
 				case 19230:
 					case 11402:
 					player.getBank(player.getCurrentBankTab()).open();
-					break;
-				case 26945:
-					player.setDialogueActionId(41);
-					player.setInputHandling(new DonateToWell());
-					player.getPacketSender().sendInterfaceRemoval().sendEnterAmountPrompt("How much money would you like to contribute with?");
 					break;
 				case 2646:
 				case 312:

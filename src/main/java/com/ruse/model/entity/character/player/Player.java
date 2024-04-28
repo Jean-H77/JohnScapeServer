@@ -28,7 +28,6 @@ import com.ruse.world.content.BankPin.BankPinAttributes;
 import com.ruse.world.content.*;
 import com.ruse.world.content.DropLog.DropLogEntry;
 import com.ruse.world.content.KillsTracker.KillsEntry;
-import com.ruse.world.content.LoyaltyProgramme.LoyaltyTitles;
 import com.ruse.world.content.Quest.QuestManager;
 import com.ruse.world.content.achievementsystem.AchievementManager;
 import com.ruse.world.content.attendance.AttendanceManager;
@@ -435,7 +434,6 @@ public class Player extends CharacterEntity {
 	 private FightType fightType = FightType.UNARMED_PUNCH;
 	 private Prayerbook prayerbook = Prayerbook.NORMAL;
 	 private MagicSpellbook spellbook = MagicSpellbook.NORMAL;
-	 private LoyaltyTitles loyaltyTitle = LoyaltyTitles.NONE;
 	 private ClanChat currentClanChat;
 	 private Input inputHandling;
 	 private WalkToTask walkToTask;
@@ -799,20 +797,6 @@ public class Player extends CharacterEntity {
 		return emailAddress;
 	}
 
-	public void unlockPkTitles() {
-		if (this.getPlayerKillingAttributes().getPlayerKills() >= 1) {
-			LoyaltyProgramme.unlock(this, LoyaltyTitles.KILLER);
-		}
-		if (this.getPlayerKillingAttributes().getPlayerKills() >= 20) {
-			LoyaltyProgramme.unlock(this, LoyaltyTitles.SLAUGHTERER);
-		}
-		if (this.getPlayerKillingAttributes().getPlayerKills() >= 50) {
-			LoyaltyProgramme.unlock(this, LoyaltyTitles.GENOCIDAL);
-		}
-		if (this.getPlayerKillingAttributes().getPlayerKillStreak() >= 15) {
-			LoyaltyProgramme.unlock(this, LoyaltyTitles.IMMORTAL);
-		}
-	}
 
 	public boolean addToBank(Item item) {
 		return addToBank(item, true);
@@ -1315,14 +1299,6 @@ public class Player extends CharacterEntity {
 	 */
 	public void setCharacterAnimations(CharacterAnimations equipmentAnimation) {
 		this.characterAnimations = equipmentAnimation.clone();
-	}
-
-	public LoyaltyTitles getLoyaltyTitle() {
-		return loyaltyTitle;
-	}
-
-	public void setLoyaltyTitle(LoyaltyTitles loyaltyTitle) {
-		this.loyaltyTitle = loyaltyTitle;
 	}
 
 	public void setWalkableInterfaceId(int interfaceId2) {

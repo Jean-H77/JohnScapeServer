@@ -96,13 +96,17 @@ public class Teleporter {
         player.getPacketSender().sendConfig(312, category.getConfigFrame());
         ImmutableList<Teleport> teleports = Teleport.getTeleportsByCategory(currentCategory);
         currentTeleport = teleports.get(0);
+
         showTeleport();
+        player.getPacketSender().sendScrollMax(49564, Math.max(197, teleports.size() * 20));
 
         for(int i = 0; i < 50; i++) {
             if(teleports.size() > i) {
-                player.getPacketSender().sendString(i + 49615, teleports.get(i).getName());
+                player.getPacketSender().sendString(i + 49615, teleports.get(i).getName())
+                        .sendInterfaceVisibility(i + 49615, true);
             } else {
-                player.getPacketSender().sendString(i + 49615, "");
+                player.getPacketSender().sendString(i + 49615, "")
+                        .sendInterfaceVisibility(i + 49615, false);
             }
         }
     }
