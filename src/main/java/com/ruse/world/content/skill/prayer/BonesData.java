@@ -42,6 +42,7 @@ public enum BonesData {
 				return prayerData;
 			}
 		}
+		System.out.println("Returning null");
 		return null;
 	}
 	

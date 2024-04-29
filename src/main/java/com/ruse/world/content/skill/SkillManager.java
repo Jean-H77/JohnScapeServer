@@ -1,6 +1,5 @@
 package com.ruse.world.content.skill;
 
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.model.Flag;
@@ -12,7 +11,6 @@ import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.util.Misc;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.BrawlingGloves;
@@ -150,7 +148,6 @@ public class SkillManager {
 							player.getBank(0).add(p, 1);
 						} else {
 							PlayerLogs.log(player.getUsername(), player.getUsername()+" got a skilling pet, but had a full bank/inv." +skill.getPetId()+", "+skill.getFormatName());
-							DiscordMessager.sendStaffMessage(player.getUsername()+" got a skilling pet, but had a full bank/inv. ID: "+skill.getPetId()+", "+skill.getFormatName());
 							player.getPacketSender().sendMessage("<img=10>@red@<shad=0> Your inventory, and bank were full, so your pet had no where to go. Contact Crimson for more help.");
 							World.sendMessage("<img=100> <shad=0><col=F300FF>"+player.getUsername()+"'s bank is full, so their "+skill.getFormatName()+" pet was lost. Most unfortunate.");
 						}
@@ -292,23 +289,9 @@ public class SkillManager {
 				player.getPacketSender().sendMessage("Well done! You've achieved the highest possible level in this skill!");
 				
 				World.sendMessage("<shad=15536940><img=10> "+player.getUsername()+" has just achieved the highest possible level in "+skillName+"!");
-				JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
-						.setTitle("New 99! Congratulations adventurer!")
-						.setDescription(player.getUsername() + " just achieved level 99 in " + skillName + "!")
-						.setColor(Color.GREEN)
-						.setTimestampToNow()
-						.setThumbnail(Link)
-						.setFooter("Powered by JavaCord"));
 				if(maxed(player)) {
 					//Achievements.finishAchievement(player, AchievementData.REACH_LEVEL_99_IN_ALL_SKILLS);
 					World.sendMessage("<shad=15536940><img=10> "+player.getUsername()+" has just achieved the highest possible level in all skills!");
-					JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
-							.setTitle("New maxed adventurer!")
-							.setDescription(player.getUsername() + " just achieved level 99 in all skills! Congratulations!")
-							.setColor(Color.MAGENTA)
-							.setTimestampToNow()
-							.setThumbnail("https://zenyte.com/img/adventure-icons/overall.png")
-							.setFooter("Powered by JavaCord"));
 				}
 				TaskManager.submit(new Task(2, player, true) {
 					int localGFX = 1634;

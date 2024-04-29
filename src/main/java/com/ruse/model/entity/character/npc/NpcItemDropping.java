@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.google.common.collect.Lists;
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.model.Graphic;
 import com.ruse.model.GroundItem;
 import com.ruse.model.Item;
@@ -26,7 +25,6 @@ import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.skill.prayer.BonesData;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 public class NpcItemDropping {
     public static class ItemDropAnnouncer {
@@ -267,10 +265,6 @@ public class NpcItemDropping {
                     + " has just received " + itemMessage + " from " + npcName
                     + "!";
             World.sendMessage(message);
-            JavaCord.sendEmbed("rare-item-drops", new EmbedBuilder().setTitle("Rare drop!").setDescription(player.getUsername() + " Just recieved " + itemMessage + " From " +
-                    npcName).setColor(Color.RED).setTimestampToNow()
-                    .setThumbnail(link).setFooter("Powered by JavaCord")
-            );
             if(ccAnnounce) {
                 ClanChatManager.sendMessage(player.getCurrentClanChat(), "<col=16777215>[<col=255>Lootshare<col=16777215>]<col=3300CC> "+toGive.getUsername()+" received " + itemMessage + " from "+npcName+"!");
             }

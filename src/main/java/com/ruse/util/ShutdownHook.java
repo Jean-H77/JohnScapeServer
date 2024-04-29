@@ -22,7 +22,7 @@ public class ShutdownHook extends Thread {
 		GameServer.setUpdating(true);
 		for (Player player : World.getPlayers()) {
 			if (player != null) {
-			//	World.deregister(player);
+				World.deregister(player);
 				PlayerHandler.handleLogout(player, false);
 			}
 		}

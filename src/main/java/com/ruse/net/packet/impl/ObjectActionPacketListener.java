@@ -1220,6 +1220,7 @@ public class ObjectActionPacketListener implements PacketListener {
 					EnterAmountOfLogsToAdd.openInterface(player);
 					break;
 				case 409:
+					case 8749:
 				case 27661:
 				case 2640:
 				case 36972:
@@ -1230,7 +1231,7 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("You recharge your Prayer points.");
 					}
 					break;
-				case 8749:
+				/*case 8749:
 					boolean restore = player.getSpecialPercentage() < 100;
 					if(restore) {
 						player.setSpecialPercentage(100);
@@ -1244,7 +1245,7 @@ public class ObjectActionPacketListener implements PacketListener {
 					}
 					player.performGraphic(new Graphic(1302));
 					player.getPacketSender().sendMessage("Your stats have received a major buff.");
-					break;
+					break;*/
 				case 4859:
 					player.performAnimation(new Animation(645));
 					if(player.getSkillManager().getCurrentLevel(Skill.PRAYER) < player.getSkillManager().getMaxLevel(Skill.PRAYER)) {

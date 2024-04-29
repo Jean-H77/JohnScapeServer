@@ -16,7 +16,7 @@ public class PipelineInitializer extends ChannelInitializer<SocketChannel> {
 		ChannelPipeline pipeline = socketChannel.pipeline();
 		pipeline.addLast("encoder", new LoginEncoder());
 		pipeline.addLast("decoder", new LoginDecoder());
-	//	pipeline.addLast("timeout", new IdleStateHandler(GameSettings.IDLE_TIME, 0, 0));
+		pipeline.addLast("timeout", new IdleStateHandler(GameSettings.IDLE_TIME, 0, 0));
 		pipeline.addLast("handler", new GameHandler());
 	}
 }

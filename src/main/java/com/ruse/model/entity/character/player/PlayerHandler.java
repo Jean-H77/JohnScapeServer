@@ -1,6 +1,5 @@
 package com.ruse.model.entity.character.player;
 
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.GameServer;
 import com.ruse.GameSettings;
 import com.ruse.engine.task.TaskManager;
@@ -29,7 +28,6 @@ import com.ruse.model.entity.character.GlobalItemSpawner;
 import com.ruse.net.PlayerSession;
 import com.ruse.net.SessionState;
 import com.ruse.net.login.AuthenticationService;
-import com.ruse.net.login.LogoutDetailsMessage;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
@@ -54,6 +52,7 @@ import java.awt.*;
 public class PlayerHandler {
 
 	public static void handleLogin(Player player) {
+		System.out.println("Thread: " + Thread.currentThread().getName());
 		//Register the player
 		System.out.println("[World] Registering player - [username, host] : [" + player.getUsername() + ", " + player.getHostAddress() + "]");
 		//player.getPacketSender().sendSmallImageKey("fabulous"); // 'fabulous' is the name of the gnome child image.
@@ -252,7 +251,6 @@ public class PlayerHandler {
 
 	public static boolean handleLogout(Player player, Boolean forced) {
 		try {
-
 			PlayerSession session = player.getSession();
 			
 			if(session.getChannel().isOpen()) {
@@ -263,7 +261,7 @@ public class PlayerHandler {
 				return true;
 			}
 
-			boolean exception = forced || GameServer.isUpdating() || AuthenticationService.queue.stream().anyMatch(it -> it instanceof LogoutDetailsMessage logout && logout.getPlayer().equals(player)) && player.getLogoutTimer().elapsed(90000);
+			boolean exception = forced || GameServer.isUpdating() || AuthenticationService.queue.stream().anyMatch(it -> it instanceof Player p && p.equals(player)) && player.getLogoutTimer().elapsed(90000);
 			if(player.logout() || exception) {
 				System.out.println("[World] Deregistering player - [username, host] : [" + player.getUsername() + ", " + player.getHostAddress() + "]");
 				player.getSession().setState(SessionState.LOGGING_OUT);

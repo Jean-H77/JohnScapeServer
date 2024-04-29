@@ -375,5 +375,18 @@
 			"coordinate": false,
 			"radius": -1
 		}
+	},
+	{
+		"npc-id": 39305,
+		"face": EAST,
+		"position": {
+			"x": 3470,
+			"y": 4823,
+			"z": 0
+		},
+		"walking-policy": {
+			"coordinate": false,
+			"radius": -1
+		}
 	}
 ]

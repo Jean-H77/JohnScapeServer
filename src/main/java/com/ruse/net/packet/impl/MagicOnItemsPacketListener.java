@@ -1,7 +1,6 @@
 package com.ruse.net.packet.impl;
 
 import com.ruse.GameSettings;
-import com.ruse.ReducedSellPrice;
 import com.ruse.model.Animation;
 import com.ruse.model.Graphic;
 import com.ruse.model.GraphicHeight;
@@ -88,12 +87,7 @@ public class MagicOnItemsPacketListener implements PacketListener {
 				if(spell == null || !spell.canCast(player, true))
 					return;
 				player.getInventory().delete(itemId, 1);
-				int value = 0;
-				if (item.reducedPrice()) {
-					value = (int)(ReducedSellPrice.forId(item.getId()).getSellValue() * (lowAlch ? 0.6 : 0.75));
-				} else {
-					value = (int)(item.getDefinition().getValue() * (lowAlch ? 0.6 : 0.75));
-				}
+				int value = (int)(item.getDefinition().getValue() * (lowAlch ? 0.6 : 0.75));
 				player.getInventory().add(995, value);
 				player.performAnimation(new Animation(712));
 				player.performGraphic(new Graphic(magicSpell == MagicSpells.HIGH_ALCHEMY ? 113 : 112, GraphicHeight.LOW));

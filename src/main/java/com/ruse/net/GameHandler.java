@@ -32,8 +32,7 @@ public class GameHandler extends ChannelInboundHandlerAdapter {
 		PlayerSession session = attribute.get();
 		if(session != null) {
 			if(session.getState() != SessionState.LOGGED_OUT) {
-				Player player = session.getPlayer();
-				AuthenticationService.addToQueue(new LogoutDetailsMessage(player));
+				AuthenticationService.addToQueue(session.getPlayer());
 			}
 		}
 	}

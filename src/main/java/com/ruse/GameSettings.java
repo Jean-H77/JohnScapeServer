@@ -131,10 +131,10 @@ public class GameSettings {
 	 * 
 	 * The default position
 	 */
-	public static final Position DEFAULT_POSITION = new Position(2147, 5153, 0);
+	public static final Position DEFAULT_POSITION = new Position(3462, 4826, 0);
 	public static final Position CORP_CORDS =  new Position(2900, 4384);
 	//public static final Position HOME_CORDS = new Position(3669, 2980, 0);
-	public static final Position HOME_CORDS = new Position(2147, 5153, 0);
+	public static final Position HOME_CORDS = new Position(3462, 4826, 0);
 	public static final Position EDGE_CORDS = new Position(3087, 3503, 0);
 	public static final Position TRIO_CORDS = new Position(3025, 5231, 0);
 	public static final Position KFC_CORDS = new Position(2606, 4774, 4);

@@ -1,14 +1,11 @@
 package com.ruse.world.content;
  
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.model.Position;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
-import java.awt.*;
 
 
 /**

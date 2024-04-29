@@ -1,7 +1,6 @@
 package com.ruse.net.packet.impl;
 
 import com.google.gson.Gson;
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.GameServer;
 import com.ruse.GameSettings;
 import com.ruse.engine.task.Task;
@@ -19,13 +18,11 @@ import com.ruse.model.definitions.NpcDropItem;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.entity.character.npc.NpcItemDropping;
-import com.ruse.mysql.Voting;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.scheduler.JobScheduler;
 import com.ruse.util.Misc;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.world.content.*;
 import com.ruse.world.content.PlayerPunishment.Jail;
@@ -56,13 +53,9 @@ import com.ruse.model.entity.character.CharacterEntity;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
-import com.ruse.mysql.Store;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
-import java.awt.*;
 import java.time.*;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -341,27 +334,7 @@ public class CommandPacketListener implements PacketListener {
 			player.getPacketSender().sendItemOnInterface(58352, 4151, 1);
 			player.getPacketSender().sendInterface(58350);
 		}
-		if (command[0].equalsIgnoreCase("auth") || command[0].equalsIgnoreCase("redeem")) {
-			if (player.getLocation() == Location.DUNGEONEERING) {
-				player.getPacketSender().sendMessage("Please finish your current dungeon before claiming votes.");
-				return;
-			}
-			if (player.getLocation() != null && player.getLocation() == Location.WILDERNESS) {
-				player.getPacketSender().sendMessage("Please exit the wilderness before claiming votes.");
-				return;
-			}
-			if(!player.getLastVoteClaim().elapsed(250)) { 
-				player.getPacketSender().sendMessage("You must wait at least 1 second before using "+command[0]+" again.");
-				return;
-			}
-			/*String auth = command[1];
-			player.getLastVoteClaim().reset();
-			doMotivote.main(player, auth);
-			*/
-			player.getPacketSender().sendMessage("Checking for votes...");
-			new Thread(new Voting(player)).start();
-		}
-		
+
 		if (command[0].equalsIgnoreCase("whatdrops")) {
 			try {
 				boolean isItem = false;
@@ -513,15 +486,6 @@ public class CommandPacketListener implements PacketListener {
 						.sendMessage("For example, ::rules brings up a thread with TID 17.");
 			}
 		}
-		if(command[0].equalsIgnoreCase("claim")){
-			if(player.getInventory().getFreeSlots() >= 6 || player.getGameMode().equals(GameMode.ULTIMATE_IRONMAN)){
-				player.getPacketSender().sendMessage("Checking for pending purchases...");
-				new Thread(new Store(player)).start();
-				//player.rspsdata(player, player.getUsername());
-			} else {
-				player.getPacketSender().sendMessage("You need at least 6 free inventory slots to claim purchased items.");
-			}
-		}	
 		if (wholeCommand.equalsIgnoreCase("donate") || wholeCommand.equalsIgnoreCase("store")) {
 			player.getPacketSender().sendString(1, GameSettings.StoreUrl);
 			player.getPacketSender().sendMessage("Attempting to open the store");
@@ -1098,9 +1062,6 @@ public class CommandPacketListener implements PacketListener {
 			voteCount ++;
 			if (voteCount >= GameSettings.Vote_Announcer) {
 				World.sendMessage("<img=10><shad=0><col=bb43df>10 more players have just voted! Use ::vote for rewards!");
-				JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder().setTitle("Votes! Votes! Votes!") .setDescription("Another 10 votes have just been claimed! Thank you for your support! Do ::vote to open voting page")
-						.setColor(Color.CYAN).setTimestampToNow()
-						.setThumbnail("http://www.slate.com/content/dam/slate/articles/news_and_politics/slate_fare/2016/11/161104_SF_voting-slate.jpg.CROP.promo-xlarge2.jpg").setFooter("Powered by JavaCord"));
 				voteCount = 0;
 			} else {
 			player.getPacketSender().sendMessage("<img=10><shad=0><col=bb43df>Thank you for voting and supporting JohnScape!");
@@ -1509,7 +1470,6 @@ public class CommandPacketListener implements PacketListener {
 			for (int i = 1; i < command.length; i++) {
 				msg += command[i]+" ";
 			}
-			DiscordMessager.test(Misc.stripIngameFormat(msg));
 			player.getPacketSender().sendMessage("Sent: "+wholeCommand.substring(command[0].length()+1));
 		}
 		if (command[0].equalsIgnoreCase("reloaditems")) {
@@ -2522,10 +2482,6 @@ public class CommandPacketListener implements PacketListener {
 			WeaponAnimations.update(player);
 			BonusManager.update(player);
 			player.getUpdateFlag().flag(Flag.APPEARANCE);
-		}
-		if (command[0].equalsIgnoreCase("togglediscord")) {
-			DiscordMessager.active = !DiscordMessager.active;
-			player.getPacketSender().sendMessage("Discord messages is now set to: "+DiscordMessager.active);
 		}
 		if (command[0].equalsIgnoreCase("crewards")) {
 			CrystalChest.sendRewardInterface(player);

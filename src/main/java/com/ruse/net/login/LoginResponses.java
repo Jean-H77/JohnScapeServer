@@ -4,12 +4,10 @@ import com.ruse.GameServer;
 import com.ruse.GameSettings;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.util.NameUtils;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerLoading;
 
-import java.util.concurrent.ExecutionException;
 
 public final class LoginResponses {
 	
@@ -30,7 +28,6 @@ public final class LoginResponses {
 			return USERNAME_ENDS_WITH_SPACE;
 		}
 		if(msg.getClientVersion() != GameSettings.GAME_VERSION || msg.getUid() != GameSettings.GAME_UID) {
-			DiscordMessager.sendDebugMessage("Client connecting with V "+msg.getClientVersion() +", UID "+msg.getUid()+" from "+msg.getHost()+" to account "+msg.getUsername()+"\nServer Version is "+GameSettings.GAME_VERSION+", Server UID is "+GameSettings.GAME_UID);
 			return OLD_CLIENT_VERSION;
 		}
 		if(World.getPlayerByName(player.getUsername()) != null) {

@@ -14,7 +14,7 @@ public class Teleporter {
     private static final int INFO_ID = 49690;
     private static final int NAME_ID = 49682;
 
-    private static final int TRAINING_BUTTON = -15980;
+    private static final int AREAS_BUTTON = -15980;
     private static final int BOSSES_BUTTON = -15979;
     private static final int MINIGAMES_BUTTON = -15978;
     private static final int DUNGEONS_BUTTON = -15977;
@@ -31,14 +31,14 @@ public class Teleporter {
     }
 
     public void open() {
-        changeCategory(TeleportCategory.TRAINING);
+        changeCategory(TeleportCategory.AREAS);
         player.getPacketSender().sendInterface(INTERFACE_ID);
     }
 
     public boolean handleButtonClick(int buttonId) {
         switch (buttonId) {
-            case TRAINING_BUTTON:
-                changeCategory(TeleportCategory.TRAINING);
+            case AREAS_BUTTON:
+                changeCategory(TeleportCategory.AREAS);
                 return true;
             case BOSSES_BUTTON:
                 changeCategory(TeleportCategory.BOSSES);

@@ -323,7 +323,6 @@ public class Player extends CharacterEntity {
 			getPacketSender().sendMessage("You cannot log out at the moment.");
 			return false;
 		}
-		//new Thread(new Hiscores(this)).start();
 		return true;
 	}
 

@@ -19,20 +19,20 @@ import static com.ruse.net.GameHandler.SESSION_KEY;
 public class AuthenticationService {
 
     private static final ExecutorService thread = Executors.newSingleThreadExecutor();
-    public static final BlockingQueue<AuthenticationMessage> queue = new LinkedBlockingDeque<>(GameSettings.LOGIN_THRESHOLD);
+    public static final BlockingQueue<Object> queue = new LinkedBlockingDeque<>(GameSettings.LOGIN_THRESHOLD);
 
-    public static void addToQueue(AuthenticationMessage message) {
+    public static void addToQueue(Object message) {
         boolean ignore = queue.offer(message);
     }
 
     public static void start() {
         thread.submit(() -> {
             for(;;) {
-                AuthenticationMessage msg = queue.poll();
+                Object msg = queue.poll();
                 if(msg instanceof LoginDetailsMessage loginDetailsMessage) {
                     login(loginDetailsMessage);
-                } else if(msg instanceof LogoutDetailsMessage logoutDetailsMessage) {
-                    PlayerHandler.handleLogout(logoutDetailsMessage.getPlayer(), false);
+                } else if(msg instanceof Player player) {
+                    PlayerHandler.handleLogout(player, false);
                 }
             }
         });
@@ -67,11 +67,6 @@ public class AuthenticationService {
 
         if (response == LoginResponses.LOGIN_SUCCESSFUL) {
             channel.write(new PacketBuilder().put((byte)2).put((byte)player.getRights().ordinal()).put((byte)0).toPacket());
-
-            if(!World.getLoginQueue().contains(player)) {
-                World.getLoginQueue().add(player);
-            }
-
             channel.attr(SESSION_KEY).set(session);
             PlayerHandler.handleLogin(player);
         } else {

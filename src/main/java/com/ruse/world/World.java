@@ -14,7 +14,6 @@ import com.ruse.model.entity.character.updating.NpcUpdateSequence;
 import com.ruse.model.entity.character.updating.PlayerUpdateSequence;
 import com.ruse.model.entity.character.updating.UpdateSequence;
 import com.ruse.util.Misc;
-import com.ruse.webhooks.discord.DiscordMessager;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -55,25 +54,11 @@ public class World {
 	}
 
 	public static void sendMessage(String message) {
-		if (message.contains("[Yell]")) {
-			DiscordMessager.sendYellMessage(message);
-		} else if (message.contains("10 more players have just voted")){
-			DiscordMessager.sendInGameMessage("10 more players have just voted.");
-		} else {
-			DiscordMessager.sendInGameMessage(message);
-		}
 		players.forEach(p -> p.getPacketSender().sendMessage(message));
 	}
 
 	public static void sendMessage(MessageType type, String message) {
 		players.forEach(p -> p.getPacketSender().sendMessage(type, message));
-		if (message.contains("[Yell]")) {
-			DiscordMessager.sendYellMessage(message);
-		} else if (message.contains("logged in for the first time")) {
-			DiscordMessager.sendStaffMessage(message);
-		} else {
-			DiscordMessager.sendInGameMessage(message);
-		}
 	}
 
 	public static void sendFilteredMessage(String message) {
@@ -82,12 +67,10 @@ public class World {
 
 	public static void sendStaffMessage(String message) {
 		players.stream().filter(p -> p != null && (p.getRights().isStaff())).forEach(p -> p.getPacketSender().sendMessage(message)); // == PlayerRights.OWNER || p.getRights() == PlayerRights.DEVELOPER || p.getRights() == PlayerRights.ADMINISTRATOR || p.getRights() == PlayerRights.MODERATOR || p.getRights() == PlayerRights.SUPPORT)).forEach(p -> p.getPacketSender().sendMessage(message));
-		DiscordMessager.sendStaffMessage(message);
 	}
 	
 	public static void sendOwnerDevMessage(String message) {
 		players.stream().filter(p -> p != null && (p.getRights() == PlayerRights.OWNER || p.getRights() == PlayerRights.DEVELOPER)).forEach(p -> p.getPacketSender().sendMessage(message));
-		DiscordMessager.sendDebugMessage("[Owner/Developer]\n"+message);
 	}
 	
 	public static void sendGlobalGroundItems() {

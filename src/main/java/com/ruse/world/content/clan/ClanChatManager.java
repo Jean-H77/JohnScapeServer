@@ -17,7 +17,6 @@ import com.ruse.model.GameMode;
 import com.ruse.model.Item;
 import com.ruse.util.Misc;
 import com.ruse.util.NameUtils;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.PlayerPunishment;
 import com.ruse.world.content.minigames.TheSix;

@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.engine.GameEngine;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.engine.task.impl.ServerTimeUpdateTask;
@@ -78,14 +77,6 @@ public final class GameLoader {
 
 	private void executeServiceLoad() {
 		FileUtils.createSaveDirectories();
-
-		if (GameServer.getConfiguration().isDiscordBotEnabled()) {
-			try {
-				JavaCord.init().get();
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
 
 		serviceLoader.execute(ConnectionHandler::init);
 		serviceLoader.execute(PlayerPunishment::init);

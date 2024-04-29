@@ -16,9 +16,6 @@ public class EntityHandler {
 		if(entity.isPlayer()) {
 			Player player = (Player) entity;
 			PlayerSession session = player.getSession();
-			if (session.getState() == SessionState.LOGGING_IN && !World.getLoginQueue().contains(player)) {
-				World.getLoginQueue().add(player);
-			}
 		} if(entity.isNpc()) {
 			NPC npc = (NPC) entity;
 			World.getNpcs().add(npc);

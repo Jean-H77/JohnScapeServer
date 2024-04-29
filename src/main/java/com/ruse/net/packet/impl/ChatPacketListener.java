@@ -5,7 +5,6 @@ import com.ruse.model.Flag;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.util.Misc;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.PlayerPunishment;
 import com.ruse.world.content.dialogue.DialogueManager;
@@ -92,7 +91,6 @@ public class ChatPacketListener implements PacketListener {
 		player.getChatMessages().set(new Message(color, effects, text));
 		PlayerLogs.log(player.getUsername(), player.getLocation().toString()+"|"+player.getPosition().getX()+","+player.getPosition().getY()+","+player.getPosition().getZ()+"|Said: "+readable);
 		player.getUpdateFlag().flag(Flag.CHAT);
-		DiscordMessager.sendChatMessage("**"+player.getUsername()+"**|"+player.getLocation().toString()+"|"+player.getPosition().getX()+","+player.getPosition().getY()+","+player.getPosition().getZ()+"|Said: "+readable);
 	}
 
 }
