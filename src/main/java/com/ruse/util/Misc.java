@@ -36,12 +36,11 @@ import com.ruse.world.World;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.combat.CombatContainer.ContainerHit;
 import com.ruse.model.entity.character.player.Player;
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 public class Misc {
 	
 	private static boolean OWNER = false;
-
 
 	/** Random instance, used to generate pseudo-random primitive types. */
 	public static final Random RANDOM = new Random(System.currentTimeMillis());
@@ -851,7 +850,7 @@ public class Misc {
 	 * @param inputStream 	The input stream to read string from.
 	 * @return 				The String value.
 	 */
-	public static String readString(ChannelBuffer buffer) {
+	public static String readString(ByteBuf buffer) {
 		StringBuilder builder = null;
 		try {
 			byte data;

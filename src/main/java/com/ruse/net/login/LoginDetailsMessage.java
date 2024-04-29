@@ -1,9 +1,8 @@
 package com.ruse.net.login;
 
-import java.nio.channels.Channel;
-
+import com.mysql.cj.protocol.Message;
 import com.ruse.net.packet.Packet;
-import org.jboss.netty.channel.ChannelHandlerContext;
+import io.netty.channel.Channel;
 
 /**
  * The {@link Packet} implementation that contains data used for the final
@@ -11,7 +10,7 @@ import org.jboss.netty.channel.ChannelHandlerContext;
  * 
  * @author lare96 <http://github.org/lare96>
  */
-public final class LoginDetailsMessage {
+public final class LoginDetailsMessage implements AuthenticationMessage {
 
     /**
      * The username of the player.
@@ -42,23 +41,10 @@ public final class LoginDetailsMessage {
     private final String mac;
     
     private final String uuid;
-    
-    /**
-     * Creates a new {@link LoginDetailsMessage}.
-     *
-     * @param ctx
-     *            the {@link ChannelHandlerContext} that holds our
-     *            {@link Channel} instance.
-     * @param username
-     *            the username of the player.
-     * @param password
-     *            the password of the player.
-     * @param encryptor
-     *            the encryptor for encrypting messages.
-     * @param decryptor
-     *            the decryptor for decrypting messages.
-     */
-    public LoginDetailsMessage(String username, String password, String host, String mac, String uuid, int clientVersion, int uid) {
+
+    private final Channel channel;
+
+    public LoginDetailsMessage(String username, String password, String host, String mac, String uuid, int clientVersion, int uid, Channel channel) {
         this.username = username;
         this.password = password;
         this.host = host;
@@ -66,6 +52,7 @@ public final class LoginDetailsMessage {
         this.uuid = uuid;
         this.clientVersion = clientVersion;
         this.uid = uid;
+        this.channel = channel;
     }
 
     /**
@@ -119,5 +106,13 @@ public final class LoginDetailsMessage {
     
     public String getUUID() {
     	return uuid;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public Channel getChannel() {
+        return channel;
     }
 }

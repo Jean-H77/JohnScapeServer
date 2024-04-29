@@ -18,7 +18,8 @@ import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.model.definitions.WeaponInterfaces;
-import com.ruse.net.PipelineFactory;
+import com.ruse.net.PipelineInitializer;
+import com.ruse.net.login.AuthenticationService;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.scheduler.JobScheduler;
 import com.ruse.util.FileUtils;
@@ -31,9 +32,9 @@ import com.ruse.world.content.combat.effect.CombatPoisonEffect.CombatPoisonData;
 import com.ruse.world.content.combat.strategy.CombatStrategies;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.model.entity.character.npc.NPC;
-import org.jboss.netty.bootstrap.ServerBootstrap;
-import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
-import org.jboss.netty.util.HashedWheelTimer;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
  * Credit: lare96, Gabbe
@@ -59,10 +60,18 @@ public final class GameLoader {
 	public void finish() throws IOException, InterruptedException {
 		if (!serviceLoader.awaitTermination(15, TimeUnit.MINUTES))
 			throw new IllegalStateException("The background service load took too long!");
-		ExecutorService networkExecutor = Executors.newCachedThreadPool();
-		ServerBootstrap serverBootstrap = new ServerBootstrap (new NioServerSocketChannelFactory(networkExecutor, networkExecutor));
-        serverBootstrap.setPipelineFactory(new PipelineFactory(new HashedWheelTimer()));
-        serverBootstrap.bind(new InetSocketAddress(port));
+
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		ServerBootstrap serverBootstrap = new ServerBootstrap();
+		NioEventLoopGroup bossGroup = new NioEventLoopGroup();
+		NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+
+		serverBootstrap.group(bossGroup, workerGroup)
+				.channel(NioServerSocketChannel.class)
+				.childHandler(new PipelineInitializer());
+
+		serverBootstrap.bind(new InetSocketAddress(port)).sync();
+
 		executor.scheduleAtFixedRate(engine, 0, GameSettings.ENGINE_PROCESSING_CYCLE_RATE, TimeUnit.MILLISECONDS);
 		TaskManager.submit(new ServerTimeUpdateTask());
 	}
@@ -93,7 +102,7 @@ public final class GameLoader {
 		serviceLoader.execute(NPC::init);
 		serviceLoader.execute(JobScheduler::initialize);
 		serviceLoader.execute(ShopManager::loadShops);
-
+		AuthenticationService.start();
 	}
 
 	public GameEngine getEngine() {

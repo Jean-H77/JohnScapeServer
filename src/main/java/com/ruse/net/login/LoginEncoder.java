@@ -1,18 +1,16 @@
 package com.ruse.net.login;
 
 import com.ruse.net.packet.Packet;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToMessageEncoder;
 
-/**
- * Handles login encoding requests
- * @author Gabriel Hannason
- */
-public class LoginEncoder extends OneToOneEncoder {
+import java.util.List;
+
+
+public class LoginEncoder extends MessageToMessageEncoder<Object> {
 
 	@Override
-	protected Object encode(ChannelHandlerContext context, Channel channel, Object message) throws Exception {
-		return ((Packet)message).getBuffer();
+	protected void encode(ChannelHandlerContext ctx, Object msg, List<Object> out) {
+		out.add(((Packet) msg).getBuffer());
 	}
 }

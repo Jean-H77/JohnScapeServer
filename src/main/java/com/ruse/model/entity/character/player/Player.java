@@ -64,7 +64,7 @@ import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.teleporter.Teleporter;
 import com.ruse.world.content.teleports.TeleportMenuManager;
-import com.ruse.world.content.upgrader.UpgradeMachineManager;
+import com.ruse.world.content.upgrader.Upgrader;
 import com.ruse.world.content.zombies.ZombiesManager;
 
 import java.io.BufferedReader;
@@ -284,7 +284,7 @@ public class Player extends CharacterEntity {
 
 	private final DungeonViewer dungeonViewer = new DungeonViewer(this);
 
-	private final UpgradeMachineManager upgradeManager = new UpgradeMachineManager(this);
+	private final Upgrader upgrader = new Upgrader(this);
 
 	private int amountGambled;
 
@@ -2591,8 +2591,8 @@ public class Player extends CharacterEntity {
 		return this.dungeonViewer;
 	}
 
-	public UpgradeMachineManager getUpgradeManager() {
-		return this.upgradeManager;
+	public Upgrader getUpgrader() {
+		return this.upgrader;
 	}
 
 	public CollectionLogManager getCollectionLogManager() {

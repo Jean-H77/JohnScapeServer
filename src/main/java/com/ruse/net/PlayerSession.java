@@ -1,9 +1,7 @@
 package com.ruse.net;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import com.ruse.GameSettings;
+import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketBuilder;
 import com.ruse.net.packet.PacketConstants;
@@ -12,8 +10,10 @@ import com.ruse.net.packet.codec.PacketDecoder;
 import com.ruse.net.packet.impl.ButtonClickPacketListener;
 import com.ruse.net.packet.impl.EquipPacketListener;
 import com.ruse.net.packet.impl.ItemActionPacketListener;
-import com.ruse.model.entity.character.player.Player;
-import org.jboss.netty.channel.Channel;
+import io.netty.channel.Channel;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * The session handler dedicated to a player that will handle input and output
@@ -71,9 +71,10 @@ public final class PlayerSession {
 	 */
 	public void queueMessage(PacketBuilder msg) {
 		try {
-			if (!channel.isOpen())
+			if (!channel.isOpen()) {
 				return;
-			channel.write(msg.toPacket());
+			}
+			channel.writeAndFlush(msg.toPacket());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

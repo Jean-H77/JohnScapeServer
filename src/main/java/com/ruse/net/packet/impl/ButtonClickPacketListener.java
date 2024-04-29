@@ -963,7 +963,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getCollectionLogManager().handleButtonClick(id)) {
 			return true;
 		}
-		if(player.getUpgradeManager().handleButtonClick(id)) {
+		if(player.getUpgrader().handleButtonClick(id)) {
 			return true;
 		}
 	//	if(player.getAchievementManger().handleButtonClick(itemId)) {

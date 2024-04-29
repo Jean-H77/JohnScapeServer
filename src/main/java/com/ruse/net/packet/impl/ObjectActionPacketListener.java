@@ -430,8 +430,9 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("The portal does not seem to be functioning properly.");
 					}
 					break;
+					case 83291:
 					case 20040:
-						player.getUpgradeManager().openInterface();
+						player.getUpgrader().openInterface();
 						break;
 				case 45803:
 				case 1767:

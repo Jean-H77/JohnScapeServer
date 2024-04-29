@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 public final class LoginResponses {
 	
-	public static final int getResponse(Player player, LoginDetailsMessage msg) throws InterruptedException, ExecutionException {
+	public static int getResponse(Player player, LoginDetailsMessage msg) {
 		if (World.getPlayers().isFull()) {
 			return LOGIN_WORLD_FULL;
 		} 

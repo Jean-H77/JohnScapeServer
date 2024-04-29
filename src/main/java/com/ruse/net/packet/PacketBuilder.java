@@ -2,8 +2,9 @@ package com.ruse.net.packet;
 
 import com.ruse.model.ChatMessage.Message;
 import com.ruse.net.packet.Packet.PacketType;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
 
 /**
  * The {@link Message} implementation that functions as a dynamic buffer wrapper
@@ -66,7 +67,7 @@ public final class PacketBuilder {
 	/**
 	 * The buffer used to write the packet information.
 	 */
-	private ChannelBuffer buffer = ChannelBuffers.dynamicBuffer();
+	private ByteBuf buffer = Unpooled.buffer();
 
     /**
      * Writes the bytes from the argued buffer into this buffer. This method
@@ -77,7 +78,7 @@ public final class PacketBuilder {
      *            the argued buffer that bytes will be written from.
      * @return an instance of this message builder.
      */
-    public PacketBuilder putBytes(ChannelBuffer from) {
+    public PacketBuilder putBytes(ByteBuf from) {
         for (int i = 0; i < from.writerIndex(); i++) {
             put(from.getByte(i));
         }
@@ -89,7 +90,7 @@ public final class PacketBuilder {
 	 * @param buffer	The buffer to take values from.
 	 * @return			The PacketBuilder instance.
 	 */
-	public PacketBuilder writeBuffer(ChannelBuffer buffer) {
+	public PacketBuilder writeBuffer(ByteBuf buffer) {
 		this.buffer.writeBytes(buffer);
 		return this;
 	}
@@ -147,7 +148,7 @@ public final class PacketBuilder {
 		}
 		
 		int bytes = (int) Math.ceil((double) numBits / 8D) + 1;
-		buffer.ensureWritableBytes((bitPosition + 7) / 8 + bytes);
+		buffer.isWritable((bitPosition + 7) / 8 + bytes);
 		
 		final byte[] buffer = this.buffer.array();
 		
@@ -500,7 +501,7 @@ public final class PacketBuilder {
      *
      * @return the backing byte buffer.
      */
-    public ChannelBuffer buffer() {
+    public ByteBuf buffer() {
         return buffer;
     }
     

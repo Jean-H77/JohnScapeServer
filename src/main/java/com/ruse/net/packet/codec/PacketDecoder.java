@@ -4,13 +4,15 @@ import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.Packet.PacketType;
 import com.ruse.net.packet.PacketConstants;
 import com.ruse.net.security.IsaacRandom;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.handler.codec.frame.FrameDecoder;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
 
-public class PacketDecoder extends FrameDecoder {
+import java.util.List;
+
+import static io.netty.buffer.Unpooled.buffer;
+
+public class PacketDecoder extends ByteToMessageDecoder {
 	
 	private final IsaacRandom random;
 	
@@ -22,35 +24,34 @@ public class PacketDecoder extends FrameDecoder {
 	}
 
 	@Override
-	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
+	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> out) {
 		if (opcode == -1) {
-			if (buffer.readable()) {
-				int encryptedOpcode = buffer.readUnsignedByte();
+			if (byteBuf.isReadable()) {
+				int encryptedOpcode = byteBuf.readUnsignedByte();
 				opcode = (encryptedOpcode - random.nextInt()) & 0xFF;
 				size = PacketConstants.MESSAGE_SIZES[opcode];
 			} else {
-				return null;
+				return;
 			}
 		}
 		if (size == -1) {
-			if (buffer.readable()) {
-				size = buffer.readUnsignedByte();
+			if (byteBuf.isReadable()) {
+				size = byteBuf.readUnsignedByte();
 			} else {
-				return null;
+				return;
 			}
 		}
-		if (buffer.readableBytes() >= size) {
+		if (byteBuf.readableBytes() >= size) {
 			final byte[] data = new byte[size];
-			buffer.readBytes(data);
-			final ChannelBuffer payload = ChannelBuffers.buffer(size);
+			byteBuf.readBytes(data);
+			final ByteBuf payload = buffer(size);
 			payload.writeBytes(data);
 			try {
-				return new Packet(opcode, PacketType.FIXED, payload);
+				out.add(new Packet(opcode, PacketType.FIXED, payload));
 			} finally {
 				opcode = -1;
 				size = -1;
 			}
 		}
-		return null;
 	}
 }

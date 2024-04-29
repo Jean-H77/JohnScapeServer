@@ -28,6 +28,8 @@ import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.entity.character.GlobalItemSpawner;
 import com.ruse.net.PlayerSession;
 import com.ruse.net.SessionState;
+import com.ruse.net.login.AuthenticationService;
+import com.ruse.net.login.LogoutDetailsMessage;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
@@ -261,9 +263,8 @@ public class PlayerHandler {
 				return true;
 			}
 
-			boolean exception = forced || GameServer.isUpdating() || World.getLogoutQueue().contains(player) && player.getLogoutTimer().elapsed(90000);
+			boolean exception = forced || GameServer.isUpdating() || AuthenticationService.queue.stream().anyMatch(it -> it instanceof LogoutDetailsMessage logout && logout.getPlayer().equals(player)) && player.getLogoutTimer().elapsed(90000);
 			if(player.logout() || exception) {
-				//new Thread(new HighscoresHandler(player)).start();
 				System.out.println("[World] Deregistering player - [username, host] : [" + player.getUsername() + ", " + player.getHostAddress() + "]");
 				player.getSession().setState(SessionState.LOGGING_OUT);
 				ConnectionHandler.remove(player.getHostAddress());
