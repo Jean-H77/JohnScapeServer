@@ -9,10 +9,10 @@ import java.util.List;
 public class DialogueChain {
 
     public List<DialoguePart> dialogueParts;
+    int step = 0;
 
     private final Player player;
-
-    int step = 0;
+    private boolean removeInterface = true;
 
     public DialogueChain(Player player, DialoguePart... dialogueParts) {
         this.player = player;
@@ -85,7 +85,9 @@ public class DialogueChain {
         DialoguePart dp = dialogueParts.get(step);
 
         if(step == dialogueParts.size()-1) {
-            player.getPacketSender().sendInterfaceRemoval();
+            if(removeInterface) {
+                player.getPacketSender().sendInterfaceRemoval();
+            }
         } else {
             step++;
             start();
@@ -113,5 +115,33 @@ public class DialogueChain {
     public DialogueChain addPart(DialoguePart dialoguePart) {
         dialogueParts.add(dialoguePart);
         return this;
+    }
+
+    public List<DialoguePart> getDialogueParts() {
+        return dialogueParts;
+    }
+
+    public void setDialogueParts(List<DialoguePart> dialogueParts) {
+        this.dialogueParts = dialogueParts;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isRemoveInterface() {
+        return removeInterface;
+    }
+
+    public void setRemoveInterface(boolean removeInterface) {
+        this.removeInterface = removeInterface;
     }
 }

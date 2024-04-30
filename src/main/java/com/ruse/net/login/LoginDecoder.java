@@ -16,6 +16,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.ReferenceCountUtil;
 
 import java.math.BigInteger;
 import java.net.InetSocketAddress;
@@ -104,6 +105,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				if(securityId != 10) {
 					System.out.println("securityId id is not 10. It is "+securityId);
 					channel.close();
+					ReferenceCountUtil.release(rsaBuffer);
 					return;
 				}
 				long clientSeed = rsaBuffer.readLong();
@@ -111,6 +113,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				if (seedReceived != seed) {
 					System.out.println("Unhandled seed read: [seed, seedReceived] : [" + seed + ", " + seedReceived + "");
 					channel.close();
+					ReferenceCountUtil.release(rsaBuffer);
 					return;
 				}
 				int[] seed = new int[4];
@@ -128,6 +131,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				String mac = Misc.readString(rsaBuffer);
 				String uuid = Misc.readString(rsaBuffer);
 				//String serial = Misc.readString(rsaBuffer);
+				ReferenceCountUtil.release(rsaBuffer);
 				if (username.length() > 12 || password.length() > 20) {
 					System.out.println("Username or password length too long");
 					return;

@@ -1,6 +1,5 @@
 package com.ruse.net.login;
 
-import com.mysql.cj.protocol.Message;
 import com.ruse.net.packet.Packet;
 import io.netty.channel.Channel;
 
@@ -10,7 +9,7 @@ import io.netty.channel.Channel;
  * 
  * @author lare96 <http://github.org/lare96>
  */
-public final class LoginDetailsMessage implements AuthenticationMessage {
+public final class LoginDetailsMessage {
 
     /**
      * The username of the player.

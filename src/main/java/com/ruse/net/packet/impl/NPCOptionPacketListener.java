@@ -62,352 +62,342 @@ public class NPCOptionPacketListener implements PacketListener {
 			player.getMovementQueue().reset();
 			return;
 		}
-		player.setWalkToTask(new WalkToTask(player, npc.getPosition(), npc.getSize(), new FinalizedMovementTask() {
-			@Override
-			public void execute() {
-				if(SummoningData.beastOfBurden(npc.getId())) {
-					Summoning summoning = player.getSummoning();
-					if(summoning.getBeastOfBurden() != null && summoning.getFamiliar() != null && summoning.getFamiliar().getSummonNpc() != null && summoning.getFamiliar().getSummonNpc().getIndex() == npc.getIndex()) {
-						summoning.store();
-						player.getMovementQueue().reset();
-					} else {
-						player.getPacketSender().sendMessage("That familiar is not yours!");
-					}
-					return;
-				}
-				if(ConstructionActions.handleFirstClickNpc(player, npc)) {
-					return;
-				}
-				switch(npc.getId()) {
-					case 277:
-						if(player.isFirstFloorCastle()) {
-							DialogueManager.sendStatement(player, "Seems busy");
-							break;
-						}
-						if(!player.isFirstFloorCastle() && !player.getInventory().contains(14471))
-							DialogueManager.start(player, 213);
-						if(player.getInventory().contains(14471)) {
-							if(player.getInventory().isFull()) {
-								player.getPacketSender().sendMessage("You need at least 1 inventory slot to talk to him");
-								break;
-							}
-							player.getInventory().delete(14471, 1);
-							player.getInventory().add(4151, 1);
-							DialogueManager.sendStatement(player, "You now have access to floor two!");
-							player.setFirstFloorCastle(true);
-							break;
-						}
-						break;
-					case 33572:
-						DialogueChain.create(player)
-										.addPart(new Options((p, chain, o) -> {
-											switch (o) {
-												case 1 -> chain.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
-                                                        npc.getId(),
-                                                        "I'm glad you asked that " + p.getUsername() + "!",
-                                                        "The AFK tree requires AFK tickets to chop", "But everytime you chop the tree", "Your AFK tickets have a small chance of depleting"))
-                                                        .addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
-																npc.getId(),
-                                                                "tickets are acquired doing various tasks around JohnScape",
-                                                                "So the more you play then the more you get to AFK!"));
-												case 2 -> TaskManager.submit(new Task(1) {
-													@Override
-													protected void execute() {
-														ShopManager.openShop("AFK Store", player);
-														stop();
-													}
-												});
-												case 3 -> TeleportHandler.teleportPlayer(player, new Position(3449, 4824, 0), TeleportType.NORMAL);
-											}
-										}, "Select an option",  "How does this work?", "View shop", "I want to leave now"))
-								.start();
-						break;
-					case 33578:
-						DialogueChain.create(player)
-								.addPart(new Options((p, chain, o) -> {
-									switch (o) {
-										case 1 -> chain.addPart(new PlayerStatement(DialogueExpression.NO_EXPRESSION,
-														"What's up?"))
-												.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
-														npc.getId(),
-														"What?"))
-												.addPart(new PlayerStatement(DialogueExpression.CONFUSED, "How's it going?"))
-												.addPart(new NpcStatement((ClickContinueEvent) () -> DialogueManager.sendStatement(p, "@red@Complete Adventures Mercenary before speaking with " + npc.getDefinition().getName()),
-														DialogueExpression.ANGRY,
-														npc.getId(),
-														"@red@......."));
-										case 2 -> TaskManager.submit(new Task(1) {
-											@Override
-											protected void execute() {
-												ShopManager.openShop("AFK Store", player);
-												stop();
-											}
-										});
-									}
-								}, "Select an option",  "What's up?", "View slayer interface"))
-								.start();
-						break;
-					case 2728:
-						if(player.isSecondFloorCastle()) {
-							DialogueManager.sendStatement(player, "Seems busy");
-							break;
-						}
-						if(!player.isSecondFloorCastle() && !player.getInventory().contains(14496))
-							DialogueManager.start(player, 214);
-						if(player.getInventory().contains(14496)) {
-							if(player.getInventory().isFull()) {
-								player.getPacketSender().sendMessage("You need at least 1 inventory slot to talk to him");
-								break;
-							}
-							player.getInventory().delete(14496, 1);
-							player.getInventory().add(6585, 1);
-							DialogueManager.sendStatement(player, "You now have access to the third floor!");
-							player.setSecondFloorCastle(true);
-							break;
-						}
-						break;
-					case 3678:
-						if(player.isThirdFloorCastle()) {
-							DialogueManager.sendStatement(player, "Seems busy");
-							break;
-						}
-						if(!player.isThirdFloorCastle() && !player.getInventory().contains(14462)) {
-							DialogueManager.start(player, 215);
-						}
-						if(player.getInventory().contains(14462)) {
-							if(player.getInventory().isFull()) {
-								player.getPacketSender().sendMessage("You need at least 1 inventory slot to talk to him");
-								break;
-							}
-							player.getInventory().delete(14462, 1);
-							player.getInventory().add(11732, 1);
-							DialogueManager.sendStatement(player, "You now have access to the fourth floor!");
-							player.setThirdFloorCastle(true);
-							break;
-						}
-						break;
-				case 5382:
-					if (player.getGameMode().equals(GameMode.ULTIMATE_IRONMAN)) {
-						DialogueManager.start(player, 192);
-					} else {
-						DialogueManager.start(player, 195);
-					}
-					break;
-				case 659:
-					if (GameSettings.newYear2017) {
-						if (player.getNewYear2017() == 0) {
-							DialogueManager.start(player, 189);
-							player.setDialogueActionId(189);
-						} else {
-							DialogueManager.start(player, 190);
-						}
-					} else {
-						npc.forceChat("I love a good party!");
-					}
-					break;
-					case 1835:
-						if (Misc.easter(2017)) {
-							if (player.getInventory().getFreeSlots() < 2) {
-								player.getPacketSender().sendMessage("He might give me something, I should have at least 2 free inventory spaces.");
-								return;
-							}
-							if (player.getEaster2017() >= 1 && player.getEaster2017() < 7 ) {
-								player.getPacketSender().sendMessage("The Bunny gives another letter to you.");
-								player.getInventory().add(22051, 1);
-							} else if(player.getEaster2017() == 8) {
-								player.getPacketSender().sendMessage("He's recovering from the easter event!");
-							} else if(player.getEaster2017() == 7) {
-								DialogueManager.start(player, 208);
-								player.setDialogueActionId(211);
-							} else {
-								DialogueManager.start(player, 203);
-								player.setDialogueActionId(210);
-							}
-						} else {
-							player.getPacketSender().sendMessage("He's recovering from the easter event!");
-						}
-						break;
-				case 4653:
-					DialogueManager.start(player, 178);
-					player.setDialogueActionId(178);
-					break;
-				case 1872:
-					if (player.getLocation() == Location.ZULRAH_WAITING) {
-						DialogueManager.start(player, 200);
-					}
-					break;
-				case 736:
-					player.forceChat("Ban emily!");
-					npc.forceChat("Mods! Help! They're harassing me again!");
-					break;
-				case 3777:
-					DialogueManager.start(player, 141);
-					player.setDialogueActionId(88);
-					break;
-				case 5:
-				case 4:
-					npc.setPositionToFace(player.getPosition());
-					DialogueManager.start(player, 167);
-					break;
-				case 1:
-				case 2:
-				case 3:
-					npc.setPositionToFace(player.getPosition());
-					DialogueManager.start(player, 165);
-					break;
-				case 2238:
-					npc.setPositionToFace(player.getPosition());
-					DialogueManager.start(player, 155);
-					break;
-				case 1152:
-					DialogueManager.start(player, 127);
-					player.setDialogueActionId(79);
-					break;
-				case 1837:
-					DialogueManager.start(player, 144);
-					player.setDialogueActionId(99);
-					break;
-				case 457:
-					DialogueManager.start(player, 117);
-					player.setDialogueActionId(74);
-					break;
-				case 8710:
-				case 8707:
-				case 8706:
-				case 8705:
-					EnergyHandler.rest(player);
-					break;
-				case 9713:
-					DialogueManager.start(player, 107);
-					player.setDialogueActionId(69);
-					break;
-				case 3101:
-					DialogueManager.start(player, 90);
-					player.setDialogueActionId(57);
-					break;
-				case 437:
-					DialogueManager.start(player, 99);
-					player.setDialogueActionId(58);
-					break;
-				case 8591:
-					//player.nomadQuest[0] = player.nomadQuest[1] = player.nomadQuest[2] = false;
-					if(!player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(0)) {
-						DialogueManager.start(player, 48);
-						player.setDialogueActionId(23);
-					} else if(player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(0) && !player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(1)) {
-						DialogueManager.start(player, 50);
-						player.setDialogueActionId(24);
-					} else if(player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(1))
-						DialogueManager.start(player, 53);
-					break;
-				case 273:
-					DialogueManager.start(player, 61);
-					player.setDialogueActionId(28);
-					break;
-				case 3385:
-					if(player.getMinigameAttributes().getRecipeForDisasterAttributes().hasFinishedPart(0) && player.getMinigameAttributes().getRecipeForDisasterAttributes().getWavesCompleted() < 6) {
-						DialogueManager.start(player, 39);
-						return;
-					}
-					if(player.getMinigameAttributes().getRecipeForDisasterAttributes().getWavesCompleted() == 6) {
-						DialogueManager.start(player, 46);
-						return;
-					}
-					DialogueManager.start(player, 38);
-					player.setDialogueActionId(20);
-					break;
-				case 6139:
-					DialogueManager.start(player, 29);
-					player.setDialogueActionId(17);
-					break;
-				case 3789:
-					player.getPacketSender().sendInterface(18730);
-					player.getPacketSender().sendString(18729, "Commendations: "+Integer.toString(player.getPointsHandler().getCommendations()));
-					break;
-				case 2948:
-					DialogueManager.start(player, WarriorsGuild.warriorsGuildDialogue(player));
-					break;
-				case 6055:
-				case 6056:
-				case 6057:
-				case 6058:
-				case 6059:
-				case 6060:
-				case 6061:
-				case 6062:
-				case 6063:
-				case 6064:
-				case 7903:
-					if(npc.getId() == 7903 && player.getLocation() == Location.MEMBER_ZONE) {
-						if(!player.getRights().isMember()) {
-							player.getPacketSender().sendMessage("You must be a Member to use this.");
-							return;
-						}
-					}
-					PuroPuro.catchImpling(player, npc);
-					break;
-				case 8022:
-				case 8028:
-					DesoSpan.siphon(player, npc);
-					break;
-				case 2579:
-					player.setDialogueActionId(13);
-					DialogueManager.start(player, 24);
-					break;
-				case 6537:
-					player.setDialogueActionId(10);
-					DialogueManager.start(player, 19);
-					break;
-				case 4249:
-					player.setDialogueActionId(9);
-					DialogueManager.start(player, 64);
-					break;
-				case 6807:
-				case 6994:
-				case 6995:
-				case 6867:
-				case 6868:
-				case 6794:
-				case 6795:
-				case 6815:
-				case 6816:
-				case 6874:
-				case 6873:
-				case 3594:
-				case 3590:
-				case 3596:
-					if(player.getSummoning().getFamiliar() == null || player.getSummoning().getFamiliar().getSummonNpc() == null || player.getSummoning().getFamiliar().getSummonNpc().getIndex() != npc.getIndex()) {
-						player.getPacketSender().sendMessage("That is not your familiar.");
-						return;
-					}
-					player.getSummoning().store();
-					break;
-				case 605:
-					player.setDialogueActionId(8);
-					DialogueManager.start(player, 13);
-					break;
-				case 6970:
-					player.setDialogueActionId(3);
-					DialogueManager.start(player, 3);
-					break;
-				case 318:
-				case 316:
-				case 313:
-				case 312:
-					player.setEntityInteraction(npc);
-					Fishing.setupFishing(player, Fishing.forSpot(npc.getId(), false));
-					break;
-				case 494:
-				case 1360:
-					player.getBank(player.getCurrentBankTab()).open();
-					break;
-				}
-				if(!(npc.getId() >= 8705 && npc.getId() <= 8710)) {
-					npc.setPositionToFace(player.getPosition());
-				}
-				player.setPositionToFace(npc.getPosition());
-			}
-		}));
+		player.setWalkToTask(new WalkToTask(player, npc.getPosition(), npc.getSize(), () -> {
+            if(SummoningData.beastOfBurden(npc.getId())) {
+                Summoning summoning = player.getSummoning();
+                if(summoning.getBeastOfBurden() != null && summoning.getFamiliar() != null && summoning.getFamiliar().getSummonNpc() != null && summoning.getFamiliar().getSummonNpc().getIndex() == npc.getIndex()) {
+                    summoning.store();
+                    player.getMovementQueue().reset();
+                } else {
+                    player.getPacketSender().sendMessage("That familiar is not yours!");
+                }
+                return;
+            }
+            if(ConstructionActions.handleFirstClickNpc(player, npc)) {
+                return;
+            }
+            switch(npc.getId()) {
+                case 277:
+                    if(player.isFirstFloorCastle()) {
+                        DialogueManager.sendStatement(player, "Seems busy");
+                        break;
+                    }
+                    if(!player.isFirstFloorCastle() && !player.getInventory().contains(14471))
+                        DialogueManager.start(player, 213);
+                    if(player.getInventory().contains(14471)) {
+                        if(player.getInventory().isFull()) {
+                            player.getPacketSender().sendMessage("You need at least 1 inventory slot to talk to him");
+                            break;
+                        }
+                        player.getInventory().delete(14471, 1);
+                        player.getInventory().add(4151, 1);
+                        DialogueManager.sendStatement(player, "You now have access to floor two!");
+                        player.setFirstFloorCastle(true);
+                        break;
+                    }
+                    break;
+                case 33572:
+                    DialogueChain.create(player)
+                                    .addPart(new Options((p, chain, o) -> {
+                                        switch (o) {
+                                            case 1 -> chain.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
+npc.getId(),
+"I'm glad you asked that " + p.getUsername() + "!",
+"The AFK tree requires AFK tickets to chop", "But everytime you chop the tree", "Your AFK tickets have a small chance of depleting"))
+.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
+                                                            npc.getId(),
+"tickets are acquired doing various tasks around JohnScape",
+"So the more you play then the more you get to AFK!"));
+                                            case 2 -> {
+                                                    chain.setRemoveInterface(false);
+                                                    ShopManager.openShop("AFK Store", player);
+                                            }
+                                            case 3 -> TeleportHandler.teleportPlayer(player, new Position(3449, 4824, 0), TeleportType.NORMAL);
+                                        }
+                                    }, "Select an option",  "How does this work?", "View shop", "I want to leave now"))
+                            .start();
+                    break;
+                case 33578:
+                    DialogueChain.create(player)
+                            .addPart(new Options((p, chain, o) -> {
+                                switch (o) {
+                                    case 1 -> chain.addPart(new PlayerStatement(DialogueExpression.NO_EXPRESSION,
+                                                    "What's up?"))
+                                            .addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
+                                                    npc.getId(),
+                                                    "What?"))
+                                            .addPart(new PlayerStatement(DialogueExpression.CONFUSED, "How's it going?"))
+                                            .addPart(new NpcStatement((ClickContinueEvent) () -> DialogueManager.sendStatement(p, "@red@Complete Adventures Mercenary before speaking with " + npc.getDefinition().getName()),
+                                                    DialogueExpression.ANGRY,
+                                                    npc.getId(),
+                                                    "@red@......."));
+                                    case 2 -> {
+
+                                    }
+                                }
+                            }, "Select an option",  "What's up?", "View slayer interface"))
+                            .start();
+                    break;
+                case 2728:
+                    if(player.isSecondFloorCastle()) {
+                        DialogueManager.sendStatement(player, "Seems busy");
+                        break;
+                    }
+                    if(!player.isSecondFloorCastle() && !player.getInventory().contains(14496))
+                        DialogueManager.start(player, 214);
+                    if(player.getInventory().contains(14496)) {
+                        if(player.getInventory().isFull()) {
+                            player.getPacketSender().sendMessage("You need at least 1 inventory slot to talk to him");
+                            break;
+                        }
+                        player.getInventory().delete(14496, 1);
+                        player.getInventory().add(6585, 1);
+                        DialogueManager.sendStatement(player, "You now have access to the third floor!");
+                        player.setSecondFloorCastle(true);
+                        break;
+                    }
+                    break;
+                case 3678:
+                    if(player.isThirdFloorCastle()) {
+                        DialogueManager.sendStatement(player, "Seems busy");
+                        break;
+                    }
+                    if(!player.isThirdFloorCastle() && !player.getInventory().contains(14462)) {
+                        DialogueManager.start(player, 215);
+                    }
+                    if(player.getInventory().contains(14462)) {
+                        if(player.getInventory().isFull()) {
+                            player.getPacketSender().sendMessage("You need at least 1 inventory slot to talk to him");
+                            break;
+                        }
+                        player.getInventory().delete(14462, 1);
+                        player.getInventory().add(11732, 1);
+                        DialogueManager.sendStatement(player, "You now have access to the fourth floor!");
+                        player.setThirdFloorCastle(true);
+                        break;
+                    }
+                    break;
+            case 5382:
+                if (player.getGameMode().equals(GameMode.ULTIMATE_IRONMAN)) {
+                    DialogueManager.start(player, 192);
+                } else {
+                    DialogueManager.start(player, 195);
+                }
+                break;
+            case 659:
+                if (GameSettings.newYear2017) {
+                    if (player.getNewYear2017() == 0) {
+                        DialogueManager.start(player, 189);
+                        player.setDialogueActionId(189);
+                    } else {
+                        DialogueManager.start(player, 190);
+                    }
+                } else {
+                    npc.forceChat("I love a good party!");
+                }
+                break;
+                case 1835:
+                    if (Misc.easter(2017)) {
+                        if (player.getInventory().getFreeSlots() < 2) {
+                            player.getPacketSender().sendMessage("He might give me something, I should have at least 2 free inventory spaces.");
+                            return;
+                        }
+                        if (player.getEaster2017() >= 1 && player.getEaster2017() < 7 ) {
+                            player.getPacketSender().sendMessage("The Bunny gives another letter to you.");
+                            player.getInventory().add(22051, 1);
+                        } else if(player.getEaster2017() == 8) {
+                            player.getPacketSender().sendMessage("He's recovering from the easter event!");
+                        } else if(player.getEaster2017() == 7) {
+                            DialogueManager.start(player, 208);
+                            player.setDialogueActionId(211);
+                        } else {
+                            DialogueManager.start(player, 203);
+                            player.setDialogueActionId(210);
+                        }
+                    } else {
+                        player.getPacketSender().sendMessage("He's recovering from the easter event!");
+                    }
+                    break;
+            case 4653:
+                DialogueManager.start(player, 178);
+                player.setDialogueActionId(178);
+                break;
+            case 1872:
+                if (player.getLocation() == Location.ZULRAH_WAITING) {
+                    DialogueManager.start(player, 200);
+                }
+                break;
+            case 736:
+                player.forceChat("Ban emily!");
+                npc.forceChat("Mods! Help! They're harassing me again!");
+                break;
+            case 3777:
+                DialogueManager.start(player, 141);
+                player.setDialogueActionId(88);
+                break;
+            case 5:
+            case 4:
+                npc.setPositionToFace(player.getPosition());
+                DialogueManager.start(player, 167);
+                break;
+            case 1:
+            case 2:
+            case 3:
+                npc.setPositionToFace(player.getPosition());
+                DialogueManager.start(player, 165);
+                break;
+            case 2238:
+                npc.setPositionToFace(player.getPosition());
+                DialogueManager.start(player, 155);
+                break;
+            case 1152:
+                DialogueManager.start(player, 127);
+                player.setDialogueActionId(79);
+                break;
+            case 1837:
+                DialogueManager.start(player, 144);
+                player.setDialogueActionId(99);
+                break;
+            case 457:
+                DialogueManager.start(player, 117);
+                player.setDialogueActionId(74);
+                break;
+            case 8710:
+            case 8707:
+            case 8706:
+            case 8705:
+                EnergyHandler.rest(player);
+                break;
+            case 9713:
+                DialogueManager.start(player, 107);
+                player.setDialogueActionId(69);
+                break;
+            case 3101:
+                DialogueManager.start(player, 90);
+                player.setDialogueActionId(57);
+                break;
+            case 437:
+                DialogueManager.start(player, 99);
+                player.setDialogueActionId(58);
+                break;
+            case 8591:
+                //player.nomadQuest[0] = player.nomadQuest[1] = player.nomadQuest[2] = false;
+                if(!player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(0)) {
+                    DialogueManager.start(player, 48);
+                    player.setDialogueActionId(23);
+                } else if(player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(0) && !player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(1)) {
+                    DialogueManager.start(player, 50);
+                    player.setDialogueActionId(24);
+                } else if(player.getMinigameAttributes().getNomadAttributes().hasFinishedPart(1))
+                    DialogueManager.start(player, 53);
+                break;
+            case 273:
+                DialogueManager.start(player, 61);
+                player.setDialogueActionId(28);
+                break;
+            case 3385:
+                if(player.getMinigameAttributes().getRecipeForDisasterAttributes().hasFinishedPart(0) && player.getMinigameAttributes().getRecipeForDisasterAttributes().getWavesCompleted() < 6) {
+                    DialogueManager.start(player, 39);
+                    return;
+                }
+                if(player.getMinigameAttributes().getRecipeForDisasterAttributes().getWavesCompleted() == 6) {
+                    DialogueManager.start(player, 46);
+                    return;
+                }
+                DialogueManager.start(player, 38);
+                player.setDialogueActionId(20);
+                break;
+            case 6139:
+                DialogueManager.start(player, 29);
+                player.setDialogueActionId(17);
+                break;
+            case 3789:
+                player.getPacketSender().sendInterface(18730);
+                player.getPacketSender().sendString(18729, "Commendations: "+Integer.toString(player.getPointsHandler().getCommendations()));
+                break;
+            case 2948:
+                DialogueManager.start(player, WarriorsGuild.warriorsGuildDialogue(player));
+                break;
+            case 6055:
+            case 6056:
+            case 6057:
+            case 6058:
+            case 6059:
+            case 6060:
+            case 6061:
+            case 6062:
+            case 6063:
+            case 6064:
+            case 7903:
+                if(npc.getId() == 7903 && player.getLocation() == Location.MEMBER_ZONE) {
+                    if(!player.getRights().isMember()) {
+                        player.getPacketSender().sendMessage("You must be a Member to use this.");
+                        return;
+                    }
+                }
+                PuroPuro.catchImpling(player, npc);
+                break;
+            case 8022:
+            case 8028:
+                DesoSpan.siphon(player, npc);
+                break;
+            case 2579:
+                player.setDialogueActionId(13);
+                DialogueManager.start(player, 24);
+                break;
+            case 6537:
+                player.setDialogueActionId(10);
+                DialogueManager.start(player, 19);
+                break;
+            case 4249:
+                player.setDialogueActionId(9);
+                DialogueManager.start(player, 64);
+                break;
+            case 6807:
+            case 6994:
+            case 6995:
+            case 6867:
+            case 6868:
+            case 6794:
+            case 6795:
+            case 6815:
+            case 6816:
+            case 6874:
+            case 6873:
+            case 3594:
+            case 3590:
+            case 3596:
+                if(player.getSummoning().getFamiliar() == null || player.getSummoning().getFamiliar().getSummonNpc() == null || player.getSummoning().getFamiliar().getSummonNpc().getIndex() != npc.getIndex()) {
+                    player.getPacketSender().sendMessage("That is not your familiar.");
+                    return;
+                }
+                player.getSummoning().store();
+                break;
+            case 605:
+                player.setDialogueActionId(8);
+                DialogueManager.start(player, 13);
+                break;
+            case 6970:
+                player.setDialogueActionId(3);
+                DialogueManager.start(player, 3);
+                break;
+            case 318:
+            case 316:
+            case 313:
+            case 312:
+                player.setEntityInteraction(npc);
+                Fishing.setupFishing(player, Fishing.forSpot(npc.getId(), false));
+                break;
+            case 494:
+            case 1360:
+                player.getBank(player.getCurrentBankTab()).open();
+                break;
+            }
+            if(!(npc.getId() >= 8705 && npc.getId() <= 8710)) {
+                npc.setPositionToFace(player.getPosition());
+            }
+            player.setPositionToFace(npc.getPosition());
+        }));
 	}
 
 	private static void attackNPC(Player player, Packet packet) {

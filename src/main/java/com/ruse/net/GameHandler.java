@@ -1,15 +1,14 @@
 package com.ruse.net;
 
-import com.ruse.model.entity.character.player.Player;
 import com.ruse.net.login.AuthenticationService;
 import com.ruse.net.login.LoginDetailsMessage;
-import com.ruse.net.login.LogoutDetailsMessage;
 import com.ruse.net.packet.Packet;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import io.netty.util.ReferenceCountUtil;
 
 import java.io.IOException;
 
@@ -29,7 +28,7 @@ public class GameHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) {
 		Attribute<PlayerSession> attribute = ctx.channel().attr(SESSION_KEY);
-		PlayerSession session = attribute.get();
+		PlayerSession session = attribute.getAndRemove();
 		if(session != null) {
 			if(session.getState() != SessionState.LOGGED_OUT) {
 				AuthenticationService.addToQueue(session.getPlayer());
@@ -51,6 +50,8 @@ public class GameHandler extends ChannelInboundHandlerAdapter {
 			if(msg instanceof LoginDetailsMessage login) {
 				AuthenticationService.addToQueue(login);
 			}
+
+			ReferenceCountUtil.release(msg);
 		}
 	}
 

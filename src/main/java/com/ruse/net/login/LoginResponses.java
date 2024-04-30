@@ -41,7 +41,7 @@ public final class LoginResponses {
 		}
 		
 		/** PREVENTING IMPERSONATING **/
-		if(playerLoadingResponse == LoginResponses.NEW_ACCOUNT && (msg.getUsername().toLowerCase().contains("crimson") || msg.getUsername().toLowerCase().contains("mod") || msg.getUsername().toLowerCase().contains("admin"))) {
+		if(playerLoadingResponse == LoginResponses.NEW_ACCOUNT && (msg.getUsername().toLowerCase().contains("mod") || msg.getUsername().toLowerCase().contains("admin"))) {
 			return LoginResponses.LOGIN_INVALID_CREDENTIALS;
 		}
 		

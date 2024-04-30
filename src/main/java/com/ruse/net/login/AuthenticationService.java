@@ -7,12 +7,14 @@ import com.ruse.net.PlayerSession;
 import com.ruse.net.packet.PacketBuilder;
 import com.ruse.util.NameUtils;
 import com.ruse.world.World;
-import com.ruse.world.content.PlayerLogs;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import static com.ruse.net.GameHandler.SESSION_KEY;
 
@@ -49,8 +51,6 @@ public class AuthenticationService {
                 .setUUID(login.getUUID());
 
         if (World.getPlayerByName(player.getUsername()) != null) {
-            System.out.println("STOPPED MULTI LOG by "+player.getUsername());
-            PlayerLogs.log(player.getUsername(), "Had a multilog attempt.");
             sendReturnCode(channel, LoginResponses.LOGIN_ACCOUNT_ONLINE);
             return;
         }

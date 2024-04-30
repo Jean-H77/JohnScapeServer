@@ -199,7 +199,7 @@ public final class CharacterList<E extends CharacterEntity> implements Iterable<
 	 * @return the found slot, or -1 if no slot is available.
 	 */
 	private int slotSearch() {
-		if (slotQueue.size() == 0) {
+		if (slotQueue.isEmpty()) {
 			for (int slot = 1; slot < capacity; slot++) {
 				if (characters[slot] == null) {
 					return slot;
