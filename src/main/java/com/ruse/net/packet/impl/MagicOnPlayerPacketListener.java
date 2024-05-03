@@ -9,7 +9,6 @@ import com.ruse.net.packet.PacketListener;
 import com.ruse.world.World;
 import com.ruse.world.content.combat.magic.CombatSpell;
 import com.ruse.world.content.combat.magic.CombatSpells;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
 import com.ruse.model.entity.character.player.Player;
 
 public class MagicOnPlayerPacketListener implements PacketListener {
@@ -25,11 +24,6 @@ public class MagicOnPlayerPacketListener implements PacketListener {
 		}
 
 		Player attacked = World.getPlayers().get(playerIndex);
-		
-		if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-			player.getPacketSender().sendMessage("You must claim your stored items at Dungeoneering first.");
-			return;
-		}
 
 		if (player != null && attacked != null && player.getRights().OwnerDeveloperOnly()) {
 			player.getPacketSender().sendMessage("Used spell id: "+spellId+" on target: "+attacked.getUsername());

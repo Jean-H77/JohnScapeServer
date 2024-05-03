@@ -36,8 +36,6 @@ import com.ruse.world.content.minigames.Nomad;
 import com.ruse.world.content.minigames.RecipeForDisaster;
 import com.ruse.world.content.minigames.TheSix;
 import com.ruse.world.content.minigames.trioMinigame;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
-import com.ruse.world.content.skill.dungeoneering.DungeoneeringFloor;
 import com.ruse.world.content.skill.mining.Mining;
 import com.ruse.world.content.skill.summoning.CharmingImp;
 import com.ruse.world.content.skill.summoning.SummoningTab;
@@ -126,26 +124,6 @@ public class DialogueOptions {
 				case 202:
 					player.setDialogueActionId(61);
 					DialogueManager.start(player, 102);
-					break;
-				case 67:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-						if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner().getUsername().equals(player.getUsername())) {
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().setDungeoneeringFloor(DungeoneeringFloor.FIRST_FLOOR);
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().sendMessage("The party leader has changed floor.");
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().refreshInterface();
-						}
-					}
-					break;
-				case 68:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-						if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner().getUsername().equals(player.getUsername())) {
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().setComplexity(1);
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().sendMessage("The party leader has changed complexity.");
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().refreshInterface();
-						}
-					}
 					break;
 				case 78:
 					player.getPacketSender().sendInterfaceRemoval();
@@ -257,17 +235,6 @@ public class DialogueOptions {
 					player.setDialogueActionId(62);
 					DialogueManager.start(player, 102);
 					break;
-
-				case 68:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-						if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner().getUsername().equals(player.getUsername())) {
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().setComplexity(2);
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().sendMessage("The party leader has changed complexity.");
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().refreshInterface();
-						}
-					}
-					break;
 				case 87: //Novite Rapier
 					if(player.getClickDelay().elapsed(1000)) {
 						DialogueManager.start(player, Tutorial.get(player, 0));
@@ -347,16 +314,6 @@ public class DialogueOptions {
 					player.setDialogueActionId(63);
 					DialogueManager.start(player, 102);
 					break;
-				case 68:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-						if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner().getUsername().equals(player.getUsername())) {
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().setComplexity(3);
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().sendMessage("The party leader has changed complexity.");
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().refreshInterface();
-						}
-					}
-					break;
 				case 87: //Novite Maul
 					if(player.getClickDelay().elapsed(1000)) {
 						DialogueManager.start(player, Tutorial.get(player, 0));
@@ -435,16 +392,6 @@ public class DialogueOptions {
 						player.getInventory().delete(995, 200000000);
 					player.getInventory().add(20081, 1);
 					player.getPacketSender().sendMessage("You've purchased a 200m Cape.");
-					break;
-				case 68:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-						if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner().getUsername().equals(player.getUsername())) {
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().setComplexity(4);
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().sendMessage("The party leader has changed complexity to "+player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getComplexity()+".");
-							player.getMinigameAttributes().getDungeoneeringAttributes().getParty().refreshInterface();
-						}
-					}
 					break;
 				case 87: //Magic shortbow
 					if(player.getClickDelay().elapsed(1000)) {
@@ -899,32 +846,6 @@ public class DialogueOptions {
 				case 57:
 					Graveyard.start(player);
 					break;
-				case 66:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getLocation() == Location.DUNGEONEERING && player.getMinigameAttributes().getDungeoneeringAttributes().getParty() == null) {
-						if(player.getMinigameAttributes().getDungeoneeringAttributes().getPartyInvitation() != null) {
-							player.getMinigameAttributes().getDungeoneeringAttributes().getPartyInvitation().add(player);
-							player.getPacketSender().sendMessage("You've joined the party!");
-						}
-					}
-					player.getMinigameAttributes().getDungeoneeringAttributes().setPartyInvitation(null);
-					break;
-				case 71:
-					if(player.getClickDelay().elapsed(1000)) {
-						if(Dungeoneering.doingDungeoneering(player)) {
-							Dungeoneering.leave(player, false, true);
-							player.getClickDelay().reset();
-						}
-					}
-					break;
-				case 72:
-					if(player.getClickDelay().elapsed(1000)) {
-						if(Dungeoneering.doingDungeoneering(player)) {
-							Dungeoneering.leave(player, false, player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner() == player ? false : true);
-							player.getClickDelay().reset();
-						}
-					}
-					break;
 				case 73:
 					player.getPacketSender().sendInterfaceRemoval();
 					player.moveTo(new Position(3653, player.getPosition().getY()));
@@ -1021,12 +942,6 @@ public class DialogueOptions {
 					break;
 				case 24:
 					Nomad.startFight(player);
-					break;
-				case 66:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getMinigameAttributes().getDungeoneeringAttributes().getPartyInvitation() != null && player.getMinigameAttributes().getDungeoneeringAttributes().getPartyInvitation().getOwner() != null)
-						player.getMinigameAttributes().getDungeoneeringAttributes().getPartyInvitation().getOwner().getPacketSender().sendMessage(""+player.getUsername()+" has declined your invitation.");
-					player.getMinigameAttributes().getDungeoneeringAttributes().setPartyInvitation(null);
 					break;
 				case 154:
 					player.moveTo(new Position(player.getPosition().getX(), player.getPosition().getY(), 0));
@@ -1178,11 +1093,6 @@ public class DialogueOptions {
 					break;
 				case 64:
 					CharmingImp.changeConfig(player, 3, 1);
-					break;
-				case 69:
-					if(player.getClickDelay().elapsed(1000)) {
-						Dungeoneering.start(player);
-					}
 					break;
 				case 70:
 				case 71:

@@ -8,7 +8,6 @@ import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.combat.CombatFactory;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
 import com.ruse.model.entity.character.player.Player;
 
 /**
@@ -67,11 +66,6 @@ public class PlayerOptionPacketListener implements PacketListener {
 		if (player.getLocation() == Location.DUEL_ARENA && player.getDueling().duelingStatus == 0) {
 			player.getDueling().challengePlayer(attacked);
 			return;
-		}
-		
-		if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-			player.getPacketSender().sendMessage("You must claim your stored items at Dungeoneering first.");
-			player.getMovementQueue().reset();return;
 		}
 
 		if (player.getEquipment().contains(20171) && player.getLocation() != Location.FREE_FOR_ALL_ARENA) {

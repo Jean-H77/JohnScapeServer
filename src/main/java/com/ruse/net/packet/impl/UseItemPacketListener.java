@@ -428,36 +428,6 @@ public class UseItemPacketListener implements PacketListener {
 		/*	case 15707:
 				DungeoneeringParty.invite(player);
 				break; */
-
-			case 15707:
-				Player partyDung = World.getPlayers().get(targetIndex);
-				if(player.getLocation() != Location.DUNGEONEERING || player.isTeleporting()) {
-					player.getPacketSender().sendMessage("You're not in Daemonheim");
-					return;
-				}
-				if(partyDung.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-					player.getPacketSender().sendMessage("That player is already in a party.");
-					return;
-				}
-				if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() == null) {
-					player.getPacketSender().sendMessage("You're not in a party!");
-					return;
-				}
-				if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner() != player) {
-					player.getPacketSender().sendMessage("Only the party leader can invite other players.");
-					return;
-				}
-				if(player.busy()) {
-					player.getPacketSender().sendMessage("You're busy and can't invite anyone.");
-					return;
-				}
-				if(partyDung.busy()) {
-					player.getPacketSender().sendMessage(partyDung.getUsername()+" is too busy to get your invite.");
-					return;
-				}
-				DialogueManager.start(partyDung, new DungPartyInvitation(player, partyDung));
-				player.getPacketSender().sendMessage("An invitation has been sent to " + partyDung.getUsername() );
-				break;
 		case 4566:
 			player.performAnimation(new Animation(451));
 				break;

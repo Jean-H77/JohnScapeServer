@@ -29,12 +29,11 @@ import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.minigames.trioMinigame;
 import com.ruse.world.content.skill.construction.ConstructionActions;
 import com.ruse.world.content.skill.crafting.Tanning;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
 import com.ruse.world.content.skill.fishing.Fishing;
 import com.ruse.world.content.skill.herblore.Decanting;
 import com.ruse.world.content.skill.hunter.PuroPuro;
 import com.ruse.world.content.skill.runecrafting.DesoSpan;
+import com.ruse.world.content.skill.slayer.Slayer;
 import com.ruse.world.content.skill.summoning.BossPets;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.skill.summoning.SummoningData;
@@ -42,8 +41,11 @@ import com.ruse.world.content.skill.thieving.Pickpocket;
 import com.ruse.world.content.skill.thieving.PickpocketData;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.world.content.skill.thieving.Stalls;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
+
+import java.util.Map;
 
 public class NPCOptionPacketListener implements PacketListener {
 
@@ -77,6 +79,31 @@ public class NPCOptionPacketListener implements PacketListener {
                 return;
             }
             switch(npc.getId()) {
+                case 33578:
+                case 38172:
+                    Slayer.slayerMasterDialogue(player, npc.getId());
+                    break;
+                case 33894:
+                    Stalls.SellRequest sellRequest = Stalls.sellGoods(player);
+                    if(sellRequest == null) {
+                        DialogueChain.create(player)
+                                .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(), "You have nothing worth buying."))
+                                .start();
+                        break;
+                    }
+                    DialogueChain.create(player)
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(), "I'll buy your goods for", Misc.currency(sellRequest.amount(), true)))
+                            .addPart(new Options((p, chain, o) -> {
+                                  if(o == 1) {
+                                      Map<Integer, Integer> deleteMap = sellRequest.map();
+                                      for(Map.Entry<Integer, Integer> entry : deleteMap.entrySet()) {
+                                          player.getInventory().delete(entry.getKey(), entry.getValue());
+                                      }
+                                      player.getInventory().add(995, sellRequest.amount());
+                                  }
+                            }, "Sell goods?", "Sure", "No thanks"))
+                            .start();
+                    break;
                 case 277:
                     if(player.isFirstFloorCastle()) {
                         DialogueManager.sendStatement(player, "Seems busy");
@@ -96,18 +123,53 @@ public class NPCOptionPacketListener implements PacketListener {
                         break;
                     }
                     break;
+                case 3922:
+                    DialogueChain.create(player)
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(),
+                                    "Hello!",
+                                    "I sell supplies such as food and potions",
+                                    "would you like to view my shop?"))
+                            .addPart(new Options((p, chain, o) -> {
+                                if (o == 1) {
+                                    chain.setRemoveInterface(false);
+                                    ShopManager.openShop("Supply Store", player);
+                                }
+                            }, "Select an option",  "Yes i'd like to view your shop", "No thanks"))
+                            .start();
+                    break;
+                case 33307:
+                    DialogueChain.create(player)
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(),
+                                    "Hello!, I'm the combat instructor of " + GameSettings.RSPS_NAME,
+                                    "And i'm here to help new players gear up."))
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(),
+                                    "This training cycle is optional but once you complete it",
+                                    "you'll be rewarded with powerful gear"," to start slayer and low tier bossing!"))
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(),
+                                    "when you defeat monsters in each section",
+                                    "you'll increase your activity guage",
+                                    "once your activity gauge goes to 100%",
+                                    "then you'll be able to advance to the next section!"))
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(),
+                                    "The first section will reward you with weapons",
+                                    "The second with armour pieces and",
+                                    "The third with jewelry"))
+                            .addPart(new NpcStatement(DialogueExpression.PLAIN_TALKING, npc.getId(),
+                                    "Talk to my brother in the fourth section",
+                                    "for additional rewards for completing the",
+                                    "training cycle!"))
+                            .start();
+                    break;
                 case 33572:
                     DialogueChain.create(player)
                                     .addPart(new Options((p, chain, o) -> {
                                         switch (o) {
-                                            case 1 -> chain.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
-npc.getId(),
-"I'm glad you asked that " + p.getUsername() + "!",
-"The AFK tree requires AFK tickets to chop", "But everytime you chop the tree", "Your AFK tickets have a small chance of depleting"))
-.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
-                                                            npc.getId(),
-"tickets are acquired doing various tasks around JohnScape",
-"So the more you play then the more you get to AFK!"));
+                                            case 1 -> chain.addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,npc.getId(),
+                                                            "I'm glad you asked that " + p.getUsername() + "!",
+                                                            "The AFK tree requires AFK tickets to chop", "But everytime you chop the tree", "Your AFK tickets have a small chance of depleting"))
+                                                    .addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,npc.getId(),
+                                                            "tickets are acquired doing various tasks around JohnScape",
+                                                            "So the more you play then the more you get to AFK!"));
                                             case 2 -> {
                                                     chain.setRemoveInterface(false);
                                                     ShopManager.openShop("AFK Store", player);
@@ -115,27 +177,6 @@ npc.getId(),
                                             case 3 -> TeleportHandler.teleportPlayer(player, new Position(3449, 4824, 0), TeleportType.NORMAL);
                                         }
                                     }, "Select an option",  "How does this work?", "View shop", "I want to leave now"))
-                            .start();
-                    break;
-                case 33578:
-                    DialogueChain.create(player)
-                            .addPart(new Options((p, chain, o) -> {
-                                switch (o) {
-                                    case 1 -> chain.addPart(new PlayerStatement(DialogueExpression.NO_EXPRESSION,
-                                                    "What's up?"))
-                                            .addPart(new NpcStatement(DialogueExpression.NO_EXPRESSION,
-                                                    npc.getId(),
-                                                    "What?"))
-                                            .addPart(new PlayerStatement(DialogueExpression.CONFUSED, "How's it going?"))
-                                            .addPart(new NpcStatement((ClickContinueEvent) () -> DialogueManager.sendStatement(p, "@red@Complete Adventures Mercenary before speaking with " + npc.getDefinition().getName()),
-                                                    DialogueExpression.ANGRY,
-                                                    npc.getId(),
-                                                    "@red@......."));
-                                    case 2 -> {
-
-                                    }
-                                }
-                            }, "Select an option",  "What's up?", "View slayer interface"))
                             .start();
                     break;
                 case 2728:
@@ -423,11 +464,6 @@ npc.getId(),
 		if (CombatFactory.checkAttackDistance(player, interact)) {
 			player.getMovementQueue().reset();
 		}
-		if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-			player.getPacketSender().sendMessage("You must claim your stored items at Dungeoneering first.");
-			player.getMovementQueue().reset();
-			return;
-		}
 
 		player.getCombatBuilder().attack(interact);
 	}
@@ -443,85 +479,89 @@ npc.getId(),
 		final int npcId = npc.getId();
 		if(player.getRights() == PlayerRights.DEVELOPER)
 			player.getPacketSender().sendMessage("Second click npc id: "+npcId);
-		player.setWalkToTask(new WalkToTask(player, npc.getPosition(), npc.getSize(), new FinalizedMovementTask() {
-			@Override
-			public void execute() {
-				if (PickpocketData.forNpc(npc.getId()) != null) {
-					Pickpocket.handleNpc(player, npc);
-					return;
-				}
-				//if ()
-				switch(npc.getId()) {
-				case 8459:
-					Decanting.notedDecanting(player);
-					break;
-				case 5382:
-					if (player.getGameMode().equals(GameMode.ULTIMATE_IRONMAN)) {
-						UltimateIronmanHandler.handleQuickStore(player);
-					} else {
-						DialogueManager.start(player, 195);
-					}
-					
-					player.getClickDelay().reset();
-					break;
-				case 736:
-					npc.forceChat("Thanx for the follow :)");
-					break;
-				case 1837:
-					player.getPacketSender().sendInterfaceRemoval();
-					if(player.getInventory().getAmount(11180) < 1) {
-						player.getPacketSender().sendMessage("You do not have enough tokens.");
-						return;
-					} else
-						player.getInventory().delete(11180, 1);
-						// So  we grab the players pID too determine what Z they will be getting. Not sure how kraken handles it, but this is how we'll handle it.
-					    player.moveTo(new Position(3025, 5231));
-						//player.getPacketSender().sendMessage("Index: " + player.getIndex());
-						//player.getPacketSender().sendMessage("Z: " + player.getIndex() * 4);
-						player.getPacketSender().sendMessage("Teleporting to Trio...");
-						player.getPacketSender().sendMessage("@red@Warning:@bla@ you @red@will@bla@ lose your items on death here!");
-						//Will sumbit a task to handle token remove, once they leave the minigame the task will be removed.
-					//	trioMinigame.failsafe(player);
-					//	trioMinigame.handleNPCSpawning(player);
-						trioMinigame.handleTokenRemoval(player);
+		player.setWalkToTask(new WalkToTask(player, npc.getPosition(), npc.getSize(), () -> {
+            if (PickpocketData.forNpc(npc.getId()) != null) {
+                Pickpocket.handleNpc(player, npc);
+                return;
+            }
+            //if ()
+            switch(npc.getId()) {
+                case 3922:
+                    ShopManager.openShop("Supply Store", player);
+                break;
+                case 33543:
+                    int random = Misc.random(4);
+                switch (random) {
+                    case 0 -> player.getPacketSender().sendMessage("@whi@That beast would probably bite my fingers off if I tried to pet it.");
+                    case 1 -> player.getPacketSender().sendMessage("@whi@I'm not going to pet that! It will probably bite my hand off, that filthy beast.");
+                    case 2 -> player.getPacketSender().sendMessage("@whi@Mmmm... you'd make a tasty kebab.");
+                    default -> player.getPacketSender().sendMessage("@whi@I'm not going to pet that nasty creature! I might get flees... or worse!");
+                }
+                break;
+            case 8459:
+                Decanting.notedDecanting(player);
+                break;
+            case 5382:
+                DialogueManager.start(player, 195);
+                player.getClickDelay().reset();
+                break;
+            case 736:
+                npc.forceChat("Thanx for the follow :)");
+                break;
+            case 1837:
+                player.getPacketSender().sendInterfaceRemoval();
+                if(player.getInventory().getAmount(11180) < 1) {
+                    player.getPacketSender().sendMessage("You do not have enough tokens.");
+                    return;
+                } else
+                    player.getInventory().delete(11180, 1);
+                    // So  we grab the players pID too determine what Z they will be getting. Not sure how kraken handles it, but this is how we'll handle it.
+                    player.moveTo(new Position(3025, 5231));
+                    //player.getPacketSender().sendMessage("Index: " + player.getIndex());
+                    //player.getPacketSender().sendMessage("Z: " + player.getIndex() * 4);
+                    player.getPacketSender().sendMessage("Teleporting to Trio...");
+                    player.getPacketSender().sendMessage("@red@Warning:@bla@ you @red@will@bla@ lose your items on death here!");
+                    //Will sumbit a task to handle token remove, once they leave the minigame the task will be removed.
+                //	trioMinigame.failsafe(player);
+                //	trioMinigame.handleNPCSpawning(player);
+                    trioMinigame.handleTokenRemoval(player);
 
-					break;
-				case 457:
-					player.getPacketSender().sendMessage("The ghost teleports you away.");
-					player.getPacketSender().sendInterfaceRemoval();
-					player.moveTo(new Position(3651, 3486));
-					break;
-				case 462:
-					npc.performAnimation(CombatSpells.CONFUSE.getSpell().castAnimation().get());
-					npc.forceChat("Off you go!");
-					TeleportHandler.teleportPlayer(player,new Position(2911, 4832), player.getSpellbook().getTeleportType());
-					break;
-				case 3101:
-					DialogueManager.start(player, 95);
-					player.setDialogueActionId(57);
-					break;
-				case 805:
-					Tanning.selectionInterface(player);
-					break;
-				case 318:
-				case 316:
-				case 313:
-				case 312:
-					player.setEntityInteraction(npc);
-					Fishing.setupFishing(player, Fishing.forSpot(npc.getId(), true));
-					break;
-				case 6970:
-					player.setDialogueActionId(35);
-					DialogueManager.start(player, 63);
-					break;
+                break;
+            case 457:
+                player.getPacketSender().sendMessage("The ghost teleports you away.");
+                player.getPacketSender().sendInterfaceRemoval();
+                player.moveTo(new Position(3651, 3486));
+                break;
+            case 462:
+                npc.performAnimation(CombatSpells.CONFUSE.getSpell().castAnimation().get());
+                npc.forceChat("Off you go!");
+                TeleportHandler.teleportPlayer(player,new Position(2911, 4832), player.getSpellbook().getTeleportType());
+                break;
+            case 3101:
+                DialogueManager.start(player, 95);
+                player.setDialogueActionId(57);
+                break;
+            case 805:
+                Tanning.selectionInterface(player);
+                break;
+            case 318:
+            case 316:
+            case 313:
+            case 312:
+                player.setEntityInteraction(npc);
+                Fishing.setupFishing(player, Fishing.forSpot(npc.getId(), true));
+                break;
+            case 6970:
+                player.setDialogueActionId(35);
+                DialogueManager.start(player, 63);
+                break;
 
-				//begin ironman second click handles
+            //begin ironman second click handles
 
-				}
-				npc.setPositionToFace(player.getPosition());
-				player.setPositionToFace(npc.getPosition());
-			}
-		}));
+            }
+            npc.setPositionToFace(player.getPosition());
+            player.setPositionToFace(npc.getPosition());
+        }));
 	}
 
 	public void handleThirdClick(Player player, Packet packet) {
@@ -540,12 +580,7 @@ npc.getId(),
 			public void execute() {
 				switch(npc.getId()) {
 				case 5382:
-					if (player.getGameMode().equals(GameMode.ULTIMATE_IRONMAN)) {
-						UltimateIronmanHandler.handleQuickRetrieve(player);
-					} else {
-						DialogueManager.start(player, 195);
-					}
-					
+                    DialogueManager.start(player, 195);
 					player.getClickDelay().reset();
 					break;
 				case 4653:

@@ -43,7 +43,6 @@ public class DialogueChain {
         if (dialogueParts.get(step) instanceof Options) {
 
             int option = 0;
-
             switch (((Options) dialogueParts.get(step)).getOptions().length) {
                 case 2 -> option = switch (buttonId) {
                     case 2461 -> 1;
@@ -84,6 +83,14 @@ public class DialogueChain {
 
         DialoguePart dp = dialogueParts.get(step);
 
+        if(dp instanceof ItemStatement && ((ItemStatement) dp).getClickContinueEvent() != null) {
+            ((ItemStatement) dp).getClickContinueEvent().event();
+        } else if(dp instanceof NpcStatement && ((NpcStatement) dp).getClickContinueEvent() != null) {
+            ((NpcStatement) dp).getClickContinueEvent().event();
+        } else if(dp instanceof PlayerStatement && ((PlayerStatement) dp).getClickContinueEvent() != null) {
+            ((PlayerStatement) dp).getClickContinueEvent().event();
+        }
+
         if(step == dialogueParts.size()-1) {
             if(removeInterface) {
                 player.getPacketSender().sendInterfaceRemoval();
@@ -91,14 +98,6 @@ public class DialogueChain {
         } else {
             step++;
             start();
-        }
-
-        if(dp instanceof ItemStatement && ((ItemStatement) dp).getClickContinueEvent() != null) {
-            ((ItemStatement) dp).getClickContinueEvent().event();
-        } else if(dp instanceof NpcStatement && ((NpcStatement) dp).getClickContinueEvent() != null) {
-            ((NpcStatement) dp).getClickContinueEvent().event();
-        } else if(dp instanceof PlayerStatement && ((PlayerStatement) dp).getClickContinueEvent() != null) {
-            ((PlayerStatement) dp).getClickContinueEvent().event();
         }
     }
 
@@ -113,6 +112,9 @@ public class DialogueChain {
     }
 
     public DialogueChain addPart(DialoguePart dialoguePart) {
+        if(dialogueParts.contains(dialoguePart)){
+            return this;
+        }
         dialogueParts.add(dialoguePart);
         return this;
     }

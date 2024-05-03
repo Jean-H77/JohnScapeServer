@@ -12,7 +12,6 @@ import com.ruse.net.packet.PacketListener;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
-import com.ruse.world.content.skill.dungeoneering.ItemBinding;
 import com.ruse.model.entity.character.GroundItemManager;
 import com.ruse.model.entity.character.player.Player;
 
@@ -44,8 +43,8 @@ public class DropItemPacketListener implements PacketListener {
 		}
 		player.getPacketSender().sendInterfaceRemoval();
 		player.getCombatBuilder().cooldown(false);
-		if (item != null && item.getId() != -1 && item.getAmount() >= 1) {
-			if(item.tradeable() && !ItemBinding.isBoundItem(item.getId())) {
+		if (item.getId() != -1 && item.getAmount() >= 1) {
+			if(item.tradeable()) {
 				player.getInventory().setItem(itemSlot, new Item(-1, 0)).refreshItems();
 				if(item.getId() == 4045) {
 					player.dealDamage(new Hit(null, (player.getConstitution() - 1) == 0 ? 1 : player.getConstitution() - 1, Hitmask.CRITICAL, CombatIcon.BLUE_SHIELD));

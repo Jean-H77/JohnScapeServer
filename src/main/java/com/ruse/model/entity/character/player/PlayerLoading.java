@@ -383,10 +383,6 @@ public class PlayerLoading {
 				player.setClueProgress((reader.get("clue-progress").getAsInt()));
 			}
 
-			if (reader.has("dung-items-bound")) {
-				player.getMinigameAttributes().getDungeoneeringAttributes().setBoundItems(builder.fromJson(reader.get("dung-items-bound").getAsJsonArray(), int[].class));
-			}
-
 			if (reader.has("rune-ess")) {
 				player.setStoredRuneEssence((reader.get("rune-ess").getAsInt()));
 			}

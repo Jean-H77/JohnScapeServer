@@ -8,7 +8,6 @@ import com.ruse.model.Position;
 import com.ruse.world.content.Kraken;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.model.entity.character.player.Player;
 
 
@@ -51,16 +50,8 @@ public class TeleportHandler {
 						cancelCurrentActions(player);
 						player.performAnimation(teleportType.getEndAnimation());
 						player.performGraphic(teleportType.getEndGraphic());
-						
-						if(Dungeoneering.doingDungeoneering(player)) {
-							final Position dungEntrance = player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getDungeoneeringFloor().getEntrance().copy().setZ(player.getPosition().getZ());
-							player.moveTo(dungEntrance).setPosition(dungEntrance);
-						} else {
-							player.moveTo(targetLocation).setPosition(targetLocation);
-						}
-
+						player.moveTo(targetLocation).setPosition(targetLocation);
 						player.getDungeonManager().leaveDungeon(false);
-
 						onArrival(player, targetLocation);
 						player.setTeleporting(false);
 					} else if(tick == teleportType.getStartTick() + 3) {

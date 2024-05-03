@@ -719,7 +719,7 @@ public class CommandPacketListener implements PacketListener {
 				player.getPacketSender().sendMessage("Please close the interface you have open before opening another one.");
 				return;
 			}
-			if(player.getLocation() == Location.WILDERNESS || player.getLocation() == Location.DUNGEONEERING || player.getLocation() == Location.DUEL_ARENA) {
+			if(player.getLocation() == Location.WILDERNESS || player.getLocation() == Location.DUEL_ARENA) {
 				player.getPacketSender().sendMessage("You cannot open your bank here.");
 				return;
 			}
@@ -809,7 +809,7 @@ public class CommandPacketListener implements PacketListener {
 		
 		
 		if (command[0].equalsIgnoreCase("dzone") || command[0].equalsIgnoreCase("donorzone") || command[0].equalsIgnoreCase("memberzone") || command[0].equalsIgnoreCase("mzone")) {
-			if(player.getLocation() != null && player.getLocation() == Location.WILDERNESS || player.getLocation() == Location.DUNGEONEERING || player.getLocation() == Location.DUEL_ARENA) {
+			if(player.getLocation() != null && player.getLocation() == Location.WILDERNESS || player.getLocation() == Location.DUEL_ARENA) {
 				player.getPacketSender().sendMessage("You cannot do this at the moment.");
 				return;
 			}
@@ -1545,7 +1545,6 @@ public class CommandPacketListener implements PacketListener {
 				int amount = (command.length == 2 ? 1 : Integer.parseInt(command[2].trim().toLowerCase().replaceAll("k", "000").replaceAll("m", "000000").replaceAll("b", "000000000")));
 				Item item = new Item(id, amount);
 				player.getInventory().add(item, true);
-				System.out.println("Added item");
 			} catch (NumberFormatException cause) {
 				String name = command[1].replaceAll("_", " ");
 				ItemDefinition definition = ItemDefinition.getDefinitionForName(name);

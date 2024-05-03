@@ -41,7 +41,6 @@ import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.construction.ConstructionActions;
 import com.ruse.world.content.skill.crafting.Flax;
 import com.ruse.world.content.skill.crafting.Jewelry;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.world.content.skill.fishing.Fishing;
 import com.ruse.world.content.skill.fishing.Fishing.Spot;
 import com.ruse.world.content.skill.hunter.Hunter;
@@ -438,15 +437,6 @@ public class ObjectActionPacketListener implements PacketListener {
 				case 1767:
 					DialogueManager.start(player, 114);
 					player.setDialogueActionId(72);
-					break;
-				case 7352:
-					if(Dungeoneering.doingDungeoneering(player) && player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getGatestonePosition() != null) {
-						player.moveTo(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getGatestonePosition());
-						player.setEntityInteraction(null);
-						player.getPacketSender().sendMessage("You are teleported to your party's gatestone.");
-						player.performGraphic(new Graphic(1310));
-					} else
-						player.getPacketSender().sendMessage("Your party must drop a Gatestone somewhere in the dungeon to use this portal.");
 					break;
 				case 7353:
 					player.moveTo(new Position(2439, 4956, player.getPosition().getZ()));
@@ -1165,14 +1155,12 @@ public class ObjectActionPacketListener implements PacketListener {
 				case 19178:
 					Hunter.lootTrap(player, gameObject);
 					break;
-				case 13493:
-					if(!player.getRights().isMember()) {
-						player.getPacketSender().sendMessage("You must be a Member to use this.");
-						return;
-					}
-					double c = Math.random()*100;
-					int reward = c >= 70 ? 13003 : c >= 45 ? 4131 : c >= 35 ? 1113 : c >= 25 ? 1147 : c >= 18 ? 1163 : c >= 12 ? 1079 : c >= 5 ? 1201 : 1127;
-					Stalls.stealFromStall(player, 95, 121, reward, "You stole some rune equipment.");
+				    case 630:
+					case 632:
+					case 628:
+					case 629:
+					case 631:
+					Stalls.stealFromStall(player, gameObject.getId());
 					break;
 				case 30205:
 					player.setDialogueActionId(11);
@@ -1396,24 +1384,6 @@ public class ObjectActionPacketListener implements PacketListener {
 					} else {
 						DwarfMultiCannon.pickupCannon(player, cannon, false);
 					}
-					break;
-				case 5917: //friday the 13th event
-					Stalls.stealFromStall(player, 1, 0, 13150, "You search the Plasma Vent... and find a Spooky Box!");
-					break;
-				case 4875:
-					Stalls.stealFromStall(player, 1, 13, 18199, "You steal a banana.");
-					break;
-				case 4874:
-					Stalls.stealFromStall(player, 30, 34, 15009, "You steal a golden ring.");
-					break;
-				case 4876:
-					Stalls.stealFromStall(player, 60, 57, 17401, "You steal a damaged hammer.");
-					break;
-				case 4877:
-					Stalls.stealFromStall(player, 65, 80, 1389, "You steal a staff.");
-					break;
-				case 4878:
-					Stalls.stealFromStall(player, 80, 101, 11998, "You steal a scimitar.");
 					break;
 				case 3044:
 				case 6189:

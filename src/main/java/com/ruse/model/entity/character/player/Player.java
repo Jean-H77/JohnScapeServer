@@ -60,6 +60,7 @@ import com.ruse.world.content.skill.construction.HouseFurniture;
 import com.ruse.world.content.skill.construction.Portal;
 import com.ruse.world.content.skill.construction.Room;
 import com.ruse.world.content.skill.farming.Farming;
+import com.ruse.world.content.skill.slayer.SlayerTask;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
 import com.ruse.world.content.teleporter.Teleporter;
@@ -442,6 +443,15 @@ public class Player extends CharacterEntity {
 	 private DwarfCannon cannon;
 	 private CombatSpell autocastSpell, castSpell, previousCastSpell;
 	 private RangedWeaponData rangedWeaponData;
+	 private SlayerTask slayerTask;
+
+	 public SlayerTask getSlayerTask() {
+		 return this.slayerTask;
+	 }
+
+	public void setSlayerTask(SlayerTask slayerTask) {
+		 this.slayerTask = slayerTask;
+	}
 
 	public Teleporter getTeleporter() {
 		return teleporter;

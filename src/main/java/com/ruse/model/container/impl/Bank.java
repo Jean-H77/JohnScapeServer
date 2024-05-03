@@ -12,7 +12,6 @@ import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.input.impl.ItemSearch;
 import com.ruse.world.content.BankPin;
 import com.ruse.world.content.BonusManager;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.model.entity.character.player.Player;
 
 /**
@@ -28,9 +27,6 @@ public class Bank extends ItemContainer {
 
 	public Bank open() {
 		getPlayer().getPacketSender().sendClientRightClickRemoval();
-		if(Dungeoneering.doingDungeoneering(getPlayer())) {
-			return this;
-		}
 		if(getPlayer().getBankPinAttributes().hasBankPin() && !getPlayer().getBankPinAttributes().hasEnteredBankPin()) {
 			BankPin.init(getPlayer(), true);
 			return this;

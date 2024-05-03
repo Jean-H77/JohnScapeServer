@@ -43,7 +43,7 @@ public class Spinolyp implements CombatStrategy {
 
 	@Override
 	public int attackDistance(CharacterEntity entity) {
-		return entity.getLocation() == Location.DUNGEONEERING ? 6 : 50;
+		return 50;
 	}
 	
 	@Override

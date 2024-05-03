@@ -8,51 +8,32 @@ import com.ruse.model.Position;
 import java.util.Arrays;
 
 public enum Teleport {
-    Areas(
-            "Forbidden Outpost",
-            351,
-            TeleportCategory.AREAS,
-            "Training Arena that offers training for new players to get started in " + GameSettings.RSPS_NAME + "!",
-            new Position(3055, 2853),
-            new Item(4151, 1), new Item(4151,1)),
+    SLAYER(
+            "Slayer",
+            33578,
+            TeleportCategory.SKILLING,
+            "Place to get slayer tasks!",
+            new Position(3474, 4813)),
+    THEIVING(
+            "Theiving",
+            33894,
+            TeleportCategory.SKILLING,
+            "Great place to get some coins!",
+            new Position(3440, 4805)),
 
-    PIRATE_HAVEN(
-            "Ancient Hideout",
-            13397,
-            TeleportCategory.AREAS,
-            "Great place to upgrade your gear once you're done with training arena!",
-            new Position(3047, 2888),
-            new Item(4151, 1), new Item(4151,1)),
-
-    LOST_FOREST(
-            "Lost Forest",
-            13396,
-            TeleportCategory.AREAS,
-            "Great place to upgrade your gear once you're done with training arena!",
-            new Position(3226, 2847),
-            new Item(4151, 1), new Item(4151,1)),
-
-    HAUNTED_WOODS(
-            "Haunted Woods",
-            13400,
-            TeleportCategory.AREAS,
-            "Great place to upgrade your gear once you're done with training arena!",
-            new Position(2909, 2833),
-            new Item(4151, 1), new Item(4151,1)),
-
-    THE_INFERNO(
-            "The Inferno",
-            7773,
-            TeleportCategory.AREAS,
-            "Great place to upgrade your gear once you're done with training arena!",
-            new Position(2864, 3235),
-            new Item(4151, 1), new Item(4151,1)),
-
-    TEST_TWO(
-            "Boss #1",
-            50,
+    ABOMINATION(
+            "The Abomination",
+            38260,
             TeleportCategory.BOSSES,
-            "Hey info two here",
+            "Low tier boss, requirements: @cya@None",
+            new Position(3333,3333),
+            new Item(6585, 1), new Item(6585,1)),
+
+    INFERNAL_PYRELORD(
+            "Infernal pyrelord",
+            39465,
+            TeleportCategory.BOSSES,
+            "Med-tier boss, requirements: @red@ Infernal @red@pyrelord unlock scroll",
             new Position(3333,3333),
             new Item(6585, 1), new Item(6585,1)),
 
@@ -164,7 +145,7 @@ public enum Teleport {
         return npcShow;
     }
 
-    public static final ImmutableList<Teleport> AREAS_TELEPORTS = ImmutableList.copyOf(Arrays.stream(values()).filter(it -> it.category == TeleportCategory.AREAS).toList());
+    public static final ImmutableList<Teleport> SKILLING_TELEPORTS = ImmutableList.copyOf(Arrays.stream(values()).filter(it -> it.category == TeleportCategory.SKILLING).toList());
     public static final ImmutableList<Teleport> BOSSES_TELEPORTS = ImmutableList.copyOf(Arrays.stream(values()).filter(it -> it.category == TeleportCategory.BOSSES).toList());
     public static final ImmutableList<Teleport> MINIGAMES_TELEPORTS = ImmutableList.copyOf(Arrays.stream(values()).filter(it -> it.category == TeleportCategory.MINIGAMES).toList());
     public static final ImmutableList<Teleport> DUNGEONS_TELEPORTS = ImmutableList.copyOf(Arrays.stream(values()).filter(it -> it.category == TeleportCategory.DUNGEONS).toList());
@@ -173,7 +154,7 @@ public enum Teleport {
 
     public static ImmutableList<Teleport> getTeleportsByCategory(TeleportCategory category) {
         return switch (category) {
-            case AREAS -> AREAS_TELEPORTS;
+            case SKILLING -> SKILLING_TELEPORTS;
             case BOSSES -> BOSSES_TELEPORTS;
             case MINIGAMES -> MINIGAMES_TELEPORTS;
             case DUNGEONS -> DUNGEONS_TELEPORTS;

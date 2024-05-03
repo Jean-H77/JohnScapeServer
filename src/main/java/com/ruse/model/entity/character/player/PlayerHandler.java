@@ -183,18 +183,6 @@ public class PlayerHandler {
 		player.getUpdateFlag().flag(Flag.APPEARANCE);
 		PlayerLogs.log(player.getUsername(), "Login. ip: "+player.getHostAddress()+", mac: "+player.getMac()+", uuid: "+player.getUUID());
 
-		if (player.isInDung()) {
-			System.out.println(player.getUsername()+" logged in from a bad dungeoneering session.");
-			PlayerLogs.log(player.getUsername(), " logged in from a bad dungeoneering session. Inv/equipment wiped.");
-			player.getInventory().resetItems().refreshItems();
-			player.getEquipment().resetItems().refreshItems();
-			if (player.getLocation() == Location.DUNGEONEERING) {
-				player.moveTo(GameSettings.DEFAULT_POSITION.copy());
-			}
-			player.getPacketSender().sendMessage("Your Dungeon has been disbanded.");
-			player.setInDung(false);
-		}
-
 		if (player.getLocation() == Location.GRAVEYARD && player.getPosition().getY() > 3566) {
 			PlayerLogs.log(player.getUsername(), "logged in inside the graveyard arena, moved their ass out.");
 			player.moveTo(new Position(3503, 3565, 0));

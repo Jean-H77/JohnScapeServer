@@ -11,7 +11,6 @@ import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.world.content.combat.magic.MagicSpells;
 import com.ruse.world.content.combat.magic.Spell;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
 import com.ruse.world.content.skill.magic.Magic;
 import com.ruse.world.content.skill.smithing.Smelting;
 import com.ruse.model.entity.character.player.Player;
@@ -36,10 +35,6 @@ public class MagicOnItemsPacketListener implements PacketListener {
 			if (player != null && player.getRights().OwnerDeveloperOnly()) {
 				player.getPacketSender().sendMessage("Used spell id: "+spellId+" on grounditem: "+itemId+" on XY: "+itemX+", "+itemY);
 			}
-			if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-				player.getPacketSender().sendMessage("<shad=0>@red@You cannot use this spell until you claim your stored Dungeoneering items.");
-				return;
-			}
 			player.getMovementQueue().reset();
 			//switch(spell) {}
 		} else if(packet.getOpcode() == MAGIC_ON_ITEMS) {
@@ -63,10 +58,6 @@ public class MagicOnItemsPacketListener implements PacketListener {
 			Spell spell = magicSpell.getSpell();
 			if (player != null && player.getRights().OwnerDeveloperOnly()) {
 				player.getPacketSender().sendMessage("Used spell id: "+spellId+" on item: "+itemId);
-			}
-			if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-				player.getPacketSender().sendMessage("<shad=0>@red@You cannot use this spell until you claim your stored Dungeoneering items.");
-				return;
 			}
 			switch(magicSpell) {
 			case ENCHANT_SAPPHIRE:

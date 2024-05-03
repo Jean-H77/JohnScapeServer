@@ -121,7 +121,7 @@ public class NPCDeathTask extends Task {
 		npc.setDying(false);
 
 		//respawn
-		if(npc.getDefinition().getRespawnTime() > 0 && npc.getLocation() != Location.GRAVEYARD && npc.getLocation() != Location.DUNGEONEERING && !(npc instanceof DungeonNPC)) {
+		if(npc.getDefinition().getRespawnTime() > 0 && npc.getLocation() != Location.GRAVEYARD && !(npc instanceof DungeonNPC)) {
 			TaskManager.submit(new NPCRespawnTask(npc, npc.getDefinition().getRespawnTime()));
 		}
 

@@ -15,20 +15,5 @@ public class DungeoneeringPartyInvitatationPacketListener implements PacketListe
 		if(plrToInvite == null || plrToInvite.length() <= 0)
 			return;
 		plrToInvite = Misc.formatText(plrToInvite);
-		if(player.getLocation() == Location.DUNGEONEERING) {
-			if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() == null || player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner() == null)
-				return;
-			player.getPacketSender().sendInterfaceRemoval();
-			if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner() != player) {
-				player.getPacketSender().sendMessage("Only the party leader can invite other players.");
-				return;
-			}
-			Player invite = World.getPlayerByName(plrToInvite);
-			if(invite == null) {
-				player.getPacketSender().sendMessage("That player is currently not online.");
-				return;
-			}
-			player.getMinigameAttributes().getDungeoneeringAttributes().getParty().invite(invite);
-		}
 	}
 }

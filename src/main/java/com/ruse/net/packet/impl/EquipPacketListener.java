@@ -27,7 +27,6 @@ import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueManager;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.Dueling.DuelRule;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.model.entity.character.player.Player;
 
 /**
@@ -382,7 +381,7 @@ public class EquipPacketListener implements PacketListener {
 		case 16023: 
 		case 17361: 
 		case 15818:
-			if(!(player.getRights().OwnerDeveloperOnly()) && player.getLocation() != Location.DUNGEONEERING && !Dungeoneering.doingDungeoneering(player)){
+			if(!(player.getRights().OwnerDeveloperOnly())){
 				player.getInventory().delete(id, 1);
 				player.getPacketSender().sendMessage("You aren't supposed to have that.");
 				World.sendStaffMessage(player.getUsername()+" has tried to equip a "+ItemDefinition.forId(id).getName()+" outside of dungeoneering."); //TODO FIX THIS
@@ -410,7 +409,7 @@ public class EquipPacketListener implements PacketListener {
 			break;
 		case 15835:
 		case 17293:
-			if(!(player.getRights().OwnerDeveloperOnly()) && player.getLocation() != Location.DUNGEONEERING && !Dungeoneering.doingDungeoneering(player)){
+			if(!(player.getRights().OwnerDeveloperOnly())){
 				player.getInventory().delete(id, 1);
 				player.getPacketSender().sendMessage("You aren't supposed to have that.");
 				World.sendStaffMessage("@red@[BUG] "+player.getUsername()+" just tried to equip a Doomcore Staff out of dung!");
@@ -478,7 +477,7 @@ public class EquipPacketListener implements PacketListener {
 		case 16339:
 		case 6068:
 		case 9703:
-			if(player.getGameMode() != GameMode.IRONMAN && player.getLocation() != Location.DUNGEONEERING){
+			if(player.getGameMode() != GameMode.IRONMAN){
 				player.getPacketSender().sendMessage("You must be in Iron Man mode to use this.");
 				return;
 			}
@@ -496,7 +495,7 @@ public class EquipPacketListener implements PacketListener {
 				/*
 				 * Making sure item exists and that id is consistent.
 				 */
-				if (item != null && id == item.getId()) {
+				if (id == item.getId()) {
 					for (SkillLevel level : item.getDefinition().getRequirements()) {
 						if(level.getSkill() == Skill.CONSTRUCTION)
 							continue;

@@ -19,7 +19,6 @@ import com.ruse.world.content.minigames.Nomad;
 import com.ruse.world.content.minigames.PestControl;
 import com.ruse.world.content.minigames.RecipeForDisaster;
 import com.ruse.world.content.minigames.TheSix;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.model.entity.Entity;
 import com.ruse.model.entity.character.CharacterEntity;
 import com.ruse.model.entity.character.npc.NPC;
@@ -145,52 +144,6 @@ public class Locations {
 				}
 			}
 			
-		},
-		DUNGEONEERING(new int[]{3433, 3459, 2421, 2499}, new int[]{3694, 3729, 4915, 4990}, true, false, true, false, true, false) {
-			@Override
-			public void login(Player player) {
-				player.getPacketSender().sendDungeoneeringTabIcon(true).sendTabInterface(GameSettings.QUESTS_TAB, 27224).sendTab(GameSettings.QUESTS_TAB);
-			}
-
-			@Override
-			public void leave(Player player) {
-				Dungeoneering.leave(player, true, true);
-			}
-
-			@Override
-			public void enter(Player player) {
-				player.getPacketSender().sendDungeoneeringTabIcon(true).sendTabInterface(GameSettings.QUESTS_TAB, 27224).sendTab(GameSettings.QUESTS_TAB);
-				if (player.isInDung() == false) {
-					DialogueManager.start(player, 104);
-				}
-			}
-
-			@Override
-			public void onDeath(Player player) {
-				if(Dungeoneering.doingDungeoneering(player)) {
-					Dungeoneering.handlePlayerDeath(player);
-				}
-			}
-
-			@Override
-			public boolean handleKilledNPC(Player killer, NPC npc) {
-				if(Dungeoneering.doingDungeoneering(killer)) {
-					Dungeoneering.handleNpcDeath(killer, npc);
-					return true;
-				}
-				return false;
-			}
-
-			@Override
-			public void process(Player player) {
-				if(Dungeoneering.doingDungeoneering(player)) {
-					if(player.getWalkableInterfaceId() != 37500) {
-						player.getPacketSender().sendWalkableInterface(37500);
-					}
-				} else if(player.getWalkableInterfaceId() == 37500) {
-					player.getPacketSender().sendWalkableInterface(-1);
-				}
-			}
 		},
 		//Location(int[] x, int[] y, boolean multi, boolean summonAllowed, boolean followingAllowed, boolean cannonAllowed, boolean firemakingAllowed, boolean aidingAllowed) {
 		ZULRAH_WAITING(new int[]{3401, 3414}, new int[]{2789, 2801}, false, true, true, false, true, true) {

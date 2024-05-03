@@ -11,6 +11,7 @@ import com.ruse.util.Misc;
 import com.ruse.util.NameUtils;
 import com.ruse.world.World;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -99,12 +100,13 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				rsaBuffer.readBytes(bytes);
 				BigInteger bigInteger = new BigInteger(bytes);
 				bigInteger = bigInteger.modPow(GameSettings.RSA_EXPONENT, GameSettings.RSA_MODULUS);
-				rsaBuffer = wrappedBuffer(bigInteger.toByteArray());
+				rsaBuffer = Unpooled.wrappedBuffer(bigInteger.toByteArray());
 
 				int securityId = rsaBuffer.readByte();
 				if(securityId != 10) {
 					System.out.println("securityId id is not 10. It is "+securityId);
 					channel.close();
+					rsaBuffer.release();
 					ReferenceCountUtil.release(rsaBuffer);
 					return;
 				}
@@ -113,6 +115,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				if (seedReceived != seed) {
 					System.out.println("Unhandled seed read: [seed, seedReceived] : [" + seed + ", " + seedReceived + "");
 					channel.close();
+					rsaBuffer.release();
 					ReferenceCountUtil.release(rsaBuffer);
 					return;
 				}
@@ -131,15 +134,18 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				String mac = Misc.readString(rsaBuffer);
 				String uuid = Misc.readString(rsaBuffer);
 				//String serial = Misc.readString(rsaBuffer);
-				ReferenceCountUtil.release(rsaBuffer);
 				if (username.length() > 12 || password.length() > 20) {
 					System.out.println("Username or password length too long");
+					rsaBuffer.release();
+					ReferenceCountUtil.release(rsaBuffer);
 					return;
 				}
 				username = Misc.formatText(username.toLowerCase());
 				channel.pipeline().replace("encoder", "encoder", new PacketEncoder(new IsaacRandom(seed)));
 				channel.pipeline().replace("decoder", "decoder", new PacketDecoder(decodingRandom));
 				out.add(new LoginDetailsMessage(username, password, ((InetSocketAddress) channel.remoteAddress()).getAddress().getHostAddress(), mac, uuid, clientVersion, uid, channel));
+				rsaBuffer.release();
+				//ReferenceCountUtil.release(rsaBuffer);
 		}
 	}
 }
