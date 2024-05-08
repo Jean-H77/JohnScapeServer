@@ -1,8 +1,6 @@
 package com.ruse.net.packet.impl;
 
 import com.ruse.GameSettings;
-import com.ruse.engine.task.Task;
-import com.ruse.engine.task.TaskManager;
 import com.ruse.engine.task.impl.WalkToTask;
 import com.ruse.engine.task.impl.WalkToTask.FinalizedMovementTask;
 import com.ruse.model.GameMode;
@@ -42,6 +40,7 @@ import com.ruse.world.content.skill.thieving.PickpocketData;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.skill.thieving.Stalls;
+import com.ruse.world.content.strangertasks.StrangerTasksHandler;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 
@@ -79,6 +78,9 @@ public class NPCOptionPacketListener implements PacketListener {
                 return;
             }
             switch(npc.getId()) {
+                case 38539:
+                    StrangerTasksHandler.dialogue(player);
+                    break;
                 case 33578:
                 case 38172:
                     Slayer.slayerMasterDialogue(player, npc.getId());

@@ -1,6 +1,7 @@
 package com.ruse.net.packet.impl;
 
 import com.ruse.GameSettings;
+import com.ruse.eventbus.impl.ButtonClickEvent;
 import com.ruse.model.Item;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.Position;
@@ -51,17 +52,10 @@ public class ButtonClickPacketListener implements PacketListener {
 
 	@Override
 	public void handleMessage(Player player, Packet packet) {
-
-		int bankid = 0;
 		int id = packet.readShort();
 
 		if (player.getRights() == PlayerRights.OWNER || player.getRights().isDeveloperOnly()) {
 			player.getPacketSender().sendMessage("Clicked button: " + id);
-		}
-
-		if(id >= -24475 && id <= -24445) {
-			if(player.getDropViewer().handleButtonClick(id))
-				return;
 		}
 
 		if(checkHandlers(player, id))
@@ -128,6 +122,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		case -26349:
 			KillsTracker.open(player);
 			break;
+			case -24325:
+				player.getSacrificeItemExchange().exchange();
+				break;
 		case -26348:
 			DropLog.open(player);
 			break;

@@ -1,7 +1,12 @@
 package com.ruse.world;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ruse.GameSettings;
+import com.ruse.eventbus.impl.EndCycleEvent;
+import com.ruse.eventbus.impl.player.PlayerRegisterEvent;
+import com.ruse.eventbus.impl.player.PlayerRegisterRequest;
 import com.ruse.model.MessageType;
 import com.ruse.model.PlayerRights;
 import com.ruse.model.entity.Entity;
@@ -10,13 +15,17 @@ import com.ruse.model.entity.character.CharacterList;
 import com.ruse.model.entity.character.GlobalItemSpawner;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.model.entity.character.player.PlayerHandler;
 import com.ruse.model.entity.character.updating.NpcUpdateSequence;
 import com.ruse.model.entity.character.updating.PlayerUpdateSequence;
 import com.ruse.model.entity.character.updating.UpdateSequence;
 import com.ruse.util.Misc;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
@@ -34,6 +43,12 @@ public class World {
 
 	/** A thread pool that will update players in parallel. */
 	private static ExecutorService updateExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new ThreadFactoryBuilder().setNameFormat("UpdateThread").setPriority(Thread.MAX_PRIORITY).build());
+
+	public static Deque<Player> loginQueue = new ConcurrentLinkedDeque<>();
+
+	public static Deque<Player> logoutQueue = new ConcurrentLinkedDeque<>();
+
+	private static final int LOGIN_LIMITER = 25;
 
     public static void register(Entity entity) {
 		EntityHandler.register(entity);
@@ -83,7 +98,7 @@ public class World {
 	}
 
 	public static void savePlayers() {
-		Thread.startVirtualThread(() -> players.forEach(Player::save));
+		players.forEach(Player::save);
 	}
 
 	public static CharacterList<Player> getPlayers() {
@@ -93,7 +108,9 @@ public class World {
 	public static CharacterList<NPC> getNpcs() {
 		return npcs;
 	}
-	
+
+	public static final EndCycleEvent endCycleEvent = new EndCycleEvent();
+
 	public static void sequence() {
 		UpdateSequence<Player> playerUpdate = new PlayerUpdateSequence(synchronizer, updateExecutor);
 		UpdateSequence<NPC> npcUpdate = new NpcUpdateSequence();
@@ -104,5 +121,21 @@ public class World {
 		synchronizer.arriveAndAwaitAdvance();
 		players.forEach(playerUpdate::executePostUpdate);
 		npcs.forEach(npcUpdate::executePostUpdate);
+
+		for(int i = 0; i < LOGIN_LIMITER; i++) {
+			if(loginQueue.isEmpty() && logoutQueue.isEmpty()) {
+				break;
+			}
+
+			if(!loginQueue.isEmpty()) {
+				Player player = loginQueue.pop();
+				PlayerHandler.handleLogin(player);
+			}
+
+			if(!logoutQueue.isEmpty()) {
+				Player player = logoutQueue.pop();
+				PlayerHandler.handleLogout(player, false);
+			}
+		}
 	}
 }

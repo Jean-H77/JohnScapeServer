@@ -128,7 +128,6 @@ public final class PlayerSession {
 
 			addedPackets++;
 		} else {
-			System.out.println("Refuse to add more packets to queue for "+player.getUsername()+". Already added "+addedPackets+" this cycle!!!");
 			clearMessages();
 		}
 	}

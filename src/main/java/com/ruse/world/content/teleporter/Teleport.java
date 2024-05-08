@@ -21,11 +21,21 @@ public enum Teleport {
             "Great place to get some coins!",
             new Position(3440, 4805)),
 
+    MANIC_ENGINEER(
+            "Manic Engineer",
+            13400,
+            TeleportCategory.BOSSES,
+            "requirements: @cya@Unlock @cya@scroll.",
+            new Position(3333,3333),
+            new Item(919, 1), new Item(923,1),
+            new Item(920,1), new Item(924,1),
+            new Item(921,1), new Item(922,1)
+    ),
     ABOMINATION(
             "The Abomination",
             38260,
             TeleportCategory.BOSSES,
-            "Low tier boss, requirements: @cya@None",
+            "requirements: @cya@Unlock @cya@scroll.",
             new Position(3333,3333),
             new Item(6585, 1), new Item(6585,1)),
 
@@ -33,7 +43,7 @@ public enum Teleport {
             "Infernal pyrelord",
             39465,
             TeleportCategory.BOSSES,
-            "Med-tier boss, requirements: @red@ Infernal @red@pyrelord unlock scroll",
+            "requirements: @cya@Unlock @cya@scroll.",
             new Position(3333,3333),
             new Item(6585, 1), new Item(6585,1)),
 

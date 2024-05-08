@@ -245,6 +245,8 @@ public class ItemDefinition {
 	@Setter
 	private boolean isCollectionLogItem;
 
+	private int sacrificeTokens;
+
 	/**
 	 * Create new ItemDefinition.
 	 */
@@ -400,6 +402,14 @@ public class ItemDefinition {
 
 	public void setCollectionLogItem(boolean isCollectionLogItem) {
 		this.isCollectionLogItem = isCollectionLogItem;
+	}
+
+	public int getSacrificeTokens() {
+		return sacrificeTokens;
+	}
+
+	public void setSacrificeTokens(int sacrificeTokens) {
+		this.sacrificeTokens = sacrificeTokens;
 	}
 
 	/**

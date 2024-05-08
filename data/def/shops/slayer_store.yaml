@@ -6,16 +6,16 @@ canSell: false
 shopItems:
   - itemId: 6199
     cost: 3000
-    amount: 500
+    amount: 1900000000
   - itemId: 15501
     cost: 5000
-    amount: 500
+    amount: 1900000000
   - itemId: 1050
     cost: 5000
-    amount: 500
+    amount: 1900000000
   - itemId: 10284
     cost: 5000
-    amount: 500
+    amount: 1900000000
   - itemId: 43344
     cost: 5000
-    amount: 500
+    amount: 1900000000

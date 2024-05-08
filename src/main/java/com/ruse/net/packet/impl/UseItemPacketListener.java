@@ -156,7 +156,6 @@ public class UseItemPacketListener implements PacketListener {
 		final int itemSlot = packet.readLEShort();
 		final int objectX = packet.readLEShortA();
 		final int itemId = packet.readShort();
-		System.out.println("ObjectId: " + objectId);
 
 		if (itemSlot < 0 || itemSlot > player.getInventory().capacity())
 			return;
@@ -185,7 +184,6 @@ public class UseItemPacketListener implements PacketListener {
                         return;
                     }
                     if (Prayer.isBone(itemId) && (objectId == 409 || objectId == 8749)) {
-                        System.out.println("Opening interface");
                         BonesOnAltar.openInterface(
                                 player, itemId);
                         return;

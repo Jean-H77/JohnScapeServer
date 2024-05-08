@@ -18,6 +18,7 @@ import com.ruse.model.definitions.NpcDropItem;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.entity.character.npc.NpcItemDropping;
+import com.ruse.net.GameHandler;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.net.security.ConnectionHandler;
@@ -47,6 +48,7 @@ import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.crafting.Jewelry;
 import com.ruse.world.content.skill.fletching.BoltData;
 import com.ruse.world.content.skill.herblore.Decanting;
+import com.ruse.world.content.strangertasks.StrangerTasksHandler;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.CharacterEntity;
@@ -58,6 +60,7 @@ import java.time.*;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**
@@ -162,7 +165,6 @@ public class CommandPacketListener implements PacketListener {
 			OffsetDateTime date = JobScheduler.getNextFireTime("MidnightReset").toInstant().atOffset(ZoneOffset.UTC);
 			OffsetDateTime offsetDateTime = OffsetDateTime.now(ZoneOffset.UTC);
 			Duration duration = Duration.between(offsetDateTime, date);
-				System.out.println("Next fire time: " + String.format("%d hours : %02d minutes : %02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
 		}
 
 		if (wholeCommand.equalsIgnoreCase("q")) {
@@ -1895,6 +1897,7 @@ public class CommandPacketListener implements PacketListener {
 		if(wholeCommand.equalsIgnoreCase("Ms")) {
 			ShopManager.openShop("Magic Store", player);
 		}
+
 		if(wholeCommand.equalsIgnoreCase("Rs")) {
 			ShopManager.openShop("Range Store", player);
 		}
@@ -2265,9 +2268,11 @@ public class CommandPacketListener implements PacketListener {
 			player.save();
 			player.getPacketSender().sendMessage("Saved your character.");
 		}
+
 		if(command[0].equalsIgnoreCase("saveall")) {
 			World.savePlayers();
 		}
+
 		if(command[0].equalsIgnoreCase("frame")) {
 			int frame = Integer.parseInt(command[1]);
 			String text = command[2];

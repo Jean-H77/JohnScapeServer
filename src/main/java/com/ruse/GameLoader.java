@@ -2,7 +2,6 @@ package com.ruse;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,7 +17,6 @@ import com.ruse.model.definitions.NPCDrops;
 import com.ruse.model.definitions.NpcDefinition;
 import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.net.PipelineInitializer;
-import com.ruse.net.login.AuthenticationService;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.scheduler.JobScheduler;
 import com.ruse.util.FileUtils;
@@ -93,7 +91,6 @@ public final class GameLoader {
 		serviceLoader.execute(NPC::init);
 		serviceLoader.execute(JobScheduler::initialize);
 		serviceLoader.execute(ShopManager::loadShops);
-		AuthenticationService.start();
 	}
 
 	public GameEngine getEngine() {

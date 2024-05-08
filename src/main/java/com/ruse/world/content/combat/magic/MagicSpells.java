@@ -581,7 +581,7 @@ public enum MagicSpells {
 				p.getPacketSender().sendMessage("You already have Vengeance active.");
 				return true;
 			}
-			if(!p.getLastVengeance().elapsed(30000) && !Misc.checkForOwner()) {
+			if(!p.getLastVengeance().elapsed(30000)) {
 				p.getPacketSender().sendMessage("This spell can only be cast once every 30 seconds.");
 				return true;
 			}

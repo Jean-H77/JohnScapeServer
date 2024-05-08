@@ -46,11 +46,7 @@ public class PlayerOptionPacketListener implements PacketListener {
 		if (index > World.getPlayers().capacity() || index < 0)
 			return;
 		final Player attacked = World.getPlayers().get(index);
-		
-		if (Misc.checkForOwner()) {
-			World.sendOwnerDevMessage(player.getUsername()+" attacked index: "+index+", target = "+attacked.getUsername());
-		}
-		
+
 		if (attacked.equals(player)) {
 			player.getMovementQueue().reset();
 			World.sendStaffMessage("[BUG TRACKER] Error 959.1 has occured. PLEASE REPORT TO CRIMSON!");

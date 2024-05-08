@@ -9,6 +9,7 @@ import com.ruse.model.*;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.GameObjectDefinition;
+import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.input.impl.EnterAmountOfLogsToAdd;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
@@ -22,20 +23,13 @@ import com.ruse.world.content.combat.magic.Autocasting;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
-import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueChain.DialogueChain;
 import com.ruse.world.content.dialogue.DialogueChain.Options;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.minigames.Barrows;
-import com.ruse.world.content.minigames.Dueling;
+import com.ruse.world.content.minigames.*;
 import com.ruse.world.content.minigames.Dueling.DuelRule;
-import com.ruse.world.content.minigames.FightCave;
-import com.ruse.world.content.minigames.FightPit;
-import com.ruse.world.content.minigames.Nomad;
-import com.ruse.world.content.minigames.PestControl;
-import com.ruse.world.content.minigames.RecipeForDisaster;
-import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.randomevents.EvilTree.EvilTreeDef;
+import com.ruse.world.content.sacrifice.SacrificeItemExchange;
 import com.ruse.world.content.skill.agility.Agility;
 import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.construction.ConstructionActions;
@@ -58,7 +52,6 @@ import com.ruse.world.content.skill.woodcutting.WoodcuttingData;
 import com.ruse.world.content.skill.woodcutting.WoodcuttingData.Hatchet;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
-import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.wogw.WellOfGoodwill;
 
 /**
@@ -159,7 +152,6 @@ public class ObjectActionPacketListener implements PacketListener {
 							player.getSkillManager().setCurrentLevel(Skill.PRAYER, player.getSkillManager().getMaxLevel(Skill.PRAYER), true);
 						}
 						player.setAnimation(DRINK_ANIMATION);
-						System.out.println("Clack");
 						break;
 				case 2305:
 					if (player.getLocation() != null && player.getLocation() == Location.WILDERNESS) {
@@ -167,6 +159,9 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("You escape from the spikes.");
 					}
 					break;
+					case 101625:
+						player.getSacrificeItemExchange().open();
+						break;
 					case 22769:
 				//		player.getMainScreen().displayScreen();
 						break;

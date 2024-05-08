@@ -1,6 +1,5 @@
 package com.ruse.model.entity.character.npc;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +23,7 @@ import com.ruse.world.content.DropLog;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.minigames.WarriorsGuild;
-import com.ruse.world.content.skill.prayer.BonesData;
+import com.ruse.world.content.skill.prayer.BoneType;
 
 public class NpcItemDropping {
     public static class ItemDropAnnouncer {
@@ -158,13 +157,13 @@ public class NpcItemDropping {
         if(npc.getId() == 2007 || npc.getId() == 2042 || npc.getId() == 2043 || npc.getId() == 2044) {
             pos = player.getPosition().copy();
         }
-        if ((player.getInventory().contains(18337) || (player.getSkillManager().skillCape(Skill.PRAYER) && player.getBonecrushEffect())) && BonesData.forId(item.getId()) != null) {
+        if ((player.getInventory().contains(18337) || (player.getSkillManager().skillCape(Skill.PRAYER) && player.getBonecrushEffect())) && BoneType.forId(item.getId()) != null) {
             player.getPacketSender().sendGlobalGraphic(new Graphic(777), pos);
             if (player.getRights().isMember()) {
-                player.getSkillManager().addExperience(Skill.PRAYER, BonesData.forId(item.getId()).getBuryingXP() * 2);
+                player.getSkillManager().addExperience(Skill.PRAYER, BoneType.forId(item.getId()).getBuryingXP() * 2);
                 return;
             } else {
-                player.getSkillManager().addExperience(Skill.PRAYER, BonesData.forId(item.getId()).getBuryingXP());
+                player.getSkillManager().addExperience(Skill.PRAYER, BoneType.forId(item.getId()).getBuryingXP());
                 return;
             }
         }

@@ -2,24 +2,10 @@ package com.ruse.model.entity.character.player;
 
 import com.ruse.GameServer;
 import com.ruse.GameSettings;
+import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
-import com.ruse.engine.task.impl.BonusExperienceTask;
-import com.ruse.engine.task.impl.CombatSkullEffect;
-import com.ruse.engine.task.impl.FireImmunityTask;
-import com.ruse.engine.task.impl.OverloadPotionTask;
-import com.ruse.engine.task.impl.PlayerRegenConstitutionTask;
-import com.ruse.engine.task.impl.PlayerSkillsTask;
-import com.ruse.engine.task.impl.PlayerSpecialAmountTask;
-import com.ruse.engine.task.impl.PrayerRenewalPotionTask;
-import com.ruse.engine.task.impl.StaffOfLightSpecialAttackTask;
-import com.ruse.engine.task.impl.SummoningRegenPlayerConstitutionTask;
-import com.ruse.model.Flag;
-import com.ruse.model.Locations;
-import com.ruse.model.Locations.Location;
-import com.ruse.model.MessageType;
-import com.ruse.model.PlayerRights;
-import com.ruse.model.Position;
-import com.ruse.model.Skill;
+import com.ruse.engine.task.impl.*;
+import com.ruse.model.*;
 import com.ruse.model.container.impl.Bank;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.WeaponAnimations;
@@ -27,27 +13,25 @@ import com.ruse.model.definitions.WeaponInterfaces;
 import com.ruse.model.entity.character.GlobalItemSpawner;
 import com.ruse.net.PlayerSession;
 import com.ruse.net.SessionState;
-import com.ruse.net.login.AuthenticationService;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.util.Misc;
 import com.ruse.world.World;
 import com.ruse.world.clip.region.RegionClipping;
-import com.ruse.world.content.*;
+import com.ruse.world.content.BonusManager;
+import com.ruse.world.content.Lottery;
+import com.ruse.world.content.PlayersOnlineInterface;
+import com.ruse.world.content.Wildywyrm;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.world.content.combat.effect.CombatPoisonEffect;
 import com.ruse.world.content.combat.effect.CombatTeleblockEffect;
 import com.ruse.world.content.combat.magic.Autocasting;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
-import com.ruse.world.content.combat.pvp.BountyHunter;
-import com.ruse.world.content.combat.range.DwarfMultiCannon;
 import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.minigames.Barrows;
-import com.ruse.world.content.skill.hunter.Hunter;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
+import com.ruse.world.content.transportation.TeleportHandler;
+import com.ruse.world.content.transportation.TeleportType;
 import org.mindrot.jbcrypt.BCrypt;
-
-import java.awt.*;
 
 public class PlayerHandler {
 
@@ -162,7 +146,6 @@ public class PlayerHandler {
 			player.setClanChatName("JohnScape");
 		}
 
-		player.setRights(PlayerRights.DEVELOPER);
 		player.getPacketSender().sendRights();
 
 		ClanChatManager.handleLogin(player);
@@ -181,32 +164,40 @@ public class PlayerHandler {
 			World.sendMessage(MessageType.PLAYER_ALERT, ("<shad=0><col="+player.getYellHex()+">Owner "+player.getUsername()+" has just logged in."));
 
 		player.getUpdateFlag().flag(Flag.APPEARANCE);
-		PlayerLogs.log(player.getUsername(), "Login. ip: "+player.getHostAddress()+", mac: "+player.getMac()+", uuid: "+player.getUUID());
-
-		if (player.getLocation() == Location.GRAVEYARD && player.getPosition().getY() > 3566) {
-			PlayerLogs.log(player.getUsername(), "logged in inside the graveyard arena, moved their ass out.");
-			player.moveTo(new Position(3503, 3565, 0));
-			player.setPositionToFace(new Position(3503, 3566));
-			player.getPacketSender().sendMessage("You logged off inside the graveyard arena. Moved you to lobby area.");
-		}
-
-		if (player.getPosition().getX() == 3004 && player.getPosition().getY() >= 3938 && player.getPosition().getY() <= 3949) {
-			PlayerLogs.log(player.getUsername(), player.getUsername()+" was stuck in the obstacle pipe in the Wild.");
-			player.moveTo(new Position(3006, player.getPosition().getY(), player.getPosition().getZ()));
-			player.getPacketSender().sendMessage("You logged off inside the obstacle pipe, moved out.");
-		}
 
 		GlobalItemSpawner.spawnGlobalGroundItems(player);
-		player.getPacketSender().sendString(57003, "Players:  @gre@"+(int)(World.getPlayers().size()));
+		player.getPacketSender().sendString(57003, "Players:  @gre@"+ World.getPlayers().size());
 
 		if(player.getAttendanceManager().isDifferentDay()) {
 			player.getAttendanceManager().newDay();
 		}
 
-		player.getAchievementManger().sendAchievementData();
+		int random = Misc.random(2);
+		if(player.getUsername().contains("Bot")) {
+			TaskManager.submit(new Task() {
+				int ticks = 0;
+				@Override
+				protected void execute() {
+					if(ticks == 4) {
+						player.forceChat("Hello!!!!!!");
+					}
+					if(ticks == 6) {
+						TeleportHandler.teleportPlayer(player, player.getPosition(), TeleportType.TELE_TAB);
+						ticks = 0;
+					}
+					ticks++;
+				}
+			});
+			if(random == 1) {
+				player.getPosition().set(3451 + Misc.random(10), 4815 + Misc.random(10), 0);
+			} else {
+				player.getPosition().set(3451 - Misc.random(10), 4815 - Misc.random(10), 0);
+			}
+		}
+
 	}
 
-	public static boolean handleLogout(Player player, Boolean forced) {
+	public static void handleLogout(Player player, Boolean forced) {
 		try {
 			PlayerSession session = player.getSession();
 			
@@ -215,19 +206,16 @@ public class PlayerHandler {
 			}
 
 			if(!player.isRegistered()) {
-				return true;
+				return;
 			}
 
-			boolean exception = forced || GameServer.isUpdating() || AuthenticationService.queue.stream().anyMatch(it -> it instanceof Player p && p.equals(player)) && player.getLogoutTimer().elapsed(90000);
+			boolean exception = forced || GameServer.isUpdating() || World.logoutQueue.contains(player) && player.getLogoutTimer().elapsed(90000);
 			if(player.logout() || exception) {
 			//	System.out.println("[World] Deregistering player - [username, host] : [" + player.getUsername() + ", " + player.getHostAddress() + "]");
 				player.getSession().setState(SessionState.LOGGING_OUT);
 				ConnectionHandler.remove(player.getHostAddress());
 				player.setTotalPlayTime(player.getTotalPlayTime() + player.getRecordedLogin().elapsed());
 				player.getPacketSender().sendInterfaceRemoval();
-				if(player.getCannon() != null) {
-					DwarfMultiCannon.pickupCannon(player, player.getCannon(), true);
-				}
 				if(exception && player.getResetPosition() != null) {
 					player.moveTo(player.getResetPosition());
 					player.setResetPosition(null);
@@ -236,28 +224,22 @@ public class PlayerHandler {
 					player.getRegionInstance().destruct();
 				}
 				if(player.isShopping() && player.getShop() != null) {
-					player.getShop().getPlayersCurrentlyViewing().remove(player);
+					player.getShop().getPlayersCurrentlyViewing().remove(player.getUsername());
 				}
 				player.getDungeonManager().leaveDungeon(true);
-				Hunter.handleLogout(player);
 				Locations.logout(player);
 				player.getSummoning().unsummon(false, false);
 				ClanChatManager.leave(player, false);
 				player.getRelations().updateLists(false);
-				PlayersOnlineInterface.remove(player);
 				TaskManager.cancelTasks(player.getCombatBuilder());
 				TaskManager.cancelTasks(player);
 				player.save();
 				World.getPlayers().remove(player);
 				session.setState(SessionState.LOGGED_OUT);
 				World.updatePlayersOnline();
-				return true;
-			} else {
-				return false;
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return true;
 	}
 }

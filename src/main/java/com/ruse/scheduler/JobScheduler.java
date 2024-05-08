@@ -43,6 +43,18 @@ public class JobScheduler {
         return optionalJob.map(BaseJob::nextFireTime).orElse(null);
     }
 
+    public static String printTimeLeftUntilNextFire(String jobName) {
+        Date nextFireTime = getNextFireTime(jobName);
+        if (nextFireTime != null) {
+            long timeLeftInMillis = nextFireTime.getTime() - System.currentTimeMillis();
+            long hoursLeft = timeLeftInMillis / (1000 * 60 * 60);
+            long minutesLeft = (timeLeftInMillis / (1000 * 60)) % 60;
+            return String.format("%dh %dm", hoursLeft, minutesLeft);
+        }
+        return "Next fire time is not available.";
+    }
+
+
     public static void registerNewJob(BaseJob job) {
         try {
             scheduler.scheduleJob(JobBuilder.newJob(job.getClass()).build(),job.getTrigger());

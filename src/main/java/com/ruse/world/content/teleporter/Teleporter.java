@@ -1,8 +1,11 @@
 package com.ruse.world.content.teleporter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.eventbus.Subscribe;
+import com.ruse.eventbus.impl.ButtonClickEvent;
 import com.ruse.model.Position;
 import com.ruse.model.entity.character.player.Player;
+import com.ruse.world.World;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 
@@ -88,10 +91,6 @@ public class Teleporter {
     }
 
     public void changeCategory(TeleportCategory category) {
-        if(category == currentCategory) {
-            return;
-        }
-
         currentCategory = category;
         player.getPacketSender().sendConfig(312, category.getConfigFrame());
         ImmutableList<Teleport> teleports = Teleport.getTeleportsByCategory(currentCategory);

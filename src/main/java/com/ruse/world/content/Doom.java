@@ -16,7 +16,6 @@ public class Doom {
 			NPC monster = new NPC(Monsters[i], DoomSpawn);
 			World.register(monster);
 			monster.getCombatBuilder().attack(player);
-			System.out.println("Spawned: "+Monsters[i]);
 		}
 		World.sendMessage("SHIT'S DONE FAM");
 	}

@@ -1,9 +1,7 @@
 package com.ruse.world.content.attendance;
 
 import com.ruse.model.Item;
-import com.ruse.model.PlayerRights;
 import com.ruse.model.entity.character.player.Player;
-import com.ruse.model.entity.character.player.PlayerSaving;
 import com.ruse.net.SessionState;
 import com.ruse.world.World;
 
@@ -45,9 +43,11 @@ public class AttendanceManager {
                     }
                     p.getPacketSender().sendMessage("@red@You have been given " + item.getDefinition().getName() + " x " + item.getAmount() + " as attendance reward for day " + nextUnclaimedDay + "!");
                     p.addItemUnderAnyCircumstances(item);
-                    PlayerSaving.save(p);
                 }
             }
+
+            p.getStrangerTasks().clear();
+            p.getPacketSender().sendMessage("@red@Your daily stranger tasks have been reset");
         }
     }
 
