@@ -57,10 +57,16 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("secondAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case -24319:
+				player.getSacrificeItemExchange().removeItem(slot, 1);
+				break;
+			case -24266:
+				player.getSacrificeItemExchange().addItem(item, slot, 1);
+				break;
 			case Shop.SHOP_ITEM_CONTAINER_ID:
 				if(player.isShopping() && player.getShop() != null) {
 					player.getPacketSender().sendMessage(ItemDefinition.forId(id).getName() + ": currently costs "
-							+ Misc.formatNumber(ShopManager.getPrice(player.getShop(), id)) + " " + ShopManager.getCurrencyName(player.getShop()) + ".");
+							+ ShopManager.getPrice(player.getShop(), id)+ " " + ShopManager.getCurrencyName(player.getShop()) + "s.");
 				}
 				break;
 		case Trading.INTERFACE_ID:
@@ -205,6 +211,12 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("secondAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case -24319:
+				player.getSacrificeItemExchange().removeItem(slot, 5);
+				break;
+			case -24266:
+				player.getSacrificeItemExchange().checkPrice(item);
+				break;
 			case Shop.SHOP_ITEM_CONTAINER_ID:
 				ShopManager.buyItem(player, id,1);
 				break;
@@ -309,6 +321,9 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("thirdAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case -24319:
+				player.getSacrificeItemExchange().removeItem(slot, 10);
+				break;
 			case Shop.SHOP_ITEM_CONTAINER_ID:
 				ShopManager.buyItem(player, id,5);
 				break;
@@ -483,6 +498,9 @@ public class ItemContainerActionPacketListener implements PacketListener {
 			player.getPacketSender().sendMessage("fourthAction itemContainer. IF: "+interfaceId+" slot: "+slot+", id: "+id);
 		}
 		switch (interfaceId) {
+			case -24319:
+				player.getSacrificeItemExchange().removeItem(slot, Integer.MAX_VALUE);
+				break;
 			case Shop.SHOP_ITEM_CONTAINER_ID:
 				ShopManager.buyItem(player, id,10);
 				break;
@@ -606,7 +624,6 @@ public class ItemContainerActionPacketListener implements PacketListener {
 		case 1121: // row 3
 		case 1122: // row 4
 		case 1123: // row 5
-			System.out.println(player.getInterfaceId()+" is interfaceid");
 			if(player.getInterfaceId() == 994) {
 				player.setInputHandling(new EnterAmountToMakeSmithing(id, slot));
 				player.getPacketSender().sendEnterAmountPrompt("How many would you like to smith?");

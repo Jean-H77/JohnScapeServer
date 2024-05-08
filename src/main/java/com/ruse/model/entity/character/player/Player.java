@@ -17,6 +17,7 @@ import com.ruse.model.entity.character.CharacterEntity;
 import com.ruse.model.entity.character.GroundItemManager;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.input.Input;
+import com.ruse.net.GameHandler;
 import com.ruse.net.PlayerSession;
 import com.ruse.net.SessionState;
 import com.ruse.net.packet.PacketSender;
@@ -55,26 +56,26 @@ import com.ruse.world.content.dialogue.DialogueChain.DialogueChain;
 import com.ruse.world.content.dungeons.DungeonPartyManager;
 import com.ruse.world.content.minigames.Dueling;
 import com.ruse.world.content.minigames.MinigameAttributes;
+import com.ruse.world.content.sacrifice.SacrificeItemExchange;
 import com.ruse.world.content.skill.SkillManager;
 import com.ruse.world.content.skill.construction.HouseFurniture;
 import com.ruse.world.content.skill.construction.Portal;
 import com.ruse.world.content.skill.construction.Room;
 import com.ruse.world.content.skill.farming.Farming;
+import com.ruse.world.content.skill.slayer.SlayerTask;
 import com.ruse.world.content.skill.summoning.Pouch;
 import com.ruse.world.content.skill.summoning.Summoning;
+import com.ruse.world.content.strangertasks.StrangerTask;
 import com.ruse.world.content.teleporter.Teleporter;
 import com.ruse.world.content.teleports.TeleportMenuManager;
-import com.ruse.world.content.upgrader.UpgradeMachineManager;
+import com.ruse.world.content.upgrader.Upgrader;
 import com.ruse.world.content.zombies.ZombiesManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends CharacterEntity {
@@ -284,7 +285,7 @@ public class Player extends CharacterEntity {
 
 	private final DungeonViewer dungeonViewer = new DungeonViewer(this);
 
-	private final UpgradeMachineManager upgradeManager = new UpgradeMachineManager(this);
+	private final Upgrader upgrader = new Upgrader(this);
 
 	private int amountGambled;
 
@@ -311,7 +312,7 @@ public class Player extends CharacterEntity {
 		if (session.getState() != SessionState.LOGGED_IN && session.getState() != SessionState.LOGGING_OUT) {
 			return;
 		}
-		PlayerSaving.save(this);
+		GameHandler.fileIOExecutor.submit(() -> PlayerSaving.save(this));
 	}
 
 	public boolean logout() {
@@ -323,7 +324,6 @@ public class Player extends CharacterEntity {
 			getPacketSender().sendMessage("You cannot log out at the moment.");
 			return false;
 		}
-		//new Thread(new Hiscores(this)).start();
 		return true;
 	}
 
@@ -443,6 +443,28 @@ public class Player extends CharacterEntity {
 	 private DwarfCannon cannon;
 	 private CombatSpell autocastSpell, castSpell, previousCastSpell;
 	 private RangedWeaponData rangedWeaponData;
+	 private SlayerTask slayerTask;
+
+	public SacrificeItemExchange getSacrificeItemExchange() {
+		return sacrificeItemExchange;
+	}
+
+	private final SacrificeItemExchange sacrificeItemExchange = new SacrificeItemExchange(this);
+
+	public Map<StrangerTask.Difficulty, StrangerTask> getStrangerTasks() {
+		return strangerTasks;
+	}
+
+	private final Map<StrangerTask.Difficulty, StrangerTask> strangerTasks = new HashMap<>();
+
+
+	 public SlayerTask getSlayerTask() {
+		 return this.slayerTask;
+	 }
+
+	public void setSlayerTask(SlayerTask slayerTask) {
+		 this.slayerTask = slayerTask;
+	}
 
 	public Teleporter getTeleporter() {
 		return teleporter;
@@ -2591,8 +2613,8 @@ public class Player extends CharacterEntity {
 		return this.dungeonViewer;
 	}
 
-	public UpgradeMachineManager getUpgradeManager() {
-		return this.upgradeManager;
+	public Upgrader getUpgrader() {
+		return this.upgrader;
 	}
 
 	public CollectionLogManager getCollectionLogManager() {

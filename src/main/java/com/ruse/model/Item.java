@@ -2,7 +2,6 @@ package com.ruse.model;
 
 import com.google.common.base.Preconditions;
 import com.ruse.GameSettings;
-import com.ruse.ReducedSellPrice;
 import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.world.content.Effigies;
 
@@ -170,15 +169,6 @@ public class Item {
 		if (amount > 1 && getAttributes().hasAttributes())
 			throw new IllegalStateException();
 		return item;
-	}
-
-	public boolean reducedPrice() {
-		for (ReducedSellPrice r : ReducedSellPrice.values()) {
-			if (r.getUnNotedId() == id || r.getNotedId() == id) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.security.SecureRandom;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.ZonedDateTime;
@@ -36,15 +37,12 @@ import com.ruse.world.World;
 import com.ruse.world.content.BonusManager;
 import com.ruse.world.content.combat.CombatContainer.ContainerHit;
 import com.ruse.model.entity.character.player.Player;
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 public class Misc {
-	
-	private static boolean OWNER = false;
-
 
 	/** Random instance, used to generate pseudo-random primitive types. */
-	public static final Random RANDOM = new Random(System.currentTimeMillis());
+	public static final SecureRandom RANDOM = new SecureRandom();
 
 	private static ZonedDateTime zonedDateTime;
 	public static final int HALF_A_DAY_IN_MILLIS = 43200000;
@@ -59,11 +57,9 @@ public class Misc {
 	}
 	
 	public static void sendEmptyStrings(Player player, int maxString) {
-		System.out.println(player.getUsername()+" called sendEmptyStrings, maxString: "+maxString);
 		for (int i = 0; i < maxString; i++) {
 			player.getPacketSender().sendString(i, String.valueOf(i));
 		}
-		System.out.println(player.getUsername()+" completed sendEmptyStrings up to "+maxString);
 	}
 
 	public static List<Player> getCombinedPlayerList(Player p) {
@@ -184,7 +180,6 @@ public class Misc {
 	
 	public static boolean needsNewSalt(String currentSalt) {
 		if (!validString(currentSalt)) {
-			System.out.println("validstring did it");
 			return true;
 		}
 		int bcr = findBcryptRounds(currentSalt);
@@ -272,7 +267,6 @@ public class Misc {
 	public static byte xlateDirectionToClient[] = new byte[]{ 1, 2, 4, 7, 6, 5, 3, 0 };
 	
 	public static void listUntradeables() {
-		System.out.println("--Untradeable Items--");
 		for (int i : GameSettings.UNTRADEABLE_ITEMS) {
 			if (ItemDefinition.forId(i) != null && ItemDefinition.forId(i).getName() != null) {
 				System.out.println(ItemDefinition.forId(i).getName()+","+i+",UNTRADEABLE");
@@ -851,7 +845,7 @@ public class Misc {
 	 * @param inputStream 	The input stream to read string from.
 	 * @return 				The String value.
 	 */
-	public static String readString(ChannelBuffer buffer) {
+	public static String readString(ByteBuf buffer) {
 		StringBuilder builder = null;
 		try {
 			byte data;
@@ -910,22 +904,7 @@ public class Misc {
 			return "@yel@";
 		return "@whi@";
 	}
-	
-	public static boolean checkForOwner() {
-		if (OWNER) {
-			return true;
-		}
-		
-		for (int i = 0; i < World.getPlayers().capacity(); i++) {
-			if (World.getPlayers().get(i) != null && World.getPlayers().get(i).getHostAddress().equals("127.0.0.1")) {
-				OWNER = true;
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
+
 	public static String stripIngameFormat(String string) {
 		/*string = string.toLowerCase();
 		for (int i = 0; i < 31; i++) {

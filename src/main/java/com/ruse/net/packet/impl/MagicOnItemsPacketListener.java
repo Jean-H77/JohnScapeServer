@@ -1,7 +1,6 @@
 package com.ruse.net.packet.impl;
 
 import com.ruse.GameSettings;
-import com.ruse.ReducedSellPrice;
 import com.ruse.model.Animation;
 import com.ruse.model.Graphic;
 import com.ruse.model.GraphicHeight;
@@ -12,7 +11,6 @@ import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
 import com.ruse.world.content.combat.magic.MagicSpells;
 import com.ruse.world.content.combat.magic.Spell;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
 import com.ruse.world.content.skill.magic.Magic;
 import com.ruse.world.content.skill.smithing.Smelting;
 import com.ruse.model.entity.character.player.Player;
@@ -36,10 +34,6 @@ public class MagicOnItemsPacketListener implements PacketListener {
 				return;
 			if (player != null && player.getRights().OwnerDeveloperOnly()) {
 				player.getPacketSender().sendMessage("Used spell id: "+spellId+" on grounditem: "+itemId+" on XY: "+itemX+", "+itemY);
-			}
-			if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-				player.getPacketSender().sendMessage("<shad=0>@red@You cannot use this spell until you claim your stored Dungeoneering items.");
-				return;
 			}
 			player.getMovementQueue().reset();
 			//switch(spell) {}
@@ -65,10 +59,6 @@ public class MagicOnItemsPacketListener implements PacketListener {
 			if (player != null && player.getRights().OwnerDeveloperOnly()) {
 				player.getPacketSender().sendMessage("Used spell id: "+spellId+" on item: "+itemId);
 			}
-			if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-				player.getPacketSender().sendMessage("<shad=0>@red@You cannot use this spell until you claim your stored Dungeoneering items.");
-				return;
-			}
 			switch(magicSpell) {
 			case ENCHANT_SAPPHIRE:
 			case ENCHANT_EMERALD:
@@ -88,12 +78,7 @@ public class MagicOnItemsPacketListener implements PacketListener {
 				if(spell == null || !spell.canCast(player, true))
 					return;
 				player.getInventory().delete(itemId, 1);
-				int value = 0;
-				if (item.reducedPrice()) {
-					value = (int)(ReducedSellPrice.forId(item.getId()).getSellValue() * (lowAlch ? 0.6 : 0.75));
-				} else {
-					value = (int)(item.getDefinition().getValue() * (lowAlch ? 0.6 : 0.75));
-				}
+				int value = (int)(item.getDefinition().getValue() * (lowAlch ? 0.6 : 0.75));
 				player.getInventory().add(995, value);
 				player.performAnimation(new Animation(712));
 				player.performGraphic(new Graphic(magicSpell == MagicSpells.HIGH_ALCHEMY ? 113 : 112, GraphicHeight.LOW));

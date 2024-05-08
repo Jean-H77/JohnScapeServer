@@ -281,16 +281,9 @@ public enum CombatSpecial {
 			player.performGraphic(new Graphic(250, GraphicHeight.HIGH));
 
 			TaskManager.submit(new Task(1, player, false) {
-				int ticks = 0;
 				@Override
 				public void execute() {
-					if(ticks == 0) {
-						new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
-					} else if(ticks == 1) {
-						new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
-					} else if(ticks == 3) {
-						new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
-					}
+					new Projectile(player, target, 249, 44, 3, 43, 31, 0).sendProjectile();
 					this.stop();
 				}
 			});

@@ -9,10 +9,10 @@ import java.util.List;
 public class DialogueChain {
 
     public List<DialoguePart> dialogueParts;
+    int step = 0;
 
     private final Player player;
-
-    int step = 0;
+    private boolean removeInterface = true;
 
     public DialogueChain(Player player, DialoguePart... dialogueParts) {
         this.player = player;
@@ -43,7 +43,6 @@ public class DialogueChain {
         if (dialogueParts.get(step) instanceof Options) {
 
             int option = 0;
-
             switch (((Options) dialogueParts.get(step)).getOptions().length) {
                 case 2 -> option = switch (buttonId) {
                     case 2461 -> 1;
@@ -84,19 +83,21 @@ public class DialogueChain {
 
         DialoguePart dp = dialogueParts.get(step);
 
-        if(step == dialogueParts.size()-1) {
-            player.getPacketSender().sendInterfaceRemoval();
-        } else {
-            step++;
-            start();
-        }
-
         if(dp instanceof ItemStatement && ((ItemStatement) dp).getClickContinueEvent() != null) {
             ((ItemStatement) dp).getClickContinueEvent().event();
         } else if(dp instanceof NpcStatement && ((NpcStatement) dp).getClickContinueEvent() != null) {
             ((NpcStatement) dp).getClickContinueEvent().event();
         } else if(dp instanceof PlayerStatement && ((PlayerStatement) dp).getClickContinueEvent() != null) {
             ((PlayerStatement) dp).getClickContinueEvent().event();
+        }
+
+        if(step == dialogueParts.size()-1) {
+            if(removeInterface) {
+                player.getPacketSender().sendInterfaceRemoval();
+            }
+        } else {
+            step++;
+            start();
         }
     }
 
@@ -111,7 +112,38 @@ public class DialogueChain {
     }
 
     public DialogueChain addPart(DialoguePart dialoguePart) {
+        if(dialogueParts.contains(dialoguePart)){
+            return this;
+        }
         dialogueParts.add(dialoguePart);
         return this;
+    }
+
+    public List<DialoguePart> getDialogueParts() {
+        return dialogueParts;
+    }
+
+    public void setDialogueParts(List<DialoguePart> dialogueParts) {
+        this.dialogueParts = dialogueParts;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isRemoveInterface() {
+        return removeInterface;
+    }
+
+    public void setRemoveInterface(boolean removeInterface) {
+        this.removeInterface = removeInterface;
     }
 }

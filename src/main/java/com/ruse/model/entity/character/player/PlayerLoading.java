@@ -12,11 +12,12 @@ import com.ruse.net.login.LoginResponses;
 import com.ruse.util.json.ItemTypeAdapter;
 import com.ruse.world.content.DropLog;
 import com.ruse.world.content.KillsTracker;
-import com.ruse.world.content.attendance.AttendanceTab;
 import com.ruse.world.content.attendance.AttendanceProgress;
+import com.ruse.world.content.attendance.AttendanceTab;
 import com.ruse.world.content.combat.magic.CombatSpells;
 import com.ruse.world.content.combat.weapon.FightType;
 import com.ruse.world.content.skill.SkillManager;
+import com.ruse.world.content.strangertasks.StrangerTask;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
@@ -24,15 +25,11 @@ import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class PlayerLoading {
 
-
 	public static int getResult(Player player) {
-
 		// Create the path and file objects.
 		Path path = Paths.get("./data/saves/characters/", player.getUsername() + ".json");
 		File file = path.toFile();
@@ -70,9 +67,7 @@ public class PlayerLoading {
 				String hash = reader.get("hash").getAsString();
 				player.setSalt(hash.substring(0, 29));
 				if (BCrypt.checkpw(player.getPassword(), hash)) {
-					System.out.println("Successfully authenticated hashed pw.");
 				} else {
-					System.out.println("Failed hashed pw authentication.");
 					return LoginResponses.LOGIN_INVALID_CREDENTIALS;
 				}
 			}
@@ -138,63 +133,12 @@ public class PlayerLoading {
 				player.getSkillManager().setTotalGainedExp(reader.get("total-gained-exp").getAsInt());
 			}
 
-			if (reader.has("dung-tokens")) {
-				player.getPointsHandler().setDungeoneeringTokens(reader.get("dung-tokens").getAsInt(), false);
-			}
-
-			if(reader.has("barrows-points")) {
-				player.getPointsHandler().setBarrowsPoints(reader.get("barrows-points").getAsInt(), false);
-			}
-
-			if(reader.has("member-points")) {
-				player.getPointsHandler().setMemberPoints(reader.get("member-points").getAsInt(), false);
-			}
-
-			if(reader.has("prestige-points")) {
-				player.getPointsHandler().setPrestigePoints(reader.get("prestige-points").getAsInt(), false);
-			}
-			if(reader.has("Skilling-points")){
-				player.getPointsHandler().setSkillingPoints(reader.get("Skilling-points").getAsInt(), false);
-			}
-
-			if(reader.has("achievement-points")) {
-				player.getPointsHandler().setAchievementPoints(reader.get("achievement-points").getAsInt(), false);
-			}
-
-			if(reader.has("commendations")) {
-				player.getPointsHandler().setCommendations(reader.get("commendations").getAsInt(), false);
-			}
-
-			if(reader.has("loyalty-points")) {
-				player.getPointsHandler().setLoyaltyPoints(reader.get("loyalty-points").getAsInt(), false);
-			}
-
 			if(reader.has("voting-points")) {
 				player.getPointsHandler().setVotingPoints(reader.get("voting-points").getAsInt(), false);
 			}
 
 			if(reader.has("slayer-points")) {
 				player.getPointsHandler().setSlayerPoints(reader.get("slayer-points").getAsInt(), false);
-			}
-
-			if(reader.has("pk-points")) {
-				player.getPointsHandler().setPkPoints(reader.get("pk-points").getAsInt(), false);
-			}
-
-			if(reader.has("player-kills")) {
-				player.getPlayerKillingAttributes().setPlayerKills(reader.get("player-kills").getAsInt());
-			}
-
-			if(reader.has("player-killstreak")) {
-				player.getPlayerKillingAttributes().setPlayerKillStreak(reader.get("player-killstreak").getAsInt());
-			}
-
-			if(reader.has("player-deaths")) {
-				player.getPlayerKillingAttributes().setPlayerDeaths(reader.get("player-deaths").getAsInt());
-			}
-
-			if(reader.has("target-percentage")) {
-				player.getPlayerKillingAttributes().setTargetPercentage(reader.get("target-percentage").getAsInt());
 			}
 
 			if(reader.has("bh-rank")) {
@@ -230,17 +174,8 @@ public class PlayerLoading {
 			if (reader.has("xp-locked")) {
 				player.setExperienceLocked(reader.get("xp-locked").getAsBoolean());
 			}
-			if (reader.has("veng-cast")) {
-				player.setHasVengeance(reader.get("veng-cast").getAsBoolean());
-			}
-			if (reader.has("last-veng")) {
-				player.getLastVengeance().reset(reader.get("last-veng").getAsLong());
-			}
 			if (reader.has("fight-type")) {
 				player.setFightType(FightType.valueOf(reader.get("fight-type").getAsString()));
-			}
-			if(reader.has("sol-effect")) {
-				player.setStaffOfLightEffect(Integer.valueOf(reader.get("sol-effect").getAsInt()));
 			}
 			if (reader.has("skull-timer")) {
 				player.setSkullTimer(reader.get("skull-timer").getAsInt());
@@ -269,9 +204,7 @@ public class PlayerLoading {
 			if (reader.has("prayer-renewal-timer")) {
 				player.setPrayerRenewalPotionTimer(reader.get("prayer-renewal-timer").getAsInt());
 			}
-			if (reader.has("teleblock-timer")) {
-				player.setTeleblockTimer(reader.get("teleblock-timer").getAsInt());
-			}
+
 			if (reader.has("special-amount")) {
 				player.setSpecialPercentage(reader.get("special-amount").getAsInt());
 			}
@@ -331,70 +264,6 @@ public class PlayerLoading {
 				DropLog.submit(player, builder.fromJson(reader.get("drops").getAsJsonArray(), DropLog.DropLogEntry[].class));
 			}
 
-			if (reader.has("recoil-deg")) {
-				player.setRecoilCharges(reader.get("recoil-deg").getAsInt());
-			}
-
-			if(reader.has("brawlers-deg")) {
-				player.setBrawlerCharges(builder.fromJson(reader.get("brawlers-deg").getAsJsonArray(), int[].class));
-			}
-
-			if(reader.has("ancient-deg")) {
-				player.setAncientArmourCharges(builder.fromJson(reader.get("ancient-deg").getAsJsonArray(), int[].class));
-			}
-
-			if(reader.has("blowpipe-deg")) {
-				player.setBlowpipeCharges(reader.get("blowpipe-deg").getAsInt());
-			}
-
-			if (reader.has("killed-players")) {
-				List<String> list = new ArrayList<String>();
-				String[] killed_players = builder.fromJson(reader.get("killed-players").getAsJsonArray(), String[].class);
-				for(String s : killed_players)
-					list.add(s);
-				player.getPlayerKillingAttributes().setKilledPlayers(list);
-			}
-
-			if (reader.has("barrows-brother")) {
-				player.getMinigameAttributes().getBarrowsMinigameAttributes().setBarrowsData(builder.fromJson(reader.get("barrows-brother").getAsJsonArray(), int[][].class));
-			}
-
-			if (reader.has("random-coffin")) {
-				player.getMinigameAttributes().getBarrowsMinigameAttributes().setRandomCoffin((reader.get("random-coffin").getAsInt()));
-			}
-
-			if (reader.has("barrows-killcount")) {
-				player.getMinigameAttributes().getBarrowsMinigameAttributes().setKillcount((reader.get("barrows-killcount").getAsInt()));
-			}
-
-			if (reader.has("nomad")) {
-				player.getMinigameAttributes().getNomadAttributes().setQuestParts(builder.fromJson(reader.get("nomad").getAsJsonArray(), boolean[].class));
-			}
-
-			if (reader.has("recipe-for-disaster")) {
-				player.getMinigameAttributes().getRecipeForDisasterAttributes().setQuestParts(builder.fromJson(reader.get("recipe-for-disaster").getAsJsonArray(), boolean[].class));
-			}
-
-			if (reader.has("recipe-for-disaster-wave")) {
-				player.getMinigameAttributes().getRecipeForDisasterAttributes().setWavesCompleted((reader.get("recipe-for-disaster-wave").getAsInt()));
-			}
-
-			if (reader.has("clue-progress")) {
-				player.setClueProgress((reader.get("clue-progress").getAsInt()));
-			}
-
-			if (reader.has("dung-items-bound")) {
-				player.getMinigameAttributes().getDungeoneeringAttributes().setBoundItems(builder.fromJson(reader.get("dung-items-bound").getAsJsonArray(), int[].class));
-			}
-
-			if (reader.has("rune-ess")) {
-				player.setStoredRuneEssence((reader.get("rune-ess").getAsInt()));
-			}
-
-			if (reader.has("pure-ess")) {
-				player.setStoredPureEssence((reader.get("pure-ess").getAsInt()));
-			}
-
 			if (reader.has("bank-pin")) {
 				player.getBankPinAttributes().setBankPin(builder.fromJson(reader.get("bank-pin").getAsJsonArray(), int[].class));
 			}
@@ -433,11 +302,7 @@ public class PlayerLoading {
 			if (reader.has("equipment")) {
 				player.getEquipment().setItems(builder.fromJson(reader.get("equipment").getAsJsonArray(), Item[].class));
 			}
-			if (reader.has("preset-equipment")) {
-				player.getPreSetEquipment().setItems(builder.fromJson(reader.get("preset-equipment").getAsJsonArray(), Item[].class));
-			}
 
-			/** BANK **/
 			for(int i = 0; i < 9; i++) {
 				if(reader.has("bank-"+i+""))
 					player.setBank(i, new Bank(player)).getBank(i).addItems(builder.fromJson(reader.get("bank-"+i+"").getAsJsonArray(), Item[].class), false);
@@ -479,18 +344,6 @@ public class PlayerLoading {
 				player.setBank(8, new Bank(player)).getBank(8).addItems(builder.fromJson(reader.get("bank-8").getAsJsonArray(), Item[].class), false);
 			}
 
-			if (reader.has("store")) {
-				Item[] validStoredItems = builder.fromJson(reader.get("store").getAsJsonArray(), Item[].class);
-				if(player.getSummoning().getSpawnTask() != null) {
-					player.getSummoning().getSpawnTask().setValidItems(validStoredItems);
-				}
-			}
-
-			if (reader.has("charm-imp")) {
-				int[] charmImpConfig = builder.fromJson(reader.get("charm-imp").getAsJsonArray(), int[].class);
-				player.getSummoning().setCharmimpConfig(charmImpConfig);
-			}
-
 			if (reader.has("friends")) {
 				long[] friends = builder.fromJson(
 						reader.get("friends").getAsJsonArray(), long[].class);
@@ -512,99 +365,12 @@ public class PlayerLoading {
 				player.setUnlockedLoyaltyTitles(builder.fromJson(reader.get("loyalty-titles").getAsJsonArray(), boolean[].class));
 			}
 
-			if (reader.has("yellhexcolor")) {
-				player.setYellHex(reader.get("yellhexcolor").getAsString());
-			}
-
-			if (reader.has("yell-tit")) {
-				player.setYellTitle(reader.get("yell-tit").getAsString());
-			}
-
-			if (reader.has("fri13may16")) {
-				player.setFriday13May2016(reader.get("fri13may16").getAsBoolean());
-			}
-
-			if (reader.has("spiritdebug")) {
-				player.setSpiritDebug(reader.get("spiritdebug").getAsBoolean());
-			}
-
 			if (reader.has("reffered")) {
 				player.setReffered(reader.get("reffered").getAsBoolean());
 			}
 
-			if (reader.has("indung")) {
-				player.setInDung(reader.get("indung").getAsBoolean());
-			}
-
 			if (reader.has("toggledglobalmessages")) {
 				player.setToggledGlobalMessages(reader.get("toggledglobalmessages").getAsBoolean());
-			}
-
-			if (reader.has("flying")) {
-				player.setFlying(reader.get("flying").getAsBoolean());
-			}
-
-			if (reader.has("canfly")) {
-				player.setCanFly(reader.get("canfly").getAsBoolean());
-			}
-
-			if (reader.has("canghostwalk")) {
-				player.setCanGhostWalk(reader.get("canghostwalk").getAsBoolean());
-			}
-
-			if (reader.has("ghostwalking")) {
-				player.setGhostWalking(reader.get("ghostwalking").getAsBoolean());
-			}
-
-			if(reader.has("barrowschests")){
-				player.getPointsHandler().setBarrowsChests(reader.get("barrowschests").getAsInt(), false);
-			}
-
-			if (reader.has("cluesteps")){
-				player.getPointsHandler().setClueSteps(reader.get("cluesteps").getAsInt(), false);
-			}
-
-			/*
-			 RIP difficulty loading. We'll still keep original values though, because fuck it.
-			if (reader.has("difficulty")) {
-				Difficulty.set(player, Difficulty.valueOf(reader.get("difficulty").getAsString()), true);
-				//player.setGameMode(GameMode.valueOf(reader.get("game-mode").getAsString()));
-			}*/
-
-			if (reader.has("hween2016")) {
-				player.setHween2016All(builder.fromJson(reader.get("hween2016").getAsJsonArray(), boolean[].class));
-			}
-
-			if (reader.has("donehween2016")) {
-				player.setDoneHween2016(reader.get("donehween2016").getAsBoolean());
-			}
-
-			if (reader.has("bosspets")) {
-				player.setBossPetsAll(builder.fromJson(reader.get("bosspets").getAsJsonArray(), boolean[].class));
-			}
-
-			if (reader.has("christmas2016")) {
-				player.setchristmas2016(reader.get("christmas2016").getAsInt());
-			}
-
-			if (reader.has("newYear2017")) {
-				player.setNewYear2017(reader.get("newYear2017").getAsInt());
-			}
-
-			if (reader.has("easter2017")) {
-				player.setEaster2017(reader.get("easter2017").getAsInt());
-			}
-
-			if (reader.has("hcimdunginventory")) {
-				player.getDungeoneeringIronInventory().setItems(builder.fromJson(reader.get("hcimdunginventory").getAsJsonArray(), Item[].class));
-			}
-
-			if (reader.has("hcimdungequipment")) {
-				player.getDungeoneeringIronEquipment().setItems(builder.fromJson(reader.get("hcimdungequipment").getAsJsonArray(), Item[].class));
-			}
-
-			if (reader.has("bonecrusheffect")) {
-				player.setBonecrushEffect(reader.get("bonecrusheffect").getAsBoolean());
 			}
 
 			if (reader.has("p-tps")) {
@@ -618,11 +384,19 @@ public class PlayerLoading {
 			if (reader.has("attendance-popup")) {
 				player.getAttendanceUI().setPopUp(reader.get("attendance-popup").getAsBoolean());
 			}
+
 			if(reader.has("attendanceprogress")) {
 				HashMap<AttendanceTab, AttendanceProgress> temp = builder.fromJson(reader.get("attendanceprogress"),
 						new TypeToken<HashMap<AttendanceTab, AttendanceProgress>>() {
 						}.getType());
 				player.getAttendanceManager().getPlayerAttendanceProgress().putAll(temp);
+			}
+
+			if(reader.has("stranger-tasks")) {
+				HashMap<StrangerTask.Difficulty, StrangerTask> temp = builder.fromJson(reader.get("stranger-tasks"),
+						new TypeToken<HashMap<StrangerTask.Difficulty, StrangerTask>>() {
+						}.getType());
+				player.getStrangerTasks().putAll(temp);
 			}
 
 		} catch (Exception e) {

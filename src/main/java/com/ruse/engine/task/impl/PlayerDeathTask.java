@@ -71,7 +71,7 @@ public class PlayerDeathTask extends Task {
 			case 1:
 				this.oldPosition = player.getPosition().copy();
 				this.loc = player.getLocation();
-				if(loc != Location.DUNGEONEERING && loc != Location.PEST_CONTROL_GAME && loc != Location.DUEL_ARENA && loc != Location.FREE_FOR_ALL_ARENA 
+				if(loc != Location.PEST_CONTROL_GAME && loc != Location.DUEL_ARENA && loc != Location.FREE_FOR_ALL_ARENA
 						&& loc != Location.FREE_FOR_ALL_WAIT && loc != Location.SOULWARS && loc != Location.FIGHT_PITS && loc != Location.FIGHT_PITS_WAIT_ROOM 
 						&& loc != Location.FIGHT_CAVES && loc != Location.RECIPE_FOR_DISASTER && loc != Location.GRAVEYARD && loc != Location.ZULRAH && loc != Location.RUNESPAN) {
 
@@ -198,9 +198,8 @@ public class PlayerDeathTask extends Task {
 				player.getUpdateFlag().flag(Flag.APPEARANCE);
 				loc.onDeath(player);
 				player.respawned();
-				if(loc != Location.DUNGEONEERING) {
-					if(player.getPosition().equals(oldPosition))
-						player.moveTo(GameSettings.DEFAULT_POSITION.copy());
+				if(player.getPosition().equals(oldPosition)) {
+					player.moveTo(GameSettings.DEFAULT_POSITION.copy());
 				}
 				player = null;
 				oldPosition = null;

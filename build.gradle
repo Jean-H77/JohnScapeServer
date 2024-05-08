@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_19
-    targetCompatibility = JavaVersion.VERSION_19
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 sourceSets {
@@ -23,14 +23,6 @@ sourceSets {
 
 repositories {
     mavenCentral()
-}
-
-tasks.withType(JavaCompile).each {
-    it.options.compilerArgs.add('--enable-preview')
-}
-
-tasks.withType(JavaExec) {
-    jvmArgs += '--enable-preview'
 }
 
 test {
@@ -53,4 +45,6 @@ dependencies {
     implementation group: 'org.ahocorasick', name: 'ahocorasick', version: '0.4.0'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '{version}'
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.109.Final'
+    implementation group: 'org.sonatype.nexus', name: 'google-guava-eventbus', version: '3.2.0-01'
 }

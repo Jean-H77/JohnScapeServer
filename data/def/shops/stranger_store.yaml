@@ -1,0 +1,21 @@
+name: Stranger Store
+currency: 50527
+restocks: true
+canSell: true
+
+shopItems:
+  - itemId: 40934
+    cost: 50
+    amount: 1900000000
+  - itemId: 40935
+    cost: 50
+    amount: 1900000000
+  - itemId: 40936
+    cost: 50
+    amount: 1900000000
+  - itemId: 20084
+    cost: 6500
+    amount: 1900000000
+  - itemId: 51295
+    cost: 9750
+    amount: 1900000000

@@ -17,24 +17,26 @@ import com.ruse.model.entity.character.player.Player;
  */
 
 public class Prayer {
-	
+
+	private static final Animation ANIMATION = new Animation(827);
+
 	public static boolean isBone(int bone) {
-		return BonesData.forId(bone) != null;
+		return BoneType.forId(bone) != null;
 	}
 	
 	public static void buryBone(final Player player, final int itemId) {
 		if(!player.getClickDelay().elapsed(2000))
 			return;
-		final BonesData currentBone = BonesData.forId(itemId);
+		final BoneType currentBone = BoneType.forId(itemId);
 		if(currentBone == null)
 			return;
 		player.getSkillManager().stopSkilling();
 		player.getPacketSender().sendInterfaceRemoval();
-		player.performAnimation(new Animation(827));
+		player.performAnimation(ANIMATION);
 		player.getPacketSender().sendMessage("You dig a hole in the ground..");
 		final Item bone = new Item(itemId);
 		player.getInventory().delete(bone);
-		TaskManager.submit(new Task(3, player, false) {
+		TaskManager.submit(new Task(2, player, false) {
 			@Override
 			public void execute() {
 				player.getPacketSender().sendMessage("..and bury the "+bone.getDefinition().getName()+".");

@@ -78,15 +78,6 @@ public class Trading {
 			player.getPacketSender().sendMessage("That player is an Ironman player and can therefore not trade.");
 			return;
 		}
-		if(player.getLocation() == Location.DUNGEONEERING) {
-			player.getPacketSender().sendMessage("You are far too busy to trade at the moment!");
-			return;
-		}
-		if(player2.getLocation() == Location.DUNGEONEERING) {
-			player.getPacketSender().sendMessage("You are far too busy to trade at the moment!");
-			return;
-		}
-		
 		/*if(Misc.getMinutesPlayed(player) < 15) {
 			player.getPacketSender().sendMessage("You must have played for at least 15 minutes in order to trade someone.");
 			return;

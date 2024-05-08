@@ -1,0 +1,21 @@
+name: AFK Store
+currency: 995
+restocks: true
+canSell: false
+
+shopItems:
+  - itemId: 6199
+    cost: 3000
+    amount: 1900000000
+  - itemId: 15501
+    cost: 5000
+    amount: 1900000000
+  - itemId: 1050
+    cost: 5000
+    amount: 1900000000
+  - itemId: 10284
+    cost: 5000
+    amount: 1900000000
+  - itemId: 43344
+    cost: 5000
+    amount: 1900000000

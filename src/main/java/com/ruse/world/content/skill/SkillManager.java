@@ -1,6 +1,5 @@
 package com.ruse.world.content.skill;
 
-import com.ruse.DiscordBot.JavaCord;
 import com.ruse.engine.task.Task;
 import com.ruse.engine.task.TaskManager;
 import com.ruse.model.Flag;
@@ -11,21 +10,14 @@ import com.ruse.model.Skill;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.WeaponAnimations;
 import com.ruse.model.definitions.WeaponInterfaces;
+import com.ruse.model.entity.character.player.Player;
 import com.ruse.util.Misc;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.world.content.BonusManager;
-import com.ruse.world.content.BrawlingGloves;
-import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
-import com.ruse.model.entity.character.player.Player;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
-
-import java.awt.*;
 
 /**
  * Represents a player's skills in the game, also manages
@@ -100,125 +92,28 @@ public class SkillManager {
 		return roll <= successChance;
 	}
 
-	public SkillManager addExperience(Skill skill, int experience) {
-		return addExperience(skill, experience, true);
-	}
-
 	/**
 	 * Adds experience to {@code skill} by the {@code experience} amount.
 	 * @param skill			The skill to add experience to.
 	 * @param experience	The amount of experience to add to the skill.
 	 * @return				The Skills instance.
 	 */
-	public SkillManager addExperience(Skill skill, int experience, boolean multiply) {
-		try {
-			int v;
-			int sk = skill.ordinal(); //0=att
-			int p = skill.getPetId();
-			if (!(p == -1)) {
-				v = -1; // set it to -1
-				if (sk == 8 || sk == 10 || sk == 14 || sk == 17 || sk == 19 || sk == 20 || sk == 22) { //gathering skills
-					v = 50000;
-				} else {
-					if (sk == 5 || sk == 7 || sk == 9 || sk == 11 || sk == 12 || sk == 13 || sk == 15 || sk == 23 || sk == 16) { //processing skills
-						 v = 50000;
-					} else { 
-						if (sk == 18) { //longer skill -  slayer
-							v = 5000;
-						} else {
-							if (sk == 24) { //dungeoneering, longest
-								v = 500;
-							}
-						}
-					}
-				}
-				if(v != -1) {
-					int q = Misc.getRandom(v);
-					/*if (player.getClanChatName().equalsIgnoreCase("debug")) {
-						player.getPacketSender().sendMessage(q+" is what you rolled, with a max of "+v+ " and the number to hit is 1, and 2 for mems..");
-						player.getPacketSender().sendMessage("Skilling "+sk+", skill's pet: "+p);
-					}*/
-					if (q == 1 || (player.getRights().isMember() && q == 2)) { //if you roll the lucky number
-						World.sendMessage("<img=101> <shad=0><col=F300FF>"+player.getUsername()+" has just earned a Skilling Pet while training "+skill.getFormatName()+"! @red@CONGRATULATIONS!");
-						player.getPacketSender().sendMessage("<img=10> <shad=0><col=F300FF>You've found a friend while training!");
-						PlayerLogs.log(player.getUsername(), "just earned a "+skill.getFormatName()+" pet!");
-						PlayerLogs.log("1 - pet drops", player.getUsername()+" got a "+skill.getName()+" pet drop.");
-						if (player.getInventory().getFreeSlots() > 0){
-							player.getInventory().add(p, 1);
-						} else if (!player.getBank(0).isFull()) {
-							player.getPacketSender().sendMessage("Your inventory was full, so we sent your "+skill.getFormatName()+" pet to your bank!");
-							player.getBank(0).add(p, 1);
-						} else {
-							PlayerLogs.log(player.getUsername(), player.getUsername()+" got a skilling pet, but had a full bank/inv." +skill.getPetId()+", "+skill.getFormatName());
-							DiscordMessager.sendStaffMessage(player.getUsername()+" got a skilling pet, but had a full bank/inv. ID: "+skill.getPetId()+", "+skill.getFormatName());
-							player.getPacketSender().sendMessage("<img=10>@red@<shad=0> Your inventory, and bank were full, so your pet had no where to go. Contact Crimson for more help.");
-							World.sendMessage("<img=100> <shad=0><col=F300FF>"+player.getUsername()+"'s bank is full, so their "+skill.getFormatName()+" pet was lost. Most unfortunate.");
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			player.getPacketSender().sendMessage("An error occured.");
-			System.out.println(e);
-		}
+	public SkillManager addExperience(Skill skill, int experience) {
 		if(player.experienceLocked())
 			return this;
-		/*
-		 * If the experience in the skill is already greater or equal to
-		 * {@code MAX_EXPERIENCE} then stop.
-		 */
+
 		if (this.skills.experience[skill.ordinal()] >= MAX_EXPERIENCE) {
 			return this;
 		}
-		if (UltimateIronmanHandler.hasItemsStored(player) && player.getLocation() != Location.DUNGEONEERING) {
-			player.getPacketSender().sendMessage("<shad=0>@red@You will gain NO EXP until you claim your stored Dungeoneering items.");
-			return this;
-		}
 
-		if (multiply) {
-			experience *= player.getRights().getExperienceGainModifier(skill);
-		}
-
-		if(player.getMinutesBonusExp() != -1) {
-			if(player.getGameMode() != GameMode.NORMAL) {
-				experience *= 1.30;
-			} else {
-				experience *= 1.30;
-			}
-		}
-		
-		experience = BrawlingGloves.getExperienceIncrease(player, skill.ordinal(), experience);
-		
-		if (Misc.isWeekend()) {
-			experience *= 2;
-		}
-
-		/*
-		 * The skill's level before adding experience.
-		 */
-		int startingLevel = isNewSkill(skill) ? (int) (skills.maxLevel[skill.ordinal()]/10) : skills.maxLevel[skill.ordinal()];
-		/*
-		 * Adds the experience to the skill's experience.
-		 */
-		this.skills.experience[skill.ordinal()] = this.skills.experience[skill.ordinal()] + experience > MAX_EXPERIENCE ? MAX_EXPERIENCE : this.skills.experience[skill.ordinal()] + experience;
-
-				
-		/*
-		 * The skill's level after adding the experience.
-		 */
+		int startingLevel = isNewSkill(skill) ? (skills.maxLevel[skill.ordinal()]/10) : skills.maxLevel[skill.ordinal()];
+		this.skills.experience[skill.ordinal()] = Math.min(this.skills.experience[skill.ordinal()] + experience, MAX_EXPERIENCE);
 		int newLevel = getLevelForExperience(this.skills.experience[skill.ordinal()]);
-		/*
-		 * If the starting level less than the new level, level up.
-		 */
+
 		if (newLevel > startingLevel) {
 			int level = newLevel - startingLevel;
 			String skillName = Misc.formatText(skill.toString().toLowerCase());
 			skills.maxLevel[skill.ordinal()] += isNewSkill(skill) ? level * 10 : level;
-			String Link = null;
-			/*
-			 * If the skill is not constitution, prayer or summoning, then set the current level
-			 * to the max level.
-			 */
 
 			setCurrentLevel(skill, getCurrentLevel(skill) + level * (isNewSkill(skill) ? 10 : 1));
 
@@ -231,84 +126,10 @@ public class SkillManager {
 			player.getPacketSender().sendMessage("You've just advanced " + skillName + " level! You have reached level " + newLevel + ".");
 			Sounds.sendSound(player, Sound.LEVELUP);
 			if (skills.maxLevel[skill.ordinal()] == getMaxAchievingLevel(skill)) {
-				switch (skill.ordinal()) {
-					case 1: //defense
-						Link = "https://zenyte.com/img/adventure-icons/defence.png";
-						break;
-					case 0: // attack
-						Link = "https://zenyte.com/img/adventure-icons/attack.png";
-						break;
-					case 3: //hitpoints
-						Link = "https://zenyte.com/img/adventure-icons/hitpoints.png";
-						break;
-					case 2: //str
-						Link = "https://zenyte.com/img/adventure-icons/strength.png";
-						break;
-					case 4: // ranged
-						break;
-					case 5: // prayer
-						break;
-					case 6: // magic
-						break;
-					case 7: // Cooking
-						break;
-					case 8: // WC
-						break;
-					case 9: // fletch
-						break;
-					case 10: // fishing
-						break;
-					case 11: // FM
-						break;
-					case 12: // crafting
-						break;
-					case 13: // smithing
-						break;
-					case 14: // mining
-						break;
-					case 15: // herblore
-						break;
-					case 16: // agility
-						break;
-					case 17: // thieving
-						break;
-					case 18: // slayer
-						break;
-					case 19: // farming
-						break;
-					case 20: // RC
-						break;
-					case 21: // con
-						break;
-					case 22: // hunter
-						break;
-					case 23: // summ
-						break;
-					case 24: // dung
-						break;
-					default:
-						break;
-				}
 				player.getPacketSender().sendMessage("Well done! You've achieved the highest possible level in this skill!");
-				
 				World.sendMessage("<shad=15536940><img=10> "+player.getUsername()+" has just achieved the highest possible level in "+skillName+"!");
-				JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
-						.setTitle("New 99! Congratulations adventurer!")
-						.setDescription(player.getUsername() + " just achieved level 99 in " + skillName + "!")
-						.setColor(Color.GREEN)
-						.setTimestampToNow()
-						.setThumbnail(Link)
-						.setFooter("Powered by JavaCord"));
 				if(maxed(player)) {
-					//Achievements.finishAchievement(player, AchievementData.REACH_LEVEL_99_IN_ALL_SKILLS);
 					World.sendMessage("<shad=15536940><img=10> "+player.getUsername()+" has just achieved the highest possible level in all skills!");
-					JavaCord.sendEmbed("ingame-announcements", new EmbedBuilder()
-							.setTitle("New maxed adventurer!")
-							.setDescription(player.getUsername() + " just achieved level 99 in all skills! Congratulations!")
-							.setColor(Color.MAGENTA)
-							.setTimestampToNow()
-							.setThumbnail("https://zenyte.com/img/adventure-icons/overall.png")
-							.setFooter("Powered by JavaCord"));
 				}
 				TaskManager.submit(new Task(2, player, true) {
 					int localGFX = 1634;
@@ -485,13 +306,13 @@ public class SkillManager {
 		final int attack = skills.maxLevel[Skill.ATTACK.ordinal()];
 		final int defence = skills.maxLevel[Skill.DEFENCE.ordinal()];
 		final int strength = skills.maxLevel[Skill.STRENGTH.ordinal()];
-		final int hp = (int) (skills.maxLevel[Skill.CONSTITUTION.ordinal()] / 10);
-		final int prayer = (int) (skills.maxLevel[Skill.PRAYER.ordinal()] / 10);
+		final int hp = skills.maxLevel[Skill.CONSTITUTION.ordinal()] / 10;
+		final int prayer = skills.maxLevel[Skill.PRAYER.ordinal()] / 10;
 		final int ranged = skills.maxLevel[Skill.RANGED.ordinal()];
 		final int magic = skills.maxLevel[Skill.MAGIC.ordinal()];
 		final int summoning = skills.maxLevel[Skill.SUMMONING.ordinal()];
 		int combatLevel = 3;
-		combatLevel = (int) ((defence + hp + Math.floor(prayer / 2)) * 0.2535) + 1;
+		combatLevel = (int) ((defence + hp + (double) (prayer / 2)) * 0.2535) + 1;
 		final double melee = (attack + strength) * 0.325;
 		final double ranger = Math.floor(ranged * 1.5) * 0.325;
 		final double mage = Math.floor(magic * 1.5) * 0.325;
@@ -735,7 +556,7 @@ public class SkillManager {
 
 	private static final int EXPERIENCE_FOR_99 = 13034431;
 
-	private static final int EXP_ARRAY[] = {
+	private static final int[] EXP_ARRAY = {
 			0,83,174,276,388,512,650,801,969,1154,1358,1584,1833,2107,2411,2746,3115,3523,
 			3973,4470,5018,5624,6291,7028,7842,8740,9730,10824,12031,13363,14833,16456,18247,
 			20224,22406,24815,27473,30408,33648,37224,41171,45529,50339,55649,61512,67983,75127,

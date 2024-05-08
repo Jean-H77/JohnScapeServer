@@ -1,7 +1,5 @@
 package com.ruse.model.entity.character;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.ruse.engine.task.impl.GroundItemsTask;
 import com.ruse.model.GameMode;
 import com.ruse.model.GroundItem;
@@ -9,13 +7,13 @@ import com.ruse.model.Item;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.Position;
 import com.ruse.model.definitions.ItemDefinition;
+import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.World;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
-import com.ruse.world.content.skill.dungeoneering.UltimateIronmanHandler;
-import com.ruse.model.entity.character.player.Player;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GroundItemManager {
 
@@ -67,13 +65,6 @@ public class GroundItemManager {
 			p.getPacketSender().sendMessage("The cape vanishes as it touches the ground.");
 			return;
 		}
-		if(Dungeoneering.doingDungeoneering(p)) {
-			g = new GroundItem(item, g.getPosition(), "Dungeoneering", true, -1, false, -1);
-			p.getMinigameAttributes().getDungeoneeringAttributes().getParty().getGroundItems().add(g);
-			if(item.getId() == 17489) {
-				p.getMinigameAttributes().getDungeoneeringAttributes().getParty().setGatestonePosition(g.getPosition().copy());
-			}
-		}
 		if(ItemDefinition.forId(item.getId()).isStackable()) {
 			GroundItem it = getGroundItem(p, item, g.getPosition());
 			if(it != null) {
@@ -112,8 +103,6 @@ public class GroundItemManager {
 				person.getPacketSender().createGroundItem(groundItem.getItem().getId(), groundItem.getPosition().getX(), groundItem.getPosition().getY(), groundItem.getItem().getAmount());
 		}
 		if(listGItem) {
-			if(Location.getLocation(groundItem) == Location.DUNGEONEERING)
-				groundItem.setShouldProcess(false);
 			groundItems.add(groundItem);
 			GroundItemsTask.fireTask();
 		}
@@ -142,18 +131,11 @@ public class GroundItemManager {
 				p.getPacketSender().sendMessage("An error occured.");
 				return;
 			}*/
-			if (UltimateIronmanHandler.hasItemsStored(p) && p.getLocation() != Location.DUNGEONEERING) {
-				p.getPacketSender().sendMessage("<shad=0>@red@You cannot pick up items until you claim your stored Dungeoneering items.");
-				return;
-			}
-			if(p.getGameMode() != GameMode.NORMAL && !Dungeoneering.doingDungeoneering(p)) {
+			if(p.getGameMode() != GameMode.NORMAL) {
 				if(gt.getOwner() != null && !gt.getOwner().equals("null") && !gt.getOwner().equals(p.getUsername())) {
 					p.getPacketSender().sendMessage("You cannot pick this item up because it was not spawned for you.");
 					return;
 				}
-			}
-			if(item.getId() == 17489 && Dungeoneering.doingDungeoneering(p)) {
-				p.getMinigameAttributes().getDungeoneeringAttributes().getParty().setGatestonePosition(null);
 			}
 			item = gt.getItem();
 			if (item.getId() == 7509 && position.equals(GlobalItemSpawner.ROCKCAKE_POSITION)) {

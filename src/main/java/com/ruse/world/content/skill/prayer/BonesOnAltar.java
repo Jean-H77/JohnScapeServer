@@ -23,7 +23,7 @@ public class BonesOnAltar {
 	public static void offerBones(final Player player, final int amount) {
 		final int boneId = player.getSelectedSkillingItem();
 		player.getSkillManager().stopSkilling();
-		final BonesData currentBone = BonesData.forId(boneId);
+		final BoneType currentBone = BoneType.forId(boneId);
 		if(currentBone == null)
 			return;
 		player.getPacketSender().sendInterfaceRemoval();

@@ -13,7 +13,7 @@ import java.util.Map;
 
 import com.ruse.GameServer;
 import com.ruse.GameSettings;
-import com.ruse.net.login.LoginDetailsMessage;
+import com.ruse.net.login.LoginDetails;
 import com.ruse.net.login.LoginResponses;
 import com.ruse.util.FileUtils;
 import com.ruse.world.content.PlayerPunishment;
@@ -33,7 +33,7 @@ public class ConnectionHandler {
 		loadStarters();
 	}
 	
-	public static int getResponse(Player player, LoginDetailsMessage msg) {
+	public static int getResponse(Player player, LoginDetails msg) {
 
 		String host = msg.getHost();
 
@@ -60,7 +60,6 @@ public class ConnectionHandler {
 		if(!isLocal(host)) {
 			if(CONNECTIONS.get(host) != null) {
 				if(CONNECTIONS.get(host) >= GameSettings.CONNECTION_AMOUNT) {
-					System.out.println("Connection limit reached: "+player.getUsername()+". Host: "+host);
 					return LoginResponses.LOGIN_SUCCESSFUL;//LoginResponses.LOGIN_CONNECTION_LIMIT;
 				}
 			}
@@ -104,7 +103,6 @@ public class ConnectionHandler {
 			in.close();
 			in = null;
 		} catch (final Exception e) {
-			System.out.println("Could not load blacklisted hosts.");
 		}
 	}
 

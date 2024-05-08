@@ -29,12 +29,11 @@ public final class GameEngine implements Runnable {
 			TaskManager.sequence();
 			World.sequence();
 			PlayerSavingTimer.massSaving();
-			messageSpammerTimer.massMessageHandler();
-			GlobalItemSpawner.startup();
+			//messageSpammerTimer.massMessageHandler();
+			//GlobalItemSpawner.startup();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			World.savePlayers();
-			PlayerSavingTimer.massSaving();
 			ClanChatManager.save();
 	//		ShopUtils.saveAll();
 		}

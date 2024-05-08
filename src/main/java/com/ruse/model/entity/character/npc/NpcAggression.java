@@ -4,7 +4,6 @@ import com.ruse.model.Locations;
 import com.ruse.model.Locations.Location;
 import com.ruse.world.content.combat.CombatFactory;
 import com.ruse.world.content.combat.strategy.impl.bosses.Nex;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.model.entity.character.player.Player;
 
 /**
@@ -25,8 +24,6 @@ public final class NpcAggression {
 
 		if(player.isPlayerLocked())
 			return;
-		
-		final boolean dung = Dungeoneering.doingDungeoneering(player);
 
 		// Loop through all of the aggressive npcs.
 		for (NPC npc : player.getLocalNpcs()) {
@@ -36,7 +33,7 @@ public final class NpcAggression {
 			
 			NPCFacing.updateFacing(player, npc);
 			
-			if(!(dung && npc.getId() != 11226) && !npc.getDefinition().isAggressive()) {
+			if(!npc.getDefinition().isAggressive()) {
 				continue;
 			}
 			
@@ -60,7 +57,7 @@ public final class NpcAggression {
 			// Check if the entity is within distance.
 			if (Locations.goodDistance(npc.getPosition(), player.getPosition(), npc.getAggressionDistance()) || gwdMob) {
 		
-				if (player.getTolerance().elapsed() > (NPC_TOLERANCE_SECONDS * 1000) && player.getLocation() != Location.GODWARS_DUNGEON && player.getLocation() != Location.DAGANNOTH_DUNGEON && !dung) {
+				if (player.getTolerance().elapsed() > (NPC_TOLERANCE_SECONDS * 1000) && player.getLocation() != Location.GODWARS_DUNGEON && player.getLocation() != Location.DAGANNOTH_DUNGEON) {
 					break;
 				}
 
@@ -75,11 +72,11 @@ public final class NpcAggression {
 				}
 
 
-				if (player.getSkillManager().getCombatLevel() > (npc.getDefinition().getCombatLevel() * 2) && player.getLocation() != Location.WILDERNESS && !dung) {
+				if (player.getSkillManager().getCombatLevel() > (npc.getDefinition().getCombatLevel() * 2) && player.getLocation() != Location.WILDERNESS) {
 					continue;
 				}
 
-				if(Location.ignoreFollowDistance(npc) || gwdMob || npc.getDefaultPosition().getDistance(player.getPosition()) < 7 + npc.getMovementCoordinator().getCoordinator().getRadius() || dung) {
+				if(Location.ignoreFollowDistance(npc) || gwdMob || npc.getDefaultPosition().getDistance(player.getPosition()) < 7 + npc.getMovementCoordinator().getCoordinator().getRadius()) {
 					if(CombatFactory.checkHook(npc, player)) {
 						player.setTargeted(true);
 						npc.getCombatBuilder().attack(player);

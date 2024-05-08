@@ -1,7 +1,7 @@
 package com.ruse.world.content.teleporter;
 
 public enum TeleportCategory {
-    TRAINING(0),
+    SKILLING(0),
     BOSSES(1),
     MINIGAMES(2),
     DUNGEONS(3),

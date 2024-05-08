@@ -9,6 +9,7 @@ import com.ruse.model.*;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.container.impl.Equipment;
 import com.ruse.model.definitions.GameObjectDefinition;
+import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.input.impl.EnterAmountOfLogsToAdd;
 import com.ruse.net.packet.Packet;
 import com.ruse.net.packet.PacketListener;
@@ -22,26 +23,18 @@ import com.ruse.world.content.combat.magic.Autocasting;
 import com.ruse.world.content.combat.prayer.CurseHandler;
 import com.ruse.world.content.combat.prayer.PrayerHandler;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
-import com.ruse.world.content.combat.weapon.CombatSpecial;
 import com.ruse.world.content.dialogue.DialogueChain.DialogueChain;
 import com.ruse.world.content.dialogue.DialogueChain.Options;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.minigames.Barrows;
-import com.ruse.world.content.minigames.Dueling;
+import com.ruse.world.content.minigames.*;
 import com.ruse.world.content.minigames.Dueling.DuelRule;
-import com.ruse.world.content.minigames.FightCave;
-import com.ruse.world.content.minigames.FightPit;
-import com.ruse.world.content.minigames.Nomad;
-import com.ruse.world.content.minigames.PestControl;
-import com.ruse.world.content.minigames.RecipeForDisaster;
-import com.ruse.world.content.minigames.WarriorsGuild;
 import com.ruse.world.content.randomevents.EvilTree.EvilTreeDef;
+import com.ruse.world.content.sacrifice.SacrificeItemExchange;
 import com.ruse.world.content.skill.agility.Agility;
 import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.construction.ConstructionActions;
 import com.ruse.world.content.skill.crafting.Flax;
 import com.ruse.world.content.skill.crafting.Jewelry;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.world.content.skill.fishing.Fishing;
 import com.ruse.world.content.skill.fishing.Fishing.Spot;
 import com.ruse.world.content.skill.hunter.Hunter;
@@ -59,7 +52,6 @@ import com.ruse.world.content.skill.woodcutting.WoodcuttingData;
 import com.ruse.world.content.skill.woodcutting.WoodcuttingData.Hatchet;
 import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
-import com.ruse.model.entity.character.player.Player;
 import com.ruse.world.content.wogw.WellOfGoodwill;
 
 /**
@@ -160,7 +152,6 @@ public class ObjectActionPacketListener implements PacketListener {
 							player.getSkillManager().setCurrentLevel(Skill.PRAYER, player.getSkillManager().getMaxLevel(Skill.PRAYER), true);
 						}
 						player.setAnimation(DRINK_ANIMATION);
-						System.out.println("Clack");
 						break;
 				case 2305:
 					if (player.getLocation() != null && player.getLocation() == Location.WILDERNESS) {
@@ -168,6 +159,9 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("You escape from the spikes.");
 					}
 					break;
+					case 101625:
+						player.getSacrificeItemExchange().open();
+						break;
 					case 22769:
 				//		player.getMainScreen().displayScreen();
 						break;
@@ -430,22 +424,14 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("The portal does not seem to be functioning properly.");
 					}
 					break;
+					case 83291:
 					case 20040:
-						player.getUpgradeManager().openInterface();
+						player.getUpgrader().openInterface();
 						break;
 				case 45803:
 				case 1767:
 					DialogueManager.start(player, 114);
 					player.setDialogueActionId(72);
-					break;
-				case 7352:
-					if(Dungeoneering.doingDungeoneering(player) && player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getGatestonePosition() != null) {
-						player.moveTo(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getGatestonePosition());
-						player.setEntityInteraction(null);
-						player.getPacketSender().sendMessage("You are teleported to your party's gatestone.");
-						player.performGraphic(new Graphic(1310));
-					} else
-						player.getPacketSender().sendMessage("Your party must drop a Gatestone somewhere in the dungeon to use this portal.");
 					break;
 				case 7353:
 					player.moveTo(new Position(2439, 4956, player.getPosition().getZ()));
@@ -1164,14 +1150,12 @@ public class ObjectActionPacketListener implements PacketListener {
 				case 19178:
 					Hunter.lootTrap(player, gameObject);
 					break;
-				case 13493:
-					if(!player.getRights().isMember()) {
-						player.getPacketSender().sendMessage("You must be a Member to use this.");
-						return;
-					}
-					double c = Math.random()*100;
-					int reward = c >= 70 ? 13003 : c >= 45 ? 4131 : c >= 35 ? 1113 : c >= 25 ? 1147 : c >= 18 ? 1163 : c >= 12 ? 1079 : c >= 5 ? 1201 : 1127;
-					Stalls.stealFromStall(player, 95, 121, reward, "You stole some rune equipment.");
+				    case 630:
+					case 632:
+					case 628:
+					case 629:
+					case 631:
+					Stalls.stealFromStall(player, gameObject.getId());
 					break;
 				case 30205:
 					player.setDialogueActionId(11);
@@ -1219,6 +1203,7 @@ public class ObjectActionPacketListener implements PacketListener {
 					EnterAmountOfLogsToAdd.openInterface(player);
 					break;
 				case 409:
+					case 8749:
 				case 27661:
 				case 2640:
 				case 36972:
@@ -1229,7 +1214,7 @@ public class ObjectActionPacketListener implements PacketListener {
 						player.getPacketSender().sendMessage("You recharge your Prayer points.");
 					}
 					break;
-				case 8749:
+				/*case 8749:
 					boolean restore = player.getSpecialPercentage() < 100;
 					if(restore) {
 						player.setSpecialPercentage(100);
@@ -1243,7 +1228,7 @@ public class ObjectActionPacketListener implements PacketListener {
 					}
 					player.performGraphic(new Graphic(1302));
 					player.getPacketSender().sendMessage("Your stats have received a major buff.");
-					break;
+					break;*/
 				case 4859:
 					player.performAnimation(new Animation(645));
 					if(player.getSkillManager().getCurrentLevel(Skill.PRAYER) < player.getSkillManager().getMaxLevel(Skill.PRAYER)) {
@@ -1394,24 +1379,6 @@ public class ObjectActionPacketListener implements PacketListener {
 					} else {
 						DwarfMultiCannon.pickupCannon(player, cannon, false);
 					}
-					break;
-				case 5917: //friday the 13th event
-					Stalls.stealFromStall(player, 1, 0, 13150, "You search the Plasma Vent... and find a Spooky Box!");
-					break;
-				case 4875:
-					Stalls.stealFromStall(player, 1, 13, 18199, "You steal a banana.");
-					break;
-				case 4874:
-					Stalls.stealFromStall(player, 30, 34, 15009, "You steal a golden ring.");
-					break;
-				case 4876:
-					Stalls.stealFromStall(player, 60, 57, 17401, "You steal a damaged hammer.");
-					break;
-				case 4877:
-					Stalls.stealFromStall(player, 65, 80, 1389, "You steal a staff.");
-					break;
-				case 4878:
-					Stalls.stealFromStall(player, 80, 101, 11998, "You steal a scimitar.");
 					break;
 				case 3044:
 				case 6189:

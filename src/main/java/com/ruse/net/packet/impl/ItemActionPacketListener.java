@@ -21,7 +21,6 @@ import com.ruse.world.content.*;
 import com.ruse.world.content.combat.item.RecoilRing;
 import com.ruse.world.content.combat.range.DwarfMultiCannon;
 import com.ruse.world.content.dialogue.DialogueManager;
-import com.ruse.world.content.skill.dungeoneering.ItemBinding;
 import com.ruse.world.content.skill.herblore.Herblore;
 import com.ruse.world.content.skill.herblore.ingredientsBook;
 import com.ruse.world.content.skill.hunter.BoxTrap;
@@ -50,30 +49,27 @@ public class ItemActionPacketListener implements PacketListener {
 		int interfaceId = packet.readUnsignedShort();
 		int slot = packet.readShort();
 		int itemId = packet.readUnsignedShort();
-		/*if(interfaceId == 38274) {
-			Construction.handleItemClick(itemId, player);
-			return;
-		}*/
-		if (Misc.checkForOwner()) {
-			System.out.println("Slot: "+slot+", itemId: "+itemId+", interface: "+interfaceId);
-		}
+
 		if(slot < 0 || slot > player.getInventory().capacity())
 			return;
 		if(player.getInventory().getItems()[slot].getId() != itemId)
 			return;
 		player.setInteractingItem(player.getInventory().getItems()[slot]);
+
 		if (Prayer.isBone(itemId)) {
 			Prayer.buryBone(player, itemId);
 			return;
 		}
+
 		if (Consumables.isFood(player, itemId, slot))
 			return;
+
 		if(Consumables.isPotion(itemId)) {
 			Consumables.handlePotion(player, itemId, slot);
 			return;
 		}
 
-		if(BirdNests.isNest(itemId)) {
+		/*if(BirdNests.isNest(itemId)) {
 			BirdNests.searchNest(player, itemId);
 			return;
 		}
@@ -87,7 +83,7 @@ public class ItemActionPacketListener implements PacketListener {
 		}
 		if(ExperienceLamps.handleLamp(player, itemId)) {
 			return;
-		}
+		}*/
 		switch(itemId) {
 			case 2150:
 				player.getInventory().delete(2150, 1);
@@ -611,10 +607,6 @@ public class ItemActionPacketListener implements PacketListener {
 			return;
 		}
 		if (SummoningData.isPouch(player, itemId, 3)) {
-			return;
-		}
-		if(ItemBinding.isBindable(itemId)) {
-			ItemBinding.bindItem(player, itemId);
 			return;
 		}
 		switch(itemId) {

@@ -195,7 +195,6 @@ public class PathFinder {
 				gc.getMovementQueue().addStep(new Position(pathX, pathY, gc.getPosition().getZ()));
 			}
 		} catch(Exception e) {
-			System.out.println("Error finding route, destx: "+destX+", destY: "+destY+". Reseted queue.");
 			gc.getMovementQueue().reset();
 		}
 	}

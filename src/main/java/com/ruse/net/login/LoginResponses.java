@@ -1,62 +1,7 @@
 package com.ruse.net.login;
 
-import com.ruse.GameServer;
-import com.ruse.GameSettings;
-import com.ruse.net.security.ConnectionHandler;
-import com.ruse.util.NameUtils;
-import com.ruse.webhooks.discord.DiscordMessager;
-import com.ruse.world.World;
-import com.ruse.model.entity.character.player.Player;
-import com.ruse.model.entity.character.player.PlayerLoading;
-
-import java.util.concurrent.ExecutionException;
-
 public final class LoginResponses {
-	
-	public static final int getResponse(Player player, LoginDetailsMessage msg) throws InterruptedException, ExecutionException {
-		if (World.getPlayers().isFull()) {
-			return LOGIN_WORLD_FULL;
-		} 
-		if(GameServer.isUpdating()) {
-			return LOGIN_GAME_UPDATE;
-		} 
-		if (!NameUtils.isValidName(player.getUsername())) {
-			return LOGIN_INVALID_CREDENTIALS;
-		} 
-		if(player.getUsername().startsWith(" ")) {
-			return USERNAME_STARTS_WITH_SPACE;
-		}
-		if(player.getUsername().endsWith(" ")) {
-			return USERNAME_ENDS_WITH_SPACE;
-		}
-		if(msg.getClientVersion() != GameSettings.GAME_VERSION || msg.getUid() != GameSettings.GAME_UID) {
-			DiscordMessager.sendDebugMessage("Client connecting with V "+msg.getClientVersion() +", UID "+msg.getUid()+" from "+msg.getHost()+" to account "+msg.getUsername()+"\nServer Version is "+GameSettings.GAME_VERSION+", Server UID is "+GameSettings.GAME_UID);
-			return OLD_CLIENT_VERSION;
-		}
-		if(World.getPlayerByName(player.getUsername()) != null) {
-			return LOGIN_ACCOUNT_ONLINE;
-		}
-		
-		/** CHAR FILE LOADING **/
-		int playerLoadingResponse = PlayerLoading.getResult(player);
-		if(playerLoadingResponse != LOGIN_SUCCESSFUL && playerLoadingResponse != NEW_ACCOUNT) {
-			return playerLoadingResponse;
-		}
-		
-		/** PREVENTING IMPERSONATING **/
-		if(playerLoadingResponse == LoginResponses.NEW_ACCOUNT && (msg.getUsername().toLowerCase().contains("crimson") || msg.getUsername().toLowerCase().contains("mod") || msg.getUsername().toLowerCase().contains("admin"))) {
-			return LoginResponses.LOGIN_INVALID_CREDENTIALS;
-		}
-		
-		/** BANS AND ACCESS LIMITS **/
-		int hostHandlerResponse = ConnectionHandler.getResponse(player, msg);
-		if(hostHandlerResponse != LOGIN_SUCCESSFUL) {
-			return hostHandlerResponse;
-		}
-		
-		return playerLoadingResponse;
-	}
-	
+
 	/**
 	 * This opcode is used for data (session keys, name, password, etc)
 	 * exchange.

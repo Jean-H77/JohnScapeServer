@@ -1,12 +1,7 @@
 package com.ruse.net.packet;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
-/**
- * Manages reading packet information from the netty's channel.
- * 
- * @author relex lawl
- */
 
 public class Packet {
 	
@@ -22,7 +17,7 @@ public class Packet {
 	 * @param packetType		The packetType of packet being read.
 	 * @param buffer	The buffer used to receive information from the netty's channel.
 	 */
-	public Packet(int opcode, PacketType packetType, ChannelBuffer buffer) {
+	public Packet(int opcode, PacketType packetType, ByteBuf buffer) {
 		this.opcode = opcode;
 		this.packetType = packetType;
 		this.buffer = buffer;
@@ -57,13 +52,13 @@ public class Packet {
 	/**
 	 * The buffer being used to read the packet information.
 	 */
-	private ChannelBuffer buffer;
+	private ByteBuf buffer;
 
 	/**
 	 * Gets the buffer used to receive the packet information.
 	 * @return	The ChannelBuffer instance.
 	 */
-	public ChannelBuffer getBuffer() {
+	public ByteBuf getBuffer() {
 		return buffer;
 	}
 
@@ -309,7 +304,7 @@ public class Packet {
 	public String readString() {
 		StringBuilder builder = new StringBuilder();
 		byte value;
-		while (buffer.readable() && (value = buffer.readByte()) != 10) {
+		while (buffer.isReadable() && (value = buffer.readByte()) != 10) {
 			builder.append((char) value);
 		}
 		return builder.toString();
@@ -320,7 +315,8 @@ public class Packet {
 	 * @return	The smart value.
 	 */
 	public int readSmart() {
-		return buffer.getByte(buffer.readerIndex()) < 128 ? readByte() & 0xFF : (readShort() & 0xFFFF) - 32768;
+        buffer.getByte(buffer.readerIndex());
+        return readByte() & 0xFF;
 	}
 
 	/**
@@ -328,7 +324,8 @@ public class Packet {
 	 * @return	The signed smart value.
 	 */
 	public int readSignedSmart() {
-		return buffer.getByte(buffer.readerIndex()) < 128 ? (readByte() & 0xFF) - 64 : (readShort() & 0xFFFF) - 49152;
+        buffer.getByte(buffer.readerIndex());
+        return (readByte() & 0xFF) - 64;
 	}
 
 	@Override

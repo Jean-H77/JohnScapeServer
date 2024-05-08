@@ -20,5 +20,4 @@ public class BuffTimers {
         packetBuilder.putInt(spriteId);
         p.getSession().queueMessage(packetBuilder);
     }
-
 }

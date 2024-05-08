@@ -1,7 +1,6 @@
 package com.ruse.util;
 
 import com.ruse.GameSettings;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 
 /**
@@ -51,19 +50,10 @@ public class messageSpammerTimer {
 				World.sendFilteredMessage(prefix+(messages[count]));
 				massMessageTimer = System.currentTimeMillis();
 				count++;
-				
-	
-				
+
 			if (count == 10) {
-					if (World.getPlayers().size() > 0) {
-						DiscordMessager.sendInGameMessage(":innocent: There is currently "+World.getPlayers().size()+" "+(World.getPlayers().size() == 1 ? "player" : "players") +" online!");
-					}
-					if (doubleExp && Misc.isWeekend()) {
-						DiscordMessager.sendInGameMessage(":mega: Come get some **DOUBLE EXP**, it's here all weekend long and __STACKS__ with vote scrolls! :lifter:");
-					}
 					doubleExp = !doubleExp;
 			}
-			
 		}
 	}
 }

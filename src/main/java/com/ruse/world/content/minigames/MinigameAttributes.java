@@ -1,6 +1,5 @@
 package com.ruse.world.content.minigames;
 
-import com.ruse.world.content.skill.dungeoneering.DungeoneeringParty;
 
 /**
  * Holds different minigame attributes for a player
@@ -16,7 +15,6 @@ public class MinigameAttributes {
 	//private final SoulWarsAttributes soulWarsAttributes = new SoulWarsAttributes();
 	private final GodwarsDungeonAttributes godwarsDungeonAttributes = new GodwarsDungeonAttributes();
 	private final GraveyardAttributes graveyardAttributes = new GraveyardAttributes();
-	private final DungeoneeringAttributes dungeoneeringAttributes = new DungeoneeringAttributes();
 	private final trioAttributes trioAttributes = new trioAttributes();
 	private final ZulrahAttributes zulrahAttributes = new ZulrahAttributes();
 
@@ -311,72 +309,6 @@ public class MinigameAttributes {
 			return this;
 		}
 	}
-
-	public class DungeoneeringAttributes {
-		private DungeoneeringParty party;
-		private DungeoneeringParty invitation;
-		private long lastInvitation;
-		private int[] boundItems = new int[5];
-		private int damageDealt;
-		private int deaths;
-
-		public DungeoneeringParty getParty() {
-			return party;
-		}
-
-		public void setParty(DungeoneeringParty dungeoneeringParty) {
-			this.party = dungeoneeringParty;
-		}		
-
-		public int[] getBoundItems() {
-			return boundItems;
-		}
-
-		public void setBoundItems(int[] boundItems) {
-			this.boundItems = boundItems;
-		}
-
-		public long getLastInvitation() {
-			return lastInvitation;
-		}
-
-		public void setLastInvitation(long lastInvitation) {
-			this.lastInvitation = lastInvitation;
-		}
-
-		public DungeoneeringParty getPartyInvitation() {
-			return invitation;
-		}
-
-		public void setPartyInvitation(DungeoneeringParty partyInvitation) {
-			this.invitation = partyInvitation;
-		}
-
-		public void incrementDamageDealt(int damage) {
-			this.damageDealt += damage;
-		}
-
-		public void setDamageDealt(int damage) {
-			this.damageDealt = damage;
-		}
-
-		public int getDamageDealt() {
-			return this.damageDealt;
-		}
-
-		public void setDeaths(int deaths) {
-			this.deaths = deaths;
-		}
-
-		public void incrementDeaths() {
-			this.deaths++;
-		}
-
-		public int getDeaths() {
-			return deaths;
-		}
-	}
-
 	public BarrowsMinigameAttributes getBarrowsMinigameAttributes() {
 		return barrowsMinigameAttributes;
 	}
@@ -409,15 +341,9 @@ public class MinigameAttributes {
 		return godwarsDungeonAttributes;
 	}
 
-	public DungeoneeringAttributes getDungeoneeringAttributes() {
-		return dungeoneeringAttributes;
-	}
-	
 	public ZulrahAttributes getZulrahAttributes() {
 		return zulrahAttributes;
 	}
 
-
 	public MinigameAttributes() {}
-
 }

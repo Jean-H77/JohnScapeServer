@@ -1,6 +1,7 @@
 package com.ruse.net.packet.impl;
 
 import com.ruse.GameSettings;
+import com.ruse.eventbus.impl.ButtonClickEvent;
 import com.ruse.model.Item;
 import com.ruse.model.Locations.Location;
 import com.ruse.model.Position;
@@ -32,9 +33,6 @@ import com.ruse.world.content.skill.ChatboxInterfaceSkillAction;
 import com.ruse.world.content.skill.construction.Construction;
 import com.ruse.world.content.skill.crafting.LeatherMaking;
 import com.ruse.world.content.skill.crafting.Tanning;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
-import com.ruse.world.content.skill.dungeoneering.DungeoneeringParty;
-import com.ruse.world.content.skill.dungeoneering.ItemBinding;
 import com.ruse.world.content.skill.fletching.Fletching;
 import com.ruse.world.content.skill.herblore.ingredientsBook;
 import com.ruse.world.content.skill.smithing.SmithingData;
@@ -54,17 +52,10 @@ public class ButtonClickPacketListener implements PacketListener {
 
 	@Override
 	public void handleMessage(Player player, Packet packet) {
-
-		int bankid = 0;
 		int id = packet.readShort();
 
 		if (player.getRights() == PlayerRights.OWNER || player.getRights().isDeveloperOnly()) {
 			player.getPacketSender().sendMessage("Clicked button: " + id);
-		}
-
-		if(id >= -24475 && id <= -24445) {
-			if(player.getDropViewer().handleButtonClick(id))
-				return;
 		}
 
 		if(checkHandlers(player, id))
@@ -106,31 +97,6 @@ public class ButtonClickPacketListener implements PacketListener {
 				player.getAchievementManger().openInterface();
 				break;
 		case 26250:
-		case 27229:
-			DungeoneeringParty.create(player);
-			for (Bank b : player.getBanks()) {
-				if (b.contains(15707)) {
-					player.getPacketSender().sendMessage("You already have a Ring of Kinship in your bank.");
-					return;
-				}
-			}
-			if (player.getInventory().contains(15707)) {
-				player.getPacketSender().sendMessage("Use your Ring of Kinship to invite players!");
-				return;
-			} else {
-				player.getInventory().add(15707, 1);
-				player.getPacketSender().sendMessage("You can use your Ring of Kinship to invite others to your party!");
-			}
-			break;
-		case 26226:
-		case 26229:
-			if(Dungeoneering.doingDungeoneering(player)) {
-				DialogueManager.start(player, 114);
-				player.setDialogueActionId(71);
-			} else {
-				Dungeoneering.leave(player, false, true);
-			}
-			break;
 			case -5398:
 				if(player.getClickDelay().elapsed(1000)) {
 					if (player.getAttendanceUI().isPopUp()) {
@@ -143,17 +109,6 @@ public class ButtonClickPacketListener implements PacketListener {
 					player.getClickDelay().reset();
 				}
 				break;
-		case 26244:
-		case 26247:
-			if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty() != null) {
-				if(player.getMinigameAttributes().getDungeoneeringAttributes().getParty().getOwner().getUsername().equals(player.getUsername())) {
-					DialogueManager.start(player, id == 26247 ? 106 : 105);
-					player.setDialogueActionId(id == 26247 ? 68 : 67);
-				} else {
-					player.getPacketSender().sendMessage("Only the party owner can change this setting.");
-				}
-			}
-			break;
 		case 28180:
 			TeleportHandler.teleportPlayer(player, new Position(3450, 3715), player.getSpellbook().getTeleportType());
 			break;
@@ -161,25 +116,15 @@ public class ButtonClickPacketListener implements PacketListener {
 			player.setDestroyItemSlot(-1);
 			player.getPacketSender().sendInterfaceRemoval();
 			break;
-		case 14175:
-			player.getPacketSender().sendInterfaceRemoval();
-			if(player.getDestroyItemSlot() != -1 && player.getInventory().get(player.getDestroyItemSlot()).getId() != -1) {
-				Item destroying = player.getInventory().get(player.getDestroyItemSlot());
-				ItemBinding.unbindItem(player, destroying.getId());
-				player.getInventory().delete(destroying, player.getDestroyItemSlot(), true);
-				PlayerLogs.log(player.getUsername(), "Player destroying item: "
-						+destroying.getId()+", amount: "+destroying.getAmount());
-				player.getPacketSender().sendMessage("Your item vanishes as it hits the floor.");
-				Sounds.sendSound(player, Sound.DROP_ITEM);
-			}
-			player.setDestroyItemSlot(-1);
-			break;
 		case 1013:
 			player.getSkillManager().setTotalGainedExp(0);
 			break;
 		case -26349:
 			KillsTracker.open(player);
 			break;
+			case -24325:
+				player.getSacrificeItemExchange().exchange();
+				break;
 		case -26348:
 			DropLog.open(player);
 			break;
@@ -374,7 +319,7 @@ public class ButtonClickPacketListener implements PacketListener {
 			DialogueManager.start(player, DialogueManager.getDialogues().get(player.getBankPinAttributes().hasBankPin() ? 12 : 9));
 			break;
 		case 15002:
-			if(!player.busy() && !player.getCombatBuilder().isBeingAttacked() && !Dungeoneering.doingDungeoneering(player)) {
+			if(!player.busy() && !player.getCombatBuilder().isBeingAttacked()) {
 				player.getSkillManager().stopSkilling();
 				player.getPriceChecker().open();
 			} else {
@@ -963,7 +908,7 @@ public class ButtonClickPacketListener implements PacketListener {
 		if(player.getCollectionLogManager().handleButtonClick(id)) {
 			return true;
 		}
-		if(player.getUpgradeManager().handleButtonClick(id)) {
+		if(player.getUpgrader().handleButtonClick(id)) {
 			return true;
 		}
 	//	if(player.getAchievementManger().handleButtonClick(itemId)) {

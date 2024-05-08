@@ -11,7 +11,6 @@ import com.ruse.util.Misc;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.Sounds;
 import com.ruse.world.content.Sounds.Sound;
-import com.ruse.world.content.skill.dungeoneering.Dungeoneering;
 import com.ruse.model.entity.character.player.Player;
 
 /**
@@ -29,15 +28,13 @@ public class Firemaking {
 			return;
 		}
 		boolean objectExists = CustomObjects.objectExists(player.getPosition().copy());
-		if(!Dungeoneering.doingDungeoneering(player)) {
-			if(objectExists && !addingToFire || player.getPosition().getZ() > 0 || !player.getMovementQueue().canWalk(1, 0) && !player.getMovementQueue().canWalk(-1, 0) && !player.getMovementQueue().canWalk(0, 1) && !player.getMovementQueue().canWalk(0, -1)) {
-				player.getPacketSender().sendMessage("You can not light a fire here.");
-				return;
-			}
-			if(player.getPosition().getX() == 2848 && player.getPosition().getY() == 3335 || player.getPosition().getX() == 2711 && player.getPosition().getY() == 3438){//fm
-				player.getPacketSender().sendMessage("There's already a perfectly good fire here.");
-				return;
-			}
+		if(objectExists && !addingToFire || player.getPosition().getZ() > 0 || !player.getMovementQueue().canWalk(1, 0) && !player.getMovementQueue().canWalk(-1, 0) && !player.getMovementQueue().canWalk(0, 1) && !player.getMovementQueue().canWalk(0, -1)) {
+			player.getPacketSender().sendMessage("You can not light a fire here.");
+			return;
+		}
+		if(player.getPosition().getX() == 2848 && player.getPosition().getY() == 3335 || player.getPosition().getX() == 2711 && player.getPosition().getY() == 3438){//fm
+			player.getPacketSender().sendMessage("There's already a perfectly good fire here.");
+			return;
 		}
 		final Logdata.logData logData = Logdata.getLogData(player, log);
 		if(logData == null)

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ruse.net.packet.impl.ChatPacketListener;
 import com.ruse.util.NameUtils;
-import com.ruse.webhooks.discord.DiscordMessager;
 import com.ruse.world.World;
 import com.ruse.world.content.PlayerLogs;
 import com.ruse.world.content.PlayerPunishment;
@@ -299,8 +298,6 @@ public class PlayerRelations {
 		friend.getPacketSender().sendPrivateMessage(player.getLongUsername(), player.getRights(), message, size);
 		PlayerLogs.log(this.player.getUsername(), "PM to "+friend.getUsername()+": "+readable);
 		PlayerLogs.log(friend.getUsername(), "PM from "+this.player.getUsername()+": "+readable);
-		DiscordMessager.sendPrivateMessage(this.player.getUsername()+" to "+friend.getUsername()+": "+readable);
-	
 	}
 
 	/**

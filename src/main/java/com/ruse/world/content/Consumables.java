@@ -219,7 +219,7 @@ public class Consumables {
 		/*
 		 * Other food types.
 		 */
-		EASTER_EGG(new Item(1961), 14),
+
 		PUMPKIN(new Item(1959), 14),
 		PURPLE_SWEETS(new Item(4561), 30),
 		OKTOBERTFEST_PRETZEL(new Item(19778), 120);

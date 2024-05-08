@@ -41,7 +41,7 @@ public class ExperienceLamps {
 							return true;
 						int exp = getExperienceReward(player, lamp, skill);
 						player.getInventory().delete(lamp.getItemId(), 1);
-						player.getSkillManager().addExperience(skill, exp, false);
+						player.getSkillManager().addExperience(skill, exp);
 						player.getPacketSender().sendMessage("You've received some experience in "+Misc.formatText(skill.toString().toLowerCase())+".");
 						break;
 					}

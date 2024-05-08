@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 
 import com.google.gson.Gson;
@@ -11,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.ruse.GameServer;
 import com.ruse.model.Item;
+import com.ruse.net.GameHandler;
 import com.ruse.util.Misc;
 import com.ruse.util.json.ItemTypeAdapter;
 import org.apache.commons.lang3.text.WordUtils;
@@ -20,8 +22,8 @@ public  class PlayerSaving {
 
 
 	public static void save(Player player) {
-		//if(player.newPlayer())
-		//	return;
+		if(player.newPlayer())
+			return;
 		// Create the path and file objects.
 		Path path = Paths.get("./data/saves/characters/", player.getUsername() + ".json");
 		File file = path.toFile();
@@ -33,7 +35,6 @@ public  class PlayerSaving {
 			try {
 				file.getParentFile().mkdirs();
 			} catch (SecurityException e) {
-				System.out.println("Unable to create directory for player data!");
 			}
 		}
 
@@ -56,31 +57,12 @@ public  class PlayerSaving {
 			object.addProperty("email", player.getEmailAddress() == null ? "null" : player.getEmailAddress().trim());
 			object.addProperty("staff-rights", player.getRights().name());
 			object.addProperty("game-mode", player.getGameMode().name());
-			/** HEX YELL COLORS **/
-			object.addProperty("yellhexcolor", player.getYellHex() == null ? "ffffff" : player.getYellHex());
 			object.add("position", builder.toJsonTree(player.getPosition()));
 			object.addProperty("online-status", player.getRelations().getStatus().name());
 			object.addProperty("given-starter", (player.didReceiveStarter()));
-			object.addProperty("money-pouch", (player.getMoneyInPouch()));
-			object.addProperty("donated", (player.getAmountDonated()));
 			object.addProperty("minutes-bonus-exp", (player.getMinutesBonusExp()));
 			object.addProperty("total-gained-exp", (player.getSkillManager().getTotalGainedExp()));
-			object.addProperty("barrows-points", (player.getPointsHandler().getBarrowsPoints()));
-			object.addProperty("member-points", (player.getPointsHandler().getMemberPoints()));
-			object.addProperty("Skilling-points", (player.getPointsHandler().getSkillingPoints()));
-			object.addProperty("prestige-points", (player.getPointsHandler().getPrestigePoints()));
-			object.addProperty("achievement-points", (player.getPointsHandler().getAchievementPoints()));
-			object.addProperty("dung-tokens", (player.getPointsHandler().getDungeoneeringTokens()));
-			object.addProperty("commendations", (player.getPointsHandler().getCommendations()));
-			object.addProperty("loyalty-points", (player.getPointsHandler().getLoyaltyPoints()));
 			object.addProperty("voting-points", (player.getPointsHandler().getVotingPoints()));
-			object.addProperty("slayer-points", (player.getPointsHandler().getSlayerPoints()));
-			object.addProperty("pk-points", (player.getPointsHandler().getPkPoints()));
-			object.addProperty("player-kills", (player.getPlayerKillingAttributes().getPlayerKills()));
-			object.addProperty("player-killstreak", (player.getPlayerKillingAttributes().getPlayerKillStreak()));
-			object.addProperty("player-deaths", (player.getPlayerKillingAttributes().getPlayerDeaths()));
-			object.addProperty("target-percentage", (player.getPlayerKillingAttributes().getTargetPercentage()));
-			object.addProperty("bh-rank", (player.getAppearance().getBountyHunterSkull()));
 			object.addProperty("gender", player.getAppearance().getGender().name());
 			object.addProperty("spell-book", player.getSpellbook().name());
 			object.addProperty("prayer-book", player.getPrayerbook().name());
@@ -90,12 +72,7 @@ public  class PlayerSaving {
 			object.addProperty("sounds", (player.soundsActive()));
 			object.addProperty("auto-retaliate", (player.isAutoRetaliate()));
 			object.addProperty("xp-locked", (player.experienceLocked()));
-			object.addProperty("veng-cast", (player.hasVengeance()));
-			object.addProperty("last-veng", (player.getLastVengeance().elapsed()));
 			object.addProperty("fight-type", player.getFightType().name());
-			object.addProperty("sol-effect", (player.getStaffOfLightEffect()));
-			object.addProperty("skull-timer", (player.getSkullTimer()));
-			object.addProperty("accept-aid", (player.isAcceptAid()));
 			object.addProperty("poison-damage", (player.getPoisonDamage()));
 			object.addProperty("poison-immunity", (player.getPoisonImmunity()));
 			object.addProperty("overload-timer", (player.getOverloadPotionTimer()));
@@ -109,10 +86,6 @@ public  class PlayerSaving {
 			object.addProperty("clanchat", player.getClanChatName() == null ? "null" : player.getClanChatName().trim());
 			object.addProperty("autocast", (player.isAutocast()));
 			object.addProperty("autocast-spell", player.getAutocastSpell() != null ? player.getAutocastSpell().spellId() : -1);
-			object.add("killed-players", builder.toJsonTree(player.getPlayerKillingAttributes().getKilledPlayers()));
-			object.add("barrows-brother", builder.toJsonTree(player.getMinigameAttributes().getBarrowsMinigameAttributes().getBarrowsData()));
-			object.addProperty("random-coffin", (player.getMinigameAttributes().getBarrowsMinigameAttributes().getRandomCoffin()));
-			object.addProperty("barrows-killcount", (player.getMinigameAttributes().getBarrowsMinigameAttributes().getKillcount()));
 			object.addProperty("has-bank-pin", (player.getBankPinAttributes().hasBankPin()));
 			object.addProperty("last-pin-attempt", (player.getBankPinAttributes().getLastAttempt()));
 			object.addProperty("invalid-pin-attempts", (player.getBankPinAttributes().getInvalidAttempts()));
@@ -143,31 +116,9 @@ public  class PlayerSaving {
 			object.addProperty("lastloggedinday", player.getAttendanceManager().getLastLoggedInDate().toString());
 			object.add("attendanceprogress", builder.toJsonTree(player.getAttendanceManager().getPlayerAttendanceProgress()));
 			object.addProperty("attendance-popup", player.getAttendanceUI().isPopUp());
+			object.add("stranger-tasks", builder.toJsonTree(player.getStrangerTasks()));
 
 			writer.write(builder.toJson(object));
-			writer.close();
-
-			/*
-			 * Housing
-			 */
-         /*   FileOutputStream fileOut = new FileOutputStream("./data/saves/housing/rooms/" + player.getUsername() + ".ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(player.getHouseRooms());
-            out.close();
-            fileOut.close();
-
-            fileOut = new FileOutputStream("./data/saves/housing/furniture/" + player.getUsername() + ".ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(player.getHouseFurniture());
-            out.close();
-            fileOut.close();
-
-            fileOut = new FileOutputStream("./data/saves/housing/portals/" + player.getUsername() + ".ser");
-            out = new ObjectOutputStream(fileOut);
-            out.writeObject(player.getHousePortals());
-            out.close();
-            fileOut.close();
-            */
 		} catch (Exception e) {
 			// An error happened while saving.
 			GameServer.getLogger().log(Level.WARNING,

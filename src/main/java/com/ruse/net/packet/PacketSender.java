@@ -8,9 +8,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.ruse.GameSettings;
 import com.ruse.model.*;
 import com.ruse.model.container.ItemContainer;
+import com.ruse.model.definitions.ItemDefinition;
 import com.ruse.model.definitions.NpcDropItem;
 import com.ruse.net.packet.Packet.PacketType;
 import com.ruse.world.content.CustomObjects;
+import com.ruse.world.content.sacrifice.SacrificeItemExchange;
 import com.ruse.world.content.skill.construction.ConstructionData.Furniture;
 import com.ruse.world.content.skill.construction.Palette;
 import com.ruse.world.content.skill.construction.Palette.PaletteTile;
@@ -18,6 +20,8 @@ import com.ruse.model.entity.Entity;
 import com.ruse.model.entity.character.CharacterEntity;
 import com.ruse.model.entity.character.npc.NPC;
 import com.ruse.model.entity.character.player.Player;
+
+import static com.ruse.model.container.impl.Inventory.INTERFACE_ID;
 
 /**
  * This class manages making the packets that will be sent (when called upon) onto
@@ -304,7 +308,6 @@ public class PacketSender {
 		out.putInt(id);
 		player.getSession().queueMessage(out);
 		player.setInterfaceId(id);
-		System.out.println("Sending interface: " + id);
 		return this;
 	}
 
@@ -543,6 +546,10 @@ public class PacketSender {
 			sendClientRightClickRemoval();
 			player.getTrading().declineTrade(true);
 		}
+		if(player.getInterfaceId() == SacrificeItemExchange.INTERFACE_ID) {
+			sendItemContainer(player.getInventory(), INTERFACE_ID);
+		}
+		player.getInventory().refreshItems();
 		if(player.getDueling().inDuelScreen && player.getDueling().duelingStatus != 5) {
 			sendClientRightClickRemoval();
 			player.getDueling().declineDuel(player.getDueling().duelingWith >= 0);
@@ -595,6 +602,29 @@ public class PacketSender {
 		out.putString("");
 		out.putShort(container.capacity());
 		for (Item item: container.getItems()) {
+			if(item == null) {
+				out.put(0);
+				out.putShort(0, ValueType.A, ByteOrder.LITTLE);
+				continue;
+			}
+			if (item.getAmount() > 254) {
+				out.put((byte)255);
+				out.putInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
+			} else {
+				out.put(item.getAmount());
+			}
+			out.putShort(item.getId() + 1, ValueType.A, ByteOrder.LITTLE);
+		}
+		player.getSession().queueMessage(out);
+		return this;
+	}
+
+	public PacketSender sendItemContainer(List<Item> items, int interfaceId) {
+		PacketBuilder out = new PacketBuilder(53, PacketType.SHORT);
+		out.putInt(interfaceId);
+		out.putString("");
+		out.putShort(items.size());
+		for (Item item : items) {
 			if(item == null) {
 				out.put(0);
 				out.putShort(0, ValueType.A, ByteOrder.LITTLE);
@@ -676,6 +706,7 @@ public class PacketSender {
 				out.put(item.getAmount());
 			}
 			out.putShort(item.getItemId() + 1, ValueType.A, ByteOrder.LITTLE);
+			out.putString(ItemDefinition.forId(item.getItemId()).getName());
 		}
 		player.getSession().queueMessage(out);
 		return this;

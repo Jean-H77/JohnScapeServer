@@ -86,7 +86,6 @@ public class DungPartyInvitation extends Dialogue {
 			
 			@Override
 			public void specialAction() {
-				p.getMinigameAttributes().getDungeoneeringAttributes().setPartyInvitation(inviter.getMinigameAttributes().getDungeoneeringAttributes().getParty());
 				p.setDialogueActionId(66);
 			}
 			

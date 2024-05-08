@@ -303,8 +303,19 @@ public abstract class ItemContainer {
 	public boolean containsWithAmount(Item[] items) {
 		if(items == null) return false;
 		if(items.length == 0) return false;
-		for(int i = 0; i < items.length; i++) {
-			if(getAmount(items[i].getId()) < items[i].getAmount()) {
+        for (Item item : items) {
+            if (getAmount(item.getId()) < item.getAmount()) {
+                return false;
+            }
+        }
+		return true;
+	}
+
+	public boolean containsWithAmount(List<Item> items) {
+		if(items == null) return false;
+		if(items.isEmpty()) return false;
+		for (Item item : items) {
+			if (getAmount(item.getId()) < item.getAmount()) {
 				return false;
 			}
 		}
@@ -603,16 +614,6 @@ public abstract class ItemContainer {
 			return this;
 		if((long)getAmount(item.getId()) + item.getAmount() > Integer.MAX_VALUE) return this;
 		Preconditions.checkArgument(ItemDefinition.forId(item.getId()) != null, "Item definition is null: " + item.getId());
-		/*if(item.getId() == 995 && this instanceof Inventory)  {
-			if(this instanceof Inventory) {
-				if(getAmount(item.getId()) + item.getAmount() >= Integer.MAX_VALUE || getAmount(item.getId()) + item.getAmount() <= -1) {
-					getPlayer().setMoneyInPouch(getPlayer().getMoneyInPouch() + item.getAmount());
-					getPlayer().getPacketSender().sendString(8135, ""+player.getMoneyInPouch()+"");
-					getPlayer().getPacketSender().sendMessage("The coins that you could not hold in your inventory have been placed in your pouch.");
-					return this;
-				}
-			}
-		}*/
 
 		if (ItemDefinition.forId(item.getId()).isStackable() && !item.getAttributes().hasAttributes() || stackType() == StackType.STACKS && !item.getAttributes().hasAttributes()) {
 			int slot = getSlot(item);
@@ -627,7 +628,7 @@ public abstract class ItemContainer {
 				}
 				return this;
 			}
-			long totalAmount = items[slot].getAmount() + item.getAmount();
+			long totalAmount = (long)items[slot].getAmount() + item.getAmount();
 			if (totalAmount > Integer.MAX_VALUE) {
 				int notAdded = (int) totalAmount - Integer.MAX_VALUE;
 				totalAmount = Integer.MAX_VALUE;
