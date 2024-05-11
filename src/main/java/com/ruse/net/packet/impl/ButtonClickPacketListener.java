@@ -42,6 +42,8 @@ import com.ruse.world.content.transportation.TeleportHandler;
 import com.ruse.world.content.transportation.TeleportType;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.PlayerRights;
+import com.ruse.world.content.wogw.WellOfGoodwill;
+
 /**
  * This packet listener manages a button that the player has clicked upon.
  * 
@@ -112,6 +114,9 @@ public class ButtonClickPacketListener implements PacketListener {
 		case 28180:
 			TeleportHandler.teleportPlayer(player, new Position(3450, 3715), player.getSpellbook().getTeleportType());
 			break;
+			case -14465:
+				WellOfGoodwill.contribute(player);
+				break;
 		case 14176:
 			player.setDestroyItemSlot(-1);
 			player.getPacketSender().sendInterfaceRemoval();

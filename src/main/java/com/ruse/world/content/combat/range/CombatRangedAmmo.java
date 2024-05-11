@@ -82,7 +82,7 @@ public class CombatRangedAmmo {
 		CHINCHOMPA(new int[] {10033}, new AmmunitionData[] {AmmunitionData.CHINCHOMPA}, RangedWeaponType.THROW),
 		RED_CHINCHOMPA(new int[] {10034}, new AmmunitionData[] {AmmunitionData.RED_CHINCHOMPA}, RangedWeaponType.THROW),
 
-		HAND_CANNON(new int[] {15241}, new AmmunitionData[] {AmmunitionData.HAND_CANNON_SHOT}, RangedWeaponType.HAND_CANNON),
+		HAND_CANNON(new int[] {15241, 919}, new AmmunitionData[] {AmmunitionData.HAND_CANNON_SHOT}, RangedWeaponType.HAND_CANNON),
 
 		KARILS_CROSSBOW(new int[]{4734}, new AmmunitionData[] {AmmunitionData.BOLT_RACK}, RangedWeaponType.CROSSBOW),
 		BEGINNER_CBOW(new int[]{10156}, new AmmunitionData[] {AmmunitionData.BRONZE_BOLT}, RangedWeaponType.CROSSBOW),
@@ -112,9 +112,11 @@ public class CombatRangedAmmo {
 			return type;
 		}
 
+		public static final RangedWeaponData[] VALUES = values();
+
 		public static RangedWeaponData getData(Player p) {
 			int weapon = p.getEquipment().getItems()[Equipment.WEAPON_SLOT].getId();
-			for(RangedWeaponData data : RangedWeaponData.values()) {
+			for(RangedWeaponData data : VALUES) {
 				for(int i : data.getWeaponIds()) {
 					if(i == weapon)
 						return data;
@@ -125,15 +127,7 @@ public class CombatRangedAmmo {
 
 		public static AmmunitionData getAmmunitionData(Player p) {
 			RangedWeaponData data = p.getRangedWeaponData();
-
 			if(data != null) {
-				/*int ammunition = p.getEquipment().getItems()[data.getType() == RangedWeaponType.THROW ? Equipment.WEAPON_SLOT : Equipment.AMMUNITION_SLOT].getId();
-				for(AmmunitionData ammoData : AmmunitionData.values()) {
-					for(int i : ammoData.getItemIds()) {
-						if(i == ammunition)
-							return ammoData;
-					}
-				}*/
 				return data.getAmmunitionData()[0];
 			}
 			return AmmunitionData.BRONZE_ARROW;
@@ -141,8 +135,6 @@ public class CombatRangedAmmo {
 	}
 
 	public enum AmmunitionData {
-	//AmnitionData(int[] itemIds, int startGfxId, int projectileId, int projectileSpeed, int projectileDelay, int strength, int startHeight, int endHeight) {
-		//ENERGY(new int[] {-1}, 250, 249, 1, 33, 400, 43, 31), 
 		ZARYTE_AMMO(new int[] {78}, 250, 249, 3, 44, 0, 43, 31),
 
 		BRONZE_ARROW(new int[] {882}, 19, 10, 3, 44, 0, 43, 31),
@@ -203,7 +195,7 @@ public class CombatRangedAmmo {
 		CHINCHOMPA(new int[] {10033}, -1, -1, 17, 8, 0, 45, 37),
 		RED_CHINCHOMPA(new int[] {10034}, -1, -1, 17, 8, 0, 45, 37),
 
-		HAND_CANNON_SHOT(new int[] {15243}, 2138, 2143, 3, 8, 0, 43, 31),
+		HAND_CANNON_SHOT(new int[] {15243}, 2138, -1, 3, 8, 0, 43, 31),
 		BOLT_RACK(new int[] {4740}, -1, 27, 3, 33, 0, 43, 31),
 		
 		ZULRAH_SCALES(new int[] {12934}, -1, 27, 1, 33, 0, 43, 31),
@@ -283,7 +275,7 @@ public class CombatRangedAmmo {
 		ARMADYLXBOW(5, 5),
 		THROW(4, 3),
 		DARK_BOW(5, 5),
-		HAND_CANNON(5, 4),
+		HAND_CANNON(8, 1),
 		BLOWPIPE(4, 3),
 		BSOAT(8, 1);
 

@@ -177,10 +177,15 @@ public class DefaultRangedCombatStrategy implements CombatStrategy {
 				return 12;
 		}
 	}
+
 	public static void fireProjectile(CharacterEntity e, CharacterEntity victim, final AmmunitionData ammo, boolean dBow) {
 		TaskManager.submit(new Task(1, e.getCombatBuilder(), false) { //TODO FIX THIS PROJECTILE, SHOULDNT BE A TASK
 			@Override
 			protected void execute() {
+				if(ammo.getProjectileId() == -1) {
+					stop();
+					return;
+				}
 				new Projectile(e, victim, ammo.getProjectileId(), ammo.getProjectileDelay()+16, ammo.getProjectileSpeed(), ammo.getStartHeight(), ammo.getEndHeight(), 0).sendProjectile();
 				if(dBow) {
 					new Projectile(e, victim, ammo.getProjectileId(), ammo.getProjectileDelay()+32, ammo.getProjectileSpeed(), ammo.getStartHeight() - 2, ammo.getEndHeight(), 0).sendProjectile();

@@ -172,6 +172,13 @@ public class Player extends CharacterEntity {
 	@Override
 	public int getAttackSpeed() {
 		int speed = weapon.getSpeed();
+		int weaponId = equipment.get(Equipment.WEAPON_SLOT).getId();
+
+		switch (weaponId) {
+			case 919:
+				return 2;
+		}
+
 	//	String weapon = equipment.get(Equipment.WEAPON_SLOT).getDefinition().getName();
 	//	if(getCurrentlyCasting() != null) {
 	//		return 5;

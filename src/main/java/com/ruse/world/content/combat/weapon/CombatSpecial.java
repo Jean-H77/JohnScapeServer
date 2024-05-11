@@ -352,7 +352,7 @@ public enum CombatSpecial {
 					true);
 		}
 	},
-	HAND_CANNON(new int[] { 15241 }, 45, 1.45, 1.15, CombatType.RANGED, WeaponInterface.SHORTBOW) {
+	HAND_CANNON(new int[] { 15241, 919 }, 65, 1.45, 1.15, CombatType.RANGED, WeaponInterface.SHORTBOW) {
 		
 		@Override
 		public CombatContainer container(Player player, CharacterEntity target) {
@@ -365,11 +365,10 @@ public enum CombatSpecial {
 					player.performGraphic(new Graphic(2141));
 					new Projectile(player, target, 2143, 44, 3, 43, 31, 0).sendProjectile();
 					new CombatHit(player.getCombatBuilder(), new CombatContainer(player, target, CombatType.RANGED, true)).handleAttack();
-					player.getCombatBuilder().setAttackTimer(2);
 					stop();
 				}
 			});
-			return new CombatContainer(player, target, 1, 1, CombatType.RANGED,
+			return new CombatContainer(player, target, 3, 1, CombatType.RANGED,
 					true);
 		}
 	},
