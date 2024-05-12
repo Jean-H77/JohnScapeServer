@@ -19,16 +19,14 @@ import io.netty.util.ReferenceCountUtil;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.ruse.net.login.LoginResponses.*;
+import static com.ruse.world.World.fileIOExecutor;
 
 @Sharable
 public class GameHandler extends ChannelInboundHandlerAdapter {
 
 	public static final AttributeKey<PlayerSession> SESSION_KEY = AttributeKey.valueOf("session");
-	public static final ExecutorService fileIOExecutor = Executors.newFixedThreadPool(1);
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable e) {

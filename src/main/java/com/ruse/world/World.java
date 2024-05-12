@@ -3,10 +3,15 @@ package com.ruse.world;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.ruse.GameSettings;
 import com.ruse.eventbus.impl.EndCycleEvent;
 import com.ruse.eventbus.impl.player.PlayerRegisterEvent;
 import com.ruse.eventbus.impl.player.PlayerRegisterRequest;
+import com.ruse.model.Item;
 import com.ruse.model.MessageType;
 import com.ruse.model.PlayerRights;
 import com.ruse.model.entity.Entity;
@@ -20,7 +25,14 @@ import com.ruse.model.entity.character.updating.NpcUpdateSequence;
 import com.ruse.model.entity.character.updating.PlayerUpdateSequence;
 import com.ruse.model.entity.character.updating.UpdateSequence;
 import com.ruse.util.Misc;
+import com.ruse.util.json.ItemTypeAdapter;
+import com.ruse.world.content.wogw.WellOfGoodwill;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
@@ -47,6 +59,8 @@ public class World {
 	public static Deque<Player> loginQueue = new ConcurrentLinkedDeque<>();
 
 	public static Deque<Player> logoutQueue = new ConcurrentLinkedDeque<>();
+
+	public static final ExecutorService fileIOExecutor = Executors.newFixedThreadPool(1);
 
 	private static final int LOGIN_LIMITER = 25;
 
@@ -109,7 +123,59 @@ public class World {
 		return npcs;
 	}
 
-	public static final EndCycleEvent endCycleEvent = new EndCycleEvent();
+	public static void save() {
+		Thread.startVirtualThread(() -> {
+			Path path = Paths.get("./data/saves/world/world.json");
+			File file = path.toFile();
+			file.getParentFile().setWritable(true);
+
+			if (!file.getParentFile().exists()) {
+				try {
+					file.getParentFile().mkdirs();
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				}
+			}
+
+			try (FileWriter writer = new FileWriter(file)) {
+				JsonObject object = new JsonObject();
+				Gson builder = new GsonBuilder()
+						.setPrettyPrinting()
+						.create();
+
+				object.addProperty("wogw", WellOfGoodwill.contributedAmount);
+
+				writer.write(builder.toJson(object));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	public static void load() {
+		Path path = Paths.get("./data/saves/world/world.json");
+		File file = path.toFile();
+
+		if(!file.exists()) {
+			return;
+		}
+
+		try (FileReader fileReader = new FileReader(file)) {
+			JsonParser fileParser = new JsonParser();
+			JsonObject reader = (JsonObject) fileParser.parse(fileReader);
+
+			if (reader.has("wogw")) {
+				WellOfGoodwill.contributedAmount = reader.get("wogw").getAsInt();
+
+				if(WellOfGoodwill.contributedAmount > 0) {
+					WellOfGoodwill.startDepleteTask();
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void sequence() {
 		UpdateSequence<Player> playerUpdate = new PlayerUpdateSequence(synchronizer, updateExecutor);

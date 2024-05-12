@@ -1,8 +1,9 @@
 package com.ruse.util;
 
 import com.ruse.GameSettings;
-import com.ruse.net.GameHandler;
 import com.ruse.world.World;
+
+import static com.ruse.world.World.fileIOExecutor;
 
 public class PlayerSavingTimer {
 	
@@ -10,7 +11,8 @@ public class PlayerSavingTimer {
 
 	public static void massSaving() {
 		if (System.currentTimeMillis() - massSaveTimer > GameSettings.charcterSavingInterval) {
-			GameHandler.fileIOExecutor.submit(World::savePlayers);
+			fileIOExecutor.submit(World::savePlayers);
+			World.save();
 			massSaveTimer = System.currentTimeMillis();
 		}
 	}

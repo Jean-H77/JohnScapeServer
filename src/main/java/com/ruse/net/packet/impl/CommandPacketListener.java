@@ -2271,6 +2271,7 @@ public class CommandPacketListener implements PacketListener {
 
 		if(command[0].equalsIgnoreCase("saveall")) {
 			World.savePlayers();
+			World.save();
 		}
 
 		if(command[0].equalsIgnoreCase("frame")) {

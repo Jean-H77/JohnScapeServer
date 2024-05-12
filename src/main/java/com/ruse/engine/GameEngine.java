@@ -34,6 +34,7 @@ public final class GameEngine implements Runnable {
 		} catch (Throwable e) {
 			e.printStackTrace();
 			World.savePlayers();
+			World.save();
 			ClanChatManager.save();
 	//		ShopUtils.saveAll();
 		}

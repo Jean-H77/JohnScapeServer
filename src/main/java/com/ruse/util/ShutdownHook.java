@@ -9,6 +9,7 @@ import com.ruse.world.World;
 import com.ruse.world.content.clan.ClanChatManager;
 import com.ruse.model.entity.character.player.Player;
 import com.ruse.model.entity.character.player.PlayerHandler;
+import static com.ruse.world.World.fileIOExecutor;
 
 public class ShutdownHook extends Thread {
 
@@ -21,6 +22,7 @@ public class ShutdownHook extends Thread {
 	public void run() {
 		logger.info("The shutdown hook is processing all required actions...");
 		World.savePlayers();
+		World.save();
 		GameServer.setUpdating(true);
 		for (Player player : World.getPlayers()) {
 			if (player != null) {
@@ -30,11 +32,11 @@ public class ShutdownHook extends Thread {
 		}
 		ClanChatManager.save();
 
-		GameHandler.fileIOExecutor.shutdown();
+		fileIOExecutor.shutdown();
 		while (true) {
 			try {
 				logger.info("Waiting for the file IO executor to terminate...");
-				if (GameHandler.fileIOExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+				if (fileIOExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
 					break;
 				}
 			} catch (InterruptedException e) {

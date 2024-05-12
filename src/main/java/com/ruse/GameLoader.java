@@ -20,6 +20,7 @@ import com.ruse.net.PipelineInitializer;
 import com.ruse.net.security.ConnectionHandler;
 import com.ruse.scheduler.JobScheduler;
 import com.ruse.util.FileUtils;
+import com.ruse.world.World;
 import com.ruse.world.clip.region.RegionClipping;
 import com.ruse.world.content.CustomObjects;
 import com.ruse.world.content.PlayerPunishment;
@@ -91,6 +92,7 @@ public final class GameLoader {
 		serviceLoader.execute(NPC::init);
 		serviceLoader.execute(JobScheduler::initialize);
 		serviceLoader.execute(ShopManager::loadShops);
+		serviceLoader.execute(World::load);
 	}
 
 	public GameEngine getEngine() {

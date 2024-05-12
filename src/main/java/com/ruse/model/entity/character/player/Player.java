@@ -70,6 +70,7 @@ import com.ruse.world.content.teleporter.Teleporter;
 import com.ruse.world.content.teleports.TeleportMenuManager;
 import com.ruse.world.content.upgrader.Upgrader;
 import com.ruse.world.content.zombies.ZombiesManager;
+import static com.ruse.world.World.fileIOExecutor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -319,7 +320,7 @@ public class Player extends CharacterEntity {
 		if (session.getState() != SessionState.LOGGED_IN && session.getState() != SessionState.LOGGING_OUT) {
 			return;
 		}
-		GameHandler.fileIOExecutor.submit(() -> PlayerSaving.save(this));
+		fileIOExecutor.submit(() -> PlayerSaving.save(this));
 	}
 
 	public boolean logout() {
